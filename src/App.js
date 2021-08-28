@@ -1,5 +1,5 @@
 import React from "react";
-import PersonaView from "./containters/PersonaView";
+import PersonView from "./containters/PersonView";
 import ProyectView from "./containters/ProyectView";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -21,7 +21,7 @@ export default function App() {
           </ul>
         </nav>
         <Switch>
-          <Route path="/Personas" component={PersonaView} />
+          <Route path="/Personas" component={PersonView} />
 
           <Route path="/Proyectos" component={ProyectView} />
 
