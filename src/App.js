@@ -1,27 +1,33 @@
-import logo from "./logo.svg";
-import "./App.css";
 import React from "react";
+import PersonView from "./containters/PersonView";
+import ProyectView from "./containters/ProyectView";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit<code>src/App.js</code> and save to reload.
-        </p>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Inicio</Link>
+            </li>
+            <li>
+              <Link to="/Personas">Personas</Link>
+            </li>
+            <li>
+              <Link to="/Proyectos">Proyectos</Link>
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <Route path="/Personas" component={PersonView} />
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Route path="/Proyectos" component={ProyectView} />
+
+          <Route path="/">Inicio</Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
-
-export default App;
