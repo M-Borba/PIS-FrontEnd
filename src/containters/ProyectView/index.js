@@ -6,16 +6,16 @@
  *
  */
 
-import React from "react";
+import React, { Component } from "react";
+import CustomTimeline from "./CustomTimeline";
+import "react-calendar-timeline/lib/Timeline.css";
 
-export default function ProyectView() {
-  return (
-    <div>
-      <h1>Vista de proyectos</h1>
-      <h2>
-        Aquí estarán los filtros para los proyectos y se <br />
-        verán en una linea de tiempo junto a otras acciones.
-      </h2>
-    </div>
-  );
+export default class App extends Component {
+  render() {
+    return (
+      <div>
+        <CustomTimeline />
+      </div>
+    );
+  }
 }
