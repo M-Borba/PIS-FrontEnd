@@ -18,7 +18,7 @@ var keys = {
   groupLabelKey: "title",
 };
 
-export default class App extends Component {
+export default class ProjectTimeline extends Component {
   constructor(props) {
     super(props);
 
@@ -80,10 +80,11 @@ export default class App extends Component {
         items={items}
         keys={keys}
         fullUpdate
-        itemTouchSendsClick={false}
-        stackItems
+        itemTouchSendsClick={true}
+        dragSnap={60 * 60 * 24 * 1000} //dia
         itemHeightRatio={0.75}
-        canMove={true}
+        canMove={true} //se pueden mover
+        canChangeGroup={false} //no se pueden "cambiar de renglon"
         canResize={"both"}
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
