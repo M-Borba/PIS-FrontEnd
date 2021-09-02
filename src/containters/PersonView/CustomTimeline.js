@@ -18,7 +18,7 @@ var keys = {
   groupLabelKey: "title",
 };
 
-export default class App extends Component {
+export default class PersonTimeline extends Component {
   constructor(props) {
     super(props);
 
@@ -80,7 +80,8 @@ export default class App extends Component {
         items={items}
         keys={keys}
         fullUpdate
-        itemTouchSendsClick={false}
+        itemTouchSendsClick={true}
+        dragSnap={60 * 60 * 24 * 1000} //dia
         stackItems
         itemHeightRatio={0.75}
         canMove={true}

@@ -10,7 +10,7 @@ import React, { Component } from "react";
 import CustomTimeline from "./CustomTimeline";
 import "react-calendar-timeline/lib/Timeline.css";
 
-export default class App extends Component {
+export default class ProjectView extends Component {
   render() {
     return (
       <div>
