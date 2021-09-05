@@ -5,7 +5,6 @@ export const axiosInstance = axios.create({
   baseURL: `${BACKEND_HOST}/api/v1`,
   headers: {
     Accept: "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
 });
 
