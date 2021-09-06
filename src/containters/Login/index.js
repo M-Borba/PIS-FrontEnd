@@ -16,24 +16,29 @@ export default function LoginView() {
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (email == "" || password == "") {
       alert("Completar todos los campos para iniciar sesión");
     } else {
-
-      axiosInstance.post('https://pis-es-backend-staging.herokuapp.com/api/v1/users/sign_in', {
-        user: {
-          email: email,
-          password: password
-        }
-      }).then((response) => {
-        let headers = response.headers
-        setHeaders(headers["access-token"], headers.client, headers.uid);
-        window.location.reload();
-      }).catch(error => {
-        console.log(error);
-      });
+      axiosInstance
+        .post(
+          "https://pis-es-backend-staging.herokuapp.com/api/v1/users/sign_in",
+          {
+            user: {
+              email: email,
+              password: password,
+            },
+          }
+        )
+        .then((response) => {
+          let headers = response.headers;
+          setHeaders(headers["access-token"], headers.client, headers.uid);
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   const checkInput = (e) => {
