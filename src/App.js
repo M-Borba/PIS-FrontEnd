@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import PersonView from "./containters/PersonView";
-import ProyectView from "./containters/ProjectView";
+import ProjectView from "./containters/ProjectView";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LoginView from "./containters/Login";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route /* Link */,
+} from "react-router-dom";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
@@ -22,7 +27,49 @@ export default function App() {
   return (
     <Router>
       <div>
-        <nav>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">
+              Linea de tiempo
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <a className="nav-link active" href="#">
+                    Proyectos
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" aria-current="page" href="#">
+                    Personas
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Administradores
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="d-flex">
+              <a className="navbar-brand" href="#">
+                Perfil
+              </a>
+            </div>
+          </div>
+        </nav>
+        {/* <nav>
           <ul>
             <li>
               <Link to="/">Inicio</Link>
@@ -46,9 +93,13 @@ export default function App() {
               </li>
             )}
           </ul>
+<<<<<<< HEAD
           {username}
         </nav>
 
+=======
+        </nav> */}
+>>>>>>> ca10cf09... Header style
         <Switch>
           <Route path="/Personas" component={PersonView} />
 
