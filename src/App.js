@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PersonView from "./containters/PersonView";
-import ProyectView from "./containters/ProyectView";
+import ProyectView from "./containters/ProjectView";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LoginView from "./containters/Login";
 
