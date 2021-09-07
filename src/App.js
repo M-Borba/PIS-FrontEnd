@@ -1,20 +1,41 @@
 import React, { useState } from "react";
 import PersonView from "./containters/PersonView";
 import ProjectView from "./containters/ProjectView";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch as SwitchRouter, Route, Link } from "react-router-dom";
 import LoginView from "./containters/Login";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route /* Link */,
-} from "react-router-dom";
+
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import Grid from "@material-ui/core/Grid";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  link: {
+    textDecoration: "none",
+    color: "white",
+  }
+}));
 
 export default function App() {
   var uid = localStorage.getItem("uid");
   if (uid == null) {
     uid = "Aún no inició sesión";
   }
+  const [isProjectView, setIsProjectView] = useState(true);
   const [username] = useState(uid);
+  const classes = useStyles();
 
   const Logout = () => {
     // esta funcion debera eliminarse, está hecha a modo de ejemplo y prototipo
@@ -27,90 +48,64 @@ export default function App() {
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              Linea de tiempo
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav">
-                <li className="nav-item">
-                  <a className="nav-link active" href="#">
-                    Proyectos
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" href="#">
-                    Personas
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Administradores
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="d-flex">
-              <a className="navbar-brand" href="#">
-                Perfil
-              </a>
-            </div>
-          </div>
-        </nav>
-        {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Inicio</Link>
-            </li>
-            <li>
-              <Link to="/Personas">Personas</Link>
-            </li>
-
-            <li>
-              <Link to="/Proyectos">Proyectos</Link>
-            </li>
-            {uid == "Aún no inició sesión" ? (
-              <li>
-                <Link to="/Login">Iniciar Sesion</Link>
-              </li>
-            ) : (
-              <li>
-                <Link to="/Logout" onClick={Logout}>
-                  Cerrar Sesion
-                </Link>
-              </li>
-            )}
-          </ul>
-<<<<<<< HEAD
-          {username}
-        </nav>
-
-=======
-        </nav> */}
->>>>>>> ca10cf09... Header style
-        <Switch>
+        <div className={classes.root}>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" className={classes.title}>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">Inicio</Link>
+                </Button>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">Proyectos</Link>
+                </Button>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">Personas</Link>
+                </Button>
+                <Button color="inherit">
+                  Administradores
+                </Button>
+              </Typography>
+              <div >
+                {uid == "Aún no inició sesión" ? (
+                  <Button color="inherit">
+                    <Link className={classes.link} to="/Login">Iniciar Sesion</Link>
+                  </Button>
+                ) : (
+                  <>
+                    <Button color="inherit">
+                      <Link className={classes.link} to="/Logout" onClick={Logout}>Cerrar Sesion</Link>
+                    </Button>
+                    <Button color="inherit">
+                      <Link className={classes.link} to="/">{username}</Link>
+                    </Button>
+                  </>
+                )}
+              </div>
+            </Toolbar>
+          </AppBar>
+        </div>
+        <SwitchRouter>
           <Route path="/Personas" component={PersonView} />
 
-          <Route path="/Proyectos" component={ProyectView} />
+          <Route path="/Proyectos" component={ProjectView} />
 
           <Route path="/Login" component={LoginView} />
 
           <Route path="/Logout">Hasta la próxima</Route>
 
-          <Route path="/">Inicio</Route>
-        </Switch>
+          <Route path="/">
+            <Grid container spacing={2} justifyContent="center" alignItems="center">
+              Vista Personas
+              <Switch
+                color="default"
+                checked={isProjectView}
+                onChange={() => { setIsProjectView(!isProjectView) }}
+              />
+              Vista Proyectos
+            </Grid>
+            {isProjectView ? <ProjectView /> : <PersonView />}
+          </Route>
+        </SwitchRouter>
       </div>
     </Router>
   );
