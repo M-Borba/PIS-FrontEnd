@@ -6,15 +6,25 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { axiosInstance, setHeaders } from "../../config/axios";
 import Login from "../../components/Login";
 import Grid from "@material-ui/core/Grid";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
+import { useHistory } from "react-router-dom";
+import { NOT_LOGGED } from "../../config/globalVariables";
 
 export default function LoginView() {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("uid") != null && localStorage.getItem("uid") != NOT_LOGGED) {
+      history.push("/");
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,6 +44,7 @@ export default function LoginView() {
         .then((response) => {
           let headers = response.headers;
           setHeaders(headers["access-token"], headers.client, headers.uid);
+          history.push("/");
           window.location.reload();
         })
         .catch((error) => {
