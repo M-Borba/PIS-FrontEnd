@@ -23,7 +23,7 @@ export default function LoginView() {
     } else {
       axiosInstance
         .post(
-          "https://pis-es-backend-staging.herokuapp.com/api/v1/users/sign_in",
+          "/users/sign_in",
           {
             user: {
               email: email,
