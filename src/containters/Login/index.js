@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { axiosInstance, setHeaders } from "../../config/axios";
+import { axiosInstance } from "../../config/axios";
 import Login from "../../components/Login";
 import Grid from "@material-ui/core/Grid";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
@@ -16,12 +16,14 @@ import { NOT_LOGGED } from "../../config/globalVariables";
 
 export default function LoginView() {
   const history = useHistory();
-
   const [email, setEmail] = useState("");
   const [password, setPassowrd] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("uid") != null && localStorage.getItem("uid") != NOT_LOGGED) {
+    if (
+      localStorage.getItem("uid") != null &&
+      localStorage.getItem("uid") != NOT_LOGGED
+    ) {
       history.push("/");
     }
   }, []);
@@ -32,24 +34,29 @@ export default function LoginView() {
       alert("Completar todos los campos para iniciar sesión");
     } else {
       axiosInstance
-        .post(
-          "/users/sign_in",
-          {
-            user: {
-              email: email,
-              password: password,
-            },
-          }
-        )
+        .post("/users/sign_in", {
+          user: {
+            email: email,
+            password: password,
+          },
+        })
         .then((response) => {
           let headers = response.headers;
-          setHeaders(headers["access-token"], headers.client, headers.uid);
-          history.push("/");
+          localStorage.setItem("token", headers["access-token"]);
+          localStorage.setItem("client", headers.client);
+          localStorage.setItem("uid", headers.uid);
+          axiosInstance.defaults.headers["access-Token"] =
+            headers["access-token"];
+          axiosInstance.defaults.headers["client"] = headers.client;
+          axiosInstance.defaults.headers["uid"] = headers.client;
+          //history.push("/");
           window.location.reload();
         })
         .catch((error) => {
+          console.log("bug");
           console.log(error);
         });
+      console.log("asdasdasdas");
     }
   };
   const checkInput = (e) => {
