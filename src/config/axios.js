@@ -9,14 +9,9 @@ export const axiosInstance = axios.create({
 });
 
 export const setHeaders = (token, client, uid) => {
-  localStorage.setItem("token", token);
-  localStorage.setItem("client", client);
-  localStorage.setItem("uid", uid);
-  Object.assign(axiosInstance.defaults, {
-    headers: {
-      Client: client,
-      "Access-Token": token,
-      uid: uid,
-    },
-  });
+  axiosInstance.defaults.headers["access-Token"] = token;
+  axiosInstance.defaults.headers["client"] = client;
+  axiosInstance.defaults.headers["uid"] = uid;
+  console.log("setting headers");
+  console.log(axiosInstance.defaults.headers);
 };
