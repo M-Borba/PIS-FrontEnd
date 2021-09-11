@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PersonView from "./containters/PersonView";
 import ProjectView from "./containters/ProjectView";
+import { NOT_LOGGED } from "./config/globalVariables";
 import {
   BrowserRouter as Router,
   Switch as SwitchRouter,
@@ -48,14 +49,14 @@ export default function App() {
       .delete("/users/sign_out")
       .then(() => {
         //logout en la api
-        localStorage.removeItem("token"); //borrar local
-        localStorage.removeItem("client");
-        localStorage.removeItem("uid");
         window.location.reload();
       })
       .catch((error) => {
         console.log(error);
       });
+    localStorage.removeItem("token"); //borrado local
+    localStorage.removeItem("client");
+    localStorage.removeItem("uid");
   };
 
   return (
@@ -83,7 +84,7 @@ export default function App() {
                 <Button color="inherit">Administradores</Button>
               </Typography>
               <div>
-                {uid == "Aún no inició sesión" ? (
+                {uid == NOT_LOGGED ? (
                   <Button color="inherit">
                     <Link className={classes.link} to="/Login">
                       Iniciar Sesion
@@ -92,17 +93,17 @@ export default function App() {
                 ) : (
                   <>
                     <Button color="inherit">
+                      <Link className={classes.link} to="/">
+                        {username}
+                      </Link>
+                    </Button>
+                    <Button color="inherit">
                       <Link
                         className={classes.link}
                         to="/Logout"
                         onClick={Logout}
                       >
                         Cerrar Sesion
-                      </Link>
-                    </Button>
-                    <Button color="inherit">
-                      <Link className={classes.link} to="/">
-                        {username}
                       </Link>
                     </Button>
                   </>
@@ -116,11 +117,7 @@ export default function App() {
 
           <Route path="/Proyectos" component={ProjectView} />
 
-          <Route path="/Login" component={LoginView} />
-
-          <Route path="/Logout">Hasta la próxima</Route>
-
-          <Route path="/">
+          <Route path="/Home">
             <div>
               {uid == "Aún no inició sesión" ? (
                 <>Inicia sesion para visualizar la linea de tiempo</>
@@ -147,6 +144,8 @@ export default function App() {
               )}
             </div>
           </Route>
+          <Route path="/Login" component={LoginView} />
+          <Route path="/" component={LoginView} />
         </SwitchRouter>
       </div>
     </Router>
