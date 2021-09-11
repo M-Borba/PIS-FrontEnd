@@ -11,102 +11,25 @@ exports[`header component tests renders correctly 1`] = `
       <div
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
       >
-        <h6
-          class="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+          tabindex="0"
+          type="button"
         >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+          <span
+            class="MuiButton-label"
           >
-            <span
-              class="MuiButton-label"
+            <a
+              class="makeStyles-link-4"
+              href="/Login"
             >
-              <a
-                class="makeStyles-link-4"
-                href="/Inicio"
-              >
-                Inicio
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              <a
-                class="makeStyles-link-4"
-                href="/"
-              >
-                Proyectos
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              <a
-                class="makeStyles-link-4"
-                href="/"
-              >
-                Personas
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              Administradores
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-        </h6>
-        <div>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              <a
-                class="makeStyles-link-4"
-                href="/Login"
-              >
-                Iniciar Sesion
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-        </div>
+              Iniciar Sesion
+            </a>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
       </div>
     </header>
   </div>

@@ -35,52 +35,46 @@ export default function Header() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Router>
-            <Typography variant="h6" className={classes.title}>
+          {uid == NOT_LOGGED ? (
+            <>
               <Button color="inherit">
-                <Link className={classes.link} to="/Inicio">
-                  Inicio
+                <Link className={classes.link} to="/Login">
+                  Iniciar Sesion
                 </Link>
               </Button>
-              <Button color="inherit">
-                <Link className={classes.link} to="/">
-                  Proyectos
-                </Link>
-              </Button>
-              <Button color="inherit">
-                <Link className={classes.link} to="/">
-                  Personas
-                </Link>
-              </Button>
-              <Button color="inherit">Administradores</Button>
-            </Typography>
-            <div>
-              {uid == NOT_LOGGED ? (
+            </>
+          ) : (
+            <>
+              <Typography variant="h6" className={classes.title}>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/Login">
-                    Iniciar Sesion
+                  <Link className={classes.link} to="/Inicio">
+                    Inicio
                   </Link>
                 </Button>
-              ) : (
-                <>
-                  <Button color="inherit">
-                    <Link className={classes.link} to="/">
-                      {username}
-                    </Link>
-                  </Button>
-                  <Button color="inherit">
-                    <Link
-                      className={classes.link}
-                      to="/Logout"
-                      onClick={Logout}
-                    >
-                      Cerrar Sesion
-                    </Link>
-                  </Button>
-                </>
-              )}
-            </div>
-          </Router>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">
+                    Proyectos
+                  </Link>
+                </Button>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">
+                    Personas
+                  </Link>
+                </Button>
+                <Button color="inherit">Administradores</Button>
+              </Typography>
+              <Button color="inherit">
+                <Link className={classes.link} to="/">
+                  {username}
+                </Link>
+              </Button>
+              <Button color="inherit">
+                <Link className={classes.link} to="/Login" onClick={Logout}>
+                  Cerrar Sesion
+                </Link>
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </div>

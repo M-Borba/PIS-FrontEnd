@@ -26,7 +26,8 @@ export default function LoginView() {
       localStorage.getItem("uid") != null &&
       localStorage.getItem("uid") != NOT_LOGGED
     ) {
-      history.push("/");
+      history.push("/Inicio");
+      window.location.reload();
     }
   }, []);
 
@@ -44,14 +45,14 @@ export default function LoginView() {
         })
         .then((response) => {
           let headers = response.headers;
-
           console.log("entra aca");
-
           localStorage.setItem("token", headers["access-token"]);
           localStorage.setItem("client", headers.client);
           localStorage.setItem("uid", headers.uid);
           window.location.reload(); // header gets updated
           history.push("/Inicio");
+          window.location.reload();
+
           setLoginError("");
         })
         .catch((error) => {
