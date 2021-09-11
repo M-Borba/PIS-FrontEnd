@@ -67,7 +67,7 @@ export default function App() {
             <Toolbar>
               <Typography variant="h6" className={classes.title}>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/">
+                  <Link className={classes.link} to="/Inicio">
                     Inicio
                   </Link>
                 </Button>
@@ -114,10 +114,8 @@ export default function App() {
         </div>
         <SwitchRouter>
           <Route path="/Personas" component={PersonView} />
-
           <Route path="/Proyectos" component={ProjectView} />
-
-          <Route path="/Home">
+          <Route path="/Inicio">
             <div>
               {uid == "Aún no inició sesión" ? (
                 <>Inicia sesion para visualizar la linea de tiempo</>
