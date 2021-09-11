@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`login component tests renders correctly 1`] = `
+<div>
+  <div
+    class="makeStyles-paper-1"
+  >
+    <h1
+      class="MuiTypography-root MuiTypography-h5"
+    >
+      Iniciar sesión
+    </h1>
+    <form
+      class="makeStyles-form-2"
+    >
+      <div
+        class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-focused Mui-focused Mui-required Mui-required"
+          data-shrink="true"
+          for="email"
+          id="email-label"
+        >
+          Email Address
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth Mui-focused Mui-focused MuiInputBase-formControl"
+        >
+          <input
+            aria-invalid="false"
+            autocomplete="email"
+            class="MuiInputBase-input MuiOutlinedInput-input"
+            id="email"
+            name="email"
+            required=""
+            type="email"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
+            >
+              <span>
+                Email Address
+                 *
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+          data-shrink="false"
+          for="password"
+          id="password-label"
+        >
+          Password
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+        >
+          <input
+            aria-invalid="false"
+            autocomplete="current-password"
+            class="MuiInputBase-input MuiOutlinedInput-input"
+            id="password"
+            name="password"
+            required=""
+            type="password"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="PrivateNotchedOutline-legendLabelled-7"
+            >
+              <span>
+                Password
+                 *
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-3 MuiButton-containedPrimary MuiButton-fullWidth"
+        role="submit"
+        tabindex="0"
+        type="submit"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Sign in
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+      <h2
+        class="MuiTypography-root makeStyles-errorMsg-4 MuiTypography-body1"
+      >
+        No se pudo iniciar sesión
+      </h2>
+      <div
+        class="MuiBox-root MuiBox-root-9"
+      />
+    </form>
+  </div>
+</div>
+`;
