@@ -11,9 +11,16 @@ Login.propTypes = {
   onInputChange: PropTypes.func,
   email: PropTypes.string,
   password: PropTypes.string,
+  error: PropTypes.string,
 };
 
-export default function Login({ onSubmit, onInputChange, email, password }) {
+export default function Login({
+  onSubmit,
+  onInputChange,
+  email,
+  password,
+  error,
+}) {
   const classes = useStyles();
 
   return (
@@ -50,14 +57,19 @@ export default function Login({ onSubmit, onInputChange, email, password }) {
           autoComplete="current-password"
         />
         <Button
+          role="submit"
           type="submit"
           fullWidth
           variant="contained"
           color="primary"
           className={classes.submit}
         >
-          Sign In
+          Sign in
         </Button>
+
+        <Typography className={classes.errorMsg} component="h2">
+          {error}
+        </Typography>
 
         <Box mt={5}></Box>
       </form>

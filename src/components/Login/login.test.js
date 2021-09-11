@@ -1,43 +1,30 @@
-import { render, screen, expect } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
 import Login from "./index";
-import React from 'react'
+import React from "react";
 
-
-describe('login component tests', () => {
-
-    it('renders correctly', () => {
-        const { container } = render(<Button text="hello" />);
-        expect(container.firstChild).toHaveStyleRule('background-color', 'lightblue');
-        expect(screen.getByRole('button', { name: 'hello' })).not.toBeNull();
-        // snapshot test
-        expect(container.firstChild).toMatchSnapshot();
-    });
-
-    it('renders primary button styles correctly', () => {
-        const { container } = render(<Button action="primary" />);
-        expect(container.firstChild).toHaveStyleRule('background-color', '#ff3d61');
-    });
-
-
-
-
-});
-
-
-test("renders login", () => {
-    const mockSubmit = jest.fn(e => { return });
-    const mockInputChange = jest.fn(e => { return });
-    let email = ""
-    let password = ""
-    render(<Login
+describe("login component tests", () => {
+  it("renders correctly", () => {
+    const mockSubmit = jest.fn((e) => e.preventDefault());
+    const mockInputChange = jest.fn((e) => e.preventDefault());
+    let email = "";
+    let password = "";
+    const { container } = render(
+      <Login
         onSubmit={(e) => mockSubmit(e)}
         onInputChange={(e) => mockInputChange(e)}
         email={email}
         password={password}
         error={"No se pudo iniciar sesión"}
-    />);
-    // email = "example@effectus.com"
-    // expect(mockInputChange).toHaveBeenCalled();
-    // const linkElement = screen.getByText("No se pudo iniciar sesión");
-    // expect(linkElement).toBeInTheDocument();
+      />
+    );
+    //Make sure the error is visible
+    expect(screen.queryByText("No se pudo iniciar sesión")).toBeVisible();
+    // Matches the last snapshot taken
+    expect(container).toMatchSnapshot();
+    // calls both functions
+    fireEvent(screen.getByRole("submit"), new MouseEvent("click"));
+
+    expect(mockSubmit).toHaveBeenCalled();
+  });
 });
