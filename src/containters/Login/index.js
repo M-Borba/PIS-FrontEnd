@@ -50,11 +50,8 @@ export default function LoginView() {
           localStorage.setItem("token", headers["access-token"]);
           localStorage.setItem("client", headers.client);
           localStorage.setItem("uid", headers.uid);
-
-          // setHeaders(headers["access-token"], headers.client, headers.uid)
-
-          history.push("/Home");
           window.location.reload(); // header gets updated
+          history.push("/Inicio");
           setLoginError("");
         })
         .catch((error) => {
