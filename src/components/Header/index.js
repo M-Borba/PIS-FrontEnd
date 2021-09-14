@@ -39,7 +39,7 @@ export default function Header() {
             <>
               <Button color="inherit">
                 <Link className={classes.link} to="/login">
-                  Iniciar Sesion
+                  Iniciar Sesión
                 </Link>
               </Button>
             </>
@@ -70,7 +70,7 @@ export default function Header() {
               </Button>
               <Button color="inherit">
                 <Link className={classes.link} to="/login" onClick={Logout}>
-                  Cerrar Sesion
+                  Cerrar Sesión
                 </Link>
               </Button>
             </>

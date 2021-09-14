@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`header component tests renders correctly 1`] = `
+exports[`navigates Login when you click 1`] = `
 <div>
   <div
     class="makeStyles-root-1"
@@ -23,7 +23,7 @@ exports[`header component tests renders correctly 1`] = `
               class="makeStyles-link-4"
               href="/login"
             >
-              Iniciar Sesion
+              Iniciar Sesión
             </a>
           </span>
           <span

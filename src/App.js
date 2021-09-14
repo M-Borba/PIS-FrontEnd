@@ -27,15 +27,9 @@ export default function App() {
       <div>
         <Header />
         <SwitchRouter>
-<<<<<<< HEAD
           <Route path="/login" component={LoginView} />
 
           <Route path={["/", "/inicio"]}>
-=======
-          <Route path="/Login" component={LoginView} />
-
-          <Route path={["/", "/Inicio"]}>
->>>>>>> 8f736d4d (bugfix de error de inicio de sesion)
             <div>
               {uid == NOT_LOGGED ? (
                 <Redirect to="/login" />
