@@ -8,7 +8,7 @@ export default function (groupCount = 30, itemCount = 100) {
   for (let i = 0; i < groupCount; i++) {
     groups.push({
       id: `${i + 1}`,
-      title: 'Nombre ' + `${i}`,
+      title: "Nombre " + `${i}`,
       bgColor: randomColor({ luminosity: "light", seed: randomSeed + i }),
     });
   }
