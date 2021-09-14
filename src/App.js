@@ -67,7 +67,7 @@ export default function App() {
             <Toolbar>
               <Typography variant="h6" className={classes.title}>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/">
+                  <Link className={classes.link} to="/Home">
                     Inicio
                   </Link>
                 </Button>
@@ -99,6 +99,7 @@ export default function App() {
                     </Button>
                     <Button color="inherit">
                       <Link
+                        data-testid="logout"
                         className={classes.link}
                         to="/Logout"
                         onClick={Logout}

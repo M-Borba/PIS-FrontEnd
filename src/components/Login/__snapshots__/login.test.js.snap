@@ -4,6 +4,7 @@ exports[`login component tests renders correctly 1`] = `
 <div>
   <div
     class="makeStyles-paper-1"
+    data-testid="login"
   >
     <h1
       class="MuiTypography-root MuiTypography-h5"
