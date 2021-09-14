@@ -14,13 +14,14 @@ export default function (groupCount = 30, itemCount = 30) {
   let items = [];
   for (let i = 0; i < itemCount; i++) {
     const startDate = new Date(2021, 8, 1, 0, 0); //dia de setiembre
-    const day = 86400000 * Math.floor(Math.random() * 30);
+    //const day = 86400000 * Math.floor(Math.random() * 30); si se quiere hacer random el dia
+    const day = 86400000;
     const startValue = moment(startDate).valueOf() + day; //dia random del mes de setiembre
     const endValue = moment(startValue + 86400000 * 20).valueOf(); //86400000 = 24h (proyecto duracion 20 dias)
 
     items.push({
-      id: i + "",
-      group: i + "",
+      id: i + 1 + "",
+      group: i + 1 + "",
       start: startValue,
       end: endValue,
       canMove: startValue > new Date().getTime(),
