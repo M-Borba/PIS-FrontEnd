@@ -39,7 +39,7 @@ export default function Header() {
             <>
               <Button color="inherit">
                 <Link className={classes.link} to="/Login">
-                  Iniciar Sesion
+                  Iniciar Sesión
                 </Link>
               </Button>
             </>
@@ -61,7 +61,11 @@ export default function Header() {
                     Personas
                   </Link>
                 </Button>
-                <Button color="inherit">Administradores</Button>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">
+                    Administradores
+                  </Link>
+                </Button>
               </Typography>
               <Button color="inherit">
                 <Link className={classes.link} to="/">

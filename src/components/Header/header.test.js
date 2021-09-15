@@ -2,26 +2,38 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Header from "./index";
 import React from "react";
-import { MemoryRouter } from "react-router-dom";
-it("navigates home when you click the logo", (async) => {
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
+
+it("navigates Login when you click", () => {
   // in a real test a renderer like "@testing-library/react"
   // would take care of setting up the DOM elements
-  const root = document.createElement("div");
-  document.body.appendChild(root);
-
+  const history = createMemoryHistory();
   // Render app
   const { container } = render(
-    <MemoryRouter initialEntries={["/"]}>
+    <Router history={history}>
       <Header />
-    </MemoryRouter>,
-    root
+    </Router>,
   );
+  // mock push function 
+  history.push = jest.fn();
+
   // Matches the last snapshot taken
   expect(container).toMatchSnapshot();
 
-  fireEvent(screen.getByRole("submit"), new MouseEvent("click"));
+  fireEvent.click(screen.getByText("Iniciar Sesión"));
+  expect(history.push).toHaveBeenCalledWith("/Login");
 
-  expect(screen.queryByText("No se pudo iniciar sesión")).toBeVisible();
-  // Click it
-  goHomeLink.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  // TODO: test when logged in
+  // fireEvent.click(screen.getByText("Inicio"));
+  // expect(history.push).toHaveBeenCalledWith('/Inicio');
+
+  // fireEvent.click(screen.getByText("Personas"));
+  // expect(history.push).toHaveBeenCalledWith('/');
+
+  // fireEvent.click(screen.getByText("Administradores"));
+  // expect(history.push).toHaveBeenCalledWith('/');
+
+  // fireEvent.click(screen.getByText("Cerrar Sesion"));
+  // expect(history.push).toHaveBeenCalledWith('/Login');
 });
