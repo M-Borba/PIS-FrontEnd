@@ -27,13 +27,12 @@ export default function App() {
       <div>
         <Header />
         <SwitchRouter>
+          <Route path="/login" component={LoginView} />
 
-          <Route path="/Login" component={LoginView} />
-
-          <Route path={["/", "/Inicio"]} >
+          <Route path={["/", "/inicio"]}>
             <div>
               {uid == NOT_LOGGED ? (
-                <Redirect to="/Login" />
+                <Redirect to="/login" />
               ) : (
                 <>
                   <Grid

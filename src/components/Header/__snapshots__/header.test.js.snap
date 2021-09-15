@@ -21,7 +21,7 @@ exports[`header component tests renders correctly 1`] = `
           >
             <a
               class="makeStyles-link-4"
-              href="/Login"
+              href="/login"
             >
               Iniciar Sesion
             </a>
