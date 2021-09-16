@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import LoginView from "./containters/Login";
 import Header from "./components/Header";
-
+import Personas from "./components/Personas";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 
@@ -28,7 +28,7 @@ export default function App() {
         <Header />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
-
+          <Route path="/personas" component={Personas} />
           <Route path={["/", "/inicio"]}>
             <div>
               {uid == NOT_LOGGED ? (
