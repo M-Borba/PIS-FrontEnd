@@ -58,7 +58,7 @@ export default function Header() {
                   </Link>
                 </Button>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/Personas">
+                  <Link className={classes.link} to="/personas">
                     Personas
                   </Link>
                 </Button>
