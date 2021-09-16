@@ -38,6 +38,7 @@ export default function Header() {
           {uid == NOT_LOGGED ? (
             <>
               <Button color="inherit">
+
                 <Link className={classes.link} to="/login">
                   Iniciar Sesión
                 </Link>
@@ -57,11 +58,15 @@ export default function Header() {
                   </Link>
                 </Button>
                 <Button color="inherit">
-                  <Link className={classes.link} to="/">
+                  <Link className={classes.link} to="/personas">
                     Personas
                   </Link>
                 </Button>
-                <Button color="inherit">Administradores</Button>
+                <Button color="inherit">
+                  <Link className={classes.link} to="/">
+                    Administradores
+                  </Link>
+                </Button>
               </Typography>
               <Button color="inherit">
                 <Link className={classes.link} to="/">
