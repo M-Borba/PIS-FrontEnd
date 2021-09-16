@@ -22,7 +22,7 @@ exports[`renders learn react link 1`] = `
             >
               <a
                 class="makeStyles-link-4"
-                href="/Login"
+                href="/login"
               >
                 Iniciar Sesión
               </a>

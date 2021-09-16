@@ -21,7 +21,7 @@ exports[`navigates Login when you click 1`] = `
           >
             <a
               class="makeStyles-link-4"
-              href="/Login"
+              href="/login"
             >
               Iniciar Sesión
             </a>

@@ -22,7 +22,8 @@ it("navigates Login when you click", () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(screen.getByText("Iniciar Sesión"));
-  expect(history.push).toHaveBeenCalledWith("/Login");
+
+  expect(history.push).toHaveBeenCalledWith("/login");
 
   // TODO: test when logged in
   // fireEvent.click(screen.getByText("Inicio"));
@@ -35,5 +36,6 @@ it("navigates Login when you click", () => {
   // expect(history.push).toHaveBeenCalledWith('/');
 
   // fireEvent.click(screen.getByText("Cerrar Sesion"));
-  // expect(history.push).toHaveBeenCalledWith('/Login');
+
+  // expect(history.push).toHaveBeenCalledWith('/login');
 });

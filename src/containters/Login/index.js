@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
 import { useHistory } from "react-router-dom";
 import { NOT_LOGGED } from "../../config/globalVariables";
-import Typography from "@material-ui/core/Typography";
 
 export default function LoginView() {
   const history = useHistory();
