@@ -13,9 +13,9 @@ it("navigates Login when you click", () => {
   const { container } = render(
     <Router history={history}>
       <Header />
-    </Router>,
+    </Router>
   );
-  // mock push function 
+  // mock push function
   history.push = jest.fn();
 
   // Matches the last snapshot taken
