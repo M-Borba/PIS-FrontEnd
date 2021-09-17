@@ -36,9 +36,7 @@ export default function Header() {
       <AppBar position="static">
         <Toolbar>
           {uid == NOT_LOGGED ? (
-            <>
-              Inicio de Sesión
-            </>
+            <>Inicio de sesión</>
           ) : (
             <>
               <Typography variant="h6" className={classes.title}>
