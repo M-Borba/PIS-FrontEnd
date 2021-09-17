@@ -37,12 +37,7 @@ export default function Header() {
         <Toolbar>
           {uid == NOT_LOGGED ? (
             <>
-              <Button color="inherit">
-
-                <Link className={classes.link} to="/login">
-                  Iniciar Sesión
-                </Link>
-              </Button>
+              Inicio de Sesión
             </>
           ) : (
             <>
