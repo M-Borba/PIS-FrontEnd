@@ -5,7 +5,6 @@ exports[`renders learn react link 1`] = `
   <div>
     <div
       class="makeStyles-root-1"
-      data-testid="login"
     >
       <header
         class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"

@@ -32,7 +32,7 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root} data-testid="login">
+    <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           {uid == NOT_LOGGED ? (

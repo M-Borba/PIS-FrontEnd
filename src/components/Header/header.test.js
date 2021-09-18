@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Header from "./index";
+import App from "../../App";
 import React from "react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
@@ -83,11 +84,7 @@ test("Logout button redirect to /Logout and remove token from local storage", ()
 test("The login is rendered after clicking the logout button", () => {
   const history = createMemoryHistory();
   localStorage.setItem("uid", "Test");
-  const component = render(
-    <Router history={history}>
-      <Header />
-    </Router>
-  );
+  const component = render(<App />);
   const logoutButton = component.getByTestId("logout");
 
   fireEvent.click(logoutButton);
