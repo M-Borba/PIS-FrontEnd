@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
 import { useHistory } from "react-router-dom";
 import { NOT_LOGGED } from "../../config/globalVariables";
-import Typography from "@material-ui/core/Typography";
 
 export default function LoginView() {
   const history = useHistory();
@@ -26,7 +25,8 @@ export default function LoginView() {
       localStorage.getItem("uid") != null &&
       localStorage.getItem("uid") != NOT_LOGGED
     ) {
-      history.push("/");
+      history.push("/Inicio");
+      window.location.reload();
     }
   }, []);
 
@@ -44,20 +44,21 @@ export default function LoginView() {
         })
         .then((response) => {
           let headers = response.headers;
-
-          console.log("entra aca");
-
+          console.log(response);
           localStorage.setItem("token", headers["access-token"]);
           localStorage.setItem("client", headers.client);
           localStorage.setItem("uid", headers.uid);
           window.location.reload(); // header gets updated
           history.push("/Inicio");
+          window.location.reload();
+
           setLoginError("");
         })
         .catch((error) => {
           setPassowrd("");
-          setLoginError(NOT_LOGGED);
-          console.log(error);
+          if (error.response != undefined && error.response.status == 401)
+            setLoginError("El usuario y/o contraseña ingresado no es correcto");
+          else setLoginError("Error inesperado al iniciar sesión");
         });
     }
   };
@@ -84,16 +85,6 @@ export default function LoginView() {
           password={password}
           error={loginError}
         />
-        {loginError != "" ? (
-          <Typography
-            style={{ position: "fixed", color: "red" }}
-            component="h10"
-          >
-            {loginError}
-          </Typography>
-        ) : (
-          " "
-        )}
       </Grid>
     </Grid>
   );

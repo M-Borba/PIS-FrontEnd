@@ -8,15 +8,15 @@ export default function (groupCount = 30, itemCount = 100) {
   for (let i = 0; i < groupCount; i++) {
     groups.push({
       id: `${i + 1}`,
-      title: faker.name.firstName(),
-      rightTitle: faker.name.lastName(),
+      title: "Nombre " + `${i}`,
       bgColor: randomColor({ luminosity: "light", seed: randomSeed + i }),
     });
   }
   let items = [];
   for (let i = 0; i < itemCount; i++) {
     const startDate = new Date(2021, 8, 1, 0, 0); //dia de setiembre
-    const day = 86400000 * Math.floor(Math.random() * 30);
+    //const day = 86400000 * Math.floor(Math.random() * 30); si se quiere hacer random el dia
+    const day = 86400000;
     const startValue = moment(startDate).valueOf() + day; //dia random del mes de setiembre
     const endValue = moment(startValue + 86400000 * 20).valueOf(); //86400000 = 24h (trabajo duracion 20 dias)
 
@@ -25,7 +25,7 @@ export default function (groupCount = 30, itemCount = 100) {
       group: Math.ceil((groupCount * i) / itemCount),
       start: startValue,
       end: endValue,
-      title: "Proyecto " + Math.ceil(Math.random() * 30),
+      title: "Proyecto " + `${i % 30}`,
       canMove: startValue > new Date().getTime(),
       canResize: "both",
       canChangeGroup: true,
