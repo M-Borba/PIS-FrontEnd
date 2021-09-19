@@ -120,6 +120,7 @@ exports[`renders and redirects when loged 1`] = `
           >
             <a
               class="makeStyles-link-8"
+              data-testid="logout"
               href="/login"
             >
               Cerrar Sesión

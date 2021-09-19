@@ -4,6 +4,7 @@ node_modules/
 .vscode/c_cpp_properties.json
 .vscode/settings.json
 yarn.lock
+yarn-error.log
 package-lock.json
 .vscode
 .DS_Store

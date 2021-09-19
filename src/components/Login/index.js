@@ -24,7 +24,7 @@ export default function Login({
   const classes = useStyles();
 
   return (
-    <div className={classes.paper}>
+    <div className={classes.paper} data-testid="login">
       <Typography component="h1" variant="h5">
         Iniciar sesión
       </Typography>

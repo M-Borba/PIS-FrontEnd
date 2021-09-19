@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Header from "./index";
+import App from "../../App";
 import React from "react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
@@ -44,4 +45,50 @@ it("renders and redirects when loged", () => {
   fireEvent.click(screen.getByText("Cerrar Sesión"));
 
   expect(history.push).toHaveBeenCalledWith("/login");
+});
+
+test("Logout button renders with correct text", () => {
+  const history = createMemoryHistory();
+  localStorage.setItem("uid", "Test");
+  const { getByTestId } = render(
+    <Router history={history}>
+      <Header />
+    </Router>
+  );
+  const logoutButton = getByTestId("logout");
+
+  expect(logoutButton.textContent).toBe("Cerrar Sesión");
+  localStorage.removeItem("uid");
+});
+
+test("Logout button redirect to /Logout and remove token from local storage", () => {
+  const history = createMemoryHistory();
+  localStorage.setItem("uid", "Test");
+  localStorage.setItem("client", "Test");
+  localStorage.setItem("token", "Test");
+  const { getByTestId } = render(
+    <Router history={history}>
+      <Header />
+    </Router>
+  );
+  const logoutButton = getByTestId("logout");
+
+  fireEvent.click(logoutButton);
+
+  expect(location.pathname).toBe("/");
+  expect(localStorage.getItem("uid")).toBe(null);
+  expect(localStorage.getItem("client")).toBe(null);
+  expect(localStorage.getItem("token")).toBe(null);
+});
+
+test("The login is rendered after clicking the logout button", () => {
+  const history = createMemoryHistory();
+  localStorage.setItem("uid", "Test");
+  const component = render(<App />);
+  const logoutButton = component.getByTestId("logout");
+
+  fireEvent.click(logoutButton);
+
+  const login = component.getByTestId("login");
+  expect(login).toBeInTheDocument();
 });

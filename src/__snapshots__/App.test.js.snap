@@ -34,6 +34,7 @@ exports[`renders learn react link 1`] = `
       >
         <div
           class="makeStyles-paper-5"
+          data-testid="login"
         >
           <h1
             class="MuiTypography-root MuiTypography-h5"

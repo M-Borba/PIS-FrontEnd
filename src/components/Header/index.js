@@ -67,7 +67,12 @@ export default function Header() {
                 </Link>
               </Button>
               <Button color="inherit">
-                <Link className={classes.link} to="/login" onClick={Logout}>
+                <Link
+                  className={classes.link}
+                  to="/login"
+                  onClick={Logout}
+                  data-testid="logout"
+                >
                   Cerrar Sesión
                 </Link>
               </Button>
