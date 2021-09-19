@@ -82,7 +82,6 @@ test("Logout button redirect to /Logout and remove token from local storage", ()
 });
 
 test("The login is rendered after clicking the logout button", () => {
-  const history = createMemoryHistory();
   localStorage.setItem("uid", "Test");
   const component = render(<App />);
   const logoutButton = component.getByTestId("logout");
