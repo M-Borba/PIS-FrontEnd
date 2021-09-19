@@ -3,7 +3,7 @@
 exports[`renders and redirects when loged 1`] = `
 <div>
   <div
-    class="makeStyles-root-5"
+    class="makeStyles-root-6"
   >
     <header
       class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
@@ -12,7 +12,7 @@ exports[`renders and redirects when loged 1`] = `
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
       >
         <h6
-          class="MuiTypography-root makeStyles-title-7 MuiTypography-h6"
+          class="MuiTypography-root makeStyles-title-8 MuiTypography-h6"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
@@ -23,7 +23,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-8"
+                class="makeStyles-link-9"
                 href="/inicio"
               >
                 Inicio
@@ -42,7 +42,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-8"
+                class="makeStyles-link-9"
                 href="/"
               >
                 Proyectos
@@ -61,7 +61,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-8"
+                class="makeStyles-link-9"
                 href="/personas"
               >
                 Personas
@@ -80,7 +80,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-8"
+                class="makeStyles-link-9"
                 href="/"
               >
                 Administradores
@@ -92,39 +92,31 @@ exports[`renders and redirects when loged 1`] = `
           </button>
         </h6>
         <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          aria-label="account of current user"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
+          data-testid="menu-perfil"
+          style="text-decoration: none;"
           tabindex="0"
+          title="Account settings"
           type="button"
         >
           <span
-            class="MuiButton-label"
+            class="MuiIconButton-label"
           >
-            <a
-              class="makeStyles-link-8"
-              href="/"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              style="margin-right: 5px;"
+              viewBox="0 0 24 24"
             >
-              fake@uid.com
-            </a>
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiButton-label"
-          >
-            <a
-              class="makeStyles-link-8"
-              data-testid="logout"
-              href="/login"
-            >
-              Cerrar Sesión
-            </a>
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
+              />
+            </svg>
+            fake@uid.com
           </span>
           <span
             class="MuiTouchRipple-root"
@@ -147,7 +139,117 @@ exports[`renders correctly unloged 1`] = `
       <div
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
       >
-        Inicio de sesión
+        <h6
+          class="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <a
+                class="makeStyles-link-4"
+                href="/inicio"
+              >
+                Inicio
+              </a>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <a
+                class="makeStyles-link-4"
+                href="/"
+              >
+                Proyectos
+              </a>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <a
+                class="makeStyles-link-4"
+                href="/personas"
+              >
+                Personas
+              </a>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label"
+            >
+              <a
+                class="makeStyles-link-4"
+                href="/"
+              >
+                Administradores
+              </a>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </h6>
+        <button
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          aria-label="account of current user"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
+          data-testid="menu-perfil"
+          style="text-decoration: none;"
+          tabindex="0"
+          title="Account settings"
+          type="button"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              style="margin-right: 5px;"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"
+              />
+            </svg>
+            Aún no inició sesión
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
       </div>
     </header>
   </div>

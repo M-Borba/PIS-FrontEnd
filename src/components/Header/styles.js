@@ -14,4 +14,8 @@ export const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "white",
   },
+  menuLink: {
+    textDecoration: "none",
+    color: "black",
+  },
 }));
