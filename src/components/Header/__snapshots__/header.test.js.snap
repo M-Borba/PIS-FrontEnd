@@ -107,7 +107,8 @@ exports[`renders and redirects when loged 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="AccountCircleIcon"
               focusable="false"
               style="margin-right: 5px;"
               viewBox="0 0 24 24"
@@ -235,7 +236,8 @@ exports[`renders correctly unloged 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="AccountCircleIcon"
               focusable="false"
               style="margin-right: 5px;"
               viewBox="0 0 24 24"

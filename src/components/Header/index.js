@@ -2,7 +2,7 @@ import React, { useState, Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Divider from "@material-ui/core/Divider";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -89,7 +89,7 @@ export default function Header() {
                 style={{ textDecoration: "none" }}
                 data-testid="menu-perfil"
               >
-                <AccountCircle style={{ marginRight: 5 }} />
+                <AccountCircleIcon style={{ marginRight: 5 }} />
                 {username}
               </IconButton>
             </Tooltip>
@@ -129,7 +129,7 @@ export default function Header() {
               style={{ marginTop: 48 }}
             >
               <MenuItem>
-                <AccountCircle style={{ marginRight: 5 }} /> Mi Perfil
+                <AccountCircleIcon style={{ marginRight: 5 }} /> Mi Perfil
               </MenuItem>
               <Divider />
               <MenuItem>
