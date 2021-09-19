@@ -42,8 +42,17 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
+<<<<<<< HEAD
                 class="makeStyles-link-9"
+=======
+<<<<<<< HEAD
+                class="makeStyles-link-8"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
                 href="/proyectos"
+=======
+                class="makeStyles-link-9"
+                href="/"
+>>>>>>> aa241b42... Implementacion de la observacion de verificacion y styles en el header
               >
                 Proyectos
               </a>
@@ -99,7 +108,11 @@ exports[`renders and redirects when loged 1`] = `
           data-testid="menu-perfil"
           style="text-decoration: none;"
           tabindex="0"
+<<<<<<< HEAD
           title="Configuracion de la cuenta"
+=======
+          title="Account settings"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
           type="button"
         >
           <span
@@ -107,8 +120,12 @@ exports[`renders and redirects when loged 1`] = `
           >
             <svg
               aria-hidden="true"
+<<<<<<< HEAD
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
               data-testid="AccountCircleIcon"
+=======
+              class="MuiSvgIcon-root"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
               focusable="false"
               style="margin-right: 5px;"
               viewBox="0 0 24 24"
@@ -172,7 +189,11 @@ exports[`renders correctly unloged 1`] = `
             >
               <a
                 class="makeStyles-link-4"
+<<<<<<< HEAD
                 href="/proyectos"
+=======
+                href="/"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
               >
                 Proyectos
               </a>
@@ -228,7 +249,11 @@ exports[`renders correctly unloged 1`] = `
           data-testid="menu-perfil"
           style="text-decoration: none;"
           tabindex="0"
+<<<<<<< HEAD
           title="Configuracion de la cuenta"
+=======
+          title="Account settings"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
           type="button"
         >
           <span
@@ -236,8 +261,12 @@ exports[`renders correctly unloged 1`] = `
           >
             <svg
               aria-hidden="true"
+<<<<<<< HEAD
               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
               data-testid="AccountCircleIcon"
+=======
+              class="MuiSvgIcon-root"
+>>>>>>> ec40d62c... Implementacion de la observacion de verificacion y styles en el header
               focusable="false"
               style="margin-right: 5px;"
               viewBox="0 0 24 24"
