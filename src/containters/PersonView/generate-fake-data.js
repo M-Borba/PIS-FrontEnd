@@ -1,4 +1,3 @@
-import faker from "faker";
 import randomColor from "randomcolor";
 import moment from "moment";
 

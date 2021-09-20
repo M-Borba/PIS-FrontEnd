@@ -2,13 +2,12 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const Acciones = () => {
-  const handleEditClick = () => {
-    // aca para editar la info
+  const handleInfoClick = () => {
+    // aca para ver la info
   };
 
   const handleRemoveClick = () => {
@@ -16,14 +15,16 @@ const Acciones = () => {
   };
 
   return (
-    <div >
+    <div style={{
+      margin: 10
+    }}>
       <FormControlLabel
         control={
-          <IconButton
-            onClick={handleEditClick}
+          <Button variant="outlined"
+            onClick={handleInfoClick}
           >
-            <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+            Ver Info Completa
+          </Button>
         }
       />
       <FormControlLabel
@@ -35,34 +36,40 @@ const Acciones = () => {
           </IconButton>
         }
       />
-    </div>
+    </div >
   );
 };
 
 const columns = [
 
   {
-    field: "fullName",
-    headerName: "Nombre completo",
+    field: "id",
+    headerName: "Nombre",
     sortable: true,
     flex: 1, //tamaño
   },
   {
-    field: "id",
-    headerName: "Email",
-    sortable: true,
-    flex: 1,
-  },
-  {
-    field: "cargaHoraria",
-    headerName: "Carga horaria",
+    field: "tipo",
+    headerName: "Tipo",
     flex: 0.7,
   },
   {
-    field: "tag",
-    headerName: "Etiqueta",
+    field: "estado",
+    headerName: "Estado",
     sortable: true,
     flex: 1,
+  },
+  {
+    field: 'inicio',
+    headerName: 'Fecha Inicio',
+    flex: 0.6,
+    type: 'date',
+  },
+  {
+    field: 'fin',
+    headerName: 'Fecha Fin',
+    flex: 0.6,
+    type: 'date',
   },
   {
     field: 'actions',
@@ -81,9 +88,7 @@ const columns = [
 
 
 let rows = [
-  { fullName: 'Ana Barboza', id: 'ana@effectus.com', cargaHoraria: 40, tag: 'Backender' },
-  { fullName: 'Carlos Dominguez', id: 'carlos@effectus.com', cargaHoraria: 40, tag: 'Frontender' },
-  { fullName: 'Esteban Feitas', id: 'efleitas@effectus.com', cargaHoraria: 40, tag: 'Frontender' },
+  { id: 'Pr1', tipo: 'Desarrollo', estado: 'In Progress', inicio: new Date(2021, 0, 1), fin: new Date(2022, 0, 1) },
 ];
 
 export default function Personas() {
@@ -99,10 +104,10 @@ export default function Personas() {
         color="primary"
         variant="contained"
       /*onClick={() =>
-         Aca va formulario para agregar persona
+         Aca va formulario para agregar proyecto
       }*/
       >
-        Agregar Persona
+        Agregar Proyecto
       </Button>
     </div>
   );
