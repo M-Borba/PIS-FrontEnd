@@ -2,9 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
-import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 
@@ -15,18 +13,27 @@ PersonForm.propTypes = {
     first_name: propTypes.string,
     last_name: propTypes.string,
     email: propTypes.string,
-    hourly_load: propTypes.string,
-    hourly_load_hours: propTypes.number,
+    working_hours: propTypes.number,
   }).isRequired,
+  msg: propTypes.string,
   error: propTypes.string,
 };
 
-export default function PersonForm({ onSubmit, onInputChange, person, error }) {
+export default function PersonForm({
+  onSubmit,
+  onInputChange,
+  person,
+  error,
+  msg,
+}) {
   const classes = useStyles();
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         Datos de persona
+      </Typography>
+      <Typography className={classes.msg} component="h2">
+        {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <TextField
@@ -69,29 +76,16 @@ export default function PersonForm({ onSubmit, onInputChange, person, error }) {
           onChange={onInputChange}
           autoFocus
         />
-        <Select
-          labelId="select-load"
-          id="hourly_load"
-          name="hourly_load"
-          value={person.hourly_load}
-          label="Carga horaria"
-          onChange={onInputChange}
-        >
-          <MenuItem value=""></MenuItem>
-
-          <MenuItem value="weekely">Semanalmente</MenuItem>
-          <MenuItem value="daily">Diariamente</MenuItem>
-        </Select>
         <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          name="hourly_load_hours"
+          name="working_hours"
           label="Horas"
           type="number"
-          id="hourly_load_hours"
-          value={person.hourly_load_hours.toString()}
+          id="working_hours"
+          value={person.working_hours}
           onChange={onInputChange}
         />
         <Button

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PersonView from "./containters/PersonView";
 import ProjectView from "./containters/ProjectView";
 import { NOT_LOGGED } from "./config/globalVariables";
-import CreatePerson from "./containters/CreatePerson";
+
 import {
   BrowserRouter as Router,
   Switch as SwitchRouter,
@@ -26,18 +26,6 @@ export default function App() {
   return (
     <Router>
       <div>
-        <CreatePerson
-          onSubmit={() => console.log("")}
-          onInputChange={() => console.log("")}
-          person={{
-            first_name: "",
-            last_name: "",
-            email: "",
-            hourly_load: "",
-            hourly_load_hours: 0,
-          }}
-          error=""
-        />
         <Header />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />

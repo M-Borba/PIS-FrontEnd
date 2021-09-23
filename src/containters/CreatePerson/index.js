@@ -3,6 +3,7 @@
  */
 
 import React, { useState } from "react";
+import propTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 
@@ -11,10 +12,10 @@ export default function CreatePerson() {
     first_name: "",
     last_name: "",
     email: "",
-    hourly_load: "",
-    hourly_load_hours: 30,
+    working_hours: 30,
   });
   const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
   const isValid = () => {
     return (
       person.first_name != "" &&
@@ -25,6 +26,7 @@ export default function CreatePerson() {
   };
 
   const handleSubmit = (e) => {
+    setMsg("");
     e.preventDefault();
     if (!isValid(person)) {
       setError("Completar todos los campos para iniciar sesión");
@@ -34,13 +36,19 @@ export default function CreatePerson() {
           person: person,
         })
         .then((response) => {
-          console.log(response);
-          setError("");
+          if (response.status == 200) {
+            setMsg("Usuario creado correctamente");
+            setError("");
+          } else setError("Error inesperado");
         })
         .catch((error) => {
-          console.log(error.response);
-          if (error.response != undefined && error.response.status == 401)
-            setError("Falta autentificarse !!");
+          console.log("error", error.response);
+          if (
+            error.response != undefined &&
+            error.response.status != null &&
+            error.response.status == 401
+          )
+            setError("Falta autentificarse !");
           else if (error.response.status == 400) {
             let errors = error.response.data.errors;
             setError(
@@ -60,20 +68,15 @@ export default function CreatePerson() {
     }
   };
   const checkInput = (e) => {
-    console.log("tgt", e.target);
-    console.log("val", e.target.value);
-
     if (e.target.id == "first_name")
       setPerson({ ...person, first_name: e.target.value });
     else if (e.target.id == "last_name")
       setPerson({ ...person, last_name: e.target.value });
     else if (e.target.id == "email")
       setPerson({ ...person, email: e.target.value });
-    else if (e.target.name == "hourly_load")
-      setPerson({ ...person, hourly_load: e.target.value });
-    else if (e.target.id == "hourly_load_hours")
-      setPerson({ ...person, hourly_load_hours: parseInt(e.target.value) });
-    console.log("person", person);
+    else if (e.target.id == "working_hours") {
+      setPerson({ ...person, working_hours: parseInt(e.target.value) });
+    }
   };
   return (
     <div>
@@ -82,6 +85,7 @@ export default function CreatePerson() {
         onInputChange={(e) => checkInput(e)}
         person={person}
         error={error}
+        msg={msg}
       />
     </div>
   );

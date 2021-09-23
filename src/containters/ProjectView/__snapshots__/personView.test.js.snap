@@ -22,15 +22,7 @@ exports[`person timeline component tests renders correct data 1`] = `
           >
             <div
               class="rct-dateHeader rct-dateHeader-primary"
-<<<<<<< HEAD
-              style="left: 39000px; width: -54750px; position: absolute;"
-=======
-<<<<<<< HEAD
-              style="left: 38700px; width: -54750px; position: absolute;"
-=======
-              style="left: 39300px; width: -54750px; position: absolute;"
->>>>>>> 8d2d37cb (form persona con backend, falta confirmacion)
->>>>>>> 3226b8a6 (form persona con backend, falta confirmacion)
+              style="left: 39600px; width: -54750px; position: absolute;"
             >
               <span>
                 21
@@ -42,15 +34,7 @@ exports[`person timeline component tests renders correct data 1`] = `
           >
             <div
               class="rct-dateHeader "
-<<<<<<< HEAD
-              style="left: 39000px; width: -54750px; position: absolute;"
-=======
-<<<<<<< HEAD
-              style="left: 38700px; width: -54750px; position: absolute;"
-=======
-              style="left: 39300px; width: -54750px; position: absolute;"
->>>>>>> 8d2d37cb (form persona con backend, falta confirmacion)
->>>>>>> 3226b8a6 (form persona con backend, falta confirmacion)
+              style="left: 39600px; width: -54750px; position: absolute;"
             >
               <span>
                 21
@@ -264,15 +248,7 @@ exports[`person timeline component tests renders correct data 1`] = `
             >
               <div
                 class="rct-vl"
-<<<<<<< HEAD
-                style="pointer-events: none; top: 0px; left: 39000px; width: -54750px; height: 900px;"
-=======
-<<<<<<< HEAD
-                style="pointer-events: none; top: 0px; left: 38700px; width: -54750px; height: 900px;"
-=======
-                style="pointer-events: none; top: 0px; left: 39300px; width: -54750px; height: 900px;"
->>>>>>> 8d2d37cb (form persona con backend, falta confirmacion)
->>>>>>> 3226b8a6 (form persona con backend, falta confirmacion)
+                style="pointer-events: none; top: 0px; left: 39600px; width: -54750px; height: 900px;"
               />
             </div>
             <div

@@ -1,9 +1,8 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton } from "@material-ui/core";
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const Acciones = () => {
   const handleInfoClick = () => {
@@ -15,33 +14,30 @@ const Acciones = () => {
   };
 
   return (
-    <div style={{
-      margin: 10
-    }}>
+    <div
+      style={{
+        margin: 10,
+      }}
+    >
       <FormControlLabel
         control={
-          <Button variant="outlined"
-            onClick={handleInfoClick}
-          >
+          <Button variant="outlined" onClick={handleInfoClick}>
             Ver Info Completa
           </Button>
         }
       />
       <FormControlLabel
         control={
-          <IconButton
-            onClick={handleRemoveClick}
-          >
+          <IconButton onClick={handleRemoveClick}>
             <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
           </IconButton>
         }
       />
-    </div >
+    </div>
   );
 };
 
 const columns = [
-
   {
     field: "id",
     headerName: "Nombre",
@@ -60,21 +56,21 @@ const columns = [
     flex: 1,
   },
   {
-    field: 'inicio',
-    headerName: 'Fecha Inicio',
+    field: "inicio",
+    headerName: "Fecha Inicio",
     flex: 0.6,
-    type: 'date',
+    type: "date",
   },
   {
-    field: 'fin',
-    headerName: 'Fecha Fin',
+    field: "fin",
+    headerName: "Fecha Fin",
     flex: 0.6,
-    type: 'date',
+    type: "date",
   },
   {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Acciones',
+    field: "actions",
+    type: "actions",
+    headerName: "Acciones",
     flex: 1,
     renderCell: (params) => {
       return (
@@ -82,28 +78,41 @@ const columns = [
           <Acciones />
         </div>
       );
-    }
+    },
   },
 ];
 
-
 let rows = [
-  { id: 'Pr1', tipo: 'Desarrollo', estado: 'In Progress', inicio: new Date(2021, 0, 1), fin: new Date(2022, 0, 1) },
+  {
+    id: "Pr1",
+    tipo: "Desarrollo",
+    estado: "In Progress",
+    inicio: new Date(2021, 0, 1),
+    fin: new Date(2022, 0, 1),
+  },
 ];
 
 export default function Personas() {
   return (
-    <div style={{ position: "fixed", top: "15%", left: "5%", height: "75%", width: "90%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-      />
-      <div style={{ margin: 10 }}/* relleno, si alguien sabe hacer esto mejor que lo cambie*/></div>
+    <div
+      style={{
+        position: "fixed",
+        top: "15%",
+        left: "5%",
+        height: "75%",
+        width: "90%",
+      }}
+    >
+      <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+      <div
+        style={{
+          margin: 10,
+        }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
+      ></div>
       <Button
         color="primary"
         variant="contained"
-      /*onClick={() =>
+        /*onClick={() =>
          Aca va formulario para agregar proyecto
       }*/
       >
