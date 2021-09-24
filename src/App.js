@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import PersonView from "./containters/PersonView";
-import ProjectView from "./containters/ProjectView";
+import PersonView from "./containers/PersonView";
+import ProjectView from "./containers/ProjectView";
 import { NOT_LOGGED } from "./config/globalVariables";
 
 import {
@@ -9,9 +9,9 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import LoginView from "./containters/Login";
+import LoginView from "./containers/Login";
 import Header from "./components/Header";
-import Personas from "./components/Personas";
+import ListarPersonas from "./containers/ListarPersonas";
 import Proyectos from "./components/Proyectos";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
@@ -31,7 +31,7 @@ export default function App() {
         />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
-          <Route path="/personas" component={Personas} />
+          <Route path="/personas" component={ListarPersonas} />
           <Route path="/proyectos" component={Proyectos} />
           <Route path={["/", "/inicio"]}>
             <div>
