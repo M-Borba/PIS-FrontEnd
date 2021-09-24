@@ -7,10 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 
 Login.propTypes = {
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
   onInputChange: PropTypes.func,
-  email: PropTypes.string,
-  password: PropTypes.string,
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
   error: PropTypes.string,
 };
 
