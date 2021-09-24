@@ -1,13 +1,12 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Acciones from "./acciones";
 
 Administradores.propTypes = {
   onSubmit: PropTypes.func,
@@ -15,28 +14,6 @@ Administradores.propTypes = {
   email: PropTypes.string,
   password: PropTypes.string,
   error: PropTypes.string,
-};
-
-const Acciones = () => {
-  const handleRemoveClick = () => {
-    // aca para borrar el admin
-  };
-
-  return (
-    <div style={{
-      margin: 10
-    }}>
-      <FormControlLabel
-        control={
-          <IconButton
-            onClick={handleRemoveClick}
-          >
-            <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
-        }
-      />
-    </div >
-  );
 };
 
 const columns = [

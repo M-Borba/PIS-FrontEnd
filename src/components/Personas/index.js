@@ -1,43 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton } from "@material-ui/core";
 import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-
-const Acciones = () => {
-  const handleEditClick = () => {
-    // aca para editar la info
-  };
-
-  const handleRemoveClick = () => {
-    // aca para borrar la persona
-  };
-
-  return (
-    <div >
-      <FormControlLabel
-        control={
-          <IconButton
-            onClick={handleEditClick}
-          >
-            <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
-        }
-      />
-      <FormControlLabel
-        control={
-          <IconButton
-            onClick={handleRemoveClick}
-          >
-            <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
-        }
-      />
-    </div>
-  );
-};
+import Acciones from './acciones';
 
 const columns = [
 
