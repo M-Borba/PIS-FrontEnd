@@ -21,6 +21,8 @@ var keys = {
 export default class ProjectTimeline extends Component {
   constructor(props) {
     super(props);
+    this.handleItemMove = this.handleItemMove.bind(this);
+    this.handleItemResize = this.handleItemResize.bind(this);
 
     const { groups, items } = generateFakeData();
     const defaultTimeStart = moment().startOf("day").toDate();
@@ -34,7 +36,7 @@ export default class ProjectTimeline extends Component {
     };
   }
 
-  handleItemMove = (itemId, dragTime, newGroupOrder) => {
+  handleItemMove(itemId, dragTime, newGroupOrder) {
     const { items, groups } = this.state;
 
     const group = groups[newGroupOrder];
@@ -43,10 +45,10 @@ export default class ProjectTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: dragTime,
-              end: dragTime + (item.end - item.start),
-              group: group.id,
-            })
+            start: dragTime,
+            end: dragTime + (item.end - item.start),
+            group: group.id,
+          })
           : item
       ),
     });
@@ -54,16 +56,16 @@ export default class ProjectTimeline extends Component {
     console.log("Moved", itemId, dragTime, newGroupOrder);
   };
 
-  handleItemResize = (itemId, time, edge) => {
+  handleItemResize(itemId, time, edge) {
     const { items } = this.state;
 
     this.setState({
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
-            })
+            start: edge === "left" ? time : item.start,
+            end: edge === "left" ? item.end : time,
+          })
           : item
       ),
     });
