@@ -4,19 +4,6 @@ exports[`renders learn react link 1`] = `
 <div>
   <div>
     <div
-      class="makeStyles-root-1"
-    >
-      <header
-        class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
-      >
-        <div
-          class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
-        >
-          Inicio de sesión
-        </div>
-      </header>
-    </div>
-    <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
     >
       <div
@@ -33,7 +20,7 @@ exports[`renders learn react link 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-5"
       >
         <div
-          class="makeStyles-paper-5"
+          class="makeStyles-paper-6"
           data-testid="login"
         >
           <h1
@@ -42,7 +29,7 @@ exports[`renders learn react link 1`] = `
             Iniciar sesión
           </h1>
           <form
-            class="makeStyles-form-6"
+            class="makeStyles-form-7"
           >
             <div
               class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
@@ -77,10 +64,10 @@ exports[`renders learn react link 1`] = `
                 />
                 <fieldset
                   aria-hidden="true"
-                  class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
+                  class="PrivateNotchedOutline-root-10 MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="PrivateNotchedOutline-legendLabelled-11 PrivateNotchedOutline-legendNotched-12"
+                    class="PrivateNotchedOutline-legendLabelled-12 PrivateNotchedOutline-legendNotched-13"
                   >
                     <span>
                       Email Address
@@ -123,10 +110,10 @@ exports[`renders learn react link 1`] = `
                 />
                 <fieldset
                   aria-hidden="true"
-                  class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
+                  class="PrivateNotchedOutline-root-10 MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="PrivateNotchedOutline-legendLabelled-11"
+                    class="PrivateNotchedOutline-legendLabelled-12"
                   >
                     <span>
                       Password
@@ -137,7 +124,7 @@ exports[`renders learn react link 1`] = `
               </div>
             </div>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-7 MuiButton-containedPrimary MuiButton-fullWidth"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-8 MuiButton-containedPrimary MuiButton-fullWidth"
               role="submit"
               tabindex="0"
               type="submit"
@@ -152,10 +139,10 @@ exports[`renders learn react link 1`] = `
               />
             </button>
             <h2
-              class="MuiTypography-root makeStyles-errorMsg-8 MuiTypography-body1"
+              class="MuiTypography-root makeStyles-errorMsg-9 MuiTypography-body1"
             />
             <div
-              class="MuiBox-root MuiBox-root-13"
+              class="MuiBox-root MuiBox-root-14"
             />
           </form>
         </div>

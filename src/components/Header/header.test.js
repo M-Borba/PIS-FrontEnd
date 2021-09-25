@@ -42,6 +42,8 @@ it("renders and redirects when loged", () => {
   fireEvent.click(screen.getByText("Personas"));
   expect(history.push).toHaveBeenCalledWith("/personas");
 
+  fireEvent.click(screen.getByTestId("menu-perfil"));
+
   fireEvent.click(screen.getByText("Cerrar Sesión"));
 
   expect(history.push).toHaveBeenCalledWith("/login");
@@ -55,6 +57,8 @@ test("Logout button renders with correct text", () => {
       <Header />
     </Router>
   );
+  fireEvent.click(getByTestId("menu-perfil"));
+
   const logoutButton = getByTestId("logout");
 
   expect(logoutButton.textContent).toBe("Cerrar Sesión");
@@ -71,8 +75,9 @@ test("Logout button redirect to /Logout and remove token from local storage", ()
       <Header />
     </Router>
   );
-  const logoutButton = getByTestId("logout");
+  fireEvent.click(getByTestId("menu-perfil"));
 
+  const logoutButton = getByTestId("logout");
   fireEvent.click(logoutButton);
 
   expect(location.pathname).toBe("/");
@@ -84,8 +89,10 @@ test("Logout button redirect to /Logout and remove token from local storage", ()
 test("The login is rendered after clicking the logout button", () => {
   localStorage.setItem("uid", "Test");
   const component = render(<App />);
-  const logoutButton = component.getByTestId("logout");
 
+  fireEvent.click(component.getByTestId("menu-perfil"));
+
+  const logoutButton = component.getByTestId("logout");
   fireEvent.click(logoutButton);
 
   const login = component.getByTestId("login");
