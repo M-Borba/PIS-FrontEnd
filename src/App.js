@@ -50,7 +50,6 @@ export default function App() {
                     onSwitch={onSwitch}
                     isProjectView={!isProjectView}
                   />
-
                 </>
               )}
             </div>

@@ -3,7 +3,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
+import Box from "@material-ui/core/Box";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Modal from "@material-ui/core/Modal";
+import CreatePerson from "../../containters/CreatePerson";
 
 const Acciones = () => {
   const handleEditClick = () => {
@@ -93,8 +96,15 @@ let rows = [
     tag: "Frontender",
   },
 ];
+import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./styles";
 
 export default function Personas() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const classes = useStyles();
+  console.log(classes);
   return (
     <div
       style={{
@@ -111,15 +121,19 @@ export default function Personas() {
           margin: 10,
         }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
       ></div>
-      <Button
-        color="primary"
-        variant="contained"
-        /*onClick={() =>
-         Aca va formulario para agregar persona
-      }*/
-      >
+      <Button color="primary" variant="contained" onClick={handleOpen}>
         Agregar Persona
       </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <CreatePerson />
+        </Box>
+      </Modal>
     </div>
   );
 }
