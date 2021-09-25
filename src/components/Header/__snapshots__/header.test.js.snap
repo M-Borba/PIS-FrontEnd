@@ -43,7 +43,7 @@ exports[`renders and redirects when loged 1`] = `
             >
               <a
                 class="makeStyles-link-9"
-                href="/"
+                href="/proyectos"
               >
                 Proyectos
               </a>
@@ -172,7 +172,7 @@ exports[`renders correctly unloged 1`] = `
             >
               <a
                 class="makeStyles-link-4"
-                href="/"
+                href="/proyectos"
               >
                 Proyectos
               </a>
