@@ -99,7 +99,7 @@ exports[`renders and redirects when loged 1`] = `
           data-testid="menu-perfil"
           style="text-decoration: none;"
           tabindex="0"
-          title="Account settings"
+          title="Configuracion de la cuenta"
           type="button"
         >
           <span
@@ -228,7 +228,7 @@ exports[`renders correctly unloged 1`] = `
           data-testid="menu-perfil"
           style="text-decoration: none;"
           tabindex="0"
-          title="Account settings"
+          title="Configuracion de la cuenta"
           type="button"
         >
           <span

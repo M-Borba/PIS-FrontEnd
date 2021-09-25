@@ -79,7 +79,7 @@ export default function Header() {
             </Button>
           </Typography>
           <Fragment>
-            <Tooltip title="Account settings">
+            <Tooltip title="Configuracion de la cuenta">
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
