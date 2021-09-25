@@ -23,6 +23,10 @@ export default function App() {
   }
   const [isProjectView, setIsProjectView] = useState(true);
 
+  const onSwitch = () => {
+    setIsProjectView(!isProjectView);
+  };
+
   return (
     <Router>
       <div>
@@ -37,23 +41,16 @@ export default function App() {
                 <Redirect to="/login" />
               ) : (
                 <>
-                  <Grid
-                    container
-                    spacing={2}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    Vista Personas
-                    <Switch
-                      color="default"
-                      checked={isProjectView}
-                      onChange={() => {
-                        setIsProjectView(!isProjectView);
-                      }}
-                    />
-                    Vista Proyectos
-                  </Grid>
-                  {isProjectView ? <ProjectView /> : <PersonView />}
+                  <PersonView
+                    onSwitch={onSwitch}
+                    isProjectView={isProjectView}
+                  />
+
+                  <ProjectView
+                    onSwitch={onSwitch}
+                    isProjectView={!isProjectView}
+                  />
+
                 </>
               )}
             </div>
