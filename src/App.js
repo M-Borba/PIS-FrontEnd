@@ -27,7 +27,9 @@ export default function App() {
     <Router>
       <div>
         <Route
-          render={({ location }) => location.pathname != "/login" && <Header />}
+          render={({ location }) =>
+            !["/login", "/Login"].includes(location.pathname) && <Header />
+          }
         />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
