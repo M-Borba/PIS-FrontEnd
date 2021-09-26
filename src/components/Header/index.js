@@ -7,11 +7,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Divider from "@material-ui/core/Divider";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { useStyles } from "./styles";
+import { useStyles, PaperProps, anchorElPoint } from "./styles";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { NOT_LOGGED } from "../../config/globalVariables";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
 
@@ -26,10 +25,6 @@ export default function Header() {
   const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -86,54 +81,29 @@ export default function Header() {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
-                style={{ textDecoration: "none" }}
                 data-testid="menu-perfil"
               >
-                <AccountCircleIcon style={{ marginRight: 5 }} />
+                <AccountCircleIcon className={classes.mr5} />
                 {username}
               </IconButton>
             </Tooltip>
             <Menu
+              className={classes.mt35}
               anchorEl={anchorEl}
+              getContentAnchorEl={null}
               open={open}
               onClose={handleClose}
               onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              style={{ marginTop: 48 }}
+              PaperProps={PaperProps}
+              transformOrigin={anchorElPoint}
+              anchorOrigin={anchorElPoint}
             >
               <MenuItem>
-                <AccountCircleIcon style={{ marginRight: 5 }} /> Mi Perfil
+                <AccountCircleIcon className={classes.mr5} /> Mi Perfil
               </MenuItem>
               <Divider />
               <MenuItem>
-                <LogoutIcon fontSize="small" style={{ marginRight: 5 }} />
+                <LogoutIcon fontSize="small" className={classes.mr5} />
                 <Link
                   className={classes.menuLink}
                   onClick={Logout}

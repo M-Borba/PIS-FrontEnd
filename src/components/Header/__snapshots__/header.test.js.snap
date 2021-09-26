@@ -3,7 +3,7 @@
 exports[`renders and redirects when loged 1`] = `
 <div>
   <div
-    class="makeStyles-root-6"
+    class="makeStyles-root-8"
   >
     <header
       class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
@@ -12,7 +12,7 @@ exports[`renders and redirects when loged 1`] = `
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
       >
         <h6
-          class="MuiTypography-root makeStyles-title-8 MuiTypography-h6"
+          class="MuiTypography-root makeStyles-title-10 MuiTypography-h6"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
@@ -23,7 +23,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-9"
+                class="makeStyles-link-11"
                 href="/inicio"
               >
                 Inicio
@@ -42,7 +42,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-9"
+                class="makeStyles-link-11"
                 href="/proyectos"
               >
                 Proyectos
@@ -61,7 +61,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-9"
+                class="makeStyles-link-11"
                 href="/personas"
               >
                 Personas
@@ -80,7 +80,7 @@ exports[`renders and redirects when loged 1`] = `
               class="MuiButton-label"
             >
               <a
-                class="makeStyles-link-9"
+                class="makeStyles-link-11"
                 href="/"
               >
                 Administradores
@@ -97,7 +97,6 @@ exports[`renders and redirects when loged 1`] = `
           aria-label="account of current user"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
-          style="text-decoration: none;"
           tabindex="0"
           title="Configuracion de la cuenta"
           type="button"
@@ -107,10 +106,9 @@ exports[`renders and redirects when loged 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium makeStyles-mr5-13 css-i4bv87-MuiSvgIcon-root"
               data-testid="AccountCircleIcon"
               focusable="false"
-              style="margin-right: 5px;"
               viewBox="0 0 24 24"
             >
               <path
@@ -226,7 +224,6 @@ exports[`renders correctly unloged 1`] = `
           aria-label="account of current user"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
-          style="text-decoration: none;"
           tabindex="0"
           title="Configuracion de la cuenta"
           type="button"
@@ -236,10 +233,9 @@ exports[`renders correctly unloged 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium makeStyles-mr5-6 css-i4bv87-MuiSvgIcon-root"
               data-testid="AccountCircleIcon"
               focusable="false"
-              style="margin-right: 5px;"
               viewBox="0 0 24 24"
             >
               <path
