@@ -1,29 +1,65 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
-import Box from "@material-ui/core/Box";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import CreatePerson from "../../containters/CreatePerson";
+import Button from "@material-ui/core/Button";
+
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import PropTypes from "prop-types";
+import { useStyles } from "./styles";
+import CreatePerson from "../../containers/CreatePerson";
+import EditPerson from "../../containers/EditPerson";
+Personas.propTypes = {
+  rows: PropTypes.array,
+};
 
 const Acciones = () => {
-  const handleEditClick = () => {
-    // aca para editar la info
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [personData, setPersonData] = React.useState({});
+  const handleEditOpen = (e) => {
+    let htmlRow =
+      e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
+        .parentNode;
+    let dataElements = htmlRow.children;
+    let fullName = dataElements[1].innerHTML.split(" ");
+    setPersonData({
+      id: dataElements[0].innerHTML,
+      first_name: fullName[0],
+      last_name: fullName[1],
+      email: dataElements[2].innerHTML,
+      working_hours: dataElements[3].innerHTML,
+    });
+    setOpenEdit(true);
+  };
+  const handleEditClose = () => {
+    setOpenEdit(false);
+    window.location.reload();
   };
 
   const handleRemoveClick = () => {
     // aca para borrar la persona
   };
-
+  const classes = useStyles();
   return (
     <div>
       <FormControlLabel
         control={
-          <IconButton onClick={handleEditClick}>
-            <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+          <>
+            <IconButton onClick={handleEditOpen}>
+              <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Modal
+              open={openEdit}
+              onClose={handleEditClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box className={classes.modal}>
+                <EditPerson personData={personData} id={personData.id} />
+              </Box>
+            </Modal>
+          </>
         }
       />
       <FormControlLabel
@@ -39,13 +75,18 @@ const Acciones = () => {
 
 const columns = [
   {
+    field: "id",
+    headerName: "ID",
+    //id
+  },
+  {
     field: "fullName",
     headerName: "Nombre completo",
     sortable: true,
     flex: 1, //tamaño
   },
   {
-    field: "id",
+    field: "email",
     headerName: "Email",
     sortable: true,
     flex: 1,
@@ -76,35 +117,15 @@ const columns = [
   },
 ];
 
-let rows = [
-  {
-    fullName: "Ana Barboza",
-    id: "ana@effectus.com",
-    cargaHoraria: 40,
-    tag: "Backender",
-  },
-  {
-    fullName: "Carlos Dominguez",
-    id: "carlos@effectus.com",
-    cargaHoraria: 40,
-    tag: "Frontender",
-  },
-  {
-    fullName: "Esteban Feitas",
-    id: "efleitas@effectus.com",
-    cargaHoraria: 40,
-    tag: "Frontender",
-  },
-];
-import Typography from "@material-ui/core/Typography";
-import { useStyles } from "./styles";
+export default function Personas({ rows }) {
+  const [openNew, setOpenNew] = React.useState(false);
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => {
+    setOpenNew(false);
+    window.location.reload();
+  };
 
-export default function Personas() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const classes = useStyles();
-  console.log(classes);
   return (
     <div
       style={{
@@ -121,12 +142,12 @@ export default function Personas() {
           margin: 10,
         }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
       ></div>
-      <Button color="primary" variant="contained" onClick={handleOpen}>
+      <Button color="primary" variant="contained" onClick={handleNewOpen}>
         Agregar Persona
       </Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openNew}
+        onClose={handleNewClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

@@ -17,9 +17,11 @@ PersonForm.propTypes = {
   }).isRequired,
   msg: propTypes.string,
   error: propTypes.string,
+  title: propTypes.string,
 };
 
 export default function PersonForm({
+  title,
   onSubmit,
   onInputChange,
   person,
@@ -30,7 +32,7 @@ export default function PersonForm({
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
-        Datos de persona
+        {title}
       </Typography>
       <Typography className={classes.msg} component="h2">
         {msg}
