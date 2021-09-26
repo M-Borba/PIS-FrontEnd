@@ -5,16 +5,20 @@
 import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
+import propTypes from "prop-types";
 
-export default function Edit() {
-  const [person, setPerson] = useState({
-    id: 0,
-    first_name: "",
-    last_name: "",
-    email: "",
-    hourly_load: "",
-    hourly_load_hours: 30,
-  });
+Edit.propTypes = {
+  personData: propTypes.shape({
+    first_name: propTypes.string,
+    last_name: propTypes.string,
+    email: propTypes.string,
+    working_hours: propTypes.number,
+  }).isRequired,
+  id: propTypes.number,
+};
+
+export default function Edit({ personData, id }) {
+  const [person, setPerson] = useState(personData);
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const isValid = () => {
@@ -32,12 +36,14 @@ export default function Edit() {
       setError("Completar todos los campos para iniciar sesión");
     } else {
       axiosInstance
-        .post("/people/" + person.id, {
+        .put("/people/" + id, {
           person: person,
         })
         .then((response) => {
-          setMsg(response);
-          setError("");
+          if (response.status == 200) {
+            setMsg("Usuario modificado correctamente");
+            setError("");
+          } else setError("Error inesperado");
         })
         .catch((error) => {
           console.log(error.response);
@@ -55,13 +61,7 @@ export default function Edit() {
                 " " +
                 errors[Object.keys(errors)[0]]
             );
-          } else
-            setError(
-              "Error inesperado al enviar formulario - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
+          } else setError("Error inesperado al enviar formulario ");
         });
     }
   };
@@ -76,7 +76,6 @@ export default function Edit() {
       let hours = parseInt(e.target.value);
       setPerson({ ...person, working_hours: hours });
     }
-    console.log("person", person);
   };
   return (
     <div>
@@ -86,6 +85,7 @@ export default function Edit() {
         person={person}
         error={error}
         msg={msg}
+        title={"Editando Persona"}
       />
     </div>
   );

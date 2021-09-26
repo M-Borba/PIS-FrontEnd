@@ -81,6 +81,7 @@ export default function CreatePerson() {
   return (
     <div>
       <PersonForm
+        title={"Creacion de persona"}
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}

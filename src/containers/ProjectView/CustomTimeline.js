@@ -45,16 +45,16 @@ export default class ProjectTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: dragTime,
-            end: dragTime + (item.end - item.start),
-            group: group.id,
-          })
+              start: dragTime,
+              end: dragTime + (item.end - item.start),
+              group: group.id,
+            })
           : item
       ),
     });
 
     console.log("Moved", itemId, dragTime, newGroupOrder);
-  };
+  }
 
   handleItemResize(itemId, time, edge) {
     const { items } = this.state;
@@ -63,15 +63,15 @@ export default class ProjectTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: edge === "left" ? time : item.start,
-            end: edge === "left" ? item.end : time,
-          })
+              start: edge === "left" ? time : item.start,
+              end: edge === "left" ? item.end : time,
+            })
           : item
       ),
     });
 
     console.log("Resized", itemId, time, edge);
-  };
+  }
 
   render() {
     const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;

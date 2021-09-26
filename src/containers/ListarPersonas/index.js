@@ -12,7 +12,8 @@ export default function ListarPersonas() {
       let rowsNuevas = rows.map((row) => {
         return {
           fullName: row.full_name,
-          id: row.email,
+          email: row.email,
+          id: row.id,
           cargaHoraria: row.working_hours,
           tag: ".",
         };
