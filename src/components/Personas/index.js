@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-
+import { axiosInstance } from "../../config/axios";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
@@ -33,7 +33,16 @@ const Acciones = ({ personRow }) => {
   };
 
   const handleRemoveClick = () => {
-    // aca para borrar la persona
+    axiosInstance
+      .delete("/people/" + personData.id,)
+      .then((response) => {
+        if (response.status == 200)
+          alert("Usuario borrado correctamente");
+        window.location.reload()
+      })
+      .catch((error) => {
+        alert("Error al borrar - " + error);
+      });
   };
   const classes = useStyles();
   return (
