@@ -1,29 +1,69 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import EditIcon from "@material-ui/icons/Edit";
-import Box from "@material-ui/core/Box";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import CreatePerson from "../../containters/CreatePerson";
+import Button from "@material-ui/core/Button";
+import { axiosInstance } from "../../config/axios";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import PropTypes from "prop-types";
+import { useStyles } from "./styles";
+import CreatePerson from "../../containers/CreatePerson";
+import EditPerson from "../../containers/EditPerson";
+Personas.propTypes = {
+  rows: PropTypes.array,
+};
 
-const Acciones = () => {
-  const handleEditClick = () => {
-    // aca para editar la info
+const Acciones = ({ personRow }) => {
+  const [openEdit, setOpenEdit] = React.useState(false);
+  let fullName = personRow.fullName.split(" ");
+  const [personData] = React.useState({
+    id: personRow.id,
+    first_name: fullName[0],
+    last_name: fullName[1],
+    email: personRow.email,
+    working_hours: personRow.cargaHoraria,
+    tags: personRow.tags,
+  });
+  const handleEditOpen = (e) => setOpenEdit(true);
+
+  const handleEditClose = () => {
+    setOpenEdit(false);
+    window.location.reload();
   };
 
   const handleRemoveClick = () => {
-    // aca para borrar la persona
+    axiosInstance
+      .delete("/people/" + personData.id,)
+      .then((response) => {
+        if (response.status == 200)
+          alert("Usuario borrado correctamente");
+        window.location.reload()
+      })
+      .catch((error) => {
+        alert("Error al borrar - " + error);
+      });
   };
-
+  const classes = useStyles();
   return (
     <div>
       <FormControlLabel
         control={
-          <IconButton onClick={handleEditClick}>
-            <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+          <>
+            <IconButton onClick={handleEditOpen}>
+              <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Modal
+              open={openEdit}
+              onClose={handleEditClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box className={classes.modal}>
+                <EditPerson personData={personData} id={personData.id} />
+              </Box>
+            </Modal>
+          </>
         }
       />
       <FormControlLabel
@@ -36,8 +76,16 @@ const Acciones = () => {
     </div>
   );
 };
+Acciones.propTypes = {
+  personRow: PropTypes.any,
+};
 
 const columns = [
+  {
+    field: "id",
+    headerName: "ID",
+    //id
+  },
   {
     field: "fullName",
     headerName: "Nombre completo",
@@ -45,7 +93,7 @@ const columns = [
     flex: 1, //tamaño
   },
   {
-    field: "id",
+    field: "email",
     headerName: "Email",
     sortable: true,
     flex: 1,
@@ -69,42 +117,29 @@ const columns = [
     renderCell: (params) => {
       return (
         <div>
-          <Acciones />
+          <Acciones personRow={params.row} />
         </div>
       );
     },
   },
 ];
 
-let rows = [
-  {
-    fullName: "Ana Barboza",
-    id: "ana@effectus.com",
-    cargaHoraria: 40,
-    tag: "Backender",
-  },
-  {
-    fullName: "Carlos Dominguez",
-    id: "carlos@effectus.com",
-    cargaHoraria: 40,
-    tag: "Frontender",
-  },
-  {
-    fullName: "Esteban Feitas",
-    id: "efleitas@effectus.com",
-    cargaHoraria: 40,
-    tag: "Frontender",
-  },
-];
-import Typography from "@material-ui/core/Typography";
-import { useStyles } from "./styles";
+export default function Personas({ rows }) {
+  const [openNew, setOpenNew] = React.useState(false);
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => {
+    setOpenNew(false);
+    window.location.reload();
+  };
 
-export default function Personas() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: 'id',
+      sort: 'asc',
+    },
+  ]);
+
   const classes = useStyles();
-  console.log(classes);
   return (
     <div
       style={{
@@ -115,18 +150,20 @@ export default function Personas() {
         width: "90%",
       }}
     >
-      <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+      <DataGrid rows={rows} columns={columns} disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)} />
       <div
         style={{
           margin: 10,
         }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
       ></div>
-      <Button color="primary" variant="contained" onClick={handleOpen}>
+      <Button color="primary" variant="contained" onClick={handleNewOpen}>
         Agregar Persona
       </Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openNew}
+        onClose={handleNewClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >

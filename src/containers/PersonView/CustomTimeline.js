@@ -21,6 +21,8 @@ var keys = {
 export default class PersonTimeline extends Component {
   constructor(props) {
     super(props);
+    this.handleItemMove = this.handleItemMove.bind(this);
+    this.handleItemResize = this.handleItemResize.bind(this);
 
     const { groups, items } = generateFakeData();
     const defaultTimeStart = moment().startOf("day").toDate();
@@ -34,7 +36,7 @@ export default class PersonTimeline extends Component {
     };
   }
 
-  handleItemMove = (itemId, dragTime, newGroupOrder) => {
+  handleItemMove(itemId, dragTime, newGroupOrder) {
     const { items, groups } = this.state;
 
     const group = groups[newGroupOrder];
@@ -52,9 +54,9 @@ export default class PersonTimeline extends Component {
     });
 
     console.log("Moved", itemId, dragTime, newGroupOrder);
-  };
+  }
 
-  handleItemResize = (itemId, time, edge) => {
+  handleItemResize(itemId, time, edge) {
     const { items } = this.state;
 
     this.setState({
@@ -69,7 +71,7 @@ export default class PersonTimeline extends Component {
     });
 
     console.log("Resized", itemId, time, edge);
-  };
+  }
 
   render() {
     const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
