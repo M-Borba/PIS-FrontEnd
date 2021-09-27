@@ -11,8 +11,6 @@ EliminarPersona.propTypes = {
 
 function EliminarPersona({ personName, personId, handleClose }) {
   const onConfirmation = () => {
-    // Backend-API call
-    console.log(`Me llega el id: ${personId}`);
     axiosInstance
       .delete(`/people/${personId}`)
       .then((response) => {
@@ -24,9 +22,11 @@ function EliminarPersona({ personName, personId, handleClose }) {
       });
   };
 
+  const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
+
   return (
     <DeleteDialogContent
-      personName={personName}
+      dialogContent={dialogContent}
       onClose={handleClose}
       onConfirmation={onConfirmation}
     />

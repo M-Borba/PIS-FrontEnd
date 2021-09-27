@@ -9,12 +9,12 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 DeleteDialogContent.propTypes = {
-  personName: PropTypes.string.isRequired,
+  dialogContent: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirmation: PropTypes.func.isRequired,
 };
 
-function DeleteDialogContent({ personName, onClose, onConfirmation }) {
+function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
   const Classes = useStyles();
 
   const handleCancel = () => {
@@ -38,9 +38,7 @@ function DeleteDialogContent({ personName, onClose, onConfirmation }) {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent className={Classes.content}>
-        Esta seguro que desea eliminar a {personName} del sistema?
-      </DialogContent>
+      <DialogContent className={Classes.content}>{dialogContent}</DialogContent>
       <DialogActions className={Classes.actions}>
         <Button onClick={handleCancel} color="primary">
           Cancelar

@@ -10,7 +10,7 @@ import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
-import EliminarPersona from "../../containters/EliminarPersona";
+import EliminarPersona from "../../containers/EliminarPersona";
 
 Personas.propTypes = {
   rows: PropTypes.array,
@@ -80,7 +80,7 @@ const Acciones = ({ personRow }) => {
                 personName={personRow.fullName}
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
-              ></EliminarPersona>
+              />
             </Dialog>
           </React.Fragment>
         }
