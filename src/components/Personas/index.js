@@ -3,19 +3,23 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-import { axiosInstance } from "../../config/axios";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
+import Dialog from "@material-ui/core/Dialog";
+import EliminarPersona from "../../containers/EliminarPersona";
+
 Personas.propTypes = {
   rows: PropTypes.array,
 };
 
 const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openRemove, setOpenRemove] = React.useState(false);
+  const classes = useStyles();
   let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
     id: personRow.id,
@@ -25,6 +29,7 @@ const Acciones = ({ personRow }) => {
     working_hours: personRow.cargaHoraria,
     tags: personRow.tags,
   });
+
   const handleEditOpen = (e) => setOpenEdit(true);
 
   const handleEditClose = () => {
@@ -32,19 +37,10 @@ const Acciones = ({ personRow }) => {
     window.location.reload();
   };
 
-  const handleRemoveClick = () => {
-    axiosInstance
-      .delete("/people/" + personData.id,)
-      .then((response) => {
-        if (response.status == 200)
-          alert("Usuario borrado correctamente");
-        window.location.reload()
-      })
-      .catch((error) => {
-        alert("Error al borrar - " + error);
-      });
-  };
-  const classes = useStyles();
+  const handleRemoveOpen = () => setOpenRemove(true);
+
+  const handleRemoveClose = () => setOpenRemove(false);
+
   return (
     <div>
       <FormControlLabel
@@ -68,16 +64,29 @@ const Acciones = ({ personRow }) => {
       />
       <FormControlLabel
         control={
-          <IconButton onClick={handleRemoveClick}>
-            <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+          <React.Fragment>
+            <IconButton onClick={handleRemoveOpen}>
+              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Dialog
+              open={openRemove}
+              onClose={handleRemoveClose}
+              // disableBackdropClick
+              // disableEscapeKeyDown
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <EliminarPersona
+                personName={personRow.fullName}
+                personId={personRow.id}
+                handleClose={handleRemoveClose}
+              />
+            </Dialog>
+          </React.Fragment>
         }
       />
     </div>
   );
-};
-Acciones.propTypes = {
-  personRow: PropTypes.any,
 };
 
 const columns = [
@@ -124,9 +133,16 @@ const columns = [
   },
 ];
 
+Acciones.propTypes = {
+  personRow: PropTypes.any,
+};
+
 export default function Personas({ rows }) {
   const [openNew, setOpenNew] = React.useState(false);
+  const classes = useStyles();
+
   const handleNewOpen = () => setOpenNew(true);
+
   const handleNewClose = () => {
     setOpenNew(false);
     window.location.reload();
@@ -139,7 +155,6 @@ export default function Personas({ rows }) {
     },
   ]);
 
-  const classes = useStyles();
   return (
     <div
       style={{

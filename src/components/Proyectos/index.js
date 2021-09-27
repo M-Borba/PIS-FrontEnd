@@ -1,17 +1,22 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton } from "@material-ui/core";
+import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Dialog from "@material-ui/core/Dialog";
+import EliminarProyecto from "../../containers/EliminarProyecto";
 
-const Acciones = () => {
+const Acciones = ({ proyectRow }) => {
+  const [openRemove, setOpenRemove] = React.useState(false);
+
   const handleInfoClick = () => {
     // aca para ver la info
   };
 
-  const handleRemoveClick = () => {
-    // aca para borrar la persona
-  };
+  const handleRemoveOpen = () => setOpenRemove(true);
+
+  const handleRemoveClose = () => setOpenRemove(false);
 
   return (
     <div
@@ -28,9 +33,24 @@ const Acciones = () => {
       />
       <FormControlLabel
         control={
-          <IconButton onClick={handleRemoveClick}>
-            <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+          <React.Fragment>
+            <IconButton onClick={handleRemoveOpen}>
+              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Dialog
+              open={openRemove}
+              onClose={handleRemoveClose}
+              // disableBackdropClick
+              // disableEscapeKeyDown
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <EliminarProyecto
+                proyectName={proyectRow.id}
+                handleClose={handleRemoveClose}
+              />
+            </Dialog>
+          </React.Fragment>
         }
       />
     </div>
@@ -75,12 +95,16 @@ const columns = [
     renderCell: (params) => {
       return (
         <div>
-          <Acciones />
+          <Acciones proyectRow={params.row} />
         </div>
       );
     },
   },
 ];
+
+Acciones.propTypes = {
+  proyectRow: PropTypes.any,
+};
 
 let rows = [
   {
@@ -113,8 +137,8 @@ export default function Personas() {
         color="primary"
         variant="contained"
         /*onClick={() =>
-         Aca va formulario para agregar proyecto
-      }*/
+       Aca va formulario para agregar proyecto
+    }*/
       >
         Agregar Proyecto
       </Button>
