@@ -148,6 +148,13 @@ export default function Personas({ rows }) {
     window.location.reload();
   };
 
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: 'id',
+      sort: 'asc',
+    },
+  ]);
+
   return (
     <div
       style={{
@@ -158,7 +165,9 @@ export default function Personas({ rows }) {
         width: "90%",
       }}
     >
-      <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+      <DataGrid rows={rows} columns={columns} disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)} />
       <div
         style={{
           margin: 10,
