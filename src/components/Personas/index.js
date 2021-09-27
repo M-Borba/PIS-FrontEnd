@@ -3,44 +3,44 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
+import Dialog from "@material-ui/core/Dialog";
+import EliminarPersona from "../../containters/EliminarPersona";
+
 Personas.propTypes = {
   rows: PropTypes.array,
 };
 
-const Acciones = () => {
+const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
-  const [personData, setPersonData] = React.useState({});
-  const handleEditOpen = (e) => {
-    let htmlRow =
-      e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode
-        .parentNode;
-    let dataElements = htmlRow.children;
-    let fullName = dataElements[1].innerHTML.split(" ");
-    setPersonData({
-      id: dataElements[0].innerHTML,
-      first_name: fullName[0],
-      last_name: fullName[1],
-      email: dataElements[2].innerHTML,
-      working_hours: dataElements[3].innerHTML,
-    });
-    setOpenEdit(true);
-  };
+  const [openRemove, setOpenRemove] = React.useState(false);
+  const classes = useStyles();
+  let fullName = personRow.fullName.split(" ");
+  const [personData] = React.useState({
+    id: personRow.id,
+    first_name: fullName[0],
+    last_name: fullName[1],
+    email: personRow.email,
+    working_hours: personRow.cargaHoraria,
+    tags: personRow.tags,
+  });
+
+  const handleEditOpen = (e) => setOpenEdit(true);
+
   const handleEditClose = () => {
     setOpenEdit(false);
     window.location.reload();
   };
 
-  const handleRemoveClick = () => {
-    // aca para borrar la persona
-  };
-  const classes = useStyles();
+  const handleRemoveOpen = () => setOpenRemove(true);
+
+  const handleRemoveClose = () => setOpenRemove(false);
+
   return (
     <div>
       <FormControlLabel
@@ -64,9 +64,25 @@ const Acciones = () => {
       />
       <FormControlLabel
         control={
-          <IconButton onClick={handleRemoveClick}>
-            <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-          </IconButton>
+          <React.Fragment>
+            <IconButton onClick={handleRemoveOpen}>
+              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Dialog
+              open={openRemove}
+              onClose={handleRemoveClose}
+              // disableBackdropClick
+              // disableEscapeKeyDown
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <EliminarPersona
+                personName={personRow.fullName}
+                personId={personRow.id}
+                handleClose={handleRemoveClose}
+              ></EliminarPersona>
+            </Dialog>
+          </React.Fragment>
         }
       />
     </div>
@@ -110,22 +126,28 @@ const columns = [
     renderCell: (params) => {
       return (
         <div>
-          <Acciones />
+          <Acciones personRow={params.row} />
         </div>
       );
     },
   },
 ];
 
+Acciones.propTypes = {
+  personRow: PropTypes.any,
+};
+
 export default function Personas({ rows }) {
   const [openNew, setOpenNew] = React.useState(false);
+  const classes = useStyles();
+
   const handleNewOpen = () => setOpenNew(true);
+
   const handleNewClose = () => {
     setOpenNew(false);
     window.location.reload();
   };
 
-  const classes = useStyles();
   return (
     <div
       style={{
