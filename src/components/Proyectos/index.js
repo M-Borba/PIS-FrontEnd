@@ -7,6 +7,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 
+Proyecto.propTypes = {
+  rows: PropTypes.array,
+};
+
 const Acciones = ({ proyectRow }) => {
   const [openRemove, setOpenRemove] = React.useState(false);
 
@@ -46,7 +50,8 @@ const Acciones = ({ proyectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <EliminarProyecto
-                proyectName={proyectRow.id}
+                projectId={proyectRow.id}
+                projectName={proyectRow.nombre}
                 handleClose={handleRemoveClose}
               />
             </Dialog>
@@ -60,6 +65,11 @@ const Acciones = ({ proyectRow }) => {
 const columns = [
   {
     field: "id",
+    headerName: "ID",
+    //id
+  },
+  {
+    field: "nombre",
     headerName: "Nombre",
     sortable: true,
     flex: 1, //tamaño
@@ -106,7 +116,7 @@ Acciones.propTypes = {
   proyectRow: PropTypes.any,
 };
 
-let rows = [
+/* let rows = [
   {
     id: "Pr1",
     tipo: "Desarrollo",
@@ -114,9 +124,9 @@ let rows = [
     inicio: new Date(2021, 0, 1),
     fin: new Date(2022, 0, 1),
   },
-];
+]; */
 
-export default function Personas() {
+export default function Proyecto({ rows }) {
   return (
     <div
       style={{
@@ -137,8 +147,8 @@ export default function Personas() {
         color="primary"
         variant="contained"
         /*onClick={() =>
-       Aca va formulario para agregar proyecto
-    }*/
+     Aca va formulario para agregar proyecto
+  }*/
       >
         Agregar Proyecto
       </Button>

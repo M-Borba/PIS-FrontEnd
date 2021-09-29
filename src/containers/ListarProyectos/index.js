@@ -8,10 +8,18 @@ export default function ListarProyectos() {
 
   const fetchData = () => {
     return axiosInstance.get("/projects").then((response) => {
-      rows = response.data.people;
+      rows = response.data.projects;
+      console.log(rows);
       let rowsNuevas = rows.map((row) => {
         return {
-          //parametros
+          id: row.id,
+          nombre: row.name,
+          tipo: row.project_type
+            .replaceAll("_", " ")
+            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+          estado: row.project_state.replace(/^\w/, (m) => m.toUpperCase()),
+          inicio: row.start_date.replaceAll("-", "/"),
+          fin: row.end_date.replaceAll("-", "/"),
         };
       });
       setRows(rowsNuevas);
