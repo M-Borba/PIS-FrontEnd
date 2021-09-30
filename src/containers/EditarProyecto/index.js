@@ -28,7 +28,8 @@ export default function EditarProjecto({ projectData, id }) {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const isValid = () => {
-    return (//descripcion, budget y end date son opcionales y no se validan
+    return (
+      //descripcion, budget y end date son opcionales y no se validan
       proyecto.name != "" &&
       proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
       proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
@@ -63,36 +64,33 @@ export default function EditarProjecto({ projectData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });
     }
   };
+
   const checkInput = (e) => {
     if (e.target.id == "name")
       setProyecto({ ...proyecto, name: e.target.value });
-    else if (e.target.id == "project_type")
+    else if (e.target.name == "project_type")
       setProyecto({ ...proyecto, project_type: e.target.value });
-    else if (e.target.id == "project_state")
+    else if (e.target.name == "project_state")
       setProyecto({ ...proyecto, project_state: e.target.value });
     else if (e.target.id == "description")
       setProyecto({ ...proyecto, description: e.target.value });
     else if (e.target.id == "budget") {
       let valorBudget = parseInt(e.target.value);
       setProyecto({ ...proyecto, budget: valorBudget });
-    }
-    else if (e.target.id == "start_date") {
-      let fechaInicio = new Date(e.target.value);
-      setProyecto({ ...proyecto, start_date: fechaInicio });
-    }
-    else if (e.target.id == "end_date") {
-      let fechaFin = parseInt(e.target.value);
-      setProyecto({ ...proyecto, end_date: fechaFin });
-    }
+    } else if (e.target.id == "start_date")
+      setProyecto({ ...proyecto, start_date: e.target.value });
+    else if (e.target.id == "end_date")
+      setProyecto({ ...proyecto, end_date: e.target.value });
   };
+
   return (
     <div>
       <ProyectoForm

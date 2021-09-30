@@ -1,5 +1,5 @@
 /**
- * Create person
+ * Edit person
  */
 
 import React, { useState } from "react";
@@ -57,9 +57,9 @@ export default function Edit({ personData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });

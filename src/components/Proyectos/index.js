@@ -68,6 +68,7 @@ const Acciones = ({ projectRow }) => {
               onClose={handleEditClose}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
+              disableEnforceFocus
             >
               <Box className={classes.modal}>
                 <EditarProyecto projectData={projectData} id={projectData.id} />
@@ -157,9 +158,7 @@ Acciones.propTypes = {
   projectRow: PropTypes.any,
 };
 
-
 export default function Proyecto({ rows }) {
-
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
@@ -192,8 +191,8 @@ export default function Proyecto({ rows }) {
       <Button
         color="primary"
         variant="contained"
-      /*onClick={() =>
-   Aca va formulario para agregar proyecto
+        /*onClick={() =>
+ Aca va formulario para agregar proyecto
 }*/
       >
         Agregar Proyecto

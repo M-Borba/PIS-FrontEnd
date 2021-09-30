@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 import { useStyles } from "./styles";
 
 ProyectoForm.propTypes = {
@@ -65,6 +65,7 @@ export default function ProyectoForm({
           value={proyecto.project_type}
           labelId="tipo"
           onChange={onInputChange}
+          name="project_type"
         >
           <MenuItem value={"staff_augmentation"}>Staff Augmentation</MenuItem>
           <MenuItem value={"end_to_end"}>End to End</MenuItem>
@@ -78,6 +79,7 @@ export default function ProyectoForm({
           value={proyecto.project_state}
           labelId="estado"
           onChange={onInputChange}
+          name="project_state"
         >
           <MenuItem value={"verde"}>Verde</MenuItem>
           <MenuItem value={"amarillo"}>Amarillo</MenuItem>
@@ -99,7 +101,7 @@ export default function ProyectoForm({
           onChange={onInputChange}
         />
         <TextField
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           variant="outlined"
           margin="normal"
           required
