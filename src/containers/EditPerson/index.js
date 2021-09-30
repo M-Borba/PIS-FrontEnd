@@ -1,5 +1,5 @@
 /**
- * Create person
+ * Edit person
  */
 
 import React, { useState } from "react";
@@ -15,9 +15,10 @@ Edit.propTypes = {
     working_hours: propTypes.number,
   }).isRequired,
   id: propTypes.number,
+  resultOk: propTypes.bool,
 };
 
-export default function Edit({ personData, id }) {
+export default function Edit({ personData, id, resultOk }) {
   const [person, setPerson] = useState(personData);
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -41,6 +42,7 @@ export default function Edit({ personData, id }) {
         })
         .then((response) => {
           if (response.status == 200) {
+            resultOk();
             setMsg("Usuario modificado correctamente");
             setError("");
           } else setError("Error inesperado");

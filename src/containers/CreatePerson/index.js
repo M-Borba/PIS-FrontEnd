@@ -6,8 +6,12 @@ import React, { useState } from "react";
 import propTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
+import PropTypes from "prop-types";
 
-export default function CreatePerson() {
+CreatePerson.propTypes = {
+  resultOk: PropTypes.bool,
+};
+export default function CreatePerson({ resultOk }) {
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
@@ -37,6 +41,7 @@ export default function CreatePerson() {
         })
         .then((response) => {
           if (response.status == 200) {
+            resultOk();
             setMsg("Usuario creado correctamente");
             setError("");
           } else setError("Error inesperado");
