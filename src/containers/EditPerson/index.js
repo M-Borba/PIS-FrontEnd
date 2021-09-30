@@ -33,7 +33,7 @@ export default function Edit({ personData, id }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isValid(person)) {
-      setError("Completar todos los campos para iniciar sesión");
+      setError("Completar todos los campos para completar la modificación");
     } else {
       axiosInstance
         .put("/people/" + id, {
@@ -57,9 +57,9 @@ export default function Edit({ personData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });
