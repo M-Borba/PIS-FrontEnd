@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import Grid from '@mui/material/Grid';
 import Typography from "@material-ui/core/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -44,97 +45,114 @@ export default function ProyectoForm({
         {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="name"
-          type="text"
-          label="Nombre"
-          name="name"
-          value={proyecto.name}
-          onChange={onInputChange}
-          autoFocus
-        />
-        <InputLabel id="tipo">Tipo</InputLabel>
-        <Select
-          fullWidth
-          required
-          id="project_type"
-          value={proyecto.project_type}
-          labelId="tipo"
-          onChange={onInputChange}
-          name="project_type"
-        >
-          <MenuItem value={"staff_augmentation"}>Staff Augmentation</MenuItem>
-          <MenuItem value={"end_to_end"}>End to End</MenuItem>
-          <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
-        </Select>
-        <InputLabel id="estado">Estado</InputLabel>
-        <Select
-          fullWidth
-          required
-          id="project_state"
-          value={proyecto.project_state}
-          labelId="estado"
-          onChange={onInputChange}
-          name="project_state"
-        >
-          <MenuItem value={"verde"}>Verde</MenuItem>
-          <MenuItem value={"amarillo"}>Amarillo</MenuItem>
-          <MenuItem value={"rojo"}>Rojo</MenuItem>
-          <MenuItem value={"upcomping"}>Upcomping</MenuItem>
-        </Select>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="description"
-          type="text"
-          label="Descripcion"
-          name="description"
-          multiline
-          maxRows={5}
-          value={proyecto.description}
-          onChange={onInputChange}
-        />
-        <TextField
-          inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="budget"
-          label="Budget"
-          name="budget"
-          value={proyecto.budget}
-          onChange={onInputChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="start_date"
-          label="Inicio"
-          type="date"
-          id="start_date"
-          value={proyecto.start_date}
-          onChange={onInputChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="end_date"
-          label="Fin"
-          type="date"
-          id="end_date"
-          value={proyecto.end_date}
-          onChange={onInputChange}
-        />
+        <Grid container spacing={{ xs: 2 }}>
+          <Grid item xs={6} >
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              type="text"
+              label="Nombre"
+              name="name"
+              value={proyecto.name}
+              onChange={onInputChange}
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="budget"
+              label="Budget"
+              name="budget"
+              value={proyecto.budget}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <InputLabel id="tipo">Tipo</InputLabel>
+            <Select
+              fullWidth
+              required
+              id="project_type"
+              value={proyecto.project_type}
+              labelId="tipo"
+              onChange={onInputChange}
+              name="project_type"
+            >
+              <MenuItem value={"staff_augmentation"}>Staff Augmentation</MenuItem>
+              <MenuItem value={"end_to_end"}>End to End</MenuItem>
+              <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={6}>
+            <InputLabel id="estado">Estado</InputLabel>
+            <Select
+              fullWidth
+              required
+              id="project_state"
+              value={proyecto.project_state}
+              labelId="estado"
+              onChange={onInputChange}
+              name="project_state"
+            >
+              <MenuItem value={"verde"}>Verde</MenuItem>
+              <MenuItem value={"amarillo"}>Amarillo</MenuItem>
+              <MenuItem value={"rojo"}>Rojo</MenuItem>
+              <MenuItem value={"upcomping"}>Upcomping</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="start_date"
+              label="Inicio"
+              type="date"
+              id="start_date"
+              value={proyecto.start_date}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="end_date"
+              label="Fin"
+              type="date"
+              id="end_date"
+              value={proyecto.end_date}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="description"
+              type="text"
+              label="Descripcion"
+              name="description"
+              multiline
+              maxRows={5}
+              value={proyecto.description}
+              onChange={onInputChange}
+            />
+          </Grid>
+        </Grid>
+
         <Button
           role="submit"
           type="submit"
