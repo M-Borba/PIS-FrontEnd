@@ -10,6 +10,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
+import InfoProyecto from "../../containers/InfoProyecto";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
@@ -18,10 +19,9 @@ Proyecto.propTypes = {
 const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(false);
   const classes = useStyles();
-  const handleInfoClick = () => {
-    // aca para ver la info
-  };
+
   const [projectData] = React.useState({
     id: projectRow.id,
     name: projectRow.name,
@@ -33,11 +33,18 @@ const Acciones = ({ projectRow }) => {
     end_date: projectRow.end_date,
   });
 
+  const handleInfoClick = () => { setOpenInfo(true) };
+
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+    window.location.reload(); //este reload esta bien?
+  };
+
   const handleEditOpen = (e) => setOpenEdit(true);
 
   const handleEditClose = () => {
     setOpenEdit(false);
-    window.location.reload();
+    window.location.reload(); //lo mismo aca
   };
 
   const handleRemoveOpen = () => setOpenRemove(true);
@@ -52,9 +59,22 @@ const Acciones = ({ projectRow }) => {
     >
       <FormControlLabel
         control={
-          <Button variant="outlined" onClick={handleInfoClick}>
-            Ver Info Completa
-          </Button>
+          <>
+            <Button variant="outlined" onClick={handleInfoClick}>
+              Ver Info Completa
+            </Button>
+            <Modal
+              open={openInfo}
+              onClose={handleInfoClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              disableEnforceFocus
+            >
+              <Box className={classes.modalInfo}>
+                <InfoProyecto projectData={projectData} />
+              </Box>
+            </Modal>
+          </>
         }
       />
       <FormControlLabel
@@ -191,8 +211,8 @@ export default function Proyecto({ rows }) {
       <Button
         color="primary"
         variant="contained"
-        /*onClick={() =>
- Aca va formulario para agregar proyecto
+      /*onClick={() =>
+Aca va formulario para agregar proyecto
 }*/
       >
         Agregar Proyecto
