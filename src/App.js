@@ -12,9 +12,9 @@ import {
 import LoginView from "./containers/Login";
 import Header from "./components/Header";
 import ListarPersonas from "./containers/ListarPersonas";
-import Proyectos from "./components/Proyectos";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
+import ListarProyectos from "./containers/ListarProyectos";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
@@ -34,7 +34,7 @@ export default function App() {
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
           <Route path="/personas" component={ListarPersonas} />
-          <Route path="/proyectos" component={Proyectos} />
+          <Route path="/proyectos" component={ListarProyectos} />
           <Route path={["/", "/inicio"]}>
             <div>
               {uid == NOT_LOGGED ? (

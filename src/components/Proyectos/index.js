@@ -1,17 +1,52 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton } from "@material-ui/core";
+import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import Modal from "@material-ui/core/Modal";
 import PropTypes from "prop-types";
+import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
+import EditarProyecto from "../../containers/EditarProyecto";
+import InfoProyecto from "../../containers/InfoProyecto";
 
-const Acciones = ({ proyectRow }) => {
+Proyecto.propTypes = {
+  rows: PropTypes.array,
+};
+
+const Acciones = ({ projectRow }) => {
+  const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
+  const [openInfo, setOpenInfo] = React.useState(false);
+  const classes = useStyles();
+
+  const [projectData] = React.useState({
+    id: projectRow.id,
+    name: projectRow.name,
+    project_type: projectRow.project_type.toLowerCase().replaceAll(" ", "_"),
+    project_state: projectRow.project_state.toLowerCase(),
+    description: projectRow.description,
+    budget: projectRow.budget,
+    start_date: projectRow.start_date,
+    end_date: projectRow.end_date,
+  });
 
   const handleInfoClick = () => {
-    // aca para ver la info
+    setOpenInfo(true);
+  };
+
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+    window.location.reload(); //este reload esta bien?
+  };
+
+  const handleEditOpen = (e) => setOpenEdit(true);
+
+  const handleEditClose = () => {
+    setOpenEdit(false);
+    window.location.reload(); //lo mismo aca
   };
 
   const handleRemoveOpen = () => setOpenRemove(true);
@@ -26,9 +61,42 @@ const Acciones = ({ proyectRow }) => {
     >
       <FormControlLabel
         control={
-          <Button variant="outlined" onClick={handleInfoClick}>
-            Ver Info Completa
-          </Button>
+          <>
+            <Button variant="outlined" onClick={handleInfoClick}>
+              Ver Info Completa
+            </Button>
+            <Modal
+              open={openInfo}
+              onClose={handleInfoClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              disableEnforceFocus
+            >
+              <Box className={classes.modalInfo}>
+                <InfoProyecto projectData={projectData} />
+              </Box>
+            </Modal>
+          </>
+        }
+      />
+      <FormControlLabel
+        control={
+          <>
+            <IconButton onClick={handleEditOpen}>
+              <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Modal
+              open={openEdit}
+              onClose={handleEditClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              disableEnforceFocus
+            >
+              <Box className={classes.modal}>
+                <EditarProyecto projectData={projectData} id={projectData.id} />
+              </Box>
+            </Modal>
+          </>
         }
       />
       <FormControlLabel
@@ -46,7 +114,8 @@ const Acciones = ({ proyectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <EliminarProyecto
-                proyectName={proyectRow.id}
+                projectId={projectRow.id}
+                projectName={projectRow.name}
                 handleClose={handleRemoveClose}
               />
             </Dialog>
@@ -60,29 +129,34 @@ const Acciones = ({ proyectRow }) => {
 const columns = [
   {
     field: "id",
+    headerName: "ID",
+    //id
+  },
+  {
+    field: "name",
     headerName: "Nombre",
     sortable: true,
     flex: 1, //tamaño
   },
   {
-    field: "tipo",
+    field: "project_type",
     headerName: "Tipo",
     flex: 0.7,
   },
   {
-    field: "estado",
+    field: "project_state",
     headerName: "Estado",
     sortable: true,
-    flex: 1,
+    flex: 0.5,
   },
   {
-    field: "inicio",
+    field: "start_date",
     headerName: "Fecha Inicio",
     flex: 0.6,
     type: "date",
   },
   {
-    field: "fin",
+    field: "end_date",
     headerName: "Fecha Fin",
     flex: 0.6,
     type: "date",
@@ -91,11 +165,11 @@ const columns = [
     field: "actions",
     type: "actions",
     headerName: "Acciones",
-    flex: 1,
+    flex: 1.5,
     renderCell: (params) => {
       return (
         <div>
-          <Acciones proyectRow={params.row} />
+          <Acciones projectRow={params.row} />
         </div>
       );
     },
@@ -103,20 +177,17 @@ const columns = [
 ];
 
 Acciones.propTypes = {
-  proyectRow: PropTypes.any,
+  projectRow: PropTypes.any,
 };
 
-let rows = [
-  {
-    id: "Pr1",
-    tipo: "Desarrollo",
-    estado: "In Progress",
-    inicio: new Date(2021, 0, 1),
-    fin: new Date(2022, 0, 1),
-  },
-];
+export default function Proyecto({ rows }) {
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: "id",
+      sort: "asc",
+    },
+  ]);
 
-export default function Personas() {
   return (
     <div
       style={{
@@ -127,7 +198,13 @@ export default function Personas() {
         width: "90%",
       }}
     >
-      <DataGrid rows={rows} columns={columns} disableSelectionOnClick />
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+      />
       <div
         style={{
           margin: 10,
@@ -137,8 +214,8 @@ export default function Personas() {
         color="primary"
         variant="contained"
         /*onClick={() =>
-       Aca va formulario para agregar proyecto
-    }*/
+Aca va formulario para agregar proyecto
+}*/
       >
         Agregar Proyecto
       </Button>

@@ -34,7 +34,7 @@ export default function Edit({ personData, id, resultOk }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isValid(person)) {
-      setError("Completar todos los campos para iniciar sesión");
+      setError("Completar todos los campos para completar la modificación");
     } else {
       axiosInstance
         .put("/people/" + id, {
