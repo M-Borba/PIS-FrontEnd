@@ -33,7 +33,9 @@ const Acciones = ({ projectRow }) => {
     end_date: projectRow.end_date,
   });
 
-  const handleInfoClick = () => { setOpenInfo(true) };
+  const handleInfoClick = () => {
+    setOpenInfo(true);
+  };
 
   const handleInfoClose = () => {
     setOpenInfo(false);
@@ -211,7 +213,7 @@ export default function Proyecto({ rows }) {
       <Button
         color="primary"
         variant="contained"
-      /*onClick={() =>
+        /*onClick={() =>
 Aca va formulario para agregar proyecto
 }*/
       >
