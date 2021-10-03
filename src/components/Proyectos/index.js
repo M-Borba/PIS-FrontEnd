@@ -11,6 +11,7 @@ import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
+import CreateProject from "../../containers/CreateProject";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
@@ -32,6 +33,7 @@ const Acciones = ({ projectRow }) => {
     start_date: projectRow.start_date,
     end_date: projectRow.end_date,
   });
+
 
   const handleInfoClick = () => {
     setOpenInfo(true);
@@ -181,6 +183,17 @@ Acciones.propTypes = {
 };
 
 export default function Proyecto({ rows }) {
+
+  const classes = useStyles();
+  const [resultOk, setResult] = React.useState(false);
+  const [openNew, setOpenNew] = React.useState(false);
+
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => {
+    setOpenNew(false);
+    if (resultOk == true) window.location.reload();
+  };
+
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
@@ -210,15 +223,23 @@ export default function Proyecto({ rows }) {
           margin: 10,
         }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
       ></div>
-      <Button
-        color="primary"
-        variant="contained"
-        /*onClick={() =>
-Aca va formulario para agregar proyecto
-}*/
-      >
+      <Button color="primary" variant="contained" onClick={handleNewOpen}>
         Agregar Proyecto
       </Button>
+      <Modal
+        open={openNew}
+        onClose={handleNewClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <CreateProject
+            resultOk={() => {
+              setResult(true);
+            }}
+          />
+        </Box>
+      </Modal>
     </div>
   );
 }
