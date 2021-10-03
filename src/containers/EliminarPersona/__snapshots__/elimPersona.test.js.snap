@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`project list component tests renders correct data 1`] = `
+<div>
+  <div
+    class="MuiDialogTitle-root makeStyles-title-1"
+    id="confirmation-dialog-title"
+  >
+    <h2
+      class="MuiTypography-root MuiTypography-h6"
+    >
+      Confirmar eliminacion
+      <button
+        aria-label="Close"
+        class="MuiButtonBase-root MuiIconButton-root makeStyles-closeButton-4"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </h2>
+  </div>
+  <div
+    class="MuiDialogContent-root makeStyles-content-2"
+  >
+    Esta seguro que desea eliminar a Prueba del sistema?
+  </div>
+  <div
+    class="MuiDialogActions-root makeStyles-actions-3 MuiDialogActions-spacing"
+  >
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
+        Cancelar
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
+        Confirmar
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</div>
+`;
