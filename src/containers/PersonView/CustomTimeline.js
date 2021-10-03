@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import moment from "moment";
-
 import Timeline from "react-calendar-timeline";
-
 import generateFakeData from "./generate-fake-data";
+import Dialog from "@mui/material/Dialog";
+import AsignarProyectoPersona from "../AsignarProyectoPersona";
 
 var keys = {
   groupIdKey: "id",
@@ -23,9 +23,13 @@ export default class PersonTimeline extends Component {
     super(props);
     this.handleItemMove = this.handleItemMove.bind(this);
     this.handleItemResize = this.handleItemResize.bind(this);
+    this.handleCanvasClick = this.handleCanvasClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.agregarProyectoTimeline = this.agregarProyectoTimeline.bind(this);
 
     const { groups, items } = generateFakeData();
-    const defaultTimeStart = moment().startOf("day").toDate();
+    const defaultTimeStart = new Date(1630540800000);
+    // const defaultTimeStart = moment().startOf("day").toDate();
     const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
 
     this.state = {
@@ -33,6 +37,10 @@ export default class PersonTimeline extends Component {
       items,
       defaultTimeStart,
       defaultTimeEnd,
+      openAsignacionForm: false,
+      groupId: -1,
+      personName: "",
+      time: 0,
     };
   }
 
@@ -73,26 +81,86 @@ export default class PersonTimeline extends Component {
     console.log("Resized", itemId, time, edge);
   }
 
+  handleCanvasClick(groupId, time, e) {
+    let personName = this.state.groups[groupId - 1].title;
+    this.setState({
+      ...this.state,
+      openAsignacionForm: true,
+      groupId: groupId,
+      time: time,
+      personName: personName,
+    });
+  }
+
+  handleClose() {
+    this.setState({ ...this.state, openAsignacionForm: false });
+  }
+
+  agregarProyectoTimeline(projecId, startTime, endTime) {
+    const { items, groupId, time } = this.state;
+
+    let newItem = {
+      id: projecId,
+      group: groupId,
+      start: moment(new Date(startTime)).valueOf(),
+      end: moment(new Date(endTime)).valueOf(),
+      title: `Proyecto ${projecId}`,
+      canMove: true,
+      canResize: "both",
+      canChangeGroup: true,
+      className:
+        moment(new Date(2021, 8, 1, 0, 0)).day() === 6 ||
+        moment(new Date(2021, 8, 1, 0, 0)).day() === 0
+          ? "item-weekend"
+          : "",
+    };
+
+    items.push(newItem);
+
+    this.setState({ ...this.state, items: items });
+  }
+
   render() {
-    const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
+    const {
+      groups,
+      items,
+      defaultTimeStart,
+      defaultTimeEnd,
+      openAsignacionForm,
+      groupId,
+      time,
+      personName,
+    } = this.state;
 
     return (
-      <Timeline
-        groups={groups}
-        items={items}
-        keys={keys}
-        fullUpdate
-        itemTouchSendsClick={true}
-        dragSnap={60 * 60 * 24 * 1000} //dia
-        stackItems
-        itemHeightRatio={0.75}
-        canMove={true}
-        canResize={"both"}
-        defaultTimeStart={defaultTimeStart}
-        defaultTimeEnd={defaultTimeEnd}
-        onItemMove={this.handleItemMove}
-        onItemResize={this.handleItemResize}
-      />
+      <Fragment>
+        <Timeline
+          groups={groups}
+          items={items}
+          keys={keys}
+          fullUpdate
+          itemTouchSendsClick={true}
+          dragSnap={60 * 60 * 24 * 1000} //dia
+          stackItems
+          itemHeightRatio={0.75}
+          canMove={true}
+          canResize={"both"}
+          defaultTimeStart={defaultTimeStart}
+          defaultTimeEnd={defaultTimeEnd}
+          onItemMove={this.handleItemMove}
+          onItemResize={this.handleItemResize}
+          onCanvasClick={this.handleCanvasClick}
+        />
+        <Dialog open={openAsignacionForm} onClose={this.handleClose}>
+          <AsignarProyectoPersona
+            onClose={this.handleClose}
+            groupId={parseInt(groupId)}
+            time={time}
+            addProject={this.agregarProyectoTimeline}
+            personName={personName}
+          ></AsignarProyectoPersona>
+        </Dialog>
+      </Fragment>
     );
   }
 }
