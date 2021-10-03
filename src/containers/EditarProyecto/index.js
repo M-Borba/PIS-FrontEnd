@@ -21,9 +21,9 @@ EditarProyecto.propTypes = {
 };
 
 export default function EditarProyecto({ projectData, id }) {
-  projectData.start_date = projectData.end_date.split("/").join('-');//daba problemas con projectData.start_date.replaceAll("/", "-");
+  projectData.start_date = projectData.end_date.split("/").join("-"); //daba problemas con projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
-    projectData.end_date = projectData.end_date.split("/").join('-');
+    projectData.end_date = projectData.end_date.split("/").join("-");
   const [proyecto, setProyecto] = useState(projectData);
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -64,9 +64,9 @@ export default function EditarProyecto({ projectData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });

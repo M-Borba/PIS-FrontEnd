@@ -11,7 +11,7 @@ describe("project list component tests", () => {
       last_name: "B",
       email: "A@effectus.com",
       working_hours: 40,
-    }
+    };
     const div = document.createElement("div");
     ReactDOM.render(<Edit personData={pData} id={1} true />, div);
   });
@@ -21,7 +21,7 @@ describe("project list component tests", () => {
       last_name: "B",
       email: "A@effectus.com",
       working_hours: 40,
-    }
+    };
     const { container } = render(<Edit personData={pData} id={1} true />);
     // Matches the last snapshot taken
     expect(container).toMatchSnapshot();

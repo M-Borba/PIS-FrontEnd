@@ -14,7 +14,7 @@ describe("project list component tests", () => {
       budget: 1,
       start_date: "10/10/2021",
       end_date: "11/10/2021",
-    }
+    };
     const div = document.createElement("div");
     ReactDOM.render(<EditarProyecto projectData={pData} id={1} />, div);
   });
@@ -27,7 +27,7 @@ describe("project list component tests", () => {
       budget: 1,
       start_date: "10/10/2021",
       end_date: "11/10/2021",
-    }
+    };
     const { container } = render(<EditarProyecto projectData={pData} id={1} />);
     // Matches the last snapshot taken
     expect(container).toMatchSnapshot();

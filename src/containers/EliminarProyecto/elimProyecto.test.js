@@ -6,13 +6,26 @@ import React from "react";
 
 describe("project list component tests", () => {
   it("renders without crashing", () => {
-    const handleClose = () => { };
+    const handleClose = () => {};
     const div = document.createElement("div");
-    ReactDOM.render(<EliminarProyecto projectId={1} projectName={"Prueba"} handleClose={handleClose} />, div);
+    ReactDOM.render(
+      <EliminarProyecto
+        projectId={1}
+        projectName={"Prueba"}
+        handleClose={handleClose}
+      />,
+      div
+    );
   });
   it("renders correct data", () => {
-    const handleClose = () => { };
-    const { container } = render(<EliminarProyecto projectId={1} projectName={"Prueba"} handleClose={handleClose} />);
+    const handleClose = () => {};
+    const { container } = render(
+      <EliminarProyecto
+        projectId={1}
+        projectName={"Prueba"}
+        handleClose={handleClose}
+      />
+    );
     // Matches the last snapshot taken
     expect(container).toMatchSnapshot();
   });

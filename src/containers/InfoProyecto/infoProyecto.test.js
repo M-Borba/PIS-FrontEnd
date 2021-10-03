@@ -9,8 +9,8 @@ describe("project list component tests", () => {
     const pData = {
       name: "Nombre",
       description: "Descripcion",
-      budget: 400
-    } //actualizar en el futuro con lista de personas y tecnologias
+      budget: 400,
+    }; //actualizar en el futuro con lista de personas y tecnologias
     const div = document.createElement("div");
     ReactDOM.render(<InfoProyecto projectData={pData} />, div);
   });
@@ -18,8 +18,8 @@ describe("project list component tests", () => {
     const pData = {
       name: "Nombre",
       description: "Descripcion",
-      budget: 400
-    } //actualizar en el futuro con lista de personas y tecnologias
+      budget: 400,
+    }; //actualizar en el futuro con lista de personas y tecnologias
     const { container } = render(<InfoProyecto projectData={pData} />);
     // Matches the last snapshot taken
     expect(container).toMatchSnapshot();
