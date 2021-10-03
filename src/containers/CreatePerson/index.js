@@ -7,7 +7,17 @@ import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
 import { rolesFormateados } from "../../config/globalVariables";
+import TechnologyHandler from "../../containers/TechnologyHandler";
 
+CreatePerson.defaultProps = {
+  person: {
+    first_name: "",
+    last_name: "",
+    email: "",
+    working_hours: 30,
+    technologies: [],
+  },
+};
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
 };
@@ -26,6 +36,7 @@ export default function CreatePerson({ setNotify }) {
       ["Diseñador", false],
       ["Analista", false],
     ],
+    technologies: [],
   });
 
   const isValid = () => {
@@ -106,7 +117,7 @@ export default function CreatePerson({ setNotify }) {
         ...person,
         roles: newRoles,
       });
-    } else if (type == undefined) {
+    } else if (type == undefined && value.target) {
       if (value.target.id == "first_name")
         setPerson({ ...person, first_name: value.target.value });
       else if (value.target.id == "last_name")
@@ -119,11 +130,19 @@ export default function CreatePerson({ setNotify }) {
   };
 
   return (
-    <PersonForm
-      title={"Creación de persona"}
-      onSubmit={handleSubmit}
-      onInputChange={checkInput}
-      person={person}
-    />
+    <div style={{ display: "flex" }}>
+      <PersonForm
+        title={"Creacion de persona"}
+        onSubmit={(e) => handleSubmit(e)}
+        onInputChange={(e) => checkInput(e)}
+        person={person}
+      />
+      <TechnologyHandler
+        techSelected={person.technologies}
+        setTechSelected={(techs) =>
+          setPerson({ ...person, technologies: techs })
+        }
+      />
+    </div>
   );
 }

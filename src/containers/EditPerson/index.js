@@ -7,6 +7,7 @@ import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
 import { rolesFormateados } from "../../config/globalVariables";
+import TechnologyHandler from "../../containers/TechnologyHandler";
 
 Edit.propTypes = {
   personData: propTypes.shape({
@@ -14,6 +15,7 @@ Edit.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    technologies: propTypes.array,
     roles: propTypes.array,
   }).isRequired,
   id: propTypes.number,
@@ -152,11 +154,21 @@ export default function Edit({ personData, id, setNotify }) {
   };
 
   return (
-    <PersonForm
-      onSubmit={handleSubmit}
-      onInputChange={checkInput}
-      person={person}
-      title={"Modificacion de Persona"}
-    />
+    <div style={{ display: "flex" }}>
+      <PersonForm
+        onSubmit={(e) => handleSubmit(e)}
+        onInputChange={(e) => checkInput(e)}
+        person={person}
+        error={error}
+        msg={msg}
+        title={"Modificacion de Persona"}
+      />
+      <TechnologyHandler
+        techSelected={person.technologies}
+        setTechSelected={(techs) =>
+          setPerson({ ...person, technologies: techs })
+        }
+      />
+    </div>
   );
 }

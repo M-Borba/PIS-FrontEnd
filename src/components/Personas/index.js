@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
@@ -15,7 +15,7 @@ import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
 
 Personas.propTypes = {
-  rows: PropTypes.array,
+  rows: propTypes.array,
 };
 
 const Acciones = ({ personRow }) => {
@@ -144,7 +144,7 @@ const columns = [
 ];
 
 Acciones.propTypes = {
-  personRow: PropTypes.any,
+  personRow: propTypes.any,
 };
 
 export default function Personas({ rows }) {

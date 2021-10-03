@@ -25,7 +25,7 @@ exports[`person timeline component tests renders correct data 1`] = `
           >
             <div
               class="rct-dateHeader rct-dateHeader-primary"
-              style="left: 41400px; width: -54750px; position: absolute;"
+              style="left: 41700px; width: -54750px; position: absolute;"
             >
               <span>
                 21
@@ -37,7 +37,7 @@ exports[`person timeline component tests renders correct data 1`] = `
           >
             <div
               class="rct-dateHeader "
-              style="left: 41400px; width: -54750px; position: absolute;"
+              style="left: 41700px; width: -54750px; position: absolute;"
             >
               <span>
                 21
@@ -251,7 +251,7 @@ exports[`person timeline component tests renders correct data 1`] = `
             >
               <div
                 class="rct-vl"
-                style="pointer-events: none; top: 0px; left: 41400px; width: -54750px; height: 900px;"
+                style="pointer-events: none; top: 0px; left: 41700px; width: -54750px; height: 900px;"
               />
             </div>
             <div
