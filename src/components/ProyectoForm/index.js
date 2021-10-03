@@ -89,6 +89,7 @@ export default function ProyectoForm({
               <MenuItem value={"staff_augmentation"}>
                 Staff Augmentation
               </MenuItem>
+              <MenuItem value={"-"}> -</MenuItem>
               <MenuItem value={"end_to_end"}>End to End</MenuItem>
               <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
             </Select>
@@ -104,6 +105,7 @@ export default function ProyectoForm({
               onChange={onInputChange}
               name="project_state"
             >
+              <MenuItem value={"-"}>-</MenuItem>
               <MenuItem value={"verde"}>Verde</MenuItem>
               <MenuItem value={"amarillo"}>Amarillo</MenuItem>
               <MenuItem value={"rojo"}>Rojo</MenuItem>
