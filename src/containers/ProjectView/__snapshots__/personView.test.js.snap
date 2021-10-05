@@ -2,9 +2,6 @@
 
 exports[`person timeline component tests renders correct data 1`] = `
 <div>
-<<<<<<< HEAD
-  <div />
-=======
   <div>
     <div
       class="react-calendar-timeline "
@@ -61,181 +58,181 @@ exports[`person timeline component tests renders correct data 1`] = `
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 0
+              Proyecto 1
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 1
+              Proyecto 2
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 2
+              Proyecto 3
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 3
+              Proyecto 4
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 4
+              Proyecto 5
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 5
+              Proyecto 6
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 6
+              Proyecto 7
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 7
+              Proyecto 8
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 8
+              Proyecto 9
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 9
+              Proyecto 10
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 10
+              Proyecto 11
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 11
+              Proyecto 12
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 12
+              Proyecto 13
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 13
+              Proyecto 14
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 14
+              Proyecto 15
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 15
+              Proyecto 16
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 16
+              Proyecto 17
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 17
+              Proyecto 18
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 18
+              Proyecto 19
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 19
+              Proyecto 20
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 20
+              Proyecto 21
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 21
+              Proyecto 22
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 22
+              Proyecto 23
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 23
+              Proyecto 24
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 24
+              Proyecto 25
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 25
+              Proyecto 26
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 26
+              Proyecto 27
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 27
+              Proyecto 28
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-even"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 28
+              Proyecto 29
             </div>
             <div
               class="rct-sidebar-row rct-sidebar-row-odd"
               style="height: 30px; line-height: 30px;"
             >
-              Nombre 29
+              Proyecto 30
             </div>
           </div>
         </div>
@@ -386,6 +383,5 @@ exports[`person timeline component tests renders correct data 1`] = `
       </div>
     </div>
   </div>
->>>>>>> 8060cdeb (test basicos de snapshot)
 </div>
 `;
