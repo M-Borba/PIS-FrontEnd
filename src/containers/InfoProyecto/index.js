@@ -5,15 +5,14 @@
 import React from "react";
 import propTypes from "prop-types";
 import { Typography } from "@material-ui/core";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 //import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListSubheader from "@mui/material/ListSubheader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-
 
 InfoProyecto.propTypes = {
   projectData: propTypes.shape({
@@ -28,42 +27,42 @@ export default function InfoProyecto({ projectData }) {
     <div style={{ padding: 16 }}>
       <Grid container spacing={{ xs: 2 }}>
         <Grid item xs={5}>
-          <Typography variant="h5" paragraph style={{ overflowWrap: 'break-word' }}>
+          <Typography
+            variant="h5"
+            paragraph
+            style={{ overflowWrap: "break-word" }}
+          >
             {projectData.name}
           </Typography>
-          <Card style={{ marginBottom: 10, maxHeight: 397, overflow: 'auto' }}>
+          <Card style={{ marginBottom: 10, maxHeight: 397, overflow: "auto" }}>
             <CardContent>
-              <Typography gutterBottom >
-                Descripcion
-              </Typography>
-              <Typography color="textSecondary" >
+              <Typography gutterBottom>Descripcion</Typography>
+              <Typography color="textSecondary">
                 {projectData.description}
               </Typography>
             </CardContent>
           </Card>
           <Card>
             <CardContent>
-              <Typography gutterBottom >
-                Presupuesto
-              </Typography>
-              <Typography color="textSecondary" >
+              <Typography gutterBottom>Presupuesto</Typography>
+              <Typography color="textSecondary">
                 {projectData.budget}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={4} >
+        <Grid item xs={4}>
           <Card>
             <CardContent>
               <List
                 sx={{
-                  width: '100%',
+                  width: "100%",
                   maxWidth: 360,
-                  bgcolor: 'rgb(240,240,240)',
-                  position: 'relative',
-                  overflow: 'auto',
+                  bgcolor: "rgb(240,240,240)",
+                  position: "relative",
+                  overflow: "auto",
                   maxHeight: 500,
-                  '& ul': { padding: 0 },
+                  "& ul": { padding: 0 },
                 }}
                 subheader={<li />}
               >
@@ -71,7 +70,9 @@ export default function InfoProyecto({ projectData }) {
                   <ul>
                     <ListSubheader>Personas Asignadas</ListSubheader>
                     <ListItem>
-                      <ListItemText primary={"Juan con nombre muy muy muy muy muy largo"} />
+                      <ListItemText
+                        primary={"Juan con nombre muy muy muy muy muy largo"}
+                      />
                     </ListItem>
                     <ListItem>
                       <ListItemText primary={"Juan2"} />
@@ -109,18 +110,18 @@ export default function InfoProyecto({ projectData }) {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={3} >
+        <Grid item xs={3}>
           <Card>
             <CardContent>
               <List
                 sx={{
-                  width: '100%',
+                  width: "100%",
                   maxWidth: 360,
-                  bgcolor: 'rgb(240,240,240)',
-                  position: 'relative',
-                  overflow: 'auto',
+                  bgcolor: "rgb(240,240,240)",
+                  position: "relative",
+                  overflow: "auto",
                   maxHeight: 500,
-                  '& ul': { padding: 0 },
+                  "& ul": { padding: 0 },
                 }}
                 subheader={<li />}
               >
@@ -148,7 +149,6 @@ export default function InfoProyecto({ projectData }) {
                   </ul>
                 </li>
               </List>
-
             </CardContent>
           </Card>
         </Grid>
