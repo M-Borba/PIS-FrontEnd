@@ -11,7 +11,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Stack } from "@mui/material";
 import Divider from "@mui/material/Divider";
 
-AsignacionForm.propTypes = {
+AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ AsignacionForm.propTypes = {
   datos: PropTypes.object.isRequired,
 };
 
-function AsignacionForm({
+function AsignacionDialog({
   proyectos,
   onClose,
   onSubmit,
@@ -107,4 +107,4 @@ function AsignacionForm({
   );
 }
 
-export default AsignacionForm;
+export default AsignacionDialog;

@@ -4,6 +4,7 @@ import Timeline from "react-calendar-timeline";
 import generateFakeData from "./generate-fake-data";
 import Dialog from "@mui/material/Dialog";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
+import InfoProyectoTimeline from "../InfoProyectoTimeline";
 
 var keys = {
   groupIdKey: "id",
@@ -24,8 +25,10 @@ export default class PersonTimeline extends Component {
     this.handleItemMove = this.handleItemMove.bind(this);
     this.handleItemResize = this.handleItemResize.bind(this);
     this.handleCanvasClick = this.handleCanvasClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.handleAsignacionClose = this.handleAsignacionClose.bind(this);
     this.agregarProyectoTimeline = this.agregarProyectoTimeline.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleInfoPoryectoClose = this.handleInfoPoryectoClose.bind(this);
 
     const { groups, items } = generateFakeData();
     const defaultTimeStart = new Date(1630540800000);
@@ -37,10 +40,13 @@ export default class PersonTimeline extends Component {
       items,
       defaultTimeStart,
       defaultTimeEnd,
-      openAsignacionForm: false,
+      // Canvas Click
+      openAsignacionDialog: false,
       groupId: -1,
       personName: "",
-      time: 0,
+      // Item Click
+      openInfoProyectoTiemline: false,
+      itemId: -1,
     };
   }
 
@@ -81,23 +87,40 @@ export default class PersonTimeline extends Component {
     console.log("Resized", itemId, time, edge);
   }
 
+  // Asignacion Dialog
+
   handleCanvasClick(groupId, time, e) {
     let personName = this.state.groups[groupId - 1].title;
     this.setState({
       ...this.state,
-      openAsignacionForm: true,
+      openAsignacionDialog: true,
       groupId: groupId,
-      time: time,
       personName: personName,
     });
   }
 
-  handleClose() {
-    this.setState({ ...this.state, openAsignacionForm: false });
+  handleAsignacionClose() {
+    this.setState({ ...this.state, openAsignacionDialog: false });
+  }
+
+  // Infor Proyecto Dialog
+
+  handleItemClick(itemId, e, time) {
+    let groupId = this.state.items[itemId].group;
+    this.setState({
+      ...this.state,
+      openInfoProyectoTiemline: true,
+      itemId: itemId,
+      groupId: groupId,
+    });
+  }
+
+  handleInfoPoryectoClose() {
+    this.setState({ ...this.state, openInfoProyectoTiemline: false });
   }
 
   agregarProyectoTimeline(projecId, startTime, endTime) {
-    const { items, groupId, time } = this.state;
+    const { items, groupId } = this.state;
 
     let newItem = {
       id: projecId,
@@ -126,10 +149,11 @@ export default class PersonTimeline extends Component {
       items,
       defaultTimeStart,
       defaultTimeEnd,
-      openAsignacionForm,
+      openAsignacionDialog,
       groupId,
-      time,
       personName,
+      openInfoProyectoTiemline,
+      itemId,
     } = this.state;
 
     return (
@@ -150,15 +174,30 @@ export default class PersonTimeline extends Component {
           onItemMove={this.handleItemMove}
           onItemResize={this.handleItemResize}
           onCanvasClick={this.handleCanvasClick}
+          onItemClick={this.handleItemClick}
         />
-        <Dialog open={openAsignacionForm} onClose={this.handleClose}>
+        <Dialog
+          open={openAsignacionDialog}
+          onClose={this.handleAsignacionClose}
+        >
           <AsignarProyectoPersona
-            onClose={this.handleClose}
-            groupId={parseInt(groupId)}
-            time={time}
-            addProject={this.agregarProyectoTimeline}
+            personId={parseInt(groupId)}
             personName={personName}
-          ></AsignarProyectoPersona>
+            onClose={this.handleAsignacionClose}
+            addProject={this.agregarProyectoTimeline}
+          />
+        </Dialog>
+        <Dialog
+          open={openInfoProyectoTiemline}
+          onClose={this.handleInfoPoryectoClose}
+          maxWidth="md"
+          fullWidth={true}
+        >
+          <InfoProyectoTimeline
+            projectId={parseInt(itemId)}
+            personId={parseInt(groupId)}
+            onClose={this.handleInfoPoryectoClose}
+          />
         </Dialog>
       </Fragment>
     );
