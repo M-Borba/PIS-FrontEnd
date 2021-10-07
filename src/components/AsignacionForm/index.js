@@ -46,20 +46,23 @@ function AsignacionForm({
       <DialogTitle>Asignacion de proyecto a {personName}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} divider={<Divider flexItem />}>
-          <Select
-            id="project"
-            name="project"
-            label="Proyecto"
-            required
-            value={datos.projectId}
-            onChange={onInputChange}
-          >
-            {selectItems}
-          </Select>
+          <Fragment>
+            <InputLabel id="project-select">Proyectos</InputLabel>
+            <Select
+              id="project"
+              name="project"
+              labelId="project-select"
+              required={true}
+              value={datos.projectId}
+              onChange={onInputChange}
+            >
+              {selectItems}
+            </Select>
+          </Fragment>
           <TextField
             id="rol"
             label="Rol"
-            required
+            required={true}
             variant="standard"
             value={datos.rol}
             onChange={onInputChange}
@@ -69,7 +72,7 @@ function AsignacionForm({
             label="Horas Semanales"
             variant="standard"
             type="number"
-            required
+            required={true}
             value={datos.horasSemanales}
             onChange={onInputChange}
           />

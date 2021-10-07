@@ -25,7 +25,7 @@ function AsignarProyectoPersona({
     fechaInicio: `${new Date().getFullYear()}-${
       new Date().getMonth() + 1
     }-${new Date().getDate()}`,
-    fechaFin: null,
+    fechaFin: "",
     horasSemanales: 0,
   });
 
