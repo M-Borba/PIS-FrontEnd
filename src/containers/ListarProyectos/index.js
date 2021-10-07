@@ -9,7 +9,8 @@ export default function ListarProyectos() {
   const fetchData = () => {
     return axiosInstance.get("/projects").then((response) => {
       rows = response.data.projects;
-      let rowsNuevas = rows.map((row) => {
+      //const currDate = new Date();
+      let rowsNuevas = rows/*.filter(row => new Date(row.end_date) > currDate)*/.map((row) => {
         return {
           id: row.id,
           name: row.name,

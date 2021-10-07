@@ -119,6 +119,7 @@ export default function ProyectoForm({
               type="date"
               id="start_date"
               value={proyecto.start_date}
+              InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
           </Grid>
@@ -132,6 +133,7 @@ export default function ProyectoForm({
               type="date"
               id="end_date"
               value={proyecto.end_date}
+              InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
           </Grid>
