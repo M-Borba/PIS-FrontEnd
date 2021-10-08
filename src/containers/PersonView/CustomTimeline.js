@@ -3,7 +3,8 @@ import moment from "moment";
 
 import Timeline from "react-calendar-timeline";
 
-import generateFakeData from "./generate-fake-data";
+import getTimelineData from "./getTimelineData";
+// import 'react-calendar-timeline/lib/Timeline.css';
 
 var keys = {
   groupIdKey: "id",
@@ -24,9 +25,11 @@ export default class PersonTimeline extends Component {
     this.handleItemMove = this.handleItemMove.bind(this);
     this.handleItemResize = this.handleItemResize.bind(this);
 
-    const { groups, items } = generateFakeData();
+    // const { groups, items } = generateFakeData();
     const defaultTimeStart = moment().startOf("day").toDate();
     const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
+
+    const { groups, items } = getTimelineData();
 
     this.state = {
       groups,
@@ -45,10 +48,10 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: dragTime,
-              end: dragTime + (item.end - item.start),
-              group: group.id,
-            })
+            start: dragTime,
+            end: dragTime + (item.end - item.start),
+            group: group.id,
+          })
           : item
       ),
     });
@@ -63,9 +66,9 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
-            })
+            start: edge === "left" ? time : item.start,
+            end: edge === "left" ? item.end : time,
+          })
           : item
       ),
     });
@@ -96,3 +99,4 @@ export default class PersonTimeline extends Component {
     );
   }
 }
+
