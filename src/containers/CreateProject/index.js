@@ -44,7 +44,6 @@ export default function CreateProject({ resultOk }) {
                 .then((response) => {
                     if (response.status == 200) {
                         resultOk();
-                        setMsg("Proyecto creado correctamente");
                         setError("");
                     } else setError("Error inesperado");
                 })
@@ -99,7 +98,7 @@ export default function CreateProject({ resultOk }) {
                 proyecto={project}
                 error={error}
                 msg={msg}
-                title={"Creacion de proyecto"}
+                title={"Alta de proyecto"}
             />
         </div>
     );

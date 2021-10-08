@@ -42,7 +42,6 @@ export default function CreatePerson({ resultOk }) {
         .then((response) => {
           if (response.status == 200) {
             resultOk();
-            setMsg("Usuario creado correctamente");
             setError("");
           } else setError("Error inesperado");
         })
@@ -58,16 +57,16 @@ export default function CreatePerson({ resultOk }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
           } else
             setError(
               "Error inesperado al enviar formulario - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
         });
     }
@@ -86,7 +85,7 @@ export default function CreatePerson({ resultOk }) {
   return (
     <div>
       <PersonForm
-        title={"Creacion de persona"}
+        title={"Alta de persona"}
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}

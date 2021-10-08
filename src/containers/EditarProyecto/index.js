@@ -18,15 +18,15 @@ EditarProjecto.propTypes = {
     end_date: propTypes.string,
   }).isRequired,
   id: propTypes.number,
+  resultOk: propTypes.bool,
 };
 
-export default function EditarProjecto({ projectData, id }) {
+export default function EditarProjecto({ projectData, id, resultOk }) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
   const [proyecto, setProyecto] = useState(projectData);
   const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
   const isValid = () => {
     return (
       //descripcion, budget y end date son opcionales y no se validan
@@ -48,7 +48,7 @@ export default function EditarProjecto({ projectData, id }) {
         })
         .then((response) => {
           if (response.status == 200) {
-            setMsg("Proyecto modificado correctamente");
+            resultOk();
             setError("");
           } else setError("Error inesperado");
         })
@@ -64,9 +64,9 @@ export default function EditarProjecto({ projectData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });
@@ -98,8 +98,7 @@ export default function EditarProjecto({ projectData, id }) {
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
         error={error}
-        msg={msg}
-        title={"Editando Proyecto"}
+        title={"Modificacion de Proyecto"}
       />
     </div>
   );

@@ -12,4 +12,10 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 24,
     p: 4,
   },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
 }));
