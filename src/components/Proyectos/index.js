@@ -37,7 +37,6 @@ const Acciones = ({ projectRow }) => {
     end_date: projectRow.end_date,
   });
 
-
   const handleInfoClick = () => {
     setOpenInfo(true);
   };
@@ -214,7 +213,6 @@ Acciones.propTypes = {
 };
 
 export default function Proyecto({ rows }) {
-
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);

@@ -21,7 +21,8 @@ function InfoPopUp({ title, content, onConfirm }) {
 
   return (
     <Fragment>
-      <DialogTitle id="confirmation-dialog-title" className={Classes.title}>{title}
+      <DialogTitle id="confirmation-dialog-title" className={Classes.title}>
+        {title}
       </DialogTitle>
       <DialogContent className={Classes.content}>{content}</DialogContent>
       <DialogActions className={Classes.actions}>

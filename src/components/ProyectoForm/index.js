@@ -58,12 +58,13 @@ export default function ProyectoForm({
           </Grid>
           <Grid item xs={6}>
             <TextField
-              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              inputProps={{ min: 1 }}
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="budget"
+              type="number"
               label="Budget"
               name="budget"
               value={proyecto.budget}
@@ -81,14 +82,16 @@ export default function ProyectoForm({
               onChange={onInputChange}
               name="project_type"
             >
-              <MenuItem value={"staff_augmentation"}>Staff Augmentation</MenuItem>
+              <MenuItem value={"staff_augmentation"}>
+                Staff Augmentation
+              </MenuItem>
               <MenuItem value={"end_to_end"}>End to End</MenuItem>
               <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
             </Select>
           </Grid>
           <Grid item xs={6}>
             <InputLabel id="estado">Estado *</InputLabel>
-            < Select
+            <Select
               fullWidth
               required
               id="project_state"

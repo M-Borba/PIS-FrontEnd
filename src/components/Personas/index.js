@@ -14,7 +14,6 @@ import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import InfoPopUp from "../InfoPopUp";
 
-
 Personas.propTypes = {
   rows: PropTypes.array,
 };
@@ -169,7 +168,6 @@ Acciones.propTypes = {
 };
 
 export default function Personas({ rows }) {
-
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
   const [openSuccess, setOpenSuccess] = React.useState(false);
