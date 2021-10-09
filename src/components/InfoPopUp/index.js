@@ -6,24 +6,25 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 
-DeleteDialogContent.propTypes = {
-  dialogContent: PropTypes.string.isRequired,
-  onConfirmation: PropTypes.func.isRequired,
+InfoPopUp.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  onConfirm: PropTypes.func.isRequired,
 };
 
-function DeleteDialogContent({ dialogContent, onConfirmation }) {
+function InfoPopUp({ title, content, onConfirm }) {
   const Classes = useStyles();
 
   const handleOk = () => {
-    onConfirmation();
+    onConfirm();
   };
 
   return (
     <Fragment>
       <DialogTitle id="confirmation-dialog-title" className={Classes.title}>
-        Confirmar eliminacion
+        {title}
       </DialogTitle>
-      <DialogContent className={Classes.content}>{dialogContent}</DialogContent>
+      <DialogContent className={Classes.content}>{content}</DialogContent>
       <DialogActions className={Classes.actions}>
         <Button onClick={handleOk} color="primary">
           Confirmar
@@ -33,4 +34,4 @@ function DeleteDialogContent({ dialogContent, onConfirmation }) {
   );
 }
 
-export default DeleteDialogContent;
+export default InfoPopUp;

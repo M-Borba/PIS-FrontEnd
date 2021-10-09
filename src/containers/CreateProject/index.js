@@ -98,7 +98,7 @@ export default function CreateProject({ resultOk }) {
         proyecto={project}
         error={error}
         msg={msg}
-        title={"Creacion de proyecto"}
+        title={"Alta de proyecto"}
       />
     </div>
   );

@@ -15,7 +15,6 @@ PersonForm.propTypes = {
     email: propTypes.string,
     working_hours: propTypes.number,
   }).isRequired,
-  msg: propTypes.string,
   error: propTypes.string,
   title: propTypes.string,
 };
@@ -26,16 +25,12 @@ export default function PersonForm({
   onInputChange,
   person,
   error,
-  msg,
 }) {
   const classes = useStyles();
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
-      </Typography>
-      <Typography className={classes.msg} component="h2">
-        {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <TextField
@@ -62,7 +57,6 @@ export default function PersonForm({
           name="last_name"
           value={person.last_name}
           onChange={onInputChange}
-          autoFocus
         />
         <TextField
           variant="outlined"
@@ -76,9 +70,9 @@ export default function PersonForm({
           autoComplete="email"
           value={person.email}
           onChange={onInputChange}
-          autoFocus
         />
         <TextField
+          inputProps={{ min: 0 }}
           variant="outlined"
           margin="normal"
           required

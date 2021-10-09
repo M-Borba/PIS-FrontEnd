@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
@@ -11,6 +12,7 @@ import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
+import InfoPopUp from "../InfoPopUp";
 
 Personas.propTypes = {
   rows: PropTypes.array,
@@ -19,7 +21,7 @@ Personas.propTypes = {
 const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
-  const [resultOk, setResult] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
   const classes = useStyles();
   let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
@@ -32,15 +34,19 @@ const Acciones = ({ personRow }) => {
   });
 
   const handleEditOpen = (e) => setOpenEdit(true);
-
   const handleEditClose = () => {
     setOpenEdit(false);
-    if (resultOk == true) window.location.reload();
   };
 
   const handleRemoveOpen = () => setOpenRemove(true);
-
   const handleRemoveClose = () => setOpenRemove(false);
+
+  const handleOpenSuccess = () => setOpenSuccess(true);
+  const handleSuccessClose = () => {
+    setOpenSuccess(false);
+    handleEditClose();
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -57,11 +63,30 @@ const Acciones = ({ personRow }) => {
               aria-describedby="modal-modal-description"
             >
               <Box className={classes.modal}>
+                <Dialog
+                  open={openSuccess}
+                  onClose={handleSuccessClose}
+                  maxWidth="xs"
+                  aria-labelledby="confirmation-dialog-title"
+                >
+                  <InfoPopUp
+                    title={"Resultado de la modificacion"}
+                    content={"Persona modificada exitosamente"}
+                    onConfirm={handleSuccessClose}
+                  />
+                </Dialog>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleEditClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <EditPerson
                   personData={personData}
                   id={personData.id}
                   resultOk={() => {
-                    setResult(true);
+                    handleOpenSuccess();
                   }}
                 />
               </Box>
@@ -78,8 +103,6 @@ const Acciones = ({ personRow }) => {
             <Dialog
               open={openRemove}
               onClose={handleRemoveClose}
-              // disableBackdropClick
-              // disableEscapeKeyDown
               maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
@@ -145,20 +168,26 @@ Acciones.propTypes = {
 };
 
 export default function Personas({ rows }) {
-  const [openNew, setOpenNew] = React.useState(false);
-  const [resultOk, setResult] = React.useState(false);
   const classes = useStyles();
+  const [openNew, setOpenNew] = React.useState(false);
+  const [openSuccess, setOpenSuccess] = React.useState(false);
 
   const handleNewOpen = () => setOpenNew(true);
 
   const handleNewClose = () => {
     setOpenNew(false);
-    if (resultOk == true) window.location.reload();
+  };
+
+  const handleOpenSuccess = () => setOpenSuccess(true);
+  const handleSuccessClose = () => {
+    setOpenSuccess(false);
+    handleNewClose();
+    window.location.reload();
   };
 
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "id",
+      field: "fullName",
       sort: "asc",
     },
   ]);
@@ -188,6 +217,18 @@ export default function Personas({ rows }) {
       <Button color="primary" variant="contained" onClick={handleNewOpen}>
         Agregar Persona
       </Button>
+      <Dialog
+        open={openSuccess}
+        onClose={handleSuccessClose}
+        maxWidth="xs"
+        aria-labelledby="confirmation-dialog-title"
+      >
+        <InfoPopUp
+          title={"Resultado de alta"}
+          content={"Persona creada exitosamente"}
+          onConfirm={handleSuccessClose}
+        />
+      </Dialog>
       <Modal
         open={openNew}
         onClose={handleNewClose}
@@ -195,9 +236,16 @@ export default function Personas({ rows }) {
         aria-describedby="modal-modal-description"
       >
         <Box className={classes.modal}>
+          <IconButton
+            aria-label="Close"
+            onClick={handleNewClose}
+            className={classes.closeButton}
+          >
+            <CloseIcon />
+          </IconButton>
           <CreatePerson
             resultOk={() => {
-              setResult(true);
+              handleOpenSuccess();
             }}
           />
         </Box>

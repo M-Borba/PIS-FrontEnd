@@ -21,7 +21,6 @@ Edit.propTypes = {
 export default function Edit({ personData, id, resultOk }) {
   const [person, setPerson] = useState(personData);
   const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
   const isValid = () => {
     return (
       person.first_name != "" &&
@@ -43,7 +42,6 @@ export default function Edit({ personData, id, resultOk }) {
         .then((response) => {
           if (response.status == 200) {
             resultOk();
-            setMsg("Usuario modificado correctamente");
             setError("");
           } else setError("Error inesperado");
         })
@@ -86,8 +84,7 @@ export default function Edit({ personData, id, resultOk }) {
         onInputChange={(e) => checkInput(e)}
         person={person}
         error={error}
-        msg={msg}
-        title={"Editando Persona"}
+        title={"Modificacion de Persona"}
       />
     </div>
   );

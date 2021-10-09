@@ -42,7 +42,6 @@ export default function CreatePerson({ resultOk }) {
         .then((response) => {
           if (response.status == 200) {
             resultOk();
-            setMsg("Usuario creado correctamente");
             setError("");
           } else setError("Error inesperado");
         })
@@ -86,7 +85,7 @@ export default function CreatePerson({ resultOk }) {
   return (
     <div>
       <PersonForm
-        title={"Creacion de persona"}
+        title={"Alta de persona"}
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}
