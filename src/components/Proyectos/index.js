@@ -23,7 +23,7 @@ const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const [openPopup, setOpenPopup] = React.useState(false);
   const classes = useStyles();
 
   const [projectData] = React.useState({
@@ -53,11 +53,20 @@ const Acciones = ({ projectRow }) => {
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
 
-  const handleOpenSuccess = () => setOpenSuccess(true);
-  const handleSuccessClose = () => {
-    setOpenSuccess(false);
-    handleEditClose();
+  const handleOpenPopup = () => setOpenPopup(true);
+  const handlePopupClose = () => {
+    setOpenPopup(false);
     window.location.reload();
+    // switch (action) {
+    //   case "edit":
+    //     handleEditClose();
+    //     window.location.reload();
+    //   case "remove":
+    //     handleRemoveClose();
+    //     window.location.reload();
+    //   default:
+    //     console.log("cancelado");
+    // };
   };
 
   return (
@@ -101,15 +110,15 @@ const Acciones = ({ projectRow }) => {
             >
               <Box className={classes.modal}>
                 <Dialog
-                  open={openSuccess}
-                  onClose={handleSuccessClose}
+                  open={openPopup}
+                  onClose={handlePopupClose}
                   maxWidth="xs"
                   aria-labelledby="confirmation-dialog-title"
                 >
                   <InfoPopUp
                     title={"Resultado de la modificacion"}
                     content={"Persona modificada exitosamente"}
-                    onConfirm={handleSuccessClose}
+                    onConfirm={handlePopupClose}
                   />
                 </Dialog>
                 <IconButton
@@ -123,7 +132,7 @@ const Acciones = ({ projectRow }) => {
                   projectData={projectData}
                   id={projectData.id}
                   resultOk={() => {
-                    handleOpenSuccess();
+                    handleOpenPopup();
                   }}
                 />
               </Box>
@@ -140,16 +149,38 @@ const Acciones = ({ projectRow }) => {
             <Dialog
               open={openRemove}
               onClose={handleRemoveClose}
-              // disableBackdropClick
-              // disableEscapeKeyDown
               maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
-              <EliminarProyecto
-                projectId={projectRow.id}
-                projectName={projectRow.name}
-                handleClose={handleRemoveClose}
-              />
+              <Box>
+                <Dialog
+                  open={openPopup}
+                  onClose={handlePopupClose}
+                  maxWidth="xs"
+                  aria-labelledby="confirmation-dialog-title"
+                >
+                  <InfoPopUp
+                    title={"Resultado de la eliminación"}
+                    content={"Persona eliminada exitosamente"}
+                    onConfirm={handlePopupClose}
+                  />
+                </Dialog>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleRemoveClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <EliminarProyecto
+                  projectId={projectRow.id}
+                  projectName={projectRow.name}
+                  resultOk={() => {
+                    console.log("entro");
+                    handleOpenPopup();
+                  }}
+                />
+              </Box>
             </Dialog>
           </React.Fragment>
         }

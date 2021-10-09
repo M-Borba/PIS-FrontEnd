@@ -18,7 +18,7 @@ EditarProjecto.propTypes = {
     end_date: propTypes.string,
   }).isRequired,
   id: propTypes.number,
-  resultOk: propTypes.bool,
+  resultOk: propTypes.func,
 };
 
 export default function EditarProjecto({ projectData, id, resultOk }) {

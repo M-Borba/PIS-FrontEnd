@@ -5,17 +5,19 @@ import { axiosInstance } from "../../config/axios";
 
 EliminarProyecto.propTypes = {
   projectName: PropTypes.string.isRequired,
-  handleClose: PropTypes.func.isRequired,
   projectId: PropTypes.number.isRequired,
+  resultOk: PropTypes.func.isRequired,
 };
 
-function EliminarProyecto({ projectId, projectName, handleClose }) {
+function EliminarProyecto({ projectId, projectName, resultOk }) {
   const onConfirmation = () => {
     axiosInstance
       .delete(`/projects/${projectId}`)
       .then((response) => {
-        console.log(`Exito: ${response.status}`);
-        window.location.reload();
+        if (response.status == 200) {
+          resultOk();
+          console.log(`Exito: ${response.status}`);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -27,7 +29,6 @@ function EliminarProyecto({ projectId, projectName, handleClose }) {
   return (
     <DeleteDialogContent
       dialogContent={dialogContent}
-      onClose={handleClose}
       onConfirmation={onConfirmation}
     />
   );
