@@ -26,6 +26,7 @@ AsignPersonForm.propTypes = {
 };
 
 export default function AsignPersonForm({
+  //people,
   title,
   onSubmit,
   onInputChange,
@@ -96,7 +97,7 @@ export default function AsignPersonForm({
                   <ListItemIcon>
                     <Checkbox checked={selected.indexOf(option) > -1} />
                   </ListItemIcon>
-                  <ListItemText primary={option} />
+                  <ListItemText primary={option} secondary={"EMAIL ACA"} />
                 </MenuItem>
               ))}
             </Select>
