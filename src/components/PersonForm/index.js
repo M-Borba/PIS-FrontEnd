@@ -72,6 +72,7 @@ export default function PersonForm({
           onChange={onInputChange}
         />
         <TextField
+          inputProps={{ min: 0 }}
           variant="outlined"
           margin="normal"
           required
