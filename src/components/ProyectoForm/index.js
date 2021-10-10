@@ -22,7 +22,6 @@ ProyectoForm.propTypes = {
     start_date: propTypes.string,
     end_date: propTypes.string,
   }).isRequired,
-  error: propTypes.string,
   title: propTypes.string,
 };
 
@@ -31,7 +30,6 @@ export default function ProyectoForm({
   onSubmit,
   onInputChange,
   proyecto,
-  error,
 }) {
   const classes = useStyles();
   return (
@@ -165,10 +163,6 @@ export default function ProyectoForm({
         >
           Guardar
         </Button>
-
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
 
         <Box mt={5}></Box>
       </form>

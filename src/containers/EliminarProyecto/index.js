@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
@@ -8,14 +8,16 @@ import InfoPopUp from "../../components/InfoPopUp";
 EliminarProyecto.propTypes = {
   projectName: PropTypes.string.isRequired,
   projectId: PropTypes.number.isRequired,
-  resultOk: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
 };
 
-function EliminarProyecto({ projectId, projectName, resultOk }) {
-  const [openError, setOpenError] = useState(false);
+function EliminarProyecto({ projectId, projectName, handleClose }) {
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const titlePopUp = useRef("");
+  const contentPopUp = useRef("");
 
-  const handleCloseError = () => {
-    setOpenError(false);
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
     window.location.reload();
   };
 
@@ -24,8 +26,9 @@ function EliminarProyecto({ projectId, projectName, resultOk }) {
       .delete(`/projects/${projectId}`)
       .then((response) => {
         if (response.status == 200) {
-          resultOk();
-          console.log(`Exito: ${response.status}`);
+          titlePopUp.current = "Proyecto eliminado";
+          contentPopUp.current = "El proyecto fue eliminado con exito.";
+          setOpenPopUp(true);
         }
       })
       .catch((error) => {
@@ -34,8 +37,12 @@ function EliminarProyecto({ projectId, projectName, resultOk }) {
           error.response != undefined &&
           error.response.status != null &&
           error.response.status == 404
-        )
-          setOpenError(true);
+        ) {
+          titlePopUp.current = "Error al eliminar proyecto";
+          contentPopUp.current =
+            "El proyecto que intenta eliminar ya fue eliminado.";
+          setOpenPopUp(true);
+        }
       });
   };
 
@@ -45,18 +52,20 @@ function EliminarProyecto({ projectId, projectName, resultOk }) {
     <Fragment>
       <DeleteDialogContent
         dialogContent={dialogContent}
+        onClose={handleClose}
         onConfirmation={onConfirmation}
       />
       <Dialog
-        open={openError}
-        onClose={handleCloseError}
+        open={openPopUp}
+        onClose={handleClosePopUp}
         maxWidth="xs"
         aria-labelledby="error-dialog-title"
       >
         <InfoPopUp
-          title={"Error al eliminar proyecto"}
-          content={"El proyecto que intenta eliminar ya fue eliminado."}
-          onConfirm={handleCloseError}
+          title={titlePopUp.current}
+          content={contentPopUp.current}
+          onConfirm={handleClosePopUp}
+          onClose={handleClosePopUp}
         />
       </Dialog>
     </Fragment>

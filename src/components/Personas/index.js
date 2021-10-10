@@ -33,10 +33,8 @@ const Acciones = ({ personRow }) => {
     tags: personRow.tags,
   });
 
-  const handleEditOpen = (e) => setOpenEdit(true);
-  const handleEditClose = () => {
-    setOpenEdit(false);
-  };
+  const handleEditOpen = () => setOpenEdit(true);
+  const handleEditClose = () => setOpenEdit(false);
 
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);

@@ -2,7 +2,7 @@
  * Create person
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
@@ -20,14 +20,15 @@ EditarProjecto.propTypes = {
     end_date: propTypes.string,
   }).isRequired,
   id: propTypes.number,
-  resultOk: propTypes.func,
 };
 
-export default function EditarProjecto({ projectData, id, resultOk }) {
-  const [openError, setOpenError] = useState(false);
+export default function EditarProjecto({ projectData, id }) {
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const titlePopUp = useRef("");
+  const contentPopUp = useRef("");
 
-  const handleCloseError = () => {
-    setOpenError(false);
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
     window.location.reload();
   };
 
@@ -35,52 +36,37 @@ export default function EditarProjecto({ projectData, id, resultOk }) {
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
   const [proyecto, setProyecto] = useState(projectData);
-  const [error, setError] = useState("");
-  const isValid = () => {
-    return (
-      //descripcion, budget y end date son opcionales y no se validan
-      proyecto.name != "" &&
-      proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.start_date != ""
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(proyecto)) {
-      setError("Completar todos los campos para completar la modificación");
-    } else {
-      axiosInstance
-        .put("/projects/" + id, {
-          project: proyecto,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            resultOk();
-            setError("");
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log(error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            let errors = error.response.data.errors;
-            setError(
-              "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-          } else if (error.response.status == 404) setOpenError(true);
-          else setError("Error inesperado al enviar formulario ");
-        });
-    }
+
+    axiosInstance
+      .put("/projects/" + id, {
+        project: proyecto,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          titlePopUp.current = "Proyecto modificado";
+          contentPopUp.current = "El proyecto se modifico con exito.";
+          setOpenPopUp(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+        titlePopUp.current = "Error al modificar proyecto";
+        if (error.response.status == 400) {
+          let errors = error.response.data.errors;
+          contentPopUp.current =
+            "Error, hay un problema con los datos ingresados - " +
+            Object.keys(errors)[0] +
+            " " +
+            errors[Object.keys(errors)[0]];
+        } else if (error.response.status == 404)
+          contentPopUp.current =
+            "El proyecto que intenta modificar ya fue eliminado.";
+        else contentPopUp.current = "Error inesperado al enviar formulario.";
+        setOpenPopUp(true);
+      });
   };
 
   const checkInput = (e) => {
@@ -107,19 +93,19 @@ export default function EditarProjecto({ projectData, id, resultOk }) {
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
-        error={error}
         title={"Modificacion de Proyecto"}
       />
       <Dialog
-        open={openError}
-        onClose={handleCloseError}
+        open={openPopUp}
+        onClose={handleClosePopUp}
         maxWidth="xs"
         aria-labelledby="error-dialog-title"
       >
         <InfoPopUp
-          title={"Error al modificar proyecto"}
-          content={"El proyecto que intenta modificar fue eliminado."}
-          onConfirm={handleCloseError}
+          title={titlePopUp.current}
+          content={contentPopUp.current}
+          onConfirm={handleClosePopUp}
+          onClose={handleClosePopUp}
         />
       </Dialog>
     </div>

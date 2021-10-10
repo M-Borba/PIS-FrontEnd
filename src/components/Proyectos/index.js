@@ -13,7 +13,6 @@ import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
 import CreateProject from "../../containers/CreateProject";
-import InfoPopUp from "../InfoPopUp";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
@@ -23,7 +22,6 @@ const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
-  const [openPopup, setOpenPopup] = React.useState(false);
   const classes = useStyles();
 
   const [projectData] = React.useState({
@@ -45,29 +43,11 @@ const Acciones = ({ projectRow }) => {
     window.location.reload(); //este reload esta bien?
   };
 
-  const handleEditOpen = (e) => setOpenEdit(true);
-  const handleEditClose = () => {
-    setOpenEdit(false);
-  };
+  const handleEditOpen = () => setOpenEdit(true);
+  const handleEditClose = () => setOpenEdit(false);
 
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
-
-  const handleOpenPopup = () => setOpenPopup(true);
-  const handlePopupClose = () => {
-    setOpenPopup(false);
-    window.location.reload();
-    // switch (action) {
-    //   case "edit":
-    //     handleEditClose();
-    //     window.location.reload();
-    //   case "remove":
-    //     handleRemoveClose();
-    //     window.location.reload();
-    //   default:
-    //     console.log("cancelado");
-    // };
-  };
 
   return (
     <div
@@ -109,18 +89,6 @@ const Acciones = ({ projectRow }) => {
               disableEnforceFocus
             >
               <Box className={classes.modal}>
-                <Dialog
-                  open={openPopup}
-                  onClose={handlePopupClose}
-                  maxWidth="xs"
-                  aria-labelledby="confirmation-dialog-title"
-                >
-                  <InfoPopUp
-                    title={"Resultado de la modificacion"}
-                    content={"Persona modificada exitosamente"}
-                    onConfirm={handlePopupClose}
-                  />
-                </Dialog>
                 <IconButton
                   aria-label="Close"
                   onClick={handleEditClose}
@@ -128,13 +96,7 @@ const Acciones = ({ projectRow }) => {
                 >
                   <CloseIcon />
                 </IconButton>
-                <EditarProyecto
-                  projectData={projectData}
-                  id={projectData.id}
-                  resultOk={() => {
-                    handleOpenPopup();
-                  }}
-                />
+                <EditarProyecto projectData={projectData} id={projectData.id} />
               </Box>
             </Modal>
           </>
@@ -152,35 +114,11 @@ const Acciones = ({ projectRow }) => {
               maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
-              <Box>
-                <Dialog
-                  open={openPopup}
-                  onClose={handlePopupClose}
-                  maxWidth="xs"
-                  aria-labelledby="confirmation-dialog-title"
-                >
-                  <InfoPopUp
-                    title={"Resultado de la eliminación"}
-                    content={"Persona eliminada exitosamente"}
-                    onConfirm={handlePopupClose}
-                  />
-                </Dialog>
-                <IconButton
-                  aria-label="Close"
-                  onClick={handleRemoveClose}
-                  className={classes.closeButton}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <EliminarProyecto
-                  projectId={projectRow.id}
-                  projectName={projectRow.name}
-                  resultOk={() => {
-                    console.log("entro");
-                    handleOpenPopup();
-                  }}
-                />
-              </Box>
+              <EliminarProyecto
+                projectId={projectRow.id}
+                projectName={projectRow.name}
+                handleClose={handleRemoveClose}
+              />
             </Dialog>
           </React.Fragment>
         }
@@ -246,19 +184,9 @@ Acciones.propTypes = {
 export default function Proyecto({ rows }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
-  const [openSuccess, setOpenSuccess] = React.useState(false);
 
   const handleNewOpen = () => setOpenNew(true);
-  const handleNewClose = () => {
-    setOpenNew(false);
-  };
-
-  const handleOpenSuccess = () => setOpenSuccess(true);
-  const handleSuccessClose = () => {
-    setOpenSuccess(false);
-    handleNewClose();
-    window.location.reload();
-  };
+  const handleNewClose = () => setOpenNew(false);
 
   const [sortModel, setSortModel] = React.useState([
     {
@@ -292,18 +220,6 @@ export default function Proyecto({ rows }) {
       <Button color="primary" variant="contained" onClick={handleNewOpen}>
         Agregar Proyecto
       </Button>
-      <Dialog
-        open={openSuccess}
-        onClose={handleSuccessClose}
-        maxWidth="xs"
-        aria-labelledby="confirmation-dialog-title"
-      >
-        <InfoPopUp
-          title={"Resultado de alta"}
-          content={"Proyecto creado exitosamente"}
-          onConfirm={handleSuccessClose}
-        />
-      </Dialog>
       <Modal
         open={openNew}
         onClose={handleNewClose}
@@ -318,11 +234,7 @@ export default function Proyecto({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreateProject
-            resultOk={() => {
-              handleOpenSuccess();
-            }}
-          />
+          <CreateProject />
         </Box>
       </Modal>
     </div>
