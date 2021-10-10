@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import Dialog from "@material-ui/core/Dialog";
+import InfoPopUp from "../../components/InfoPopUp";
 
 Edit.propTypes = {
   personData: propTypes.shape({
@@ -19,6 +21,13 @@ Edit.propTypes = {
 };
 
 export default function Edit({ personData, id, resultOk }) {
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenError(false);
+    window.location.reload();
+  };
+
   const [person, setPerson] = useState(personData);
   const [error, setError] = useState("");
   const isValid = () => {
@@ -61,7 +70,8 @@ export default function Edit({ personData, id, resultOk }) {
                 " " +
                 errors[Object.keys(errors)[0]]
             );
-          } else setError("Error inesperado al enviar formulario ");
+          } else if (error.response.status == 404) setOpenError(true);
+          else setError("Error inesperado al enviar formulario ");
         });
     }
   };
@@ -86,6 +96,18 @@ export default function Edit({ personData, id, resultOk }) {
         error={error}
         title={"Modificacion de Persona"}
       />
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        maxWidth="xs"
+        aria-labelledby="error-dialog-title"
+      >
+        <InfoPopUp
+          title={"Error al modificar persona"}
+          content={"La persona que intenta modificar fue eliminada."}
+          onConfirm={handleCloseError}
+        />
+      </Dialog>
     </div>
   );
 }

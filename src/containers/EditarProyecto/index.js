@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import Dialog from "@material-ui/core/Dialog";
+import InfoPopUp from "../../components/InfoPopUp";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -22,6 +24,13 @@ EditarProjecto.propTypes = {
 };
 
 export default function EditarProjecto({ projectData, id, resultOk }) {
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenError(false);
+    window.location.reload();
+  };
+
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
@@ -68,7 +77,8 @@ export default function EditarProjecto({ projectData, id, resultOk }) {
                 " " +
                 errors[Object.keys(errors)[0]]
             );
-          } else setError("Error inesperado al enviar formulario ");
+          } else if (error.response.status == 404) setOpenError(true);
+          else setError("Error inesperado al enviar formulario ");
         });
     }
   };
@@ -100,6 +110,18 @@ export default function EditarProjecto({ projectData, id, resultOk }) {
         error={error}
         title={"Modificacion de Proyecto"}
       />
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        maxWidth="xs"
+        aria-labelledby="error-dialog-title"
+      >
+        <InfoPopUp
+          title={"Error al modificar proyecto"}
+          content={"El proyecto que intenta modificar fue eliminado."}
+          onConfirm={handleCloseError}
+        />
+      </Dialog>
     </div>
   );
 }

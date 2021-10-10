@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
+import Dialog from "@material-ui/core/Dialog";
+import InfoPopUp from "../../components/InfoPopUp";
 
 EliminarPersona.propTypes = {
   personName: PropTypes.string.isRequired,
@@ -10,6 +12,13 @@ EliminarPersona.propTypes = {
 };
 
 function EliminarPersona({ personName, personId, handleClose }) {
+  const [openError, setOpenError] = useState(false);
+
+  const handleCloseError = () => {
+    setOpenError(false);
+    window.location.reload();
+  };
+
   const onConfirmation = () => {
     axiosInstance
       .delete(`/people/${personId}`)
@@ -19,17 +28,37 @@ function EliminarPersona({ personName, personId, handleClose }) {
       })
       .catch((error) => {
         console.error(error);
+        if (
+          error.response != undefined &&
+          error.response.status != null &&
+          error.response.status == 404
+        )
+          setOpenError(true);
       });
   };
 
   const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
 
   return (
-    <DeleteDialogContent
-      dialogContent={dialogContent}
-      onClose={handleClose}
-      onConfirmation={onConfirmation}
-    />
+    <Fragment>
+      <DeleteDialogContent
+        dialogContent={dialogContent}
+        onClose={handleClose}
+        onConfirmation={onConfirmation}
+      />
+      <Dialog
+        open={openError}
+        onClose={handleCloseError}
+        maxWidth="xs"
+        aria-labelledby="error-dialog-title"
+      >
+        <InfoPopUp
+          title={"Error al eliminar persona"}
+          content={"La persona que intenta eliminar ya fue eliminada."}
+          onConfirm={handleCloseError}
+        />
+      </Dialog>
+    </Fragment>
   );
 }
 
