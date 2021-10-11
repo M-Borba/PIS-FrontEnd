@@ -12,6 +12,7 @@ EliminarProyecto.propTypes = {
 };
 
 function EliminarProyecto({ projectId, projectName, handleClose }) {
+  const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
   const [openPopUp, setOpenPopUp] = useState(false);
   const titlePopUp = useRef("");
   const contentPopUp = useRef("");
@@ -45,8 +46,6 @@ function EliminarProyecto({ projectId, projectName, handleClose }) {
         }
       });
   };
-
-  const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
 
   return (
     <Fragment>

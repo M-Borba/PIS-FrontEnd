@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
@@ -12,10 +12,13 @@ EliminarPersona.propTypes = {
 };
 
 function EliminarPersona({ personName, personId, handleClose }) {
-  const [openError, setOpenError] = useState(false);
+  const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const titlePopUp = useRef("");
+  const contentPopUp = useRef("");
 
-  const handleCloseError = () => {
-    setOpenError(false);
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
     window.location.reload();
   };
 
@@ -23,8 +26,11 @@ function EliminarPersona({ personName, personId, handleClose }) {
     axiosInstance
       .delete(`/people/${personId}`)
       .then((response) => {
-        console.log(`Exito: ${response.status}`);
-        window.location.reload();
+        if (response.status == 200) {
+          titlePopUp.current = "Persona eliminada";
+          contentPopUp.current = "La persona fue eliminada con exito.";
+          setOpenPopUp(true);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -32,12 +38,14 @@ function EliminarPersona({ personName, personId, handleClose }) {
           error.response != undefined &&
           error.response.status != null &&
           error.response.status == 404
-        )
-          setOpenError(true);
+        ) {
+          titlePopUp.current = "Error al eliminar persona";
+          contentPopUp.current =
+            "La persona que intenta eliminar ya fue eliminada.";
+          setOpenPopUp(true);
+        }
       });
   };
-
-  const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
 
   return (
     <Fragment>
@@ -47,15 +55,16 @@ function EliminarPersona({ personName, personId, handleClose }) {
         onConfirmation={onConfirmation}
       />
       <Dialog
-        open={openError}
-        onClose={handleCloseError}
+        open={openPopUp}
+        onClose={handleClosePopUp}
         maxWidth="xs"
         aria-labelledby="error-dialog-title"
       >
         <InfoPopUp
-          title={"Error al eliminar persona"}
-          content={"La persona que intenta eliminar ya fue eliminada."}
-          onConfirm={handleCloseError}
+          title={titlePopUp.current}
+          content={contentPopUp.current}
+          onConfirm={handleClosePopUp}
+          onClose={handleClosePopUp}
         />
       </Dialog>
     </Fragment>

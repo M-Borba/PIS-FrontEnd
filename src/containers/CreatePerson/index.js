@@ -2,75 +2,62 @@
  * Create person
  */
 
-import React, { useState } from "react";
-import propTypes from "prop-types";
+import React, { useState, useRef } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
-import PropTypes from "prop-types";
+import Dialog from "@material-ui/core/Dialog";
+import InfoPopUp from "../../components/InfoPopUp";
 
-CreatePerson.propTypes = {
-  resultOk: PropTypes.bool,
-};
-export default function CreatePerson({ resultOk }) {
+export default function CreatePerson() {
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
     email: "",
     working_hours: 30,
   });
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      person.first_name != "" &&
-      person.last_name != "" &&
-      person.email != "" &&
-      person.hourly_load != ""
-    );
+  const [openPopUp, setOpenPopUp] = useState(false);
+  const titlePopUp = useRef("");
+  const contentPopUp = useRef("");
+
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
+    window.location.reload();
   };
 
   const handleSubmit = (e) => {
-    setMsg("");
     e.preventDefault();
-    if (!isValid(person)) {
-      setError("Completar todos los campos para iniciar sesión");
-    } else {
-      axiosInstance
-        .post("/people", {
-          person: person,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            resultOk();
-            setError("");
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log("error", error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            let errors = error.response.data.errors;
-            setError(
-              "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-          } else
-            setError(
-              "Error inesperado al enviar formulario - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-        });
-    }
+
+    axiosInstance
+      .post("/people", {
+        person: person,
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          titlePopUp.current = "Persona creada";
+          contentPopUp.current = "La perosna se creo con exito.";
+          setOpenPopUp(true);
+        }
+      })
+      .catch((error) => {
+        console.log("error", error.response);
+        titlePopUp.current = "Error";
+        let errors = error.response.data.errors;
+        if (error.response.status == 400)
+          contentPopUp.current =
+            "Error, hay un problema con los datos ingresados - " +
+            Object.keys(errors)[0] +
+            " " +
+            errors[Object.keys(errors)[0]];
+        else
+          contentPopUp.current =
+            "Error inesperado al enviar formulario - " +
+            Object.keys(errors)[0] +
+            " " +
+            errors[Object.keys(errors)[0]];
+        setOpenPopUp(true);
+      });
   };
+
   const checkInput = (e) => {
     if (e.target.id == "first_name")
       setPerson({ ...person, first_name: e.target.value });
@@ -82,6 +69,7 @@ export default function CreatePerson({ resultOk }) {
       setPerson({ ...person, working_hours: parseInt(e.target.value) });
     }
   };
+
   return (
     <div>
       <PersonForm
@@ -89,9 +77,20 @@ export default function CreatePerson({ resultOk }) {
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}
-        error={error}
-        msg={msg}
       />
+      <Dialog
+        open={openPopUp}
+        onClose={handleClosePopUp}
+        maxWidth="xs"
+        aria-labelledby="error-dialog-title"
+      >
+        <InfoPopUp
+          title={titlePopUp.current}
+          content={contentPopUp.current}
+          onConfirm={handleClosePopUp}
+          onClose={handleClosePopUp}
+        />
+      </Dialog>
     </div>
   );
 }

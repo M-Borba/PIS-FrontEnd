@@ -44,19 +44,18 @@ export default function CreateProject() {
         console.log("error", error.response);
         titlePopUp.current = "Error";
         let errors = error.response.data.errors;
-        if (error.response.status == 400) {
+        if (error.response.status == 400)
           contentPopUp.current =
             "Error, hay un problema con los datos ingresados - " +
             Object.keys(errors)[0] +
             " " +
             errors[Object.keys(errors)[0]];
-        } else {
+        else
           contentPopUp.current =
             "Error inesperado al enviar formulario - " +
             Object.keys(errors)[0] +
             " " +
             errors[Object.keys(errors)[0]];
-        }
         setOpenPopUp(true);
       });
   };
