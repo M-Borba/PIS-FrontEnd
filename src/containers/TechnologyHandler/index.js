@@ -9,32 +9,48 @@ import React, { useState, useEffect } from "react";
 import { axiosInstance } from "../../config/axios";
 import PropTypes from "prop-types";
 import TechnologyForm from "../../components/TechnologyForm";
-import { CollectionsOutlined } from "@mui/icons-material";
+
+
 
 TechnologyHandler.propTypes = {
   techSelected: PropTypes.array,
   setTechSelected: PropTypes.func,
 };
 export default function TechnologyHandler({ techSelected, setTechSelected }) {
-  const [techList, setTechList] = useState(["-"]);
-  const [inputTech, setInputTech] = useState("initialValue");
+  const [techList, setTechList] = useState([]);
+  const [inputTech, setInputTech] = useState("");
+  const [senioritySelected, setSeniority] = useState("junior");
   useEffect(() => {
-    //call to backend to load techs
-    setTechList(["bbbbbb", "c", "d", " wxyz"]);
+    axiosInstance
+      .get("/technologies")
+      .then((response) => {
+        console.log(response.data.technologies);
+        setTechList(response.data.technologies)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
-  const onAdd = (input) => {
-    if (input != undefined && input != null && input != "") {
-      let index = techSelected.indexOf(input);
-      if (index == -1) {
-        techSelected.push(input);
-        setTechSelected(techSelected);
-      }
+  const onAdd = ([inputTech, senioritySelected]) => {
+    if (inputTech != undefined && inputTech != null && inputTech != "") {
+      let filteredTechs = techSelected.filter(([tech, seniority]) => {
+        if (tech == inputTech) {
+          return false;
+        } else
+          return true
+      })
+      filteredTechs.push([inputTech, senioritySelected]);
+      setTechSelected(filteredTechs);
+
     }
   };
-  const onRemove = (techName) => {
-    let index = techSelected.indexOf(techName);
-    techSelected.splice(index, 1);
-    setTechSelected(techSelected);
+  const onRemove = ([inputTech, _senioritySelected]) => {
+    setTechSelected(techSelected.filter(([tech, seniority]) => {
+      if (tech == inputTech)
+        return false;
+      else
+        return true
+    }));
   };
   const onInputChange = (event, newValue) => {
     newValue = newValue || "-";
@@ -56,6 +72,8 @@ export default function TechnologyHandler({ techSelected, setTechSelected }) {
       selectedList={techSelected}
       inputTech={inputTech}
       onInputChange={onInputChange}
+      senioritySelected={senioritySelected}
+      setSeniority={setSeniority}
     />
   );
 }

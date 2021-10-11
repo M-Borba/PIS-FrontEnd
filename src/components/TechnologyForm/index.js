@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+MenuItem
 import Chip from "@material-ui/core/Chip";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -18,6 +21,8 @@ TechnologyForm.propTypes = {
   inputTech: PropTypes.string,
   selectedList: PropTypes.array,
   onInputChange: PropTypes.func.isRequired,
+  senioritySelected: PropTypes.string,
+  setSeniority: PropTypes.func
 };
 
 export default function TechnologyForm({
@@ -25,6 +30,8 @@ export default function TechnologyForm({
   onRemove,
   techList,
   selectedList,
+  senioritySelected,
+  setSeniority,
   inputTech,
   onInputChange,
 }) {
@@ -39,7 +46,7 @@ export default function TechnologyForm({
         handleHomeEndKeys
         fullWidth
         id="tech-combo-box"
-        options={techList}
+        options={techList.map(obj => obj.name)}
         value={inputTech}
         inputValue={inputTech}
         onChange={onInputChange}
@@ -56,6 +63,16 @@ export default function TechnologyForm({
           return filtered;
         }}
       />
+      <Select
+        id="seniority"
+        value={senioritySelected}
+        label="experiencia"
+        onChange={e => setSeniority(e.target.value)}
+      >
+        <MenuItem value={"senior"}>senior</MenuItem>
+        <MenuItem value={"semi-senior"}>semi-senior</MenuItem>
+        <MenuItem value={"junior"}>junior</MenuItem>
+      </Select>
       <Button
         role="submit"
         type="submit"
@@ -63,18 +80,18 @@ export default function TechnologyForm({
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={() => onAdd(inputTech)}
+        onClick={() => onAdd([inputTech, senioritySelected])}
       >
         Agregar tecnología ⬇️
       </Button>
 
       <div className={classes.techsChips}>
-        {selectedList.map((techName) => (
+        {selectedList.map(([inputTech, senioritySelected]) => (
           <Chip
-            key={techName}
-            label={techName}
+            key={inputTech}
+            label={inputTech + " - " + senioritySelected}
             variant="outlined"
-            onDelete={() => onRemove(techName)}
+            onDelete={() => onRemove([inputTech, senioritySelected])}
           />
         ))}
       </div>

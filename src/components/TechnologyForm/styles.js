@@ -22,6 +22,9 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "space-around",
     display: "flex",
     flexWrap: "wrap",
+    height: "50%",
+
+    overflow: "scroll"
   },
   errorMsg: { position: "fixed", color: "red" },
 }));

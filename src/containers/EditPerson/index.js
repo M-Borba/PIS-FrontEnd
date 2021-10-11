@@ -159,8 +159,6 @@ export default function Edit({ personData, id, setNotify }) {
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}
-        error={error}
-        msg={msg}
         title={"Modificacion de Persona"}
       />
       <TechnologyHandler
