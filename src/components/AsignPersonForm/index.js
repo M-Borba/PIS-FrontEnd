@@ -17,9 +17,12 @@ import { useStyles } from "./styles";
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
-  proyecto: propTypes.shape({
+  project: propTypes.shape({
     id: propTypes.number,
+    startDate: propTypes.string,
+    endDate: propTypes.string,
   }).isRequired,
+  people: propTypes.array.isRequired,
   msg: propTypes.string,
   error: propTypes.string,
   title: propTypes.string,
@@ -29,14 +32,23 @@ export default function AsignPersonForm({
   title,
   onSubmit,
   onInputChange,
-  proyecto, //TO DO: usar end date y start date
+  project, //TO DO: usar end date y start date
+  people,
   error,
   msg,
 }) {
+
   const classes = useStyles();
 
   const [selected, setSelected] = useState([]);
-
+  const role = [
+    "Developer",
+    "PM",
+    "Tester",
+    "Architect",
+    "Analyst",
+    "Designer"
+  ]
   const MenuProps = {
     PaperProps: {
       style: {
@@ -46,24 +58,19 @@ export default function AsignPersonForm({
     }
   };
 
-  const options = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder"
-  ];
-
-
-  const handleChange = (event) => {
+  let handlePeopleChange = (event) => {
     const value = event.target.value;
     if (value[value.length - 1] === "all") {
-      setSelected(selected.length === options.length ? [] : options);
+      setSelected(selected.length === people.length ? [] : people);
+      return;
+    }
+    setSelected(value);
+  };
+
+  let handleRoleChange = (event) => {
+    const value = event.target.value;
+    if (value[value.length - 1] === "all") {
+      setSelected(selected.length === role.length ? [] : role);
       return;
     }
     setSelected(value);
@@ -78,7 +85,7 @@ export default function AsignPersonForm({
         {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <Grid container spacing={{ xs: 2 }}>
+        <Grid container>
           <Grid item xs={6}>
             <InputLabel id="Personas">Personas</InputLabel>
             <Select
@@ -87,34 +94,41 @@ export default function AsignPersonForm({
               fullWidth
               multiple
               value={selected}
-              onChange={handleChange}
+              onChange={handlePeopleChange}
               renderValue={(selected) => selected.join(", ")}
               MenuProps={MenuProps}
             >
-              {options.map((option) => (
-                <MenuItem key={option} value={option}>
+              {people.map((person) => (
+                <MenuItem key={person} value={person}>
                   <ListItemIcon>
-                    <Checkbox checked={selected.indexOf(option) > -1} />
+                    <Checkbox checked={selected.indexOf(person) > -1} />
                   </ListItemIcon>
-                  <ListItemText primary={option} />
+                  <ListItemText primary={person.name} />
                 </MenuItem>
               ))}
             </Select>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
+            <InputLabel id="role">Rol</InputLabel>
+            <Select
+              labelId="role" // TO DO: ARREGLAR LABEL, NO SE VISUALIZA BIEN
+              label={"Rol"}
               fullWidth
-              id="role"
-              type="text"
-              label="Rol (Uno por linea)"
-              name="role"
-              multiline
-              rows={5}
-              onChange={onInputChange}
-            />
+              multiple
+              value={selected}
+              onChange={handleRoleChange}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {role.map((role) => (
+                <MenuItem key={role} value={role}>
+                  <ListItemIcon>
+                    <Checkbox checked={selected.indexOf(role) > -1} />
+                  </ListItemIcon>
+                  <ListItemText primary={role} />
+                </MenuItem>
+              ))}
+            </Select>
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -144,7 +158,6 @@ export default function AsignPersonForm({
             />
           </Grid>
         </Grid>
-
         <Button
           role="submit"
           type="submit"

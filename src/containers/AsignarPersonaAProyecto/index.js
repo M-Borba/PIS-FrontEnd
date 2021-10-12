@@ -9,8 +9,11 @@ AgregarPersona.propTypes = {
     projectData: propTypes.shape({
         id: propTypes.number,
         name: propTypes.string,
+        startDate: propTypes.string,
+        endDate: propTypes.string,
     }).isRequired,
 };
+
 
 export default function AgregarPersona({ projectData }) {
     const [asignacion, setAsignacion] = useState("");
@@ -38,12 +41,30 @@ export default function AgregarPersona({ projectData }) {
 
     const classes = useStyles();
 
+    const [people, setPeople] = useState([]);
+
+    axiosInstance.get("/people").then((response) => {
+        setPeople(response.data.people.map((row) => {
+            return {
+                fullName: row.full_name,
+                email: row.email,
+                id: row.id,
+            };
+        })
+        )
+    })
+
     return (
         <div className={classes.paper}>
             <AsignPersonForm
                 onSubmit={(e) => handleSubmit(e)}
                 onInputChange={(e) => checkInput(e)}
-                proyecto={projectData}
+                people={people}
+                project={{
+                    id: projectData.id,
+                    startDate: projectData.startDate,
+                    endDate: projectData.endDate
+                }}
                 msg={msg}
                 error={error}
                 title={"Asignando Persona a " + projectData.name}
