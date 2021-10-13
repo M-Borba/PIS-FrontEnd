@@ -106,6 +106,7 @@ export default function EditarProjecto({ projectData, id }) {
           content={contentPopUp.current}
           onConfirm={handleClosePopUp}
           onClose={handleClosePopUp}
+          needConfirm={false}
         />
       </Dialog>
     </div>

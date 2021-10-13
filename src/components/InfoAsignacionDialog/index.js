@@ -17,13 +17,13 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { Stack } from "@mui/material";
 
-InfoProyectoDialog.propTypes = {
+InfoAsignacionDialog.propTypes = {
   projectInfo: propTypes.object.isRequired,
   onClose: propTypes.func.isRequired,
   onSubmit: propTypes.func.isRequired,
 };
 
-function InfoProyectoDialog({ projectInfo, onClose, onSubmit }) {
+function InfoAsignacionDialog({ projectInfo, onClose, onSubmit }) {
   const Classes = useStyles();
 
   return (
@@ -172,4 +172,4 @@ function InfoProyectoDialog({ projectInfo, onClose, onSubmit }) {
   );
 }
 
-export default InfoProyectoDialog;
+export default InfoAsignacionDialog;

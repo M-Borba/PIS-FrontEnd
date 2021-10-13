@@ -65,6 +65,7 @@ function EliminarPersona({ personName, personId, handleClose }) {
           content={contentPopUp.current}
           onConfirm={handleClosePopUp}
           onClose={handleClosePopUp}
+          needConfirm={false}
         />
       </Dialog>
     </Fragment>

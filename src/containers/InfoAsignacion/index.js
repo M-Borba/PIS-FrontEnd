@@ -1,14 +1,14 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
-import InfoProyectoDialog from "../../components/InfoProyectoDialog";
+import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 
-InfoProyectoTimeline.propTypes = {
+InfoAsignacion.propTypes = {
   projectId: propTypes.number.isRequired,
   personId: propTypes.number.isRequired,
   onClose: propTypes.func.isRequired,
 };
 
-function InfoProyectoTimeline({ projectId, personId, onClose }) {
+function InfoAsignacion({ projectId, personId, onClose }) {
   const [projectInfo, setProjectInfo] = useState({
     id: projectId,
     name: "Nombre del proyecto",
@@ -34,7 +34,7 @@ function InfoProyectoTimeline({ projectId, personId, onClose }) {
   };
 
   return (
-    <InfoProyectoDialog
+    <InfoAsignacionDialog
       projectInfo={projectInfo}
       onClose={onClose}
       onSubmit={onSubmit}
@@ -42,4 +42,4 @@ function InfoProyectoTimeline({ projectId, personId, onClose }) {
   );
 }
 
-export default InfoProyectoTimeline;
+export default InfoAsignacion;

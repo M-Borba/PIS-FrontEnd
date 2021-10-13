@@ -94,6 +94,7 @@ export default function Edit({ personData, id }) {
           content={contentPopUp.current}
           onConfirm={handleClosePopUp}
           onClose={handleClosePopUp}
+          needConfirm={false}
         />
       </Dialog>
     </div>

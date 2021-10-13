@@ -4,7 +4,7 @@ import Timeline from "react-calendar-timeline";
 import generateFakeData from "./generate-fake-data";
 import Dialog from "@mui/material/Dialog";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
-import InfoProyectoTimeline from "../InfoProyectoTimeline";
+import InfoAsignacion from "../InfoAsignacion";
 
 var keys = {
   groupIdKey: "id",
@@ -26,7 +26,6 @@ export default class PersonTimeline extends Component {
     this.handleItemResize = this.handleItemResize.bind(this);
     this.handleCanvasClick = this.handleCanvasClick.bind(this);
     this.handleAsignacionClose = this.handleAsignacionClose.bind(this);
-    this.agregarProyectoTimeline = this.agregarProyectoTimeline.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleInfoPoryectoClose = this.handleInfoPoryectoClose.bind(this);
 
@@ -119,30 +118,6 @@ export default class PersonTimeline extends Component {
     this.setState({ ...this.state, openInfoProyectoTiemline: false });
   }
 
-  agregarProyectoTimeline(projecId, startTime, endTime) {
-    const { items, groupId } = this.state;
-
-    let newItem = {
-      id: projecId,
-      group: groupId,
-      start: moment(new Date(startTime)).valueOf(),
-      end: moment(new Date(endTime)).valueOf(),
-      title: `Proyecto ${projecId}`,
-      canMove: true,
-      canResize: "both",
-      canChangeGroup: true,
-      className:
-        moment(new Date(2021, 8, 1, 0, 0)).day() === 6 ||
-        moment(new Date(2021, 8, 1, 0, 0)).day() === 0
-          ? "item-weekend"
-          : "",
-    };
-
-    items.push(newItem);
-
-    this.setState({ ...this.state, items: items });
-  }
-
   render() {
     const {
       groups,
@@ -184,7 +159,6 @@ export default class PersonTimeline extends Component {
             personId={parseInt(groupId)}
             personName={personName}
             onClose={this.handleAsignacionClose}
-            addProject={this.agregarProyectoTimeline}
           />
         </Dialog>
         <Dialog
@@ -193,7 +167,7 @@ export default class PersonTimeline extends Component {
           maxWidth="md"
           fullWidth={true}
         >
-          <InfoProyectoTimeline
+          <InfoAsignacion
             projectId={parseInt(itemId)}
             personId={parseInt(groupId)}
             onClose={this.handleInfoPoryectoClose}

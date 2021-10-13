@@ -65,6 +65,7 @@ function EliminarProyecto({ projectId, projectName, handleClose }) {
           content={contentPopUp.current}
           onConfirm={handleClosePopUp}
           onClose={handleClosePopUp}
+          needConfirm={false}
         />
       </Dialog>
     </Fragment>

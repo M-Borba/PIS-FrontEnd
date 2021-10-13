@@ -1,12 +1,14 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  title: {
+  dialogTitle: {
+    wordWrap: "break-word",
     borderBottom: `1px solid ${theme.palette.divider}`,
     margin: 0,
     padding: theme.spacing(2),
   },
   content: {
+    wordWrap: "break-word",
     margin: 0,
     padding: theme.spacing(2),
   },
@@ -14,11 +16,5 @@ export const useStyles = makeStyles((theme) => ({
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,
     padding: theme.spacing(1),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
   },
 }));

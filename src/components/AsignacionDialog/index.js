@@ -28,11 +28,6 @@ function AsignacionDialog({
   onInputChange,
   datos,
 }) {
-  const cofirmarAsignacion = () => {
-    onSubmit();
-    onClose();
-  };
-
   const selectItems = proyectos.map((proyecto) => {
     return (
       <MenuItem key={proyecto.id} value={proyecto.id}>
@@ -59,21 +54,49 @@ function AsignacionDialog({
               {selectItems}
             </Select>
           </Fragment>
+          <Fragment>
+            <InputLabel id="rol_label"> Rol </InputLabel>
+            <Select
+              fullWidth
+              required
+              id="rol"
+              value={datos.rol}
+              labelId="rol_label"
+              onChange={onInputChange}
+              name="rol"
+            >
+              <MenuItem value={"developer"}> Desarrolador </MenuItem>
+              <MenuItem value={"pm"}> Product Manager </MenuItem>
+              <MenuItem value={"tester"}> Tester </MenuItem>
+              <MenuItem value={"architect"}> Arquitecto </MenuItem>
+              <MenuItem value={"analyst"}> Analista </MenuItem>
+              <MenuItem value={"designer"}> Diseñador </MenuItem>
+            </Select>
+          </Fragment>
+          <Fragment>
+            <InputLabel id="working_hours_type_label">
+              Tipo de horas de trabajo
+            </InputLabel>
+            <Select
+              fullWidth
+              required
+              id="working_hours_type"
+              value={datos.tipoHoras}
+              labelId="working_hours_type_label"
+              onChange={onInputChange}
+              name="working_hours_type"
+            >
+              <MenuItem value={"daily"}> Diarias </MenuItem>
+              <MenuItem value={"weekly"}> Semanales </MenuItem>
+            </Select>
+          </Fragment>
           <TextField
-            id="rol"
-            label="Rol"
-            required={true}
-            variant="standard"
-            value={datos.rol}
-            onChange={onInputChange}
-          />
-          <TextField
-            id="horasSemanales"
-            label="Horas Semanales"
+            id="horas"
+            label="Horas"
             variant="standard"
             type="number"
             required={true}
-            value={datos.horasSemanales}
+            value={datos.horas}
             onChange={onInputChange}
           />
           <Fragment>
@@ -101,7 +124,7 @@ function AsignacionDialog({
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={cofirmarAsignacion}>Asignar</Button>
+        <Button onClick={onSubmit}>Asignar</Button>
       </DialogActions>
     </Fragment>
   );

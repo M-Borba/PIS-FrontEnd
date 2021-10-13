@@ -89,6 +89,7 @@ export default function CreatePerson() {
           content={contentPopUp.current}
           onConfirm={handleClosePopUp}
           onClose={handleClosePopUp}
+          needConfirm={false}
         />
       </Dialog>
     </div>
