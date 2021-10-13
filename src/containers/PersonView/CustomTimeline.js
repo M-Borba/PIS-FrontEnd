@@ -2,8 +2,6 @@ import React, { Component, Fragment } from "react";
 import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import generateFakeData from "./generate-fake-data";
-import Dialog from "@mui/material/Dialog";
-import AsignarProyectoPersona from "../AsignarProyectoPersona";
 
 var keys = {
   groupIdKey: "id",
@@ -23,8 +21,6 @@ export default class PersonTimeline extends Component {
     super(props);
     this.handleItemMove = this.handleItemMove.bind(this);
     this.handleItemResize = this.handleItemResize.bind(this);
-    this.handleCanvasClick = this.handleCanvasClick.bind(this);
-    this.handleAsignacionClose = this.handleAsignacionClose.bind(this);
 
     const { groups, items } = generateFakeData();
     const defaultTimeStart = new Date(1630540800000);
@@ -52,10 +48,10 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: dragTime,
-            end: dragTime + (item.end - item.start),
-            group: group.id,
-          })
+              start: dragTime,
+              end: dragTime + (item.end - item.start),
+              group: group.id,
+            })
           : item
       ),
     });
@@ -70,9 +66,9 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: edge === "left" ? time : item.start,
-            end: edge === "left" ? item.end : time,
-          })
+              start: edge === "left" ? time : item.start,
+              end: edge === "left" ? item.end : time,
+            })
           : item
       ),
     });
@@ -80,32 +76,8 @@ export default class PersonTimeline extends Component {
     console.log("Resized", itemId, time, edge);
   }
 
-  // Asignacion Dialog
-
-  handleCanvasClick(groupId, time, e) {
-    let personName = this.state.groups[groupId - 1].title;
-    this.setState({
-      ...this.state,
-      openAsignacionDialog: true,
-      groupId: groupId,
-      personName: personName,
-    });
-  }
-
-  handleAsignacionClose() {
-    this.setState({ ...this.state, openAsignacionDialog: false });
-  }
-
   render() {
-    const {
-      groups,
-      items,
-      defaultTimeStart,
-      defaultTimeEnd,
-      openAsignacionDialog,
-      groupId,
-      personName,
-    } = this.state;
+    const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
 
     return (
       <Fragment>
@@ -127,16 +99,6 @@ export default class PersonTimeline extends Component {
           onCanvasClick={this.handleCanvasClick}
           onItemClick={this.handleItemClick}
         />
-        <Dialog
-          open={openAsignacionDialog}
-          onClose={this.handleAsignacionClose}
-        >
-          <AsignarProyectoPersona
-            personId={parseInt(groupId)}
-            personName={personName}
-            onClose={this.handleAsignacionClose}
-          />
-        </Dialog>
       </Fragment>
     );
   }
