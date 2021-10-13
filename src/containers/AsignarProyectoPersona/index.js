@@ -69,7 +69,7 @@ function AsignarProyectoPersona({ onClose, personId, personName }) {
       .catch((error) => {
         console.log(error.response);
         titlePopUp.current = `Error al asignar`;
-        contentPopUp.current = `Error al asignar el proyecto a la persona.saasdasdsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss`;
+        contentPopUp.current = `Error al asignar el proyecto a la persona.`;
         setOpenPopUp(true);
       });
   };
