@@ -114,7 +114,6 @@ const Acciones = ({ projectRow }) => {
             <Modal
               open={openAdd}
               onClose={handleAddClose}
-              maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
               <Box className={classes.modal}>
@@ -138,9 +137,6 @@ const Acciones = ({ projectRow }) => {
             <Dialog
               open={openRemove}
               onClose={handleRemoveClose}
-              // disableBackdropClick
-              // disableEscapeKeyDown
-              maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
               <EliminarProyecto

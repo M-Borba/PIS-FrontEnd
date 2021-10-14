@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
@@ -30,7 +30,7 @@ export default function AgregarPersona({ projectData }) {
         if (!isValid(asignacion)) {
             setError("Completar todos los campos para completar la asignación");
         } else {
-            console.log("enviado");
+            console.log("lo enviado fue " + JSON.stringify(asignacion));
             // axiosInstance
             //     .post("/asignar", {
             //     person: person,
@@ -70,6 +70,7 @@ export default function AgregarPersona({ projectData }) {
     };
 
     const checkInput = (e) => {
+        console.log("called on " + e.target.id);
         if (e.target.id == "role")
             setAsignacion({ ...asignacion, role: e.target.value });
     }
@@ -78,21 +79,20 @@ export default function AgregarPersona({ projectData }) {
 
     const [people, setPeople] = useState([]);
 
-    axiosInstance.get("/people").then((response) => {
-        setPeople(response.data.people.map((row) => {
-            return {
+    useEffect(() => {
+        axiosInstance.get("/people").then((response) => {
+            setPeople(response.data.people.map((row) => ({
                 fullName: row.full_name,
-                email: row.email,
-                id: row.id,
-            };
-        })
-        )
-    })
+                id: row.id
+            })))
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
 
     return (
         <div className={classes.paper}>
             <AsignPersonForm
-                // people={people}
                 onSubmit={(e) => handleSubmit(e)}
                 onInputChange={(e) => checkInput(e)}
                 people={people}
