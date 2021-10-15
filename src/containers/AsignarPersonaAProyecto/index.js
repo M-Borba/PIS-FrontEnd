@@ -16,12 +16,19 @@ AgregarPersona.propTypes = {
 
 
 export default function AgregarPersona({ projectData }) {
-    const [asignacion, setAsignacion] = useState("");
+    const [asignacion, setAsignacion] = useState({
+        roles: [],
+        people: [],
+        startDate: projectData.startDate.replaceAll("/", "-"),
+        endDate: projectData.endDate.replaceAll("/", "-")
+    });
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
     const isValid = () => {
         return (
-            asignacion.role != ""
+            asignacion.people != "",
+            asignacion.roles != "",
+            asignacion.startDate != ""
         );
     };
 
@@ -71,8 +78,16 @@ export default function AgregarPersona({ projectData }) {
 
     const checkInput = (e) => {
         console.log("called on " + e.target.id);
-        if (e.target.id == "role")
-            setAsignacion({ ...asignacion, role: e.target.value });
+        if (e.target.id == "roles")
+            //to do parse list
+            setAsignacion({ ...asignacion, roles: e.target.value });
+        else if (e.target.id == "people")
+            //to do parse list
+            setAsignacion({ ...asignacion, people: e.target.value });
+        else if (e.target.id == "startDate")
+            setAsignacion({ ...asignacion, startDate: e.target.value });
+        else if (e.target.id == "endDate")
+            setAsignacion({ ...asignacion, endDate: e.target.value });
     }
 
     const classes = useStyles();
@@ -96,11 +111,7 @@ export default function AgregarPersona({ projectData }) {
                 onSubmit={(e) => handleSubmit(e)}
                 onInputChange={(e) => checkInput(e)}
                 people={people}
-                project={{
-                    id: projectData.id,
-                    startDate: projectData.startDate,
-                    endDate: projectData.endDate
-                }}
+                asign={asignacion}
                 msg={msg}
                 error={error}
                 title={"Asignando Persona a " + projectData.name}

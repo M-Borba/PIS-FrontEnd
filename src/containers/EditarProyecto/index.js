@@ -27,8 +27,8 @@ export default function EditarProjecto({ projectData, id }) {
     return (
       //descripcion, budget y end date son opcionales y no se validan
       proyecto.name != "" &&
-      proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
       proyecto.start_date != ""
     );
   };

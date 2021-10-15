@@ -28,11 +28,11 @@ CardSelector.propTypes = {
     title: PropTypes.string.isRequired,
     list: PropTypes.array.isRequired,
     listIds: PropTypes.array,
-    onChange: PropTypes.func.isRequired,
+    onInputChange: PropTypes.func.isRequired,
 };
 
 
-export default function CardSelector({ title, list, listIds, onChange }) {
+export default function CardSelector({ title, list, listIds, onInputChange }) {
     const classes = useStyles();
     const [checked, setChecked] = React.useState([]);
 
@@ -86,7 +86,7 @@ export default function CardSelector({ title, list, listIds, onChange }) {
                             numberOfChecked(list) !== 0
                         }
                         disabled={list.length === 0}
-                        onChange={e => { onChange(e) }}
+                        onChange={onInputChange}
                     />
                 }
                 title={title}
@@ -106,7 +106,7 @@ export default function CardSelector({ title, list, listIds, onChange }) {
                                         checked={checked.indexOf(value) !== -1}
                                         tabIndex={-1}
                                         disableRipple
-                                        onChange={e => { onChange(e) }}
+                                        onChange={onInputChange}
                                     />
                                 </ListItemIcon>
                                 <ListItemText

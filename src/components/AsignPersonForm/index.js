@@ -11,9 +11,10 @@ import CardSelector from "../CardSelector";
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
-  project: propTypes.shape({
-    id: propTypes.number,
-    startDate: propTypes.string,
+  asign: propTypes.shape({
+    roles: propTypes.array.isRequired,
+    people: propTypes.array.isRequired,
+    startDate: propTypes.string.isRequired,
     endDate: propTypes.string,
   }).isRequired,
   people: propTypes.arrayOf(propTypes.shape({
@@ -29,7 +30,7 @@ export default function AsignPersonForm({
   title,
   onSubmit,
   onInputChange,
-  project,
+  asign,
   people,
   error,
   msg,
@@ -61,17 +62,21 @@ export default function AsignPersonForm({
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <CardSelector
+              name={"people"}
+              id={"people"}
               title={"Personas"}
               list={peopleNames}
               listIds={peopleIds}
-              onChange={onInputChange}
+              onInputChange={onInputChange}
             />
           </Grid>
           <Grid item xs={6}>
             <CardSelector
+              name={"roles"}
+              id={"roles"}
               title={"Rol"}
               list={roles}
-              onChange={onInputChange}
+              onInputChange={onInputChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -80,11 +85,11 @@ export default function AsignPersonForm({
               margin="normal"
               required
               fullWidth
-              name="start_date"
+              name="startDate"
               label="Inicio"
               type="date"
-              id="start_date"
-              value={project.startDate.replaceAll("/", "-")}
+              id="startDate"
+              value={asign.startDate}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
@@ -94,11 +99,11 @@ export default function AsignPersonForm({
               variant="outlined"
               margin="normal"
               fullWidth
-              name="end_date"
+              name="endDate"
               label="Fin"
               type="date"
-              id="end_date"
-              value={project.endDate.replaceAll("/", "-")}
+              id="endDate"
+              value={asign.endDate}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
