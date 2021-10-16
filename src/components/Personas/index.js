@@ -12,6 +12,7 @@ import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
+import Notificacion from "../../components/Notificacion";
 
 Personas.propTypes = {
   rows: PropTypes.array,
@@ -20,6 +21,12 @@ Personas.propTypes = {
 const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
   const classes = useStyles();
   let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
@@ -59,7 +66,11 @@ const Acciones = ({ personRow }) => {
                 >
                   <CloseIcon />
                 </IconButton>
-                <EditPerson personData={personData} id={personData.id} />
+                <EditPerson
+                  personData={personData}
+                  id={personData.id}
+                  setNotify={setNotify}
+                />
               </Box>
             </Modal>
           </>
@@ -81,11 +92,13 @@ const Acciones = ({ personRow }) => {
                 personName={personRow.fullName}
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
+                setNotify={setNotify}
               />
             </Dialog>
           </React.Fragment>
         }
       />
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 };
@@ -141,6 +154,12 @@ Acciones.propTypes = {
 export default function Personas({ rows }) {
   const [openNew, setOpenNew] = React.useState(false);
   const classes = useStyles();
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
 
   const handleNewOpen = () => setOpenNew(true);
 
@@ -192,9 +211,10 @@ export default function Personas({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreatePerson />
+          <CreatePerson setNotify={setNotify} />
         </Box>
       </Modal>
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

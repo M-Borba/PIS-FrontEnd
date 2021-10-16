@@ -13,6 +13,7 @@ import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
 import CreateProject from "../../containers/CreateProject";
+import Notificacion from "../../components/Notificacion";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
@@ -23,7 +24,12 @@ const Acciones = ({ projectRow }) => {
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const classes = useStyles();
-
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
   const [projectData] = React.useState({
     id: projectRow.id,
     name: projectRow.name,
@@ -96,7 +102,11 @@ const Acciones = ({ projectRow }) => {
                 >
                   <CloseIcon />
                 </IconButton>
-                <EditarProyecto projectData={projectData} id={projectData.id} />
+                <EditarProyecto
+                  projectData={projectData}
+                  id={projectData.id}
+                  setNotify={setNotify}
+                />
               </Box>
             </Modal>
           </>
@@ -118,11 +128,13 @@ const Acciones = ({ projectRow }) => {
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemoveClose}
+                setNotify={setNotify}
               />
             </Dialog>
           </React.Fragment>
         }
       />
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 };
@@ -184,6 +196,12 @@ Acciones.propTypes = {
 export default function Proyecto({ rows }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
@@ -234,9 +252,10 @@ export default function Proyecto({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreateProject />
+          <CreateProject setNotify={setNotify} />
         </Box>
       </Modal>
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

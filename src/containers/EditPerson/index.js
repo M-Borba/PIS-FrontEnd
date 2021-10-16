@@ -2,12 +2,10 @@
  * Edit person
  */
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
-import Dialog from "@material-ui/core/Dialog";
-import InfoPopUp from "../../components/InfoPopUp";
 
 Edit.propTypes = {
   personData: propTypes.shape({
@@ -17,18 +15,11 @@ Edit.propTypes = {
     working_hours: propTypes.number,
   }).isRequired,
   id: propTypes.number,
+  setNotify: propTypes.func.isRequired,
 };
 
-export default function Edit({ personData, id }) {
-  const [openPopUp, setOpenPopUp] = useState(false);
+export default function Edit({ personData, id, setNotify }) {
   const [person, setPerson] = useState(personData);
-  const titlePopUp = useRef("");
-  const contentPopUp = useRef("");
-
-  const handleClosePopUp = () => {
-    setOpenPopUp(false);
-    window.location.reload();
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,27 +29,42 @@ export default function Edit({ personData, id }) {
         person: person,
       })
       .then((response) => {
-        if (response.status == 200) {
-          titlePopUp.current = "Persona modificada";
-          contentPopUp.current = "La persona se modifico con exito.";
-          setOpenPopUp(true);
-        }
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
+            type: "success",
+            reload: true,
+          });
       })
       .catch((error) => {
         console.log(error.response);
-        titlePopUp.current = "Error al modificar persona";
-        if (error.response.status == 400) {
-          let errors = error.response.data.errors;
-          contentPopUp.current =
-            "Error, hay un problema con los datos ingresados - " +
-            Object.keys(errors)[0] +
-            " " +
-            errors[Object.keys(errors)[0]];
-        } else if (error.response.status == 404)
-          contentPopUp.current =
-            "La persona que intenta modificar ya fue eliminada.";
-        else contentPopUp.current = "Error inesperado al enviar formulario.";
-        setOpenPopUp(true);
+        let errors = error.response.data.errors;
+        if (error.response.status == 400)
+          setNotify({
+            isOpen: true,
+            message: `Error, hay un problema con los datos ingresados - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}.`,
+            type: "error",
+            reload: false,
+          });
+        else if (error.response.status == 404)
+          setNotify({
+            isOpen: true,
+            message: `Error, la perosna ${personData.first_name} ${personData.last_name} ya fue eliminada.`,
+            type: "error",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado al enviar formulario - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}.`,
+            type: "error",
+            reload: false,
+          });
       });
   };
 
@@ -83,20 +89,6 @@ export default function Edit({ personData, id }) {
         person={person}
         title={"Modificacion de Persona"}
       />
-      <Dialog
-        open={openPopUp}
-        onClose={handleClosePopUp}
-        maxWidth="xs"
-        aria-labelledby="error-dialog-title"
-      >
-        <InfoPopUp
-          title={titlePopUp.current}
-          content={contentPopUp.current}
-          onConfirm={handleClosePopUp}
-          onClose={handleClosePopUp}
-          needConfirm={false}
-        />
-      </Dialog>
     </div>
   );
 }

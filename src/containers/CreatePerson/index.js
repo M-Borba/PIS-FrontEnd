@@ -2,27 +2,22 @@
  * Create person
  */
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
-import Dialog from "@material-ui/core/Dialog";
-import InfoPopUp from "../../components/InfoPopUp";
+import propTypes from "prop-types";
 
-export default function CreatePerson() {
+CreatePerson.propTypes = {
+  setNotify: propTypes.func.isRequired,
+};
+
+export default function CreatePerson({ setNotify }) {
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
     email: "",
     working_hours: 30,
   });
-  const [openPopUp, setOpenPopUp] = useState(false);
-  const titlePopUp = useRef("");
-  const contentPopUp = useRef("");
-
-  const handleClosePopUp = () => {
-    setOpenPopUp(false);
-    window.location.reload();
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,29 +27,35 @@ export default function CreatePerson() {
         person: person,
       })
       .then((response) => {
-        if (response.status == 200) {
-          titlePopUp.current = "Persona creada";
-          contentPopUp.current = "La perosna se creo con exito.";
-          setOpenPopUp(true);
-        }
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `La perosna se creo con exito.`,
+            type: "success",
+            reload: true,
+          });
       })
       .catch((error) => {
         console.log("error", error.response);
-        titlePopUp.current = "Error";
         let errors = error.response.data.errors;
         if (error.response.status == 400)
-          contentPopUp.current =
-            "Error, hay un problema con los datos ingresados - " +
-            Object.keys(errors)[0] +
-            " " +
-            errors[Object.keys(errors)[0]];
+          setNotify({
+            isOpen: true,
+            message: `Error, hay un problema con los datos ingresados - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}`,
+            type: "error",
+            reload: false,
+          });
         else
-          contentPopUp.current =
-            "Error inesperado al enviar formulario - " +
-            Object.keys(errors)[0] +
-            " " +
-            errors[Object.keys(errors)[0]];
-        setOpenPopUp(true);
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado al enviar formulario - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}`,
+            type: "error",
+            reload: false,
+          });
       });
   };
 
@@ -78,20 +79,6 @@ export default function CreatePerson() {
         onInputChange={(e) => checkInput(e)}
         person={person}
       />
-      <Dialog
-        open={openPopUp}
-        onClose={handleClosePopUp}
-        maxWidth="xs"
-        aria-labelledby="error-dialog-title"
-      >
-        <InfoPopUp
-          title={titlePopUp.current}
-          content={contentPopUp.current}
-          onConfirm={handleClosePopUp}
-          onClose={handleClosePopUp}
-          needConfirm={false}
-        />
-      </Dialog>
     </div>
   );
 }
