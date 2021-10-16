@@ -29,7 +29,9 @@ export default function AgregarPersona({ projectData }) {
 
         ],
         startDate: projectData.startDate.replaceAll("/", "-"),
-        endDate: projectData.endDate != null ? projectData.endDate.replaceAll("/", "-") : ""
+        endDate: projectData.endDate != null ? projectData.endDate.replaceAll("/", "-") : "",
+        hours: 0,
+        hoursType: "weekly"
     });
 
     const [error, setError] = useState("");
@@ -38,7 +40,9 @@ export default function AgregarPersona({ projectData }) {
         return (
             asignacion.people != [],
             asignacion.roles != [],
-            asignacion.startDate != ""
+            asignacion.startDate != "",
+            asignacion.hours > 0,
+            asignacion.hoursType != ""
         );
     };
 
@@ -57,8 +61,8 @@ export default function AgregarPersona({ projectData }) {
                             person_project: {
                                 project_id: projectData.id,
                                 rol: role.toLowerCase(),
-                                working_hours: 3,
-                                working_hours_type: "daily",
+                                working_hours: asignacion.hours,
+                                working_hours_type: asignacion.hoursType,
                                 start_date: asignacion.startDate.replaceAll("-", "/"),
                                 end_date: asignacion.endDate.replaceAll("-", "/")
                             }

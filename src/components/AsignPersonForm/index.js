@@ -7,6 +7,9 @@ import Grid from '@mui/material/Grid';
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -90,6 +93,34 @@ export default function AsignPersonForm({
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              style={{ marginTop: 23 }}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="workingHours"
+              label="Horas"
+              type="number"
+              id="workingHours"
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <InputLabel id="tipo">Tipo de Horas</InputLabel>
+            <Select
+              fullWidth
+              required
+              id="hoursType"
+              labelId="tipo"
+              onChange={onInputChange}
+              name="hoursType"
+            >
+              <MenuItem value={"daily"}>Diarias</MenuItem>
+              <MenuItem value={"weekly"}>Semanales</MenuItem>
+              <MenuItem value={"monthly"}>Mensuales</MenuItem>
+            </Select>
           </Grid>
         </Grid>
         <Button
