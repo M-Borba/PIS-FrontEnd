@@ -14,20 +14,30 @@ AgregarPersona.propTypes = {
     }).isRequired,
 };
 
-
 export default function AgregarPersona({ projectData }) {
+
     const [asignacion, setAsignacion] = useState({
-        roles: [],
-        people: [],
+        roles: [
+            ["Developer", false],
+            ["PM", false],
+            ["Tester", false],
+            ["Architect", false],
+            ["Analyst", false],
+            ["Designer", false]
+        ],
+        people: [
+
+        ],
         startDate: projectData.startDate.replaceAll("/", "-"),
-        endDate: projectData.endDate.replaceAll("/", "-")
+        endDate: projectData.endDate != null ? projectData.endDate.replaceAll("/", "-") : ""
     });
+
     const [error, setError] = useState("");
     const [msg, setMsg] = useState("");
     const isValid = () => {
         return (
-            asignacion.people != "",
-            asignacion.roles != "",
+            asignacion.people != [],
+            asignacion.roles != [],
             asignacion.startDate != ""
         );
     };
@@ -37,80 +47,110 @@ export default function AgregarPersona({ projectData }) {
         if (!isValid(asignacion)) {
             setError("Completar todos los campos para completar la asignación");
         } else {
-            console.log("lo enviado fue " + JSON.stringify(asignacion));
-            // axiosInstance
-            //     .post("/asignar", {
-            //     person: person,
-            //     proyect: proyect, 
-            //     })
-            //     .then((response) => {
-            //     if (response.status == 200) {
-            //         setMsg("Usuario creado correctamente");
-            //         setError("");
-            //     } else setError("Error inesperado");
-            //     })
-            //     .catch((error) => {
-            //     console.log("error", error.response);
-            //     if (
-            //         error.response != undefined &&
-            //         error.response.status != null &&
-            //         error.response.status == 401
-            //     )
-            //         setError("Falta autentificarse !");
-            //     else if (error.response.status == 400) {
-            //         let errors = error.response.data.errors;
-            //         setError(
-            //         "Error, hay un problema con los datos ingresados - " +
-            //             Object.keys(errors)[0] +
-            //             " " +
-            //             errors[Object.keys(errors)[0]]
-            //         );
-            //     } else
-            //         setError(
-            //         "Error inesperado al enviar formulario - " +
-            //             Object.keys(errors)[0] +
-            //             " " +
-            //             errors[Object.keys(errors)[0]]
-            //         );
-            //     });
+            var body = Object.assign({}, asignacion);
+            body.roles = body.roles.filter(rol => rol[1] == true).map(rol => rol[0]);//conseguir la lista de roles
+            body.people = body.people.filter(rol => rol[1] == true).map(person => person[0].slice(0, person[0].indexOf(" ")));//conseguir la lista de personas por id
+            body.people.forEach(person => (
+                body.roles.forEach(role => (
+                    axiosInstance
+                        .post("/people/" + person + "/person_project", {
+                            person_project: {
+                                project_id: projectData.id,
+                                rol: role.toLowerCase(),
+                                working_hours: 3,
+                                working_hours_type: "daily",
+                                start_date: asignacion.startDate.replaceAll("-", "/"),
+                                end_date: asignacion.endDate.replaceAll("-", "/")
+                            }
+                        })
+                        .then((response) => {
+                            if (response.status == 200) {
+                                setMsg("Asignación creada correctamente");
+                                setError("");
+                            } else setError("Error: Paso algo inesperado");
+                        })
+                        .catch((error) => {
+                            console.log("error", error.response);
+                            if (
+                                error.response != undefined &&
+                                error.response.status != null &&
+                                error.response.status == 401
+                            )
+                                setError("Falta autentificarse!");
+                            else if (error.response.status == 400) {
+                                let errors = error.response.data.errors;
+                                setError(
+                                    "Error, hay un problema con los datos ingresados - " +
+                                    Object.keys(errors)[0] +
+                                    " " +
+                                    errors[Object.keys(errors)[0]]
+                                );
+                            } else
+                                setError(
+                                    "Error inesperado al enviar formulario - " +
+                                    Object.keys(errors)[0] +
+                                    " " +
+                                    errors[Object.keys(errors)[0]]
+                                );
+                        })
+                ))
+            ))
         }
     };
 
-    const checkInput = (e) => {
-        console.log("called on " + e.target.id);
-        if (e.target.id == "roles")
-            //to do parse list
-            setAsignacion({ ...asignacion, roles: e.target.value });
-        else if (e.target.id == "people")
-            //to do parse list
-            setAsignacion({ ...asignacion, people: e.target.value });
-        else if (e.target.id == "startDate")
-            setAsignacion({ ...asignacion, startDate: e.target.value });
-        else if (e.target.id == "endDate")
-            setAsignacion({ ...asignacion, endDate: e.target.value });
+    useEffect(() => {
+        axiosInstance.get("/people").then((response) => {
+            setAsignacion({
+                ...asignacion, people: response.data.people.map((row) => ([row.id + " - " + row.full_name, false]))
+            });
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, []);
+
+    const checkInput = (value, type) => {
+        if (type == "Rol") {
+            let newRoles = asignacion.roles;
+            let i = 0;
+            try {
+                newRoles.forEach(([a, b]) => {
+                    if (a == value[0])
+                        throw Found
+                    if (i != newRoles.length - 1)
+                        i++;
+                })
+            }
+            catch (e) {
+                //do nothing :)
+            }
+            if (i != -1)
+                newRoles[i][1] = !newRoles[i][1]
+            setAsignacion({
+                ...asignacion, roles: newRoles
+            });
+        }
+        else if (type == "Personas") {
+            var newPeople = asignacion.people;
+            newPeople[newPeople.indexOf(value)] = [value[0], !value[1]];
+            setAsignacion({
+                ...asignacion, people: newPeople
+            });
+        }
+        else if (type == "startDate") {
+            setAsignacion({ ...asignacion, startDate: value.target.value });
+        }
+        else if (type == "endDate") {
+            setAsignacion({ ...asignacion, endDate: value.target.value });
+        }
     }
 
     const classes = useStyles();
 
-    const [people, setPeople] = useState([]);
-
-    useEffect(() => {
-        axiosInstance.get("/people").then((response) => {
-            setPeople(response.data.people.map((row) => ({
-                fullName: row.full_name,
-                id: row.id
-            })))
-        }).catch((error) => {
-            console.log(error);
-        });
-    }, []);
-
     return (
         <div className={classes.paper}>
             <AsignPersonForm
-                onSubmit={(e) => handleSubmit(e)}
-                onInputChange={(e) => checkInput(e)}
-                people={people}
+                onSubmit={handleSubmit}
+                onInputChange={checkInput}
                 asign={asignacion}
                 msg={msg}
                 error={error}

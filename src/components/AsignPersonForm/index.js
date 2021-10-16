@@ -17,10 +17,6 @@ AsignPersonForm.propTypes = {
     startDate: propTypes.string.isRequired,
     endDate: propTypes.string,
   }).isRequired,
-  people: propTypes.arrayOf(propTypes.shape({
-    fullname: propTypes.string,
-    id: propTypes.number,
-  })).isRequired,
   msg: propTypes.string,
   error: propTypes.string,
   title: propTypes.string,
@@ -31,25 +27,13 @@ export default function AsignPersonForm({
   onSubmit,
   onInputChange,
   asign,
-  people,
   error,
   msg,
 }) {
 
   const classes = useStyles();
 
-  var peopleNames = people.map((person) => person.fullName);
-  var peopleIds = people.map((person) => person.id);
-
-  const roles = [
-    "Developer",
-    "PM",
-    "Tester",
-    "Architect",
-    "Analyst",
-    "Designer"
-  ]
-
+  //console.log(asign.people)
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -65,8 +49,7 @@ export default function AsignPersonForm({
               name={"people"}
               id={"people"}
               title={"Personas"}
-              list={peopleNames}
-              listIds={peopleIds}
+              list={asign.people}
               onInputChange={onInputChange}
             />
           </Grid>
@@ -75,7 +58,7 @@ export default function AsignPersonForm({
               name={"roles"}
               id={"roles"}
               title={"Rol"}
-              list={roles}
+              list={asign.roles}
               onInputChange={onInputChange}
             />
           </Grid>
@@ -103,7 +86,7 @@ export default function AsignPersonForm({
               label="Fin"
               type="date"
               id="endDate"
-              value={asign.endDate}
+              value={asign.endDate || ""}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
