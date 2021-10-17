@@ -19,6 +19,7 @@ Personas.propTypes = {
 const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
+  const [resultOk, setResult] = React.useState(false);
   const classes = useStyles();
   let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
@@ -34,7 +35,7 @@ const Acciones = ({ personRow }) => {
 
   const handleEditClose = () => {
     setOpenEdit(false);
-    window.location.reload();
+    if (resultOk == true) window.location.reload();
   };
 
   const handleRemoveOpen = () => setOpenRemove(true);
@@ -56,7 +57,13 @@ const Acciones = ({ personRow }) => {
               aria-describedby="modal-modal-description"
             >
               <Box className={classes.modal}>
-                <EditPerson personData={personData} id={personData.id} />
+                <EditPerson
+                  personData={personData}
+                  id={personData.id}
+                  resultOk={() => {
+                    setResult(true);
+                  }}
+                />
               </Box>
             </Modal>
           </>
@@ -139,13 +146,14 @@ Acciones.propTypes = {
 
 export default function Personas({ rows }) {
   const [openNew, setOpenNew] = React.useState(false);
+  const [resultOk, setResult] = React.useState(false);
   const classes = useStyles();
 
   const handleNewOpen = () => setOpenNew(true);
 
   const handleNewClose = () => {
     setOpenNew(false);
-    window.location.reload();
+    if (resultOk == true) window.location.reload();
   };
 
   const [sortModel, setSortModel] = React.useState([
@@ -187,7 +195,11 @@ export default function Personas({ rows }) {
         aria-describedby="modal-modal-description"
       >
         <Box className={classes.modal}>
-          <CreatePerson />
+          <CreatePerson
+            resultOk={() => {
+              setResult(true);
+            }}
+          />
         </Box>
       </Modal>
     </div>

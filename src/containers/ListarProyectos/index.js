@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
+import { Typography } from "@material-ui/core";
+
 
 export default function ListarProyectos() {
   var rows;
@@ -35,5 +37,12 @@ export default function ListarProyectos() {
     fetchData();
   }, []);
 
-  return <Proyectos rows={rowsFormateadas} />;
+  return (
+    <div>
+      <Typography style={{ marginTop: 20 }} color="primary" variant="h4" align="center">
+        LISTADO DE PROYECTOS
+      </Typography>
+      <Proyectos rows={rowsFormateadas} />
+    </div>
+  );
 }

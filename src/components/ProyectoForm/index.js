@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import Typography from "@material-ui/core/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -46,7 +46,7 @@ export default function ProyectoForm({
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={{ xs: 2 }}>
-          <Grid item xs={6} >
+          <Grid item xs={6}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -86,7 +86,10 @@ export default function ProyectoForm({
               onChange={onInputChange}
               name="project_type"
             >
-              <MenuItem value={"staff_augmentation"}>Staff Augmentation</MenuItem>
+              <MenuItem value={"staff_augmentation"}>
+                Staff Augmentation
+              </MenuItem>
+              <MenuItem value={"-"}> -</MenuItem>
               <MenuItem value={"end_to_end"}>End to End</MenuItem>
               <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
             </Select>
@@ -102,6 +105,7 @@ export default function ProyectoForm({
               onChange={onInputChange}
               name="project_state"
             >
+              <MenuItem value={"-"}>-</MenuItem>
               <MenuItem value={"verde"}>Verde</MenuItem>
               <MenuItem value={"amarillo"}>Amarillo</MenuItem>
               <MenuItem value={"rojo"}>Rojo</MenuItem>
@@ -145,7 +149,7 @@ export default function ProyectoForm({
               fullWidth
               id="description"
               type="text"
-              label="Descripcion"
+              label="Descripción"
               name="description"
               multiline
               maxRows={5}

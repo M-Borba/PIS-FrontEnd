@@ -3,22 +3,22 @@ import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
-import InputLabel from "@material-ui/core/InputLabel";
 import Grid from '@mui/material/Grid';
 import Typography from "@material-ui/core/Typography";
+import { useStyles } from "./styles";
+import CardSelector from "../CardSelector";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Checkbox from "@material-ui/core/Checkbox";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { useStyles } from "./styles";
-
+import InputLabel from "@mui/material/InputLabel";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
-  proyecto: propTypes.shape({
-    id: propTypes.number,
+  asign: propTypes.shape({
+    roles: propTypes.array.isRequired,
+    people: propTypes.array.isRequired,
+    startDate: propTypes.string.isRequired,
+    endDate: propTypes.string,
   }).isRequired,
   msg: propTypes.string,
   error: propTypes.string,
@@ -26,50 +26,17 @@ AsignPersonForm.propTypes = {
 };
 
 export default function AsignPersonForm({
-  //people,
   title,
   onSubmit,
   onInputChange,
-  proyecto, //TO DO: usar end date y start date
+  asign,
   error,
   msg,
 }) {
+
   const classes = useStyles();
 
-  const [selected, setSelected] = useState([]);
-
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 400,
-        width: 250
-      }
-    }
-  };
-
-  const options = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder"
-  ];
-
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    if (value[value.length - 1] === "all") {
-      setSelected(selected.length === options.length ? [] : options);
-      return;
-    }
-    setSelected(value);
-  };
-
+  //console.log(asign.people)
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -79,42 +46,23 @@ export default function AsignPersonForm({
         {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <Grid container spacing={{ xs: 2 }}>
+        <Grid container spacing={1}>
           <Grid item xs={6}>
-            <InputLabel id="Personas">Personas</InputLabel>
-            <Select
-              labelId="Personas" // TO DO: ARREGLAR LABEL, NO SE VISUALIZA BIEN
-              label={"Personas"}
-              fullWidth
-              multiple
-              value={selected}
-              onChange={handleChange}
-              renderValue={(selected) => selected.join(", ")}
-              MenuProps={MenuProps}
-            >
-              {options.map((option) => (
-                <MenuItem key={option} value={option}>
-                  <ListItemIcon>
-                    <Checkbox checked={selected.indexOf(option) > -1} />
-                  </ListItemIcon>
-                  <ListItemText primary={option} secondary={"EMAIL ACA"} />
-                </MenuItem>
-              ))}
-            </Select>
+            <CardSelector
+              name={"people"}
+              id={"people"}
+              title={"Personas"}
+              list={asign.people}
+              onInputChange={onInputChange}
+            />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="role"
-              type="text"
-              label="Rol (Uno por linea)"
-              name="role"
-              multiline
-              rows={5}
-              onChange={onInputChange}
+            <CardSelector
+              name={"roles"}
+              id={"roles"}
+              title={"Rol"}
+              list={asign.roles}
+              onInputChange={onInputChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -123,10 +71,11 @@ export default function AsignPersonForm({
               margin="normal"
               required
               fullWidth
-              name="start_date"
+              name="startDate"
               label="Inicio"
               type="date"
-              id="start_date"
+              id="startDate"
+              value={asign.startDate}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
@@ -136,16 +85,44 @@ export default function AsignPersonForm({
               variant="outlined"
               margin="normal"
               fullWidth
-              name="end_date"
+              name="endDate"
               label="Fin"
               type="date"
-              id="end_date"
+              id="endDate"
+              value={asign.endDate || ""}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
           </Grid>
+          <Grid item xs={6}>
+            <TextField
+              style={{ marginTop: 23 }}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="workingHours"
+              label="Horas"
+              type="number"
+              id="workingHours"
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <InputLabel id="tipo">Tipo de Horas</InputLabel>
+            <Select
+              fullWidth
+              required
+              id="hoursType"
+              labelId="tipo"
+              onChange={onInputChange}
+              name="hoursType"
+            >
+              <MenuItem value={"daily"}>Diarias</MenuItem>
+              <MenuItem value={"weekly"}>Semanales</MenuItem>
+              <MenuItem value={"monthly"}>Mensuales</MenuItem>
+            </Select>
+          </Grid>
         </Grid>
-
         <Button
           role="submit"
           type="submit"
