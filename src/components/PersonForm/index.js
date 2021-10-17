@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import propTypes from "prop-types";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
+import CardSelector from "../CardSelector";
+
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -15,6 +16,7 @@ PersonForm.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    roles: propTypes.array
   }).isRequired,
   msg: propTypes.string,
   error: propTypes.string,
@@ -30,23 +32,7 @@ export default function PersonForm({
   msg,
 }) {
   const classes = useStyles();
-  const [formRoles, setFormRoles] = useState([{ rol: "" }])
 
-  let handleChange = (i, e) => {
-    let newFormRoles = [...formRoles];
-    newFormRoles[i][e.target.name] = e.target.value;
-    setFormRoles(newFormRoles);
-  }
-
-  let addFormFields = () => {
-    setFormRoles([...formRoles, { rol: "" }])
-  }
-
-  let removeFormFields = (i) => {
-    let newFormRoles = [...formRoles];
-    newFormRoles.splice(i, 1);
-    setFormRoles(newFormRoles)
-  }
 
   return (
     <div className={classes.paper}>
@@ -103,40 +89,20 @@ export default function PersonForm({
           required
           fullWidth
           name="working_hours"
-          label="Horas"
+          label="Horas Semanales"
           type="number"
           id="working_hours"
           value={person.working_hours}
           onChange={onInputChange}
         />
-        {formRoles.map((element, index) => (
-          <Grid container key={index} style={{ paddingTop: 10, paddingBo: 10 }}>
-            {
-              index ?
-                <>
-                  <TextField
-                    style={{ paddingRight: 14 }}
-                    variant="outlined"
-                    name="role"
-                    label="Rol"
-                    type="text"
-                    id="rol"
-                    value={element.name}
-                    onChange={e => handleChange(index, e)} />
-                  <Button
-                    variant="outlined"
-                    onClick={() => removeFormFields(index)}
-                  >
-                    Quitar
-                  </Button>
-                </>
-                : null
-            }
-          </Grid>
-
-        ))}
+        <CardSelector
+          name={"roles"}
+          id={"roles"}
+          title={"Rol"}
+          list={person.roles}
+          onInputChange={onInputChange}
+        />
         <div style={{ paddingTop: 10 }} />
-        <Button variant="outlined" className="button add" onClick={() => addFormFields()}>Agregar Rol</Button>
         <Button
           role="submit"
           type="submit"

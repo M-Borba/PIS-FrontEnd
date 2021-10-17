@@ -52,7 +52,7 @@ export default function AgregarPersona({ projectData }) {
             setError("Completar todos los campos para completar la asignación");
         } else {
             var body = Object.assign({}, asignacion);
-            body.roles = body.roles.filter(rol => rol[1] == true).map(rol => rol[0]);//conseguir la lista de roles
+            body.roles = body.roles.filter(rol => rol[1] == true).map(rol => rol[0].toLowerCase());//conseguir la lista de roles
             body.people = body.people.filter(rol => rol[1] == true).map(person => person[0].slice(0, person[0].indexOf(" ")));//conseguir la lista de personas por id
             body.people.forEach(person => (
                 body.roles.forEach(role => (
@@ -60,7 +60,7 @@ export default function AgregarPersona({ projectData }) {
                         .post("/people/" + person + "/person_project", {
                             person_project: {
                                 project_id: projectData.id,
-                                rol: role.toLowerCase(),
+                                rol: role,
                                 working_hours: asignacion.hours,
                                 working_hours_type: asignacion.hoursType,
                                 start_date: asignacion.startDate.replaceAll("-", "/"),
@@ -113,11 +113,13 @@ export default function AgregarPersona({ projectData }) {
     }, []);
 
     const checkInput = (value, type) => {
+        console.log(value, type);
+
         if (type == "Rol") {
             let newRoles = asignacion.roles;
             let i = 0;
             try {
-                newRoles.forEach(([a, b]) => {
+                newRoles.forEach(([a, b]) => {//find index of selected role
                     if (a == value[0])
                         throw Found
                     if (i != newRoles.length - 1)
@@ -140,11 +142,16 @@ export default function AgregarPersona({ projectData }) {
                 ...asignacion, people: newPeople
             });
         }
-        else if (type == "startDate") {
-            setAsignacion({ ...asignacion, startDate: value.target.value });
-        }
-        else if (type == "endDate") {
-            setAsignacion({ ...asignacion, endDate: value.target.value });
+        else if (type == undefined) {
+            if (value.target.id == "startDate")
+                setAsignacion({ ...asignacion, startDate: value.target.value });
+            else if (value.target.id == "endDate") {
+                setAsignacion({ ...asignacion, endDate: value.target.value });
+            } else if (value.target.id == "workingHours") {
+                setAsignacion({ ...asignacion, hours: value.target.value });
+            } else if (value.target.name == "endDate") {
+                setAsignacion({ ...asignacion, hoursType: value.target.value });
+            }
         }
     }
 

@@ -15,6 +15,7 @@ export default function ListarPersonas() {
           fullName: row.full_name,
           email: row.email,
           id: row.id,
+          roles: row.roles,
           cargaHoraria: row.working_hours,
           tag: ".",
         };

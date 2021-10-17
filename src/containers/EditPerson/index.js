@@ -13,6 +13,7 @@ Edit.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    roles: propTypes.array,
   }).isRequired,
   id: propTypes.number,
   resultOk: propTypes.bool,
@@ -59,9 +60,9 @@ export default function Edit({ personData, id, resultOk }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });
