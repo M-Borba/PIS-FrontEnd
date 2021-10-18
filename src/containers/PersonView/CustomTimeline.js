@@ -25,19 +25,17 @@ export default function PersonTimeline() {
 
   const fetchData = () => {
     return axiosInstance.get("/person_project").then((response) => {
-
       const rows = response.data.person_project;
       rows.map((ppl) => {
         var person = ppl.person;
 
         groupsToAdd.push({
           id: person.id,
-          title: person.full_name
+          title: person.full_name,
         });
 
         person.projects.map((proj) => {
           proj.dates.map((dt) => {
-
             const startDate = new Date(dt.start_date);
             const startValue = moment(startDate).valueOf();
 
@@ -45,7 +43,6 @@ export default function PersonTimeline() {
             var endValue = moment(endDate).valueOf();
 
             if (!dt.end_date) {
-
               endDate = new Date(1, 1, 2050);
               endValue = moment(endDate).valueOf();
             }
@@ -57,10 +54,10 @@ export default function PersonTimeline() {
               end: endValue,
               canResize: "both",
               canMove: false,
-              title: proj.name + " - " + dt.role
-            })
-          })
-        })
+              title: proj.name + " - " + dt.role,
+            });
+          });
+        });
       });
 
       setGroups(groupsToAdd);
@@ -70,7 +67,6 @@ export default function PersonTimeline() {
 
   useEffect(() => {
     fetchData();
-
   }, []);
 
   const defaultTimeStart = moment().startOf("day").toDate();
@@ -83,18 +79,17 @@ export default function PersonTimeline() {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: edge === "left" ? time : item.start,
-            end: edge === "left" ? item.end : time,
-          })
+              start: edge === "left" ? time : item.start,
+              end: edge === "left" ? item.end : time,
+            })
           : item
       ),
     });
 
     console.log("Resized", itemId, time, edge);
-  }
+  };
 
   if (groups.length > 0 && items.length > 0) {
-
     return (
       <Timeline
         groups={groups}
@@ -115,7 +110,5 @@ export default function PersonTimeline() {
       />
     );
   }
-  return null
+  return null;
 }
-
-
