@@ -45,10 +45,10 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: dragTime,
-              end: dragTime + (item.end - item.start),
-              group: group.id,
-            })
+            start: dragTime,
+            end: dragTime + (item.end - item.start),
+            group: group.id,
+          })
           : item
       ),
     });
@@ -63,9 +63,9 @@ export default class PersonTimeline extends Component {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
-            })
+            start: edge === "left" ? time : item.start,
+            end: edge === "left" ? item.end : time,
+          })
           : item
       ),
     });

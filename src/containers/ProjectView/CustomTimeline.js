@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import moment from "moment";
-
 import Timeline from "react-calendar-timeline";
-
-import generateFakeData from "./generate-fake-data";
+import randomColor from "randomcolor";
+import { axiosInstance } from "../../config/axios";
 
 var keys = {
   groupIdKey: "id",
@@ -18,64 +17,101 @@ var keys = {
   groupLabelKey: "title",
 };
 
-export default class ProjectTimeline extends Component {
-  constructor(props) {
-    super(props);
-    this.handleItemMove = this.handleItemMove.bind(this);
-    this.handleItemResize = this.handleItemResize.bind(this);
+export default function ProjectTimeline() {
 
-    const { groups, items } = generateFakeData();
-    const defaultTimeStart = moment().startOf("day").toDate();
-    const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
+  const [groups, setGroups] = useState([]);
+  const [items, setItems] = useState([]);
+  var groupsToAdd = [];
+  var itemsToAdd = [];
 
-    this.state = {
-      groups,
-      items,
-      defaultTimeStart,
-      defaultTimeEnd,
-    };
-  }
-
-  handleItemMove(itemId, dragTime, newGroupOrder) {
-    const { items, groups } = this.state;
-
-    const group = groups[newGroupOrder];
-
-    this.setState({
-      items: items.map((item) =>
-        item.id === itemId
-          ? Object.assign({}, item, {
-              start: dragTime,
-              end: dragTime + (item.end - item.start),
-              group: group.id,
-            })
-          : item
-      ),
+  const fetchData = async () => {
+    const response = await axiosInstance.get("/projects");
+    const rows = response.data.projects;
+    rows.map((proj) => {
+      groupsToAdd.push({
+        id: proj.id,
+        title: proj.name,
+        bgColor: randomColor({ luminosity: "light" }),
+      });
     });
+    setGroups(groupsToAdd);
+    rows.map((proj) => {
+      const startDate = new Date(proj.start_date);
+      const startValue = moment(startDate).valueOf();
+      const endDate = new Date(proj.end_date);
+      const endValue = moment(endDate).valueOf();
 
-    console.log("Moved", itemId, dragTime, newGroupOrder);
-  }
-
-  handleItemResize(itemId, time, edge) {
-    const { items } = this.state;
-
-    this.setState({
-      items: items.map((item) =>
-        item.id === itemId
-          ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
-            })
-          : item
-      ),
+      itemsToAdd.push({
+        id: proj.id,
+        group: proj.id,
+        start: startValue,
+        end: endValue,
+        canMove: startValue > new Date().getTime(),
+        canResize: "both",
+        className: moment(startDate).day() === 6 || moment(startDate).day() === 0
+          ? "item-weekend"
+          : "",
+      });
     });
-
-    console.log("Resized", itemId, time, edge);
+    setItems(itemsToAdd);
   }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  render() {
-    const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state;
+  console.log("groups", groups)
+  console.log("items", items)
 
+  const defaultTimeStart = moment().startOf("day").toDate();
+  const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
+
+  const itemRenderer = ({
+    item,
+    timelineContext,
+    itemContext,
+    getItemProps,
+    getResizeProps
+  }) => {
+    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
+    const backgroundColor = itemContext.selected
+      ? itemContext.dragging
+        ? "red"
+        : item.selectedBgColor
+      : item.bgColor;
+    const borderColor = itemContext.resizing ? "red" : item.color;
+    return (
+      <div
+        {...getItemProps({
+          style: {
+            backgroundColor,
+            color: item.color,
+            borderColor,
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderRadius: 4,
+            borderLeftWidth: itemContext.selected ? 3 : 1,
+            borderRightWidth: itemContext.selected ? 3 : 1
+          }
+        })}
+      >
+        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
+        <div
+          style={{
+            height: itemContext.dimensions.height,
+            overflow: "hidden",
+            paddingLeft: 3,
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap"
+          }}
+        >
+          {itemContext.title}
+        </div>
+        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
+      </div>
+    );
+  };
+
+  if (groups.length > 0 && items.length > 0) {
     return (
       <Timeline
         groups={groups}
@@ -90,9 +126,25 @@ export default class ProjectTimeline extends Component {
         canResize={"both"}
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
-        onItemMove={this.handleItemMove}
-        onItemResize={this.handleItemResize}
+      //onItemMove={this.handleItemMove}
+      //onItemResize={this.handleItemResize}
       />
     );
   }
+  return null
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

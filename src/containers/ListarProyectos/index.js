@@ -34,5 +34,7 @@ export default function ListarProyectos() {
     fetchData();
   }, []);
 
+
   return <Proyectos rows={rowsFormateadas} />;
+
 }
