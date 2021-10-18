@@ -59,9 +59,6 @@ export default function ProjectTimeline() {
     fetchData();
   }, []);
 
-  console.log("groups", groups)
-  console.log("items", items)
-
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
 
@@ -133,18 +130,3 @@ export default function ProjectTimeline() {
   }
   return null
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
