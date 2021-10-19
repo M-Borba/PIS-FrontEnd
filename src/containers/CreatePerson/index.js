@@ -12,7 +12,6 @@ CreatePerson.propTypes = {
   resultOk: PropTypes.bool,
 };
 
-
 export default function CreatePerson({ resultOk }) {
   const [person, setPerson] = useState({
     first_name: "",
@@ -25,8 +24,8 @@ export default function CreatePerson({ resultOk }) {
       ["Tester", false],
       ["Architect", false],
       ["Analyst", false],
-      ["Designer", false]
-    ]
+      ["Designer", false],
+    ],
   });
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -40,14 +39,16 @@ export default function CreatePerson({ resultOk }) {
   };
 
   const handleSubmit = (e) => {
-    console.log(e)
+    console.log(e);
     setMsg("");
     e.preventDefault();
     if (!isValid(person)) {
       setError("Completar todos los campos para iniciar sesión");
     } else {
       var checkedRoles = Object.assign(person.roles);
-      checkedRoles = checkedRoles.filter(rol => rol[1] == true).map(rol => rol[0].toLowerCase());//conseguir la lista de roles checkeados
+      checkedRoles = checkedRoles
+        .filter((rol) => rol[1] == true)
+        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
 
       axiosInstance
         .post("/people", {
@@ -56,8 +57,8 @@ export default function CreatePerson({ resultOk }) {
             last_name: person.last_name,
             email: person.email,
             working_hours: person.working_hours,
-            roles: checkedRoles
-          }
+            roles: checkedRoles,
+          },
         })
         .then((response) => {
           if (response.status == 200) {
@@ -78,16 +79,16 @@ export default function CreatePerson({ resultOk }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
           } else
             setError(
               "Error inesperado al enviar formulario - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
         });
     }
@@ -97,20 +98,18 @@ export default function CreatePerson({ resultOk }) {
       let newRoles = person.roles;
       let i = 0;
       try {
-        newRoles.forEach(([a, b]) => {//find index of selected role
-          if (a == value[0])
-            throw Found
-          if (i != newRoles.length - 1)
-            i++;
-        })
-      }
-      catch (e) {
+        newRoles.forEach(([a, b]) => {
+          //find index of selected role
+          if (a == value[0]) throw Found;
+          if (i != newRoles.length - 1) i++;
+        });
+      } catch (e) {
         //do nothing :)
       }
-      if (i != -1)
-        newRoles[i][1] = !newRoles[i][1]
+      if (i != -1) newRoles[i][1] = !newRoles[i][1];
       setPerson({
-        ...person, roles: newRoles
+        ...person,
+        roles: newRoles,
       });
     } else if (type == undefined) {
       if (value.target.id == "first_name")

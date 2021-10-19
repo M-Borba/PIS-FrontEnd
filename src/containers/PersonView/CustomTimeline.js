@@ -83,9 +83,9 @@ export default function PersonTimeline() {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-            start: edge === "left" ? time : item.start,
-            end: edge === "left" ? item.end : time,
-          })
+              start: edge === "left" ? time : item.start,
+              end: edge === "left" ? item.end : time,
+            })
           : item
       ),
     });

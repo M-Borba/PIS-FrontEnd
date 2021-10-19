@@ -116,12 +116,14 @@ const Acciones = ({ projectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <Box className={classes.modal}>
-                <AgregarPersona projectData={{
-                  id: projectData.id,
-                  name: projectData.name,
-                  startDate: projectData.start_date,
-                  endDate: projectData.end_date
-                }} />
+                <AgregarPersona
+                  projectData={{
+                    id: projectData.id,
+                    name: projectData.name,
+                    startDate: projectData.start_date,
+                    endDate: projectData.end_date,
+                  }}
+                />
               </Box>
             </Modal>
           </>
