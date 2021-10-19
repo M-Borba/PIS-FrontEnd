@@ -35,6 +35,7 @@ const Acciones = ({ personRow }) => {
     last_name: fullName[1],
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
+    roles: personRow.roles,
     tags: personRow.tags,
   });
 

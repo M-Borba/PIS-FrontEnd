@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
+import CardSelector from "../CardSelector";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -14,6 +15,7 @@ PersonForm.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    roles: propTypes.array,
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
@@ -27,6 +29,7 @@ export default function PersonForm({
   error,
 }) {
   const classes = useStyles();
+
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -78,12 +81,20 @@ export default function PersonForm({
           required
           fullWidth
           name="working_hours"
-          label="Horas"
+          label="Horas Semanales"
           type="number"
           id="working_hours"
           value={person.working_hours}
           onChange={onInputChange}
         />
+        <CardSelector
+          name={"roles"}
+          id={"roles"}
+          title={"Rol"}
+          list={person.roles}
+          onInputChange={onInputChange}
+        />
+        <div style={{ paddingTop: 10 }} />
         <Button
           role="submit"
           type="submit"

@@ -8,10 +8,12 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import PersonAdd from "@material-ui/icons/PersonAdd";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
+import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
 
@@ -23,6 +25,8 @@ const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+
   const classes = useStyles();
   const [notify, setNotify] = React.useState({
     isOpen: false,
@@ -52,6 +56,10 @@ const Acciones = ({ projectRow }) => {
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
 
+  const handleAddOpen = () => setOpenAdd(true);
+
+  const handleAddClose = () => setOpenAdd(false);
+
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
 
@@ -70,8 +78,6 @@ const Acciones = ({ projectRow }) => {
             <Modal
               open={openInfo}
               onClose={handleInfoClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
               disableEnforceFocus
             >
               <Box className={classes.modalInfo}>
@@ -90,8 +96,6 @@ const Acciones = ({ projectRow }) => {
             <Modal
               open={openEdit}
               onClose={handleEditClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
               disableEnforceFocus
             >
               <Box className={classes.modal}>
@@ -114,7 +118,32 @@ const Acciones = ({ projectRow }) => {
       />
       <FormControlLabel
         control={
-          <React.Fragment>
+          <>
+            <IconButton onClick={handleAddOpen}>
+              <PersonAdd style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Modal
+              open={openAdd}
+              onClose={handleAddClose}
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <Box className={classes.modal}>
+                <AgregarPersona
+                  projectData={{
+                    id: projectData.id,
+                    name: projectData.name,
+                    startDate: projectData.start_date,
+                    endDate: projectData.end_date,
+                  }}
+                />
+              </Box>
+            </Modal>
+          </>
+        }
+      />
+      <FormControlLabel
+        control={
+          <>
             <IconButton onClick={handleRemoveOpen}>
               <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
@@ -131,7 +160,7 @@ const Acciones = ({ projectRow }) => {
                 setNotify={setNotify}
               />
             </Dialog>
-          </React.Fragment>
+          </>
         }
       />
       <Notificacion notify={notify} setNotify={setNotify} />

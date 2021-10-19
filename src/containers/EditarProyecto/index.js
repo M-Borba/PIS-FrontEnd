@@ -1,7 +1,3 @@
-/**
- * Create person
- */
-
 import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
@@ -26,6 +22,17 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
   const [proyecto, setProyecto] = useState(projectData);
+  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
+  const isValid = () => {
+    return (
+      //descripcion, budget y end date son opcionales y no se validan
+      proyecto.name != "" &&
+      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
+      proyecto.start_date != ""
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,9 +56,8 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
         if (error.response.status == 400)
           setNotify({
             isOpen: true,
-            message: `Error, hay un problema con los datos ingresados - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: `Error, hay un problema con los datos ingresados - ${Object.keys(errors)[0]
+              } ${errors[Object.keys(errors)[0]]}.`,
             type: "error",
             reload: false,
           });
@@ -65,9 +71,8 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
         else
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: `Error inesperado al enviar formulario - ${Object.keys(errors)[0]
+              } ${errors[Object.keys(errors)[0]]}.`,
             type: "error",
             reload: false,
           });

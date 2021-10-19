@@ -143,7 +143,7 @@ export default function ProyectoForm({
               fullWidth
               id="description"
               type="text"
-              label="Descripcion"
+              label="Descripción"
               name="description"
               multiline
               maxRows={5}

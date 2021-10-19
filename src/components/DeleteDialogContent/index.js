@@ -20,7 +20,7 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
   return (
     <Fragment>
       <DialogTitle id="confirmation-dialog-title" className={Classes.title}>
-        Confirmar eliminacion
+        Confirmar eliminación
         <IconButton
           aria-label="Close"
           className={Classes.closeButton}
