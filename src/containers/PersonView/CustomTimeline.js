@@ -36,10 +36,14 @@ export default function PersonTimeline() {
 
         person.projects.map((proj) => {
           proj.dates.map((dt) => {
-            const startDate = new Date(dt.start_date);
+            var startDate = new Date(dt.start_date);
+            startDate.setDate(startDate.getDate() + 1);
+
             const startValue = moment(startDate).valueOf();
 
             var endDate = new Date(dt.end_date);
+            endDate.setDate(endDate.getDate() + 1);
+
             var endValue = moment(endDate).valueOf();
 
             if (!dt.end_date) {
@@ -79,9 +83,9 @@ export default function PersonTimeline() {
       items: items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
-            })
+            start: edge === "left" ? time : item.start,
+            end: edge === "left" ? item.end : time,
+          })
           : item
       ),
     });
