@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
@@ -33,7 +33,6 @@ export default function AsignPersonForm({
   error,
   msg,
 }) {
-
   const classes = useStyles();
 
   //console.log(asign.people)
@@ -140,6 +139,6 @@ export default function AsignPersonForm({
 
         <Box mt={5}></Box>
       </form>
-    </div >
+    </div>
   );
 }

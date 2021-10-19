@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
 
-
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
@@ -16,7 +15,7 @@ PersonForm.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
-    roles: propTypes.array
+    roles: propTypes.array,
   }).isRequired,
   msg: propTypes.string,
   error: propTypes.string,
@@ -119,6 +118,6 @@ export default function PersonForm({
 
         <Box mt={5}></Box>
       </form>
-    </div >
+    </div>
   );
 }

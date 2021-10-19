@@ -11,54 +11,48 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 
-
 CardSelector.propTypes = {
-    title: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-    onInputChange: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  list: PropTypes.array.isRequired,
+  onInputChange: PropTypes.func.isRequired,
 };
-
 
 export default function CardSelector({ title, list, onInputChange }) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-
-    return (
-        <Card
-            style={{ display: "flex", flexDirection: "column" }}
-            component={Paper}
-        >
-            <CardHeader
-                className={classes.cardHeader}
-                title={title}
-            />
-            <Collapse in={true} className={classes.collapse}>
-                <List className={classes.list} dense component="div" role="list">
-                    {list.map((value) => {
-                        return (
-                            <ListItem
-                                key={value}
-                                role="listitem"
-                                button
-                                onClick={() => { onInputChange(value, title) }}
-                            >
-                                <ListItemIcon>
-                                    <Checkbox
-                                        id={value[0]}
-                                        checked={value[1]}
-                                        tabIndex={-1}
-                                        disableRipple
-                                    />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={value[0]}
-                                />
-                            </ListItem>
-                        );
-                    })}
-                    <ListItem />
-                </List>
-            </Collapse>
-        </Card>
-    );
-};
+  return (
+    <Card
+      style={{ display: "flex", flexDirection: "column" }}
+      component={Paper}
+    >
+      <CardHeader className={classes.cardHeader} title={title} />
+      <Collapse in={true} className={classes.collapse}>
+        <List className={classes.list} dense component="div" role="list">
+          {list.map((value) => {
+            return (
+              <ListItem
+                key={value}
+                role="listitem"
+                button
+                onClick={() => {
+                  onInputChange(value, title);
+                }}
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    id={value[0]}
+                    checked={value[1]}
+                    tabIndex={-1}
+                    disableRipple
+                  />
+                </ListItemIcon>
+                <ListItemText primary={value[0]} />
+              </ListItem>
+            );
+          })}
+          <ListItem />
+        </List>
+      </Collapse>
+    </Card>
+  );
+}

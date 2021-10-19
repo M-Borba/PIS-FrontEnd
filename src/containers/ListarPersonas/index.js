@@ -30,7 +30,12 @@ export default function ListarPersonas() {
 
   return (
     <div>
-      <Typography style={{ marginTop: 20 }} color="primary" variant="h4" align="center">
+      <Typography
+        style={{ marginTop: 20 }}
+        color="primary"
+        variant="h4"
+        align="center"
+      >
         LISTADO DE PERSONAS
       </Typography>
       <Personas rows={rowsFormateadas} />

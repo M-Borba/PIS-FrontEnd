@@ -26,33 +26,31 @@ export default function Edit({ personData, id, resultOk }) {
     ["Tester", false],
     ["Architect", false],
     ["Analyst", false],
-    ["Designer", false]
+    ["Designer", false],
   ];
 
-  personData.roles.forEach(role => {
-
+  personData.roles.forEach((role) => {
     var formattedRole;
-    if (role == "pm") //hardcodeado porque bueno, es el unico rol que no tiene mayuscula al principio
+    if (role == "pm")
+      //hardcodeado porque bueno, es el unico rol que no tiene mayuscula al principio
       formattedRole = "PM";
-    else
-      formattedRole = role.charAt(0).toUpperCase() + role.slice(1)
+    else formattedRole = role.charAt(0).toUpperCase() + role.slice(1);
 
     var i = 0;
 
     try {
-      completeRoles.forEach(([a, b]) => {//find index of selected role
-        if (a == formattedRole)
-          throw Found
-        if (i != completeRoles.length - 1)
-          i++;
-      })
-    }
-    catch (e) {
+      completeRoles.forEach(([a, b]) => {
+        //find index of selected role
+        if (a == formattedRole) throw Found;
+        if (i != completeRoles.length - 1) i++;
+      });
+    } catch (e) {
       //index was found, do nothing :)
     }
 
-    if (i != completeRoles.length - 1) //role was found
-      completeRoles[i] = [formattedRole, true]
+    if (i != completeRoles.length - 1)
+      //role was found
+      completeRoles[i] = [formattedRole, true];
     else
       console.log("Error: Hubo un error identificando los roles de la persona");
   });
@@ -62,7 +60,7 @@ export default function Edit({ personData, id, resultOk }) {
     last_name: personData.last_name,
     email: personData.email,
     working_hours: personData.working_hours,
-    roles: completeRoles
+    roles: completeRoles,
   });
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -81,7 +79,9 @@ export default function Edit({ personData, id, resultOk }) {
       setError("Completar todos los campos para completar la modificación");
     } else {
       var checkedRoles = Object.assign(person.roles);
-      checkedRoles = checkedRoles.filter(rol => rol[1] == true).map(rol => rol[0].toLowerCase());//conseguir la lista de roles checkeados
+      checkedRoles = checkedRoles
+        .filter((rol) => rol[1] == true)
+        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
 
       axiosInstance
         .put("/people/" + id, {
@@ -90,8 +90,8 @@ export default function Edit({ personData, id, resultOk }) {
             last_name: person.last_name,
             email: person.email,
             working_hours: person.working_hours,
-            roles: checkedRoles
-          }
+            roles: checkedRoles,
+          },
         })
         .then((response) => {
           if (response.status == 200) {
@@ -112,9 +112,9 @@ export default function Edit({ personData, id, resultOk }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-              Object.keys(errors)[0] +
-              " " +
-              errors[Object.keys(errors)[0]]
+                Object.keys(errors)[0] +
+                " " +
+                errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });
@@ -125,20 +125,18 @@ export default function Edit({ personData, id, resultOk }) {
       let newRoles = person.roles;
       let i = 0;
       try {
-        newRoles.forEach(([a, b]) => {//find index of selected role
-          if (a == value[0])
-            throw Found
-          if (i != newRoles.length - 1)
-            i++;
-        })
-      }
-      catch (e) {
+        newRoles.forEach(([a, b]) => {
+          //find index of selected role
+          if (a == value[0]) throw Found;
+          if (i != newRoles.length - 1) i++;
+        });
+      } catch (e) {
         //do nothing :)
       }
-      if (i != -1)
-        newRoles[i][1] = !newRoles[i][1]
+      if (i != -1) newRoles[i][1] = !newRoles[i][1];
       setPerson({
-        ...person, roles: newRoles
+        ...person,
+        roles: newRoles,
       });
     } else if (type == undefined) {
       if (value.target.id == "first_name")
