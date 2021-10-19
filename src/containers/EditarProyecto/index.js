@@ -1,7 +1,3 @@
-/**
- * Create person
- */
-
 import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
@@ -31,8 +27,8 @@ export default function EditarProjecto({ projectData, id }) {
     return (
       //descripcion, budget y end date son opcionales y no se validan
       proyecto.name != "" &&
-      proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
       proyecto.start_date != ""
     );
   };
@@ -64,9 +60,9 @@ export default function EditarProjecto({ projectData, id }) {
             let errors = error.response.data.errors;
             setError(
               "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
+              Object.keys(errors)[0] +
+              " " +
+              errors[Object.keys(errors)[0]]
             );
           } else setError("Error inesperado al enviar formulario ");
         });

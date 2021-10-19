@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
+import { Typography } from "@material-ui/core";
+
 
 export default function ListarProyectos() {
   var rows;
@@ -9,7 +11,8 @@ export default function ListarProyectos() {
   const fetchData = () => {
     return axiosInstance.get("/projects").then((response) => {
       rows = response.data.projects;
-      let rowsNuevas = rows.map((row) => {
+      //const currDate = new Date();
+      let rowsNuevas = rows/*.filter(row => new Date(row.end_date) > currDate)*/.map((row) => {
         return {
           id: row.id,
           name: row.name,
@@ -34,5 +37,12 @@ export default function ListarProyectos() {
     fetchData();
   }, []);
 
-  return <Proyectos rows={rowsFormateadas} />;
+  return (
+    <div>
+      <Typography style={{ marginTop: 20 }} color="primary" variant="h4" align="center">
+        LISTADO DE PROYECTOS
+      </Typography>
+      <Proyectos rows={rowsFormateadas} />
+    </div>
+  );
 }

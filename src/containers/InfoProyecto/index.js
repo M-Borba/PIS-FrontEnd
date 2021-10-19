@@ -36,7 +36,7 @@ export default function InfoProyecto({ projectData }) {
           </Typography>
           <Card style={{ marginBottom: 10, maxHeight: 397, overflow: "auto" }}>
             <CardContent>
-              <Typography gutterBottom>Descripcion</Typography>
+              <Typography gutterBottom>Descripción</Typography>
               <Typography color="textSecondary">
                 {projectData.description}
               </Typography>
@@ -44,7 +44,7 @@ export default function InfoProyecto({ projectData }) {
           </Card>
           <Card>
             <CardContent>
-              <Typography gutterBottom>Presupuesto</Typography>
+              <Typography gutterBottom>Budget</Typography>
               <Typography color="textSecondary">
                 {projectData.budget}
               </Typography>
