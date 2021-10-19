@@ -21,7 +21,7 @@ export default function App() {
   if (uid == null) {
     uid = NOT_LOGGED;
   }
-  const [isProjectView, setIsProjectView] = useState(true);
+  const [isProjectView, setIsProjectView] = useState(false);
 
   return (
     <Router>
