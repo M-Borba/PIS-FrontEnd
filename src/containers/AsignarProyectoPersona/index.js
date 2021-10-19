@@ -43,9 +43,8 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
           let errors = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error ${
-              Object.keys(errors)[0]
-            }, Error en fetch de proyectos - ${errors[Object.keys(errors)[0]]}`,
+            message: `Error ${Object.keys(errors)[0]
+              }, Error en fetch de proyectos - ${errors[Object.keys(errors)[0]]}`,
             type: "error",
             reload: false,
           });
@@ -71,11 +70,9 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
           } else
             setNotify({
               isOpen: true,
-              message: `Error ${
-                Object.keys(errors)[0]
-              }, Error en fetch de roles de la persona - ${
-                errors[Object.keys(errors)[0]]
-              }`,
+              message: `Error ${Object.keys(errors)[0]
+                }, Error en fetch de roles de la persona - ${errors[Object.keys(errors)[0]]
+                }`,
               type: "error",
               reload: false,
             });
@@ -84,14 +81,11 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
 
   const onSubmit = () => {
     // API call
-    console.log(requestBody);
-
     axiosInstance
       .post(`/people/${personId}/person_project`, {
         person_project: requestBody,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.status == 200)
           setNotify({
             isOpen: true,
@@ -101,7 +95,6 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
           });
       })
       .catch((error) => {
-        console.log(error.response);
         let errors = error.response.data.errors;
         if (error.response.status == 404)
           setNotify({
@@ -113,11 +106,9 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
         else if (error.response.status == 400)
           setNotify({
             isOpen: true,
-            message: `Error ${
-              Object.keys(errors)[0]
-            }, Error en los datos ingresados - ${
-              errors[Object.keys(errors)[0]]
-            }`,
+            message: `Error ${Object.keys(errors)[0]
+              }, Error en los datos ingresados - ${errors[Object.keys(errors)[0]]
+              }`,
             type: "error",
             reload: false,
           });

@@ -63,7 +63,7 @@ export default function AgregarPersona({ projectData }) {
             .post("/people/" + person + "/person_project", {
               person_project: {
                 project_id: projectData.id,
-                rol: role,
+                role: role,
                 working_hours: asignacion.hours,
                 working_hours_type: asignacion.hoursType,
                 start_date: asignacion.startDate.replaceAll("-", "/"),
@@ -88,16 +88,16 @@ export default function AgregarPersona({ projectData }) {
                 let errors = error.response.data.errors;
                 setError(
                   "Error, hay un problema con los datos ingresados - " +
-                    Object.keys(errors)[0] +
-                    " " +
-                    errors[Object.keys(errors)[0]]
+                  Object.keys(errors)[0] +
+                  " " +
+                  errors[Object.keys(errors)[0]]
                 );
               } else
                 setError(
                   "Error inesperado al enviar formulario - " +
-                    Object.keys(errors)[0] +
-                    " " +
-                    errors[Object.keys(errors)[0]]
+                  Object.keys(errors)[0] +
+                  " " +
+                  errors[Object.keys(errors)[0]]
                 );
             })
         )
@@ -123,8 +123,6 @@ export default function AgregarPersona({ projectData }) {
   }, []);
 
   const checkInput = (value, type) => {
-    console.log(value, type);
-
     if (type == "Rol") {
       let newRoles = asignacion.roles;
       let i = 0;

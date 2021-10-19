@@ -35,7 +35,6 @@ export default function AsignPersonForm({
 }) {
   const classes = useStyles();
 
-  //console.log(asign.people)
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
