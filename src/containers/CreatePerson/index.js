@@ -27,6 +27,15 @@ export default function CreatePerson({ setNotify }) {
     ],
   });
 
+  const isValid = () => {
+    return (
+      person.first_name != "" &&
+      person.last_name != "" &&
+      person.email != "" &&
+      person.hourly_load != ""
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isValid(person)) {
