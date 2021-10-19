@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from "react";
 import propTypes from "prop-types";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
-// import { makeStyles } from "@material-ui/core/styles";
 import { axiosInstance } from "../../config/axios";
 import Notificacion from "../../components/Notificacion";
 
@@ -13,14 +12,6 @@ InfoAsignacion.propTypes = {
   asignacionId: propTypes.number.isRequired,
   onClose: propTypes.func.isRequired,
 };
-
-// const useStyles = () => makeStyles({
-//   dialog: {
-//     position: 'absolute',
-//     left: x,
-//     top: y
-//   }
-// });
 
 function InfoAsignacion({
   open,
