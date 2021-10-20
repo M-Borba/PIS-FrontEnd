@@ -12,6 +12,15 @@ AsignarProyectoPersona.propTypes = {
   personName: PropTypes.string.isRequired,
 };
 
+const initialState = {
+  project_id: "",
+  role: "",
+  working_hours: 0,
+  working_hours_type: "",
+  start_date: "",
+  end_date: "",
+};
+
 function AsignarProyectoPersona({ open, onClose, personId, personName }) {
   const [proyectos, setProyectos] = useState([]);
   const [roles, setRoles] = useState([]);
@@ -21,14 +30,7 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
     type: "success",
     reload: false,
   });
-  const [requestBody, setRequestBdoy] = useState({
-    project_id: "",
-    role: "",
-    working_hours: 0,
-    working_hours_type: "",
-    start_date: "",
-    end_date: "",
-  });
+  const [requestBody, setRequestBdoy] = useState(initialState);
 
   useEffect(() => {
     // Traigo proyectos
@@ -91,8 +93,10 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
         });
   }, [open]);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
     // API call
+    e.preventDefault();
+
     axiosInstance
       .post(`/people/${personId}/person_project`, {
         person_project: requestBody,
@@ -152,15 +156,20 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
       setRequestBdoy({ ...requestBody, working_hours: e.target.value });
   };
 
+  const handleClose = () => {
+    onClose();
+    setRequestBdoy(initialState);
+  };
+
   return (
     <Fragment>
-      <Dialog fullwidth open={open} onClose={onClose} maxWidth={"xs"}>
+      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
         <AsignacionForm
           proyectos={proyectos}
           roles={roles}
           datos={requestBody}
           personName={personName}
-          onClose={onClose}
+          onClose={handleClose}
           onSubmit={onSubmit}
           onInputChange={onInputChange}
         />

@@ -13,6 +13,14 @@ InfoAsignacion.propTypes = {
   onClose: propTypes.func.isRequired,
 };
 
+const initialState = {
+  role: "",
+  working_hours: 0,
+  working_hours_type: "",
+  start_date: "",
+  end_date: "",
+};
+
 function InfoAsignacion({
   open,
   projectName,
@@ -26,13 +34,7 @@ function InfoAsignacion({
     type: "success",
     reload: false,
   });
-  const [asignacionInfo, setAsignacionInfo] = useState({
-    role: "",
-    working_hours: 0,
-    working_hours_type: "",
-    start_date: "",
-    end_date: "",
-  });
+  const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
@@ -82,8 +84,9 @@ function InfoAsignacion({
         });
   }, [open]);
 
-  const handleAplicarCambios = () => {
+  const handleAplicarCambios = (e) => {
     // API call
+    e.preventDefault();
 
     axiosInstance
       .put(`/person_project/${asignacionId}`, {
@@ -181,12 +184,17 @@ function InfoAsignacion({
       setAsignacionInfo({ ...asignacionInfo, end_date: e.target.value });
   };
 
+  const handleClose = () => {
+    onClose();
+    setAsignacionInfo(initialState);
+  };
+
   return (
     <Fragment>
       <Dialog
         fullWidth
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         maxWidth={"xs"}
         hideBackdrop={true}
       >
@@ -195,7 +203,7 @@ function InfoAsignacion({
           roles={roles}
           projectName={projectName}
           personName={personName}
-          onClose={onClose}
+          onClose={handleClose}
           onChange={onInputChange}
           aplicarCambios={handleAplicarCambios}
           desasignar={handleDesasignar}
