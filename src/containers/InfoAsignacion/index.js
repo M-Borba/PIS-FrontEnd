@@ -13,6 +13,14 @@ InfoAsignacion.propTypes = {
   onClose: propTypes.func.isRequired,
 };
 
+const initialState = {
+  role: "",
+  working_hours: 0,
+  working_hours_type: "",
+  start_date: "",
+  end_date: "",
+};
+
 function InfoAsignacion({
   open,
   projectName,
@@ -26,13 +34,7 @@ function InfoAsignacion({
     type: "success",
     reload: false,
   });
-  const [asignacionInfo, setAsignacionInfo] = useState({
-    role: "",
-    working_hours: 0,
-    working_hours_type: "",
-    start_date: "",
-    end_date: "",
-  });
+  const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const [roles, setRoles] = useState([]);
 
   useEffect(() => {
@@ -51,30 +53,40 @@ function InfoAsignacion({
               end_date: asignacionData.end_date,
             });
             setRoles(asignacionData.person.roles);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          if (error.response.status == 404)
+          } else
             setNotify({
               isOpen: true,
-              message: "Error, la asignacion no existe.",
-              type: "error",
-              reload: true,
-            });
-          else
-            setNotify({
-              isOpen: true,
-              message: "Error inesperado.",
+              message: `Error inesperado`,
               type: "error",
               reload: false,
             });
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response.status == 404) {
+            let message = error.response.data.error;
+            setNotify({
+              isOpen: true,
+              message: message,
+              type: "error",
+              reload: false,
+            });
+          } else {
+            let message = error.response.data.errors;
+            setNotify({
+              isOpen: true,
+              message: message[Object.keys(message)[0]],
+              type: "error",
+              reload: false,
+            });
+          }
           onClose();
         });
   }, [open]);
 
-  const handleAplicarCambios = () => {
+  const handleAplicarCambios = (e) => {
     // API call
+    e.preventDefault();
 
     axiosInstance
       .put(`/person_project/${asignacionId}`, {
@@ -89,28 +101,6 @@ function InfoAsignacion({
             type: "success",
             reload: true,
           });
-      })
-      .catch((error) => {
-        console.error(error);
-        let errors = error.response.data.errors;
-        if (error.response.status == 404) {
-          setNotify({
-            isOpen: true,
-            message: `Error, la asignacion no existe`,
-            type: "error",
-            reload: true,
-          });
-        } else if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message: `Error ${
-              Object.keys(errors)[0]
-            }, Error en los datos asignados - ${
-              errors[Object.keys(errors)[0]]
-            }`,
-            type: "error",
-            reload: false,
-          });
         else
           setNotify({
             isOpen: true,
@@ -118,6 +108,28 @@ function InfoAsignacion({
             type: "error",
             reload: false,
           });
+        onClose();
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: false,
+          });
+          onClose();
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
       });
   };
 
@@ -135,16 +147,25 @@ function InfoAsignacion({
             type: "success",
             reload: true,
           });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error.response);
+        let message = error.response.data.error;
         setNotify({
           isOpen: true,
-          message: "Error al desasignar.",
+          message: message,
           type: "error",
           reload: false,
         });
       });
+    onClose();
   };
 
   const onInputChange = (e) => {
@@ -163,12 +184,17 @@ function InfoAsignacion({
       setAsignacionInfo({ ...asignacionInfo, end_date: e.target.value });
   };
 
+  const handleClose = () => {
+    onClose();
+    setAsignacionInfo(initialState);
+  };
+
   return (
     <Fragment>
       <Dialog
         fullWidth
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         maxWidth={"xs"}
         hideBackdrop={true}
       >
@@ -177,7 +203,7 @@ function InfoAsignacion({
           roles={roles}
           projectName={projectName}
           personName={personName}
-          onClose={onClose}
+          onClose={handleClose}
           onChange={onInputChange}
           aplicarCambios={handleAplicarCambios}
           desasignar={handleDesasignar}

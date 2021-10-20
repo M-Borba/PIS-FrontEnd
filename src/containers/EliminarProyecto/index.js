@@ -24,27 +24,29 @@ function EliminarProyecto({ projectId, projectName, handleClose, setNotify }) {
             type: "success",
             reload: true,
           });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
       })
       .catch((error) => {
         console.error(error);
-        if (
-          error.response != undefined &&
-          error.response.status != null &&
-          error.response.status == 404
-        )
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
           setNotify({
             isOpen: true,
-            message: `Error, el proyecto ${projectName} ya fue eliminado.`,
+            message: message,
             type: "error",
             reload: true,
           });
-        else {
-          let errors = error.response.data.errors;
+        } else {
+          let message = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: message[Object.keys(message)[0]],
             type: "error",
             reload: false,
           });

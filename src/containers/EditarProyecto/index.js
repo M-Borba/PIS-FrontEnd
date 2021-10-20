@@ -22,17 +22,6 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
   const [proyecto, setProyecto] = useState(projectData);
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      //descripcion, budget y end date son opcionales y no se validan
-      proyecto.name != "" &&
-      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
-      proyecto.start_date != ""
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,35 +38,33 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
             type: "success",
             reload: true,
           });
-      })
-      .catch((error) => {
-        console.log(error.response);
-        let errors = error.response.data.errors;
-        if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message: `Error, hay un problema con los datos ingresados - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
-            type: "error",
-            reload: false,
-          });
-        else if (error.response.status == 404)
-          setNotify({
-            isOpen: true,
-            message: `Error, el proyecto ${projectData.name} ya fue eliminado.`,
-            type: "error",
-            reload: true,
-          });
         else
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: `Error inesperado.`,
             type: "error",
             reload: false,
           });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
       });
   };
 

@@ -7,12 +7,12 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Stack } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
 
 AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,
@@ -60,83 +60,93 @@ function AsignacionDialog({
   return (
     <Fragment>
       <DialogTitle>Asignacion de proyecto a {personName}</DialogTitle>
-      <DialogContent>
-        <Stack spacing={2} divider={<Divider flexItem />}>
-          <TextField
-            select
-            fullwidth
-            required
-            name="project"
-            label="Proyectos"
-            value={datos.project_id}
-            onChange={onInputChange}
-            sx={{ marginTop: 1 }}
-          >
-            {proyectosItems}
-          </TextField>
-          <TextField
-            select
-            fullWidth
-            required
-            name="rol"
-            label="Rol"
-            value={datos.role}
-            onChange={(e) => onInputChange(e)}
-          >
-            {rolItems}
-          </TextField>
-          <Stack spacing={1} direction="row">
+      <form onSubmit={onSubmit}>
+        <DialogContent>
+          <Stack spacing={2} divider={<Divider flexItem />}>
+            <TextField
+              select
+              fullwidth
+              required
+              autoFocus
+              name="project"
+              label="Proyectos"
+              value={datos.project_id}
+              onChange={onInputChange}
+              sx={{ marginTop: 1 }}
+            >
+              {proyectosItems}
+            </TextField>
             <TextField
               select
               fullWidth
               required
-              name="working_hours_type"
-              label="Tipo de carga"
-              value={datos.working_hours_type}
-              onChange={onInputChange}
+              name="rol"
+              label="Rol"
+              value={datos.role}
+              onChange={(e) => onInputChange(e)}
             >
-              {cargasHorariasItems}
+              {rolItems}
             </TextField>
-            <TextField
-              fullWidth
-              required
-              id="horas"
-              label="Carga horaria"
-              variant="standard"
-              type="number"
-              value={datos.working_hours}
-              onChange={onInputChange}
-            />
+            <Stack spacing={1} direction="row">
+              <TextField
+                select
+                fullWidth
+                required
+                name="working_hours_type"
+                label="Tipo de carga"
+                value={datos.working_hours_type}
+                onChange={onInputChange}
+              >
+                {cargasHorariasItems}
+              </TextField>
+              <TextField
+                fullWidth
+                required
+                id="horas"
+                label="Carga horaria"
+                variant="standard"
+                type="number"
+                value={datos.working_hours}
+                onChange={onInputChange}
+                inputProps={{ min: 1 }}
+              />
+            </Stack>
+            <Stack spacing={1} direction="row">
+              <TextField
+                fullWidth
+                required
+                id="fechaInicio"
+                variant="standard"
+                type="date"
+                label="Fecha Inicio"
+                InputLabelProps={{ shrink: true }}
+                value={datos.start_date}
+                onChange={onInputChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+              <TextField
+                fullWidth
+                id="fechaFin"
+                variant="standard"
+                type="date"
+                label="Fecha de fin"
+                InputLabelProps={{ shrink: true }}
+                value={datos.end_date}
+                onChange={onInputChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+            </Stack>
           </Stack>
-          <Stack spacing={1} direction="row">
-            <TextField
-              fullWidth
-              required
-              id="fechaInicio"
-              variant="standard"
-              type="date"
-              label="Fecha Inicio"
-              InputLabelProps={{ shrink: true }}
-              value={datos.start_date}
-              onChange={onInputChange}
-            />
-            <TextField
-              fullWidth
-              id="fechaFin"
-              variant="standard"
-              type="date"
-              label="Fecha de fin"
-              InputLabelProps={{ shrink: true }}
-              value={datos.end_date}
-              onChange={onInputChange}
-            />
-          </Stack>
-        </Stack>
-      </DialogContent>
-      <DialogActions style={{ justifyContent: "space-between" }}>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={onSubmit}>Asignar</Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions style={{ justifyContent: "space-between" }}>
+          <Button onClick={onClose} variant="contained">
+            Cancelar
+          </Button>
+          <Button role="submit" type="submit" variant="contained">
+            Asignar
+          </Button>
+        </DialogActions>
+      </form>
     </Fragment>
   );
 }
