@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Timeline from "react-calendar-timeline";
 import randomColor from "randomcolor";
@@ -33,14 +33,11 @@ export default function ProjectTimeline() {
         title: proj.name,
         bgColor: randomColor({ luminosity: "light" }),
       });
-    });
-    setGroups(groupsToAdd);
-    rows.map((proj) => {
+      setGroups(groupsToAdd);
       const startDate = new Date(proj.start_date);
       const startValue = moment(startDate).valueOf();
       const endDate = new Date(proj.end_date);
       const endValue = moment(endDate).valueOf();
-
       itemsToAdd.push({
         id: proj.id,
         group: proj.id,
@@ -59,57 +56,8 @@ export default function ProjectTimeline() {
     fetchData();
   }, []);
 
-  console.log("groups", groups)
-  console.log("items", items)
-
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
-
-  const itemRenderer = ({
-    item,
-    timelineContext,
-    itemContext,
-    getItemProps,
-    getResizeProps
-  }) => {
-    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-    const backgroundColor = itemContext.selected
-      ? itemContext.dragging
-        ? "red"
-        : item.selectedBgColor
-      : item.bgColor;
-    const borderColor = itemContext.resizing ? "red" : item.color;
-    return (
-      <div
-        {...getItemProps({
-          style: {
-            backgroundColor,
-            color: item.color,
-            borderColor,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderRadius: 4,
-            borderLeftWidth: itemContext.selected ? 3 : 1,
-            borderRightWidth: itemContext.selected ? 3 : 1
-          }
-        })}
-      >
-        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : null}
-        <div
-          style={{
-            height: itemContext.dimensions.height,
-            overflow: "hidden",
-            paddingLeft: 3,
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap"
-          }}
-        >
-          {itemContext.title}
-        </div>
-        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : null}
-      </div>
-    );
-  };
 
   if (groups.length > 0 && items.length > 0) {
     return (
