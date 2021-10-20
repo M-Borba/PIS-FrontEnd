@@ -43,8 +43,9 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
           let errors = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error ${Object.keys(errors)[0]
-              }, Error en fetch de proyectos - ${errors[Object.keys(errors)[0]]}`,
+            message: `Error ${
+              Object.keys(errors)[0]
+            }, Error en fetch de proyectos - ${errors[Object.keys(errors)[0]]}`,
             type: "error",
             reload: false,
           });
@@ -70,9 +71,11 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
           } else
             setNotify({
               isOpen: true,
-              message: `Error ${Object.keys(errors)[0]
-                }, Error en fetch de roles de la persona - ${errors[Object.keys(errors)[0]]
-                }`,
+              message: `Error ${
+                Object.keys(errors)[0]
+              }, Error en fetch de roles de la persona - ${
+                errors[Object.keys(errors)[0]]
+              }`,
               type: "error",
               reload: false,
             });
@@ -106,9 +109,11 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
         else if (error.response.status == 400)
           setNotify({
             isOpen: true,
-            message: `Error ${Object.keys(errors)[0]
-              }, Error en los datos ingresados - ${errors[Object.keys(errors)[0]]
-              }`,
+            message: `Error ${
+              Object.keys(errors)[0]
+            }, Error en los datos ingresados - ${
+              errors[Object.keys(errors)[0]]
+            }`,
             type: "error",
             reload: false,
           });

@@ -56,8 +56,9 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
         if (error.response.status == 400)
           setNotify({
             isOpen: true,
-            message: `Error, hay un problema con los datos ingresados - ${Object.keys(errors)[0]
-              } ${errors[Object.keys(errors)[0]]}.`,
+            message: `Error, hay un problema con los datos ingresados - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}.`,
             type: "error",
             reload: false,
           });
@@ -71,8 +72,9 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
         else
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${Object.keys(errors)[0]
-              } ${errors[Object.keys(errors)[0]]}.`,
+            message: `Error inesperado al enviar formulario - ${
+              Object.keys(errors)[0]
+            } ${errors[Object.keys(errors)[0]]}.`,
             type: "error",
             reload: false,
           });
