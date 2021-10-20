@@ -1,7 +1,3 @@
-/**
- * Create person
- */
-
 import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
@@ -18,9 +14,10 @@ EditarProjecto.propTypes = {
     end_date: propTypes.string,
   }).isRequired,
   id: propTypes.number,
+  setNotify: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id }) {
+export default function EditarProjecto({ projectData, id, setNotify }) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
@@ -31,46 +28,55 @@ export default function EditarProjecto({ projectData, id }) {
     return (
       //descripcion, budget y end date son opcionales y no se validan
       proyecto.name != "" &&
-      proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
+      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
       proyecto.start_date != ""
     );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(proyecto)) {
-      setError("Completar todos los campos para completar la modificación");
-    } else {
-      axiosInstance
-        .put("/projects/" + id, {
-          project: proyecto,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            setMsg("Proyecto modificado correctamente");
-            setError("");
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log(error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            let errors = error.response.data.errors;
-            setError(
-              "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-          } else setError("Error inesperado al enviar formulario ");
-        });
-    }
+
+    axiosInstance
+      .put("/projects/" + id, {
+        project: proyecto,
+      })
+      .then((response) => {
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `El proyecto ${projectData.name} se modifico con exito.`,
+            type: "success",
+            reload: true,
+          });
+      })
+      .catch((error) => {
+        console.log(error.response);
+        let errors = error.response.data.errors;
+        if (error.response.status == 400)
+          setNotify({
+            isOpen: true,
+            message: `Error, hay un problema con los datos ingresados - ${Object.keys(errors)[0]
+              } ${errors[Object.keys(errors)[0]]}.`,
+            type: "error",
+            reload: false,
+          });
+        else if (error.response.status == 404)
+          setNotify({
+            isOpen: true,
+            message: `Error, el proyecto ${projectData.name} ya fue eliminado.`,
+            type: "error",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado al enviar formulario - ${Object.keys(errors)[0]
+              } ${errors[Object.keys(errors)[0]]}.`,
+            type: "error",
+            reload: false,
+          });
+      });
   };
 
   const checkInput = (e) => {
@@ -97,9 +103,7 @@ export default function EditarProjecto({ projectData, id }) {
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
-        error={error}
-        msg={msg}
-        title={"Editando Proyecto"}
+        title={"Modificacion de Proyecto"}
       />
     </div>
   );

@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PropTypes from "prop-types";
@@ -11,6 +12,7 @@ import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
+import Notificacion from "../../components/Notificacion";
 
 Personas.propTypes = {
   rows: PropTypes.array,
@@ -19,7 +21,12 @@ Personas.propTypes = {
 const Acciones = ({ personRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
-  const [resultOk, setResult] = React.useState(false);
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
   const classes = useStyles();
   let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
@@ -28,18 +35,14 @@ const Acciones = ({ personRow }) => {
     last_name: fullName[1],
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
+    roles: personRow.roles,
     tags: personRow.tags,
   });
 
-  const handleEditOpen = (e) => setOpenEdit(true);
-
-  const handleEditClose = () => {
-    setOpenEdit(false);
-    if (resultOk == true) window.location.reload();
-  };
+  const handleEditOpen = () => setOpenEdit(true);
+  const handleEditClose = () => setOpenEdit(false);
 
   const handleRemoveOpen = () => setOpenRemove(true);
-
   const handleRemoveClose = () => setOpenRemove(false);
 
   return (
@@ -57,12 +60,17 @@ const Acciones = ({ personRow }) => {
               aria-describedby="modal-modal-description"
             >
               <Box className={classes.modal}>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleEditClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <EditPerson
                   personData={personData}
                   id={personData.id}
-                  resultOk={() => {
-                    setResult(true);
-                  }}
+                  setNotify={setNotify}
                 />
               </Box>
             </Modal>
@@ -78,8 +86,6 @@ const Acciones = ({ personRow }) => {
             <Dialog
               open={openRemove}
               onClose={handleRemoveClose}
-              // disableBackdropClick
-              // disableEscapeKeyDown
               maxWidth="xs"
               aria-labelledby="confirmation-dialog-title"
             >
@@ -87,11 +93,13 @@ const Acciones = ({ personRow }) => {
                 personName={personRow.fullName}
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
+                setNotify={setNotify}
               />
             </Dialog>
           </React.Fragment>
         }
       />
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 };
@@ -146,19 +154,21 @@ Acciones.propTypes = {
 
 export default function Personas({ rows }) {
   const [openNew, setOpenNew] = React.useState(false);
-  const [resultOk, setResult] = React.useState(false);
   const classes = useStyles();
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
 
   const handleNewOpen = () => setOpenNew(true);
 
-  const handleNewClose = () => {
-    setOpenNew(false);
-    if (resultOk == true) window.location.reload();
-  };
+  const handleNewClose = () => setOpenNew(false);
 
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "id",
+      field: "fullName",
       sort: "asc",
     },
   ]);
@@ -195,13 +205,17 @@ export default function Personas({ rows }) {
         aria-describedby="modal-modal-description"
       >
         <Box className={classes.modal}>
-          <CreatePerson
-            resultOk={() => {
-              setResult(true);
-            }}
-          />
+          <IconButton
+            aria-label="Close"
+            onClick={handleNewClose}
+            className={classes.closeButton}
+          >
+            <CloseIcon />
+          </IconButton>
+          <CreatePerson setNotify={setNotify} />
         </Box>
       </Modal>
+      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

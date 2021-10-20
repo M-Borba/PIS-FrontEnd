@@ -21,7 +21,7 @@ export default function App() {
   if (uid == null) {
     uid = NOT_LOGGED;
   }
-  const [isProjectView, setIsProjectView] = useState(true);
+  const [isProjectView, setIsProjectView] = useState(false);
 
   return (
     <Router>
@@ -33,34 +33,29 @@ export default function App() {
         />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
+          {uid == NOT_LOGGED && <Redirect to="/login" />}
           <Route path="/personas" component={ListarPersonas} />
           <Route path="/proyectos" component={ListarProyectos} />
           <Route path={["/", "/inicio"]}>
-            <div>
-              {uid == NOT_LOGGED ? (
-                <Redirect to="/login" />
-              ) : (
-                <>
-                  <Grid
-                    container
-                    spacing={2}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    Vista Personas
-                    <Switch
-                      color="default"
-                      checked={isProjectView}
-                      onChange={() => {
-                        setIsProjectView(!isProjectView);
-                      }}
-                    />
-                    Vista Proyectos
-                  </Grid>
-                  {isProjectView ? <ProjectView /> : <PersonView />}
-                </>
-              )}
-            </div>
+            <>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+              >
+                Vista Personas
+                <Switch
+                  color="default"
+                  checked={isProjectView}
+                  onChange={() => {
+                    setIsProjectView(!isProjectView);
+                  }}
+                />
+                Vista Proyectos
+              </Grid>
+              {isProjectView ? <ProjectView /> : <PersonView />}
+            </>
           </Route>
         </SwitchRouter>
       </div>

@@ -98,7 +98,7 @@ exports[`renders and redirects when loged 1`] = `
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
           tabindex="0"
-          title="Configuracion de la cuenta"
+          title="Configuración de la cuenta"
           type="button"
         >
           <span
@@ -225,7 +225,7 @@ exports[`renders correctly unloged 1`] = `
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
           tabindex="0"
-          title="Configuracion de la cuenta"
+          title="Configuración de la cuenta"
           type="button"
         >
           <span
