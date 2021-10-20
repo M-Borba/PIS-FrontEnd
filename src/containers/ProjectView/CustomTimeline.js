@@ -81,18 +81,3 @@ export default function ProjectTimeline() {
   }
   return null
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
