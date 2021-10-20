@@ -29,61 +29,50 @@ export default function CreatePerson({ setNotify }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(person)) {
-      setError("Completar todos los campos para iniciar sesión");
-    } else {
-      var checkedRoles = Object.assign(person.roles);
-      checkedRoles = checkedRoles
-        .filter((rol) => rol[1] == true)
-        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
 
-      axiosInstance
-        .post("/people", {
-          person: {
-            first_name: person.first_name,
-            last_name: person.last_name,
-            email: person.email,
-            working_hours: person.working_hours,
-            roles: checkedRoles,
-          },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            setNotify({
-              isOpen: true,
-              message: `La persona se creo con exito.`,
-              type: "success",
-              reload: true,
-            });
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log("error", error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400)
-            setNotify({
-              isOpen: true,
-              message: `Error, hay un problema con los datos ingresados - ${Object.keys(errors)[0]
-                } ${errors[Object.keys(errors)[0]]}`,
-              type: "error",
-              reload: false,
-            });
-          else
-            setNotify({
-              isOpen: true,
-              message: `Error inesperado al enviar formulario - ${Object.keys(errors)[0]
-                } ${errors[Object.keys(errors)[0]]}`,
-              type: "error",
-              reload: false,
-            });
+    var checkedRoles = Object.assign(person.roles);
+    checkedRoles = checkedRoles
+      .filter((rol) => rol[1] == true)
+      .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
+
+    axiosInstance
+      .post("/people", {
+        person: {
+          first_name: person.first_name,
+          last_name: person.last_name,
+          email: person.email,
+          working_hours: person.working_hours,
+          roles: checkedRoles,
+        },
+      })
+      .then((response) => {
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `La persona se creo con exito.`,
+            type: "success",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        let message = error.response.data.errors;
+        setNotify({
+          isOpen: true,
+          message: message[Object.keys(message)[0]],
+          type: "error",
+          reload: false,
         });
-    }
+      });
   };
+
   const checkInput = (value, type) => {
     if (type == "Rol") {
       let newRoles = person.roles;

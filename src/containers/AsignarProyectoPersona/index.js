@@ -37,14 +37,20 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
         .get("/projects")
         .then((response) => {
           if (response.status == 200) setProyectos(response.data.projects);
+          else
+            setNotify({
+              isOpen: true,
+              message: `Error inesperado en fetch de proyectos`,
+              type: "error",
+              reload: false,
+            });
         })
         .catch((error) => {
-          console.log(error);
-          let errors = error.response.data.errors;
+          console.error(error.response);
+          let message = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error ${Object.keys(errors)[0]
-              }, Error en fetch de proyectos - ${errors[Object.keys(errors)[0]]}`,
+            message: message[Object.keys(message)[0]],
             type: "error",
             reload: false,
           });
@@ -55,27 +61,33 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
         .get(`/people/${personId}`)
         .then((response) => {
           if (response.status == 200) setRoles(response.data.person.roles);
+          else
+            setNotify({
+              isOpen: true,
+              message: `Error inesperado en fetch de roles de ${personName}`,
+              type: "error",
+              reload: false,
+            });
         })
         .catch((error) => {
-          console.log(error);
-          let errors = error.response.data.errors;
+          console.error(error.response);
           if (error.response.status == 404) {
+            let message = error.response.data.error;
             setNotify({
               isOpen: true,
-              message: `Error, la persona ${personName} no existe`,
+              message: message,
               type: "error",
               reload: false,
             });
-            onClose();
-          } else
+          } else {
+            let message = error.response.data.errors;
             setNotify({
               isOpen: true,
-              message: `Error ${Object.keys(errors)[0]
-                }, Error en fetch de roles de la persona - ${errors[Object.keys(errors)[0]]
-                }`,
+              message: message[Object.keys(message)[0]],
               type: "error",
               reload: false,
             });
+          }
         });
   }, [open]);
 
@@ -93,32 +105,35 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
             type: "success",
             reload: true,
           });
-      })
-      .catch((error) => {
-        let errors = error.response.data.errors;
-        if (error.response.status == 404)
-          setNotify({
-            isOpen: true,
-            message: "Error al asignar, la persona o el proyecto no existen.",
-            type: "error",
-            reload: false,
-          });
-        else if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message: `Error ${Object.keys(errors)[0]
-              }, Error en los datos ingresados - ${errors[Object.keys(errors)[0]]
-              }`,
-            type: "error",
-            reload: false,
-          });
         else
           setNotify({
             isOpen: true,
-            message: `Error inesperado`,
+            message: `Error inesperado.`,
             type: "error",
             reload: false,
           });
+        onClose();
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: false,
+          });
+          onClose();
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
       });
   };
 
@@ -139,7 +154,7 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
 
   return (
     <Fragment>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog fullwidth open={open} onClose={onClose} maxWidth={"xs"}>
         <AsignacionForm
           proyectos={proyectos}
           roles={roles}

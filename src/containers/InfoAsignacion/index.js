@@ -51,24 +51,33 @@ function InfoAsignacion({
               end_date: asignacionData.end_date,
             });
             setRoles(asignacionData.person.roles);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          if (error.response.status == 404)
+          } else
             setNotify({
               isOpen: true,
-              message: "Error, la asignacion no existe.",
-              type: "error",
-              reload: true,
-            });
-          else
-            setNotify({
-              isOpen: true,
-              message: "Error inesperado.",
+              message: `Error inesperado`,
               type: "error",
               reload: false,
             });
+        })
+        .catch((error) => {
+          console.error(error);
+          if (error.response.status == 404) {
+            let message = error.response.data.error;
+            setNotify({
+              isOpen: true,
+              message: message,
+              type: "error",
+              reload: false,
+            });
+          } else {
+            let message = error.response.data.errors;
+            setNotify({
+              isOpen: true,
+              message: message[Object.keys(message)[0]],
+              type: "error",
+              reload: false,
+            });
+          }
           onClose();
         });
   }, [open]);
@@ -89,28 +98,6 @@ function InfoAsignacion({
             type: "success",
             reload: true,
           });
-      })
-      .catch((error) => {
-        console.error(error);
-        let errors = error.response.data.errors;
-        if (error.response.status == 404) {
-          setNotify({
-            isOpen: true,
-            message: `Error, la asignacion no existe`,
-            type: "error",
-            reload: true,
-          });
-        } else if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message: `Error ${
-              Object.keys(errors)[0]
-            }, Error en los datos asignados - ${
-              errors[Object.keys(errors)[0]]
-            }`,
-            type: "error",
-            reload: false,
-          });
         else
           setNotify({
             isOpen: true,
@@ -118,6 +105,28 @@ function InfoAsignacion({
             type: "error",
             reload: false,
           });
+        onClose();
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: false,
+          });
+          onClose();
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
       });
   };
 
@@ -135,16 +144,25 @@ function InfoAsignacion({
             type: "success",
             reload: true,
           });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error.response);
+        let message = error.response.data.error;
         setNotify({
           isOpen: true,
-          message: "Error al desasignar.",
+          message: message,
           type: "error",
           reload: false,
         });
       });
+    onClose();
   };
 
   const onInputChange = (e) => {
