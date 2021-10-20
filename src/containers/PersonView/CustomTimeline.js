@@ -78,22 +78,8 @@ export default function PersonTimeline() {
         });
       });
 
-
-  handleItemMove(itemId, dragTime, newGroupOrder) {
-    const { items, groups } = this.state;
-
-    const group = groups[newGroupOrder];
-
-    this.setState({
-      items: items.map((item) =>
-        item.id === itemId
-          ? Object.assign({}, item, {
-            start: dragTime,
-            end: dragTime + (item.end - item.start),
-            group: group.id,
-          })
-          : item
-      ),
+      setGroups(groupsToAdd);
+      setItems(itemsToAdd);
     });
   };
 
@@ -115,6 +101,7 @@ export default function PersonTimeline() {
 
   const handleItemResize = (itemId, time, edge) => {
     let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
+
     // Cambio el item en backend
     let start_value =
       edge === "left"
