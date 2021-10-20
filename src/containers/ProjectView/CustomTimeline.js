@@ -18,7 +18,6 @@ var keys = {
 };
 
 export default function ProjectTimeline() {
-
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   var groupsToAdd = [];
@@ -45,13 +44,14 @@ export default function ProjectTimeline() {
         end: endValue,
         canMove: startValue > new Date().getTime(),
         canResize: "both",
-        className: moment(startDate).day() === 6 || moment(startDate).day() === 0
-          ? "item-weekend"
-          : "",
+        className:
+          moment(startDate).day() === 6 || moment(startDate).day() === 0
+            ? "item-weekend"
+            : "",
       });
     });
     setItems(itemsToAdd);
-  }
+  };
   useEffect(() => {
     fetchData();
   }, []);
@@ -74,10 +74,10 @@ export default function ProjectTimeline() {
         canResize={"both"}
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
-      //onItemMove={this.handleItemMove}
-      //onItemResize={this.handleItemResize}
+        //onItemMove={this.handleItemMove}
+        //onItemResize={this.handleItemResize}
       />
     );
   }
-  return null
+  return null;
 }
