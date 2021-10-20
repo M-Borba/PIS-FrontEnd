@@ -245,11 +245,7 @@ export default function Proyecto({ rows }) {
   return (
     <div
       style={{
-        position: "fixed",
-        top: "15%",
-        left: "5%",
-        height: "75%",
-        width: "90%",
+        margin: "1vw",
       }}
     >
       <DataGrid
