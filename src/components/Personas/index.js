@@ -128,16 +128,16 @@ const columns = [
     flex: 0.7,
   },
   {
-    field: "tag",
-    headerName: "Etiqueta",
-    sortable: true,
-    flex: 1,
+    field: "roles",
+    headerName: "Roles",
+    sortable: false,
+    flex: 1.5,
   },
   {
     field: "actions",
     type: "actions",
     headerName: "Acciones",
-    flex: 1,
+    flex: 0.5,
     renderCell: (params) => {
       return (
         <div>
