@@ -81,7 +81,7 @@ export default function InfoProyecto({ projectData }) {
         <Grid item xs={6}>
           <Box mt={2}>
 
-            <Typography variant="h6" display="inline" gutterBottom>Fecha Fin: </Typography>
+            <Typography variant="h6" display="inline" gutterBottom>Fecha Inicio: </Typography>
             <Typography display="inline" variant="body2">
               {projectData.start_date}
             </Typography>
