@@ -20,7 +20,6 @@ export default function Switcher({ onSwitch, isProjectView }) {
         <Typography variant="body1" color="common.white">
           Personas
         </Typography>
-
       </Grid>
     </>
   );

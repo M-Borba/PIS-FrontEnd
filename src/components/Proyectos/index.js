@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import PersonAdd from "@material-ui/icons/PersonAdd";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
