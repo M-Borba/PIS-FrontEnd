@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+
 import ListSubheader from "@mui/material/ListSubheader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -19,6 +20,9 @@ InfoProyecto.propTypes = {
     name: propTypes.string,
     description: propTypes.string,
     budget: propTypes.number,
+    project_state: propTypes.string,
+    start_date: propTypes.string,
+    end_date: propTypes.string,
   }).isRequired,
 };
 
@@ -42,11 +46,19 @@ export default function InfoProyecto({ projectData }) {
               </Typography>
             </CardContent>
           </Card>
-          <Card>
+          <Card style={{ marginBottom: 10, maxHeight: 397, overflow: "auto" }}>
             <CardContent>
               <Typography gutterBottom>Presupuesto</Typography>
               <Typography color="textSecondary">
                 {projectData.budget}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card style={{ marginBottom: 10, maxHeight: 397, overflow: "auto" }}>
+            <CardContent>
+              <Typography gutterBottom>Estado</Typography>
+              <Typography color="textSecondary">
+                {projectData.project_state}
               </Typography>
             </CardContent>
           </Card>

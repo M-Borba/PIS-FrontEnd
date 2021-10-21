@@ -27,10 +27,12 @@ export default function ProjectTimeline() {
   const fetchData = async () => {
     const response = await axiosInstance.get("/projects");
     const rows = response.data.projects;
+
     rows.map((proj) => {
+      var project = proj;
       groupsToAdd.push({
-        id: proj.id,
-        title: proj.name,
+        id: project.id,
+        title: project.name,
         bgColor: randomColor({ luminosity: "light" }),
       });
       setGroups(groupsToAdd);
@@ -38,17 +40,24 @@ export default function ProjectTimeline() {
       const startValue = moment(startDate).valueOf();
       const endDate = new Date(proj.end_date);
       const endValue = moment(endDate).valueOf();
-      itemsToAdd.push({
-        id: proj.id,
-        group: proj.id,
-        start: startValue,
-        end: endValue,
-        canMove: startValue > new Date().getTime(),
-        canResize: "both",
-        className: moment(startDate).day() === 6 || moment(startDate).day() === 0
-          ? "item-weekend"
-          : "",
-      });
+      var i = 0;
+      if (project.people.length > 0) {
+        project.people.map((person) => {
+          itemsToAdd.push({
+            id: project.id + i,
+            group: project.id,
+            start: startValue,
+            end: endValue,
+            canMove: startValue > new Date().getTime(),
+            canResize: "both",
+            className: moment(startDate).day() === 6 || moment(startDate).day() === 0
+              ? "item-weekend"
+              : "",
+            title: person.full_name,
+          });
+          i++;
+        })
+      }
     });
     setItems(itemsToAdd);
   }
@@ -72,6 +81,7 @@ export default function ProjectTimeline() {
         canMove={true} //se pueden mover
         canChangeGroup={false} //no se pueden "cambiar de renglon"
         canResize={"both"}
+        stackItems
         defaultTimeStart={defaultTimeStart}
         defaultTimeEnd={defaultTimeEnd}
       //onItemMove={this.handleItemMove}
