@@ -9,13 +9,17 @@
 import React, { Component } from "react";
 import CustomTimeline from "./CustomTimeline";
 import "react-calendar-timeline/lib/Timeline.css";
+import PropTypes from "prop-types";
 
-export default class ProjectView extends Component {
-  render() {
-    return (
-      <div>
-        <CustomTimeline />
-      </div>
-    );
-  }
+ProjectView.propTypes = {
+  isProjectView: PropTypes.bool,
+  onSwitch: PropTypes.func,
+};
+
+export default function ProjectView({ onSwitch, isProjectView }) {
+  return (
+    <div>
+      <CustomTimeline onSwitch={onSwitch} isProjectView={isProjectView} />
+    </div>
+  );
 }

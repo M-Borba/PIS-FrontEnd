@@ -22,6 +22,9 @@ export default function App() {
     uid = NOT_LOGGED;
   }
   const [isProjectView, setIsProjectView] = useState(false);
+  const onSwitch = () => {
+    setIsProjectView(!isProjectView);
+  };
 
   return (
     <Router>
@@ -38,23 +41,8 @@ export default function App() {
           <Route path="/proyectos" component={ListarProyectos} />
           <Route path={["/", "/inicio"]}>
             <>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                Vista Personas
-                <Switch
-                  color="default"
-                  checked={isProjectView}
-                  onChange={() => {
-                    setIsProjectView(!isProjectView);
-                  }}
-                />
-                Vista Proyectos
-              </Grid>
-              {isProjectView ? <ProjectView /> : <PersonView />}
+              <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
+              <ProjectView onSwitch={onSwitch} isProjectView={isProjectView} />
             </>
           </Route>
         </SwitchRouter>
