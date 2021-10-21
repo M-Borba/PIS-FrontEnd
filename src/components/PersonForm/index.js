@@ -36,7 +36,7 @@ export default function PersonForm({
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: "flex" }}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -89,7 +89,7 @@ export default function PersonForm({
             onChange={onInputChange}
           />
         </div>
-        <div >
+        <div>
           <CardSelector
             name={"roles"}
             id={"roles"}
