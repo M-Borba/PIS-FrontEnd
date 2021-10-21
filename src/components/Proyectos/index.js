@@ -66,7 +66,7 @@ const Acciones = ({ projectRow }) => {
   return (
     <div
       style={{
-        margin: 10,
+        margin: "10px",
       }}
     >
       <FormControlLabel
@@ -245,11 +245,7 @@ export default function Proyecto({ rows }) {
   return (
     <div
       style={{
-        position: "fixed",
-        top: "15%",
-        left: "5%",
-        height: "75%",
-        width: "90%",
+        margin: "1vw",
       }}
     >
       <DataGrid
@@ -258,6 +254,7 @@ export default function Proyecto({ rows }) {
         disableSelectionOnClick
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
       />
       <div
         style={{

@@ -104,13 +104,11 @@ export default function CreatePerson({ setNotify }) {
   };
 
   return (
-    <div>
-      <PersonForm
-        title={"Creación de persona"}
-        onSubmit={handleSubmit}
-        onInputChange={checkInput}
-        person={person}
-      />
-    </div>
+    <PersonForm
+      title={"Creación de persona"}
+      onSubmit={handleSubmit}
+      onInputChange={checkInput}
+      person={person}
+    />
   );
 }
