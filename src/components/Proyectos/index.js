@@ -67,7 +67,7 @@ const Acciones = ({ projectRow }) => {
   return (
     <div
       style={{
-        margin: 10,
+        margin: "10px",
       }}
     >
       <FormControlLabel
@@ -262,6 +262,7 @@ export default function Proyecto({ rows }) {
         disableSelectionOnClick
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
       />
       <div
         style={{

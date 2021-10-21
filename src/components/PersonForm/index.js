@@ -36,67 +36,69 @@ export default function PersonForm({
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <div style={{ display: "flex" }}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="first_name"
-            type="text"
-            label="Nombre"
-            name="first_name"
-            value={person.first_name}
-            onChange={onInputChange}
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="last_name"
-            type="text"
-            label="Apellidos"
-            name="last_name"
-            value={person.last_name}
-            onChange={onInputChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            type="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={person.email}
-            onChange={onInputChange}
-          />
-          <TextField
-            inputProps={{ min: 0 }}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="working_hours"
-            label="Horas Semanales"
-            type="number"
-            id="working_hours"
-            value={person.working_hours}
-            onChange={onInputChange}
-          />
-        </div>
-        <div>
-          <CardSelector
-            name={"roles"}
-            id={"roles"}
-            title={"Rol"}
-            list={person.roles}
-            onInputChange={onInputChange}
-          />
+        <div style={{ display: "flex", gap: "10px", height: "100%" }}>
+          <div>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="first_name"
+              type="text"
+              label="Nombre"
+              name="first_name"
+              value={person.first_name}
+              onChange={onInputChange}
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="last_name"
+              type="text"
+              label="Apellidos"
+              name="last_name"
+              value={person.last_name}
+              onChange={onInputChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              type="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={person.email}
+              onChange={onInputChange}
+            />
+            <TextField
+              inputProps={{ min: 0 }}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="working_hours"
+              label="Horas Semanales"
+              type="number"
+              id="working_hours"
+              value={person.working_hours}
+              onChange={onInputChange}
+            />
+          </div>
+          <div>
+            <CardSelector
+              name={"roles"}
+              id={"roles"}
+              title={"Rol"}
+              list={person.roles}
+              onInputChange={onInputChange}
+            />
+          </div>
         </div>
         <div style={{ paddingTop: 10 }} />
         <Button

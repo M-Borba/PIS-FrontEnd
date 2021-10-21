@@ -185,6 +185,7 @@ export default function Personas({ rows }) {
         disableSelectionOnClick
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
       />
       <div
         style={{

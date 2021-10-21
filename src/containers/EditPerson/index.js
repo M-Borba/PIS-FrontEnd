@@ -150,13 +150,11 @@ export default function Edit({ personData, id, setNotify }) {
   };
 
   return (
-    <div>
-      <PersonForm
-        onSubmit={handleSubmit}
-        onInputChange={checkInput}
-        person={person}
-        title={"Modificacion de Persona"}
-      />
-    </div>
+    <PersonForm
+      onSubmit={handleSubmit}
+      onInputChange={checkInput}
+      person={person}
+      title={"Modificacion de Persona"}
+    />
   );
 }
