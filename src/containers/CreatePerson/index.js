@@ -27,6 +27,15 @@ export default function CreatePerson({ setNotify }) {
     ],
   });
 
+  const isValid = () => {
+    return (
+      person.first_name != "" &&
+      person.last_name != "" &&
+      person.email != "" &&
+      person.hourly_load != ""
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -104,13 +113,11 @@ export default function CreatePerson({ setNotify }) {
   };
 
   return (
-    <div>
-      <PersonForm
-        title={"Creación de persona"}
-        onSubmit={handleSubmit}
-        onInputChange={checkInput}
-        person={person}
-      />
-    </div>
+    <PersonForm
+      title={"Creación de persona"}
+      onSubmit={handleSubmit}
+      onInputChange={checkInput}
+      person={person}
+    />
   );
 }
