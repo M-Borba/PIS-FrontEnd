@@ -22,6 +22,14 @@ Proyecto.propTypes = {
   rows: PropTypes.array,
 };
 
+function removePerson(id) {
+  console.log("se quizo borrar ", id);
+};
+
+function removeTechnology(id) {
+  console.log("se quizo borrar ", id);
+};
+
 const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
@@ -44,6 +52,8 @@ const Acciones = ({ projectRow }) => {
     budget: projectRow.budget,
     start_date: projectRow.start_date,
     end_date: projectRow.end_date,
+    technologies: ["java", "python"],//projectRow.technologies, 
+    people: projectRow.people,
   });
 
   const handleInfoClick = () => {
@@ -89,7 +99,10 @@ const Acciones = ({ projectRow }) => {
                 >
                   <CloseIcon />
                 </IconButton>
-                <InfoProyecto projectData={projectData} />
+                <InfoProyecto projectData={projectData}
+                  type={projectRow.project_type}
+                  state={projectRow.project_state}
+                />
               </Box>
             </Modal>
           </>
@@ -118,6 +131,8 @@ const Acciones = ({ projectRow }) => {
                   projectData={projectData}
                   id={projectData.id}
                   setNotify={setNotify}
+                  removePerson={removePerson}
+                  removeTechnology={removeTechnology}
                 />
               </Box>
             </Modal>

@@ -12,6 +12,7 @@ EditarProjecto.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,

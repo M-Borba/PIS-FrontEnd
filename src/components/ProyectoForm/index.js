@@ -9,6 +9,16 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import { useStyles } from "./styles";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -21,6 +31,7 @@ ProyectoForm.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
   }).isRequired,
   title: propTypes.string,
 };
@@ -32,6 +43,54 @@ export default function ProyectoForm({
   proyecto,
 }) {
   const classes = useStyles();
+
+  const renderPeopleAndTechs = () => {
+    if (proyecto.people != undefined) {
+      return <Grid item xs={6} >
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Personas Asignadas</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                position: "relative",
+                overflow: "auto",
+                "& ul": { padding: 0 },
+              }}
+              subheader={<li />}
+            >
+              {proyecto.people.map((person) => {
+                return (
+                  <>
+                    <ListItem
+                      key={person.id}
+                      role="listitem"
+                    >
+                      <ListItemText primary={person.full_name} />
+                      <IconButton>
+                        <CloseIcon />
+                      </IconButton>
+                    </ListItem>
+                  </>
+                );
+              })}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Grid >;
+    } else
+      return null;
+  }
+
+
+
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -151,6 +210,7 @@ export default function ProyectoForm({
               onChange={onInputChange}
             />
           </Grid>
+          {renderPeopleAndTechs()}
         </Grid>
 
         <Button

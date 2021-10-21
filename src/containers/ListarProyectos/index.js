@@ -28,6 +28,7 @@ export default function ListarProyectos() {
               start_date: row.start_date.replaceAll("-", "/"),
               end_date:
                 row.end_date != null ? row.end_date.replaceAll("-", "/") : null,
+              people: row.people,
             };
           });
       setRows(rowsNuevas);
