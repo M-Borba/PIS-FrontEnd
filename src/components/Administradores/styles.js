@@ -14,9 +14,12 @@ export const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  errorMsg: { position: "fixed", color: "red" },
-  parent: {
-    margin: "1rem",
-    padding: "2rem 2rem",
+  box: {
+    display: "flex",
+    padding: 8,
+  },
+  rightBox: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
 }));

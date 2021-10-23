@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - restore_cache: # special step to restore the dependency
+          key: dependency-cache-{{ checksum "package.json" }} 
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        javascript:
+          mass_threshold: 50
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  nodesecurity:
+    enabled: true
+checks:
+  file-lines:
+    enabled: true
+    config:
+      threshold: 250
+  method-lines:
+    enabled: true
+    config:
+      threshold: 25
+exclude_patterns:
+- node_modules/
+- "**/__tests__/"

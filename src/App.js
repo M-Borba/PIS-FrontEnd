@@ -1,67 +1,51 @@
 import React, { useState } from "react";
-import PersonView from "./containters/PersonView";
-import ProjectView from "./containters/ProjectView";
+import PersonView from "./containers/PersonView";
+import ProjectView from "./containers/ProjectView";
 import { NOT_LOGGED } from "./config/globalVariables";
-
 import {
   BrowserRouter as Router,
   Switch as SwitchRouter,
   Route,
   Redirect,
 } from "react-router-dom";
-import LoginView from "./containters/Login";
+import LoginView from "./containers/Login";
 import Header from "./components/Header";
-import Personas from "./components/Personas";
-import Proyectos from "./components/Proyectos";
 import Administradores from "./components/Administradores";
-import Switch from "@material-ui/core/Switch";
-import Grid from "@material-ui/core/Grid";
+import ListarPersonas from "./containers/ListarPersonas";
+import ListarProyectos from "./containers/ListarProyectos";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
   if (uid == null) {
     uid = NOT_LOGGED;
   }
-  const [isProjectView, setIsProjectView] = useState(true);
+  const [isProjectView, setIsProjectView] = useState(false);
+  const onSwitch = () => {
+    setIsProjectView(!isProjectView);
+  };
 
   return (
     <Router>
       <div>
-        <Header />
+        <Route
+          render={({ location }) =>
+            !["/login", "/Login"].includes(location.pathname) && <Header />
+          }
+        />
         <SwitchRouter>
           <Route path="/login" component={LoginView} />
-          <Route path="/personas" component={Personas} />
-          <Route path="/proyectos" component={Proyectos} />
+          {uid == NOT_LOGGED && <Redirect to="/login" />}
+          <Route path="/personas" component={ListarPersonas} />
+          <Route path="/proyectos" component={ListarProyectos} />
           <Route path="/administradores" component={Administradores} />
           <Route path={["/", "/inicio"]}>
-            <div>
-              {uid == NOT_LOGGED ? (
-                <Redirect to="/login" />
-              ) : (
-                <>
-                  <Grid
-                    container
-                    spacing={2}
-                    justifyContent="center"
-                    alignItems="center"
-                  >
-                    Vista Personas
-                    <Switch
-                      color="default"
-                      checked={isProjectView}
-                      onChange={() => {
-                        setIsProjectView(!isProjectView);
-                      }}
-                    />
-                    Vista Proyectos
-                  </Grid>
-                  {isProjectView ? <ProjectView /> : <PersonView />}
-                </>
-              )}
-            </div>
+            <>
+              <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
+              <ProjectView onSwitch={onSwitch} isProjectView={isProjectView} />
+            </>
           </Route>
-        </SwitchRouter>
-      </div>
-    </Router>
+        </SwitchRouter >
+      </div >
+    </Router >
   );
 }
