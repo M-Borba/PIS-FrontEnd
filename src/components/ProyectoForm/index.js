@@ -19,7 +19,6 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
@@ -34,6 +33,7 @@ ProyectoForm.propTypes = {
     people: propTypes.array,
   }).isRequired,
   title: propTypes.string,
+  removePerson: propTypes.func,
 };
 
 export default function ProyectoForm({
@@ -41,55 +41,50 @@ export default function ProyectoForm({
   onSubmit,
   onInputChange,
   proyecto,
+  removePerson
 }) {
   const classes = useStyles();
 
   const renderPeopleAndTechs = () => {
     if (proyecto.people != undefined) {
-      return <Grid item xs={6} >
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography variant="h6">Personas Asignadas</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                position: "relative",
-                overflow: "auto",
-                "& ul": { padding: 0 },
-              }}
-              subheader={<li />}
+      return (
+        <Grid item key={"people"} xs={6}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              {proyecto.people.map((person) => {
-                return (
-                  <>
-                    <ListItem
-                      key={person.id}
-                      role="listitem"
-                    >
-                      <ListItemText primary={person.full_name} />
-                      <IconButton>
-                        <CloseIcon />
-                      </IconButton>
-                    </ListItem>
-                  </>
-                );
-              })}
-            </List>
-          </AccordionDetails>
-        </Accordion>
-      </Grid >;
-    } else
-      return null;
-  }
-
-
+              <Typography>Personas Asignadas</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  position: "relative",
+                  overflow: "auto",
+                }}
+              >
+                {proyecto.people.map((person) => {
+                  return (
+                    <>
+                      <ListItem key={person.id} role="listitem">
+                        <ListItemText primary={person.full_name} />
+                        <IconButton onClick={removePerson}>
+                          <CloseIcon />
+                        </IconButton>
+                      </ListItem>
+                    </>
+                  );
+                })}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+        </Grid >
+      );
+    } else return null;
+  };
 
   return (
     <div className={classes.paper}>

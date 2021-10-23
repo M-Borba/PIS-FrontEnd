@@ -15,7 +15,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Divider from "@mui/material/Divider";
 
-
 InfoProyecto.propTypes = {
   projectData: propTypes.shape({
     name: propTypes.string,
@@ -25,7 +24,7 @@ InfoProyecto.propTypes = {
     start_date: propTypes.string,
     end_date: propTypes.string,
     technologies: propTypes.array,
-    people: propTypes.array
+    people: propTypes.array,
   }).isRequired,
   type: propTypes.string.isRequired,
   state: propTypes.string.isRequired,
@@ -122,10 +121,7 @@ export default function InfoProyecto({ projectData, type, state }) {
               {projectData.technologies.map((technology) => {
                 return (
                   <>
-                    <ListItem
-                      key={technology}
-                      role="listitem"
-                    >
+                    <ListItem key={technology} role="listitem">
                       <ListItemText primary={technology} />
                     </ListItem>
                   </>
@@ -161,10 +157,7 @@ export default function InfoProyecto({ projectData, type, state }) {
               {projectData.people.map((person) => {
                 return (
                   <>
-                    <ListItem
-                      key={person.id}
-                      role="listitem"
-                    >
+                    <ListItem key={person.id} role="listitem">
                       <ListItemText primary={person.full_name} />
                     </ListItem>
                   </>
