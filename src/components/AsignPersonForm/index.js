@@ -98,6 +98,7 @@ export default function AsignPersonForm({
               type="number"
               id="workingHours"
               onChange={onInputChange}
+              inputProps={{ min: 1 }}
             />
           </Grid>
           <Grid item xs={6}>

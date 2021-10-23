@@ -170,6 +170,13 @@ const Acciones = ({ projectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <Box className={classes.modal}>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleAddClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <AgregarPersona
                   projectData={{
                     id: projectData.id,
