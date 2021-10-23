@@ -25,6 +25,7 @@ InfoProyecto.propTypes = {
     end_date: propTypes.string,
     technologies: propTypes.array,
     people: propTypes.array,
+    organization: propTypes.string,
   }).isRequired,
   type: propTypes.string.isRequired,
   state: propTypes.string.isRequired,
@@ -45,6 +46,15 @@ export default function InfoProyecto({ projectData, type, state }) {
 
         <Typography display="" variant="body2">
           {projectData.description}
+        </Typography>
+      </Box>
+
+      <Box mt={2}>
+        <Typography variant="h6" display="inline" gutterBottom>
+          Organización:{" "}
+        </Typography>
+        <Typography display="inline" variant="body2">
+          {projectData.organization}
         </Typography>
       </Box>
 

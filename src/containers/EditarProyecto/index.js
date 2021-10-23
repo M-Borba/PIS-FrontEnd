@@ -13,6 +13,7 @@ EditarProjecto.propTypes = {
     start_date: propTypes.string,
     end_date: propTypes.string,
     people: propTypes.array,
+    organization: propTypes.string,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
@@ -91,6 +92,8 @@ export default function EditarProjecto({
       setProyecto({ ...proyecto, start_date: e.target.value });
     else if (e.target.id == "end_date")
       setProyecto({ ...proyecto, end_date: e.target.value });
+    else if (e.target.id == "organization")
+      setProyecto({ ...proyecto, organization: e.target.value });
   };
 
   return (
