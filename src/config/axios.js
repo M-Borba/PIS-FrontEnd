@@ -12,16 +12,18 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  if (error.response.status == 401) {
-    localStorage.setItem("uid", NOT_LOGGED);
-    window.location = '/login';
-
-  } else {
-    return Promise.reject(error);
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.response.status == 401) {
+      localStorage.setItem("uid", NOT_LOGGED);
+      window.location = "/login";
+    } else {
+      return Promise.reject(error);
+    }
   }
-});
+);
 
 export const axiosInstance = instance;

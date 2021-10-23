@@ -44,8 +44,8 @@ export default function App() {
               <ProjectView onSwitch={onSwitch} isProjectView={isProjectView} />
             </>
           </Route>
-        </SwitchRouter >
-      </div >
-    </Router >
+        </SwitchRouter>
+      </div>
+    </Router>
   );
 }

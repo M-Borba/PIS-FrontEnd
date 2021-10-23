@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { DataGrid } from "@mui/x-data-grid";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 import { useStyles } from "./styles";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -17,7 +17,6 @@ Administradores.propTypes = {
 };
 
 const columns = [
-
   {
     field: "id",
     headerName: "Email",
@@ -25,9 +24,9 @@ const columns = [
     flex: 1, //tamaño
   },
   {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Acciones',
+    field: "actions",
+    type: "actions",
+    headerName: "Acciones",
     flex: 0.3,
     renderCell: (params) => {
       return (
@@ -35,14 +34,11 @@ const columns = [
           <Acciones />
         </div>
       );
-    }
+    },
   },
 ];
 
-
-let rows = [
-  { id: 'example@effectus.com' },
-];
+let rows = [{ id: "example@effectus.com" }];
 
 export default function Administradores({
   onSubmit,
