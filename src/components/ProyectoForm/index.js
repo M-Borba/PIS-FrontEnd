@@ -21,6 +21,7 @@ ProyectoForm.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    organization: propTypes.string,
   }).isRequired,
   title: propTypes.string,
 };
@@ -39,7 +40,7 @@ export default function ProyectoForm({
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={{ xs: 2 }}>
-          <Grid item xs={6}>
+          <Grid item xs={6} mt={1}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -54,7 +55,8 @@ export default function ProyectoForm({
               autoFocus
             />
           </Grid>
-          <Grid item xs={6}>
+
+          <Grid item xs={6} mt={1}>
             <TextField
               inputProps={{ min: 1 }}
               variant="outlined"
@@ -104,6 +106,7 @@ export default function ProyectoForm({
               <MenuItem value={"upcomping"}>Upcomping</MenuItem>
             </Select>
           </Grid>
+
           <Grid item xs={6}>
             <TextField
               InputProps={{ inputProps: { max: "9999-12-31" } }} //https://github.com/mui-org/material-ui/issues/10675
@@ -133,6 +136,22 @@ export default function ProyectoForm({
               value={proyecto.end_date}
               InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="organization"
+              type="text"
+              label="Organización"
+              name="organization"
+              value={proyecto.organization}
+              onChange={onInputChange}
+              autoFocus
             />
           </Grid>
           <Grid item xs={12}>
