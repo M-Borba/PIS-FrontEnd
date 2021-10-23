@@ -20,8 +20,8 @@ jobs:
           paths:
             - ./node_modules
       - run: # run tests
-           name: Run Test and Coverage
-           command: |
+          name: Run Test and Coverage
+          command: |
              ./cc-test-reporter before-build
              npm test -- --coverage
              ./cc-test-reporter after-build --exit-code $?
