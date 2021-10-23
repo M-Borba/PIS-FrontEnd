@@ -20,7 +20,6 @@ AsignPersonForm.propTypes = {
     startDate: propTypes.string.isRequired,
     endDate: propTypes.string,
   }).isRequired,
-  msg: propTypes.string,
   error: propTypes.string,
   title: propTypes.string,
 };
@@ -31,7 +30,6 @@ export default function AsignPersonForm({
   onInputChange,
   asign,
   error,
-  msg,
 }) {
   const classes = useStyles();
 
@@ -39,9 +37,6 @@ export default function AsignPersonForm({
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
-      </Typography>
-      <Typography className={classes.msg} component="h2">
-        {msg}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={1}>
@@ -103,6 +98,7 @@ export default function AsignPersonForm({
               type="number"
               id="workingHours"
               onChange={onInputChange}
+              inputProps={{ min: 1 }}
             />
           </Grid>
           <Grid item xs={6}>

@@ -11,9 +11,10 @@ AgregarPersona.propTypes = {
     startDate: propTypes.string,
     endDate: propTypes.string,
   }).isRequired,
+  setNotify: propTypes.func.isRequired,
 };
 
-export default function AgregarPersona({ projectData }) {
+export default function AgregarPersona({ projectData, setNotify }) {
   const [asignacion, setAsignacion] = useState({
     roles: [
       ["Developer", false],
@@ -34,7 +35,7 @@ export default function AgregarPersona({ projectData }) {
   });
 
   const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
+
   const isValid = () => {
     return (
       asignacion.people != [],
@@ -46,6 +47,7 @@ export default function AgregarPersona({ projectData }) {
   };
 
   const handleSubmit = (e) => {
+    console.log("called");
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -72,33 +74,55 @@ export default function AgregarPersona({ projectData }) {
             })
             .then((response) => {
               if (response.status == 200) {
-                setMsg("Asignación creada correctamente");
-                setError("");
-              } else setError("Error: Paso algo inesperado");
+                setNotify({
+                  isOpen: true,
+                  message: `Asignación creada exitosamente`,
+                  type: "success",
+                  reload: false,
+                });
+              } else {
+                setNotify({
+                  isOpen: true,
+                  message: `Error inesperado en fetch de proyectos`,
+                  type: "error",
+                  reload: false,
+                });
+              }
             })
             .catch((error) => {
-              console.log("error", error.response);
+              console.log(error.response.status);
               if (
                 error.response != undefined &&
                 error.response.status != null &&
                 error.response.status == 401
               )
-                setError("Falta autentificarse!");
+                setNotify({
+                  isOpen: true,
+                  message: "Falta autentificarse!",
+                  type: "error",
+                  reload: false,
+                });
               else if (error.response.status == 400) {
                 let errors = error.response.data.errors;
-                setError(
-                  "Error, hay un problema con los datos ingresados - " +
+                setNotify({
+                  isOpen: true,
+                  message:
+                    "Error, hay un problema con los datos ingresados - " +
                     Object.keys(errors)[0] +
                     " " +
-                    errors[Object.keys(errors)[0]]
-                );
+                    errors[Object.keys(errors)[0]],
+                  type: "error",
+                  reload: false,
+                });
               } else
-                setError(
-                  "Error inesperado al enviar formulario - " +
+                setNotify({
+                  isOpen: true,
+                  message:
+                    "Error inesperado al enviar formulario - " +
                     Object.keys(errors)[0] +
                     " " +
-                    errors[Object.keys(errors)[0]]
-                );
+                    errors[Object.keys(errors)[0]],
+                });
             })
         )
       );
@@ -168,7 +192,6 @@ export default function AgregarPersona({ projectData }) {
         onSubmit={handleSubmit}
         onInputChange={checkInput}
         asign={asignacion}
-        msg={msg}
         error={error}
         title={"Asignando Persona a " + projectData.name}
       />

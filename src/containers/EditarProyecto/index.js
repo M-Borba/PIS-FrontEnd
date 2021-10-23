@@ -12,13 +12,20 @@ EditarProjecto.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
     organization: propTypes.string,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
+  removePerson: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id, setNotify }) {
+export default function EditarProjecto({
+  projectData,
+  id,
+  setNotify,
+  removePerson,
+}) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
@@ -96,6 +103,7 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
         title={"Modificacion de Proyecto"}
+        removePerson={removePerson}
       />
     </div>
   );

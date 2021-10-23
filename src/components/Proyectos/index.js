@@ -17,16 +17,23 @@ import InfoProyecto from "../../containers/InfoProyecto";
 import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
+import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
 };
 
+// function removePerson(id) {
+//   console.log("se quizo borrar ", id);
+// }
+
 const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
+  const [personToRemove, setPersonToRemove] = React.useState(["", ""]);
 
   const classes = useStyles();
   const [notify, setNotify] = React.useState({
@@ -44,6 +51,8 @@ const Acciones = ({ projectRow }) => {
     budget: projectRow.budget,
     start_date: projectRow.start_date,
     end_date: projectRow.end_date,
+    technologies: ["java", "python"], //projectRow.technologies,
+    people: projectRow.people,
     organization: projectRow.organization,
   });
 
@@ -52,14 +61,18 @@ const Acciones = ({ projectRow }) => {
   };
   const handleInfoClose = () => {
     setOpenInfo(false);
-    window.location.reload(); //este reload esta bien?
   };
 
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
 
-  const handleAddOpen = () => setOpenAdd(true);
+  const handleRemovePersonOpen = (id, name) => {
+    setOpenRemovePerson(true);
+    setPersonToRemove([id, name]);
+  };
+  const handleRemovePersonClose = () => setOpenRemovePerson(false);
 
+  const handleAddOpen = () => setOpenAdd(true);
   const handleAddClose = () => setOpenAdd(false);
 
   const handleRemoveOpen = () => setOpenRemove(true);
@@ -90,7 +103,11 @@ const Acciones = ({ projectRow }) => {
                 >
                   <CloseIcon />
                 </IconButton>
-                <InfoProyecto projectData={projectData} />
+                <InfoProyecto
+                  projectData={projectData}
+                  type={projectRow.project_type}
+                  state={projectRow.project_state}
+                />
               </Box>
             </Modal>
           </>
@@ -102,6 +119,21 @@ const Acciones = ({ projectRow }) => {
             <IconButton onClick={handleEditOpen}>
               <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
+            <Dialog
+              open={openRemovePerson}
+              onClose={handleRemovePersonClose}
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <RemoverPersona
+                personName={personToRemove[1]}
+                personId={personToRemove[0]}
+                projectId={projectRow.id}
+                projectName={projectRow.name}
+                handleClose={handleRemovePersonClose}
+                setNotify={setNotify}
+              />
+            </Dialog>
             <Modal
               open={openEdit}
               onClose={handleEditClose}
@@ -119,6 +151,7 @@ const Acciones = ({ projectRow }) => {
                   projectData={projectData}
                   id={projectData.id}
                   setNotify={setNotify}
+                  removePerson={handleRemovePersonOpen}
                 />
               </Box>
             </Modal>
@@ -137,6 +170,13 @@ const Acciones = ({ projectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <Box className={classes.modal}>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleAddClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <AgregarPersona
                   projectData={{
                     id: projectData.id,
@@ -144,6 +184,7 @@ const Acciones = ({ projectRow }) => {
                     startDate: projectData.start_date,
                     endDate: projectData.end_date,
                   }}
+                  setNotify={setNotify}
                 />
               </Box>
             </Modal>
