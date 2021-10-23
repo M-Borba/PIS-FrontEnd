@@ -5,7 +5,8 @@ jobs:
       - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache: # special step to restore the dependency 
+      - restore_cache: # special step to restore the dependency
+        key: dependency-cache-{{ checksum "package.json" }} 
 plugins:
   duplication:
     enabled: true
