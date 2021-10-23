@@ -2,30 +2,26 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cypress/base:12.18.2
-    environment:
-      CC_TEST_REPORTER_ID: ca4447b67e8c7cbd304c6a31bd36137e5bc24d5355f51a96281434f9ae479fb9
+      - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache:
-          name: Restore yarn and Cypress cache
-          keys:
-            - dependency-cache-{{ checksum "yarn.lock" }}
+      - restore_cache: # special step to restore the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install dependencies
-          command: yarn --frozen-lockfile
+          name: Setup Dependencies
+          command: npm install
       - run:
-          name: Run server
-          command: ENV=cypress yarn start
-          background: true
-      - save_cache:
-          key: dependency-cache-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache
-      - run:
-          name: Setup Code Climate test reporter
+          name: Setup Code Climate test-reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
+      - save_cache: # special step to save the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: # run tests
+          name: Run Test and Coverage
+          command: |
             ./cc-test-reporter before-build
-            ./cc-test-reporter after-build -t lcov ./coverage/lcov.info
+            npm test -- --coverage
+            ./cc-test-reporter after-build --exit-code $?
