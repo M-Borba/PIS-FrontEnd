@@ -14,6 +14,7 @@ AgregarPersona.propTypes = {
 };
 
 export default function AgregarPersona({ projectData }) {
+  console.log(projectData);
   const [asignacion, setAsignacion] = useState({
     roles: [
       ["Developer", false],

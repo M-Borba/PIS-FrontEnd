@@ -16,7 +16,7 @@ export default function Switcher({ onSwitch, isProjectView }) {
         <Typography variant="body1" color="common.white">
           Proyectos
         </Typography>
-        <Switch color="default" checked={!isProjectView} onChange={onSwitch} />
+        <Switch color="default" checked={isProjectView} onChange={onSwitch} />
         <Typography variant="body1" color="common.white">
           Personas
         </Typography>

@@ -19,6 +19,7 @@ export default function CreateProject({ setNotify }) {
     end_date: "",
     project_type: "-",
     project_state: "-",
+    organization: "",
   });
 
   const handleSubmit = (e) => {
@@ -71,6 +72,8 @@ export default function CreateProject({ setNotify }) {
       setProject({ ...project, start_date: e.target.value });
     else if (e.target.id == "end_date")
       setProject({ ...project, end_date: e.target.value });
+    else if (e.target.id == "organization")
+      setProject({ ...project, organization: e.target.value });
   };
 
   return (

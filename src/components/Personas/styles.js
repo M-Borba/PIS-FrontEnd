@@ -17,4 +17,12 @@ export const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  box: {
+    display: "flex",
+    padding: 8,
+  },
+  rightBox: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
 }));

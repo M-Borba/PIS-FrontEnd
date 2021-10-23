@@ -106,11 +106,6 @@ const Acciones = ({ personRow }) => {
 
 const columns = [
   {
-    field: "id",
-    headerName: "ID",
-    //id
-  },
-  {
     field: "fullName",
     headerName: "Nombre completo",
     sortable: true,
@@ -179,22 +174,12 @@ export default function Personas({ rows }) {
         margin: "1vw",
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
-      <div
-        style={{
-          margin: 10,
-        }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
-      ></div>
-      <Button color="primary" variant="contained" onClick={handleNewOpen}>
-        Agregar Persona
-      </Button>
+      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+        <Button color="primary" variant="contained" onClick={handleNewOpen}>
+          Agregar Persona
+        </Button>
+      </Box>
+
       <Modal
         open={openNew}
         onClose={handleNewClose}
@@ -212,6 +197,15 @@ export default function Personas({ rows }) {
           <CreatePerson setNotify={setNotify} />
         </Box>
       </Modal>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
+      />
+
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
