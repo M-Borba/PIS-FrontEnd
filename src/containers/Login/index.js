@@ -11,8 +11,8 @@ import { axiosInstance } from "../../config/axios";
 import Login from "../../components/Login";
 import Grid from "@material-ui/core/Grid";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import { useHistory } from "react-router-dom";
 import { NOT_LOGGED } from "../../config/globalVariables";
 import { useStyles } from "./styles";
@@ -23,7 +23,6 @@ export default function LoginView() {
   const [loginError, setLoginError] = useState("");
   const [password, setPassowrd] = useState("");
   const classes = useStyles();
-
 
   useEffect(() => {
     if (
@@ -73,11 +72,8 @@ export default function LoginView() {
     if (e.target.name == "password") setPassowrd(e.target.value);
   };
   return (
-
-
     <Grid container spacing={2} justifyContent="center" alignItems="center">
       <Grid item md={3} sm={12}>
-
         {/* <Paper variant="elevation" elevation={3} className="login-background" style={{ marginTop: 100 }}> */}
         <Paper variant="elevation" elevation={3} className={classes.paper}>
           <span className={classes.imgcontainer}>

@@ -62,81 +62,63 @@ export default function Edit({ personData, id, setNotify }) {
     working_hours: personData.working_hours,
     roles: completeRoles,
   });
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      person.first_name != "" &&
-      person.last_name != "" &&
-      person.email != "" &&
-      person.working_hours != ""
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(person)) {
-      setError("Completar todos los campos para completar la modificación");
-    } else {
-      var checkedRoles = Object.assign(person.roles);
-      checkedRoles = checkedRoles
-        .filter((rol) => rol[1] == true)
-        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
 
-      axiosInstance
-        .put("/people/" + id, {
-          person: {
-            first_name: person.first_name,
-            last_name: person.last_name,
-            email: person.email,
-            working_hours: person.working_hours,
-            roles: checkedRoles,
-          },
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            setNotify({
-              isOpen: true,
-              message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
-              type: "success",
-              reload: true,
-            });
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log(error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            setNotify({
-              isOpen: true,
-              message: `Error, hay un problema con los datos ingresados - ${Object.keys(errors)[0]
-                } ${errors[Object.keys(errors)[0]]}.`,
-              type: "error",
-              reload: false,
-            });
-          } else if (error.response.status == 404)
-            setNotify({
-              isOpen: true,
-              message: `Error, la perosna ${personData.first_name} ${personData.last_name} ya fue eliminada.`,
-              type: "error",
-              reload: true,
-            });
-          else
-            setNotify({
-              isOpen: true,
-              message: `Error inesperado al enviar formulario - ${Object.keys(errors)[0]
-                } ${errors[Object.keys(errors)[0]]}.`,
-              type: "error",
-              reload: false,
-            });
-        });
-    }
+    var checkedRoles = Object.assign(person.roles);
+    checkedRoles = checkedRoles
+      .filter((rol) => rol[1] == true)
+      .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
+
+    axiosInstance
+      .put("/people/" + id, {
+        person: {
+          first_name: person.first_name,
+          last_name: person.last_name,
+          email: person.email,
+          working_hours: person.working_hours,
+          roles: checkedRoles,
+        },
+      })
+      .then((response) => {
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
+            type: "success",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
+      });
   };
+
   const checkInput = (value, type) => {
     if (type == "Rol") {
       let newRoles = person.roles;
@@ -168,13 +150,11 @@ export default function Edit({ personData, id, setNotify }) {
   };
 
   return (
-    <div>
-      <PersonForm
-        onSubmit={handleSubmit}
-        onInputChange={checkInput}
-        person={person}
-        title={"Modificacion de Persona"}
-      />
-    </div>
+    <PersonForm
+      onSubmit={handleSubmit}
+      onInputChange={checkInput}
+      person={person}
+      title={"Modificacion de Persona"}
+    />
   );
 }

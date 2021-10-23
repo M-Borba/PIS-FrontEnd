@@ -1,12 +1,23 @@
 import React, { useState, useEffect, Fragment } from "react";
 import moment from "moment";
-import Timeline from "react-calendar-timeline";
+import Timeline, {
+  TimelineHeaders,
+  SidebarHeader,
+  DateHeader,
+} from "react-calendar-timeline";
+import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
+import Switcher from "../../components/Switcher/";
 
-export default function PersonTimeline() {
+PersonTimeline.propTypes = {
+  onSwitch: PropTypes.func,
+  isProjectView: PropTypes.bool,
+};
+
+export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [assignObject, setAssignObject] = useState({
@@ -35,6 +46,15 @@ export default function PersonTimeline() {
     itemTimeStartKey: "start",
     itemTimeEndKey: "end",
     groupLabelKey: "title",
+  };
+
+  const customTimeSteps = {
+    second: 0,
+    minute: 0,
+    hour: 0,
+    day: 1,
+    month: 1,
+    year: 1,
   };
 
   const fetchData = () => {
@@ -88,7 +108,7 @@ export default function PersonTimeline() {
   }, []);
 
   const defaultTimeStart = moment().startOf("day").toDate();
-  const defaultTimeEnd = moment().startOf("day").add(1, "day").toDate();
+  const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
   const backendFormatDate = (date) => {
     date = date.split("/");
@@ -175,7 +195,7 @@ export default function PersonTimeline() {
   const handleInfoAsignacionClose = () =>
     setInfoAssignObject({ ...infoAssignObject, open: false });
 
-  if (groups.length > 0) {
+  if (groups.length > 0 && isProjectView) {
     return (
       <Fragment>
         <Timeline
@@ -187,6 +207,7 @@ export default function PersonTimeline() {
           itemTouchSendsClick={true}
           dragSnap={60 * 60 * 24 * 1000} //dia
           stackItems
+          timeSteps={customTimeSteps}
           itemHeightRatio={0.75}
           canMove={true}
           canResize={"both"}
@@ -196,7 +217,25 @@ export default function PersonTimeline() {
           onItemResize={handleItemResize}
           onCanvasClick={handleCanvasClick}
           onItemClick={handleItemClick}
-        />
+          sidebarWidth={200}
+        >
+          <TimelineHeaders className="sticky">
+            <SidebarHeader>
+              {({ getRootProps }) => {
+                return (
+                  <div {...getRootProps()}>
+                    <Switcher
+                      onSwitch={onSwitch}
+                      isProjectView={isProjectView}
+                    />
+                  </div>
+                );
+              }}
+            </SidebarHeader>
+            <DateHeader unit="primaryHeader" />
+            <DateHeader />
+          </TimelineHeaders>
+        </Timeline>
         <AsignarProyectoPersona
           open={assignObject.open}
           personId={parseInt(assignObject.groupId)}

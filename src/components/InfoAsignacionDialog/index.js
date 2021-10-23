@@ -74,81 +74,88 @@ function InfoAsignacionDialog({
           </IconButton>
         </Stack>
       </DialogTitle>
-      <DialogContent className={Classes.content}>
-        <Stack
-          spacing={1}
-          divider={<Divider flexItem style={{ margin: 10 }} />}
-        >
-          <TextField
-            fullWidth
-            required
-            select
-            label="Rol"
-            name="rol"
-            value={asignacionInfo.role}
-            onChange={onChange}
-            sx={{ marginTop: 1 }}
+      <form onSubmit={aplicarCambios}>
+        <DialogContent className={Classes.content}>
+          <Stack
+            spacing={1}
+            divider={<Divider flexItem style={{ margin: 10 }} />}
           >
-            {rolItems}
-          </TextField>
-          <Stack spacing={1} direction="row">
-            <TextField
-              fullWidth
-              required
-              id="working_hours"
-              label="Carga horaria"
-              variant="standard"
-              type="number"
-              required={true}
-              value={asignacionInfo.working_hours}
-              onChange={onChange}
-            />
             <TextField
               fullWidth
               required
               select
-              name="working_hours_type"
-              label="Tipo de carga horaria"
-              name="working_hours_type"
-              value={asignacionInfo.working_hours_type}
+              label="Rol"
+              name="rol"
+              value={asignacionInfo.role}
               onChange={onChange}
+              sx={{ marginTop: 1 }}
             >
-              {cargasHorariasItems}
+              {rolItems}
             </TextField>
+            <Stack spacing={1} direction="row">
+              <TextField
+                fullWidth
+                required
+                id="working_hours"
+                label="Carga horaria"
+                variant="standard"
+                type="number"
+                required={true}
+                value={asignacionInfo.working_hours}
+                onChange={onChange}
+                inputProps={{ min: 1 }}
+              />
+              <TextField
+                fullWidth
+                required
+                select
+                name="working_hours_type"
+                label="Tipo de carga horaria"
+                name="working_hours_type"
+                value={asignacionInfo.working_hours_type}
+                onChange={onChange}
+              >
+                {cargasHorariasItems}
+              </TextField>
+            </Stack>
+            <Stack spacing={1} direction="row">
+              <TextField
+                fullWidth
+                required
+                InputLabelProps={{ shrink: true }}
+                id="start_date"
+                label="Fecha Inicio"
+                variant="standard"
+                type="date"
+                value={asignacionInfo.start_date}
+                onChange={onChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+              <TextField
+                fullWidth
+                required
+                InputLabelProps={{ shrink: true }}
+                id="end_date"
+                label="Fecha Fin"
+                variant="standard"
+                type="date"
+                value={asignacionInfo.end_date}
+                onChange={onChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+            </Stack>
           </Stack>
-          <Stack spacing={1} direction="row">
-            <TextField
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              id="start_date"
-              label="Fecha Inicio"
-              variant="standard"
-              type="date"
-              value={asignacionInfo.start_date}
-              onChange={onChange}
-            />
-            <TextField
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              id="end_date"
-              label="Fecha Fin"
-              variant="standard"
-              type="date"
-              value={asignacionInfo.end_date}
-              onChange={onChange}
-            />
-          </Stack>
-        </Stack>
-      </DialogContent>
-      <DialogActions
-        className={Classes.actions}
-        style={{ justifyContent: "space-between" }}
-      >
-        <Button onClick={desasignar}>desasignar</Button>
-        <Button onClick={aplicarCambios}>Aplicar Cambios</Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions
+          className={Classes.actions}
+          style={{ justifyContent: "space-between" }}
+        >
+          <Button onClick={desasignar}>desasignar</Button>
+          <Button role="submit" type="submit">
+            Aplicar Cambios
+          </Button>
+        </DialogActions>
+      </form>
     </Fragment>
   );
 }

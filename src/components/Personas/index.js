@@ -128,16 +128,16 @@ const columns = [
     flex: 0.7,
   },
   {
-    field: "tag",
-    headerName: "Etiqueta",
-    sortable: true,
-    flex: 1,
+    field: "roles",
+    headerName: "Roles",
+    sortable: false,
+    flex: 1.5,
   },
   {
     field: "actions",
     type: "actions",
     headerName: "Acciones",
-    flex: 1,
+    flex: 0.5,
     renderCell: (params) => {
       return (
         <div>
@@ -176,11 +176,7 @@ export default function Personas({ rows }) {
   return (
     <div
       style={{
-        position: "fixed",
-        top: "15%",
-        left: "5%",
-        height: "75%",
-        width: "90%",
+        margin: "1vw",
       }}
     >
       <DataGrid
@@ -189,6 +185,7 @@ export default function Personas({ rows }) {
         disableSelectionOnClick
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
       />
       <div
         style={{

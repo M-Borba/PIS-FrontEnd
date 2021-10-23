@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import PersonAdd from "@material-ui/icons/PersonAdd";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
@@ -66,21 +67,28 @@ const Acciones = ({ projectRow }) => {
   return (
     <div
       style={{
-        margin: 10,
+        margin: "10px",
       }}
     >
       <FormControlLabel
         control={
           <>
-            <Button variant="outlined" onClick={handleInfoClick}>
-              Ver Info Completa
-            </Button>
+            <IconButton variant="outlined" onClick={handleInfoClick}>
+              <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
             <Modal
               open={openInfo}
               onClose={handleInfoClose}
               disableEnforceFocus
             >
               <Box className={classes.modalInfo}>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleInfoClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <InfoProyecto projectData={projectData} />
               </Box>
             </Modal>
@@ -245,11 +253,7 @@ export default function Proyecto({ rows }) {
   return (
     <div
       style={{
-        position: "fixed",
-        top: "15%",
-        left: "5%",
-        height: "75%",
-        width: "90%",
+        margin: "1vw",
       }}
     >
       <DataGrid
@@ -258,6 +262,7 @@ export default function Proyecto({ rows }) {
         disableSelectionOnClick
         sortModel={sortModel}
         onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
       />
       <div
         style={{
