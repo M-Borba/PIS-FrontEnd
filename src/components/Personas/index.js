@@ -27,12 +27,12 @@ const Acciones = ({ personRow }) => {
     type: "success",
     reload: false,
   });
+
   const classes = useStyles();
-  let fullName = personRow.fullName.split(" ");
   const [personData] = React.useState({
     id: personRow.id,
-    first_name: fullName[0],
-    last_name: fullName[1],
+    first_name: personRow.firstName,
+    last_name: personRow.lastName,
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
     roles: personRow.roles,
