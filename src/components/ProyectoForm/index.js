@@ -18,6 +18,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Divider from '@mui/material/Divider';
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -62,7 +63,6 @@ export default function ProyectoForm({
               <List
                 sx={{
                   width: "100%",
-                  maxWidth: 360,
                   position: "relative",
                   overflow: "auto",
                 }}
@@ -80,6 +80,7 @@ export default function ProyectoForm({
                           <CloseIcon />
                         </IconButton>
                       </ListItem>
+                      <Divider component="li" />
                     </>
                   );
                 })}
