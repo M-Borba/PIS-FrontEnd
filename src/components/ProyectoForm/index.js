@@ -41,7 +41,7 @@ export default function ProyectoForm({
   onSubmit,
   onInputChange,
   proyecto,
-  removePerson
+  removePerson,
 }) {
   const classes = useStyles();
 
@@ -71,7 +71,7 @@ export default function ProyectoForm({
                     <>
                       <ListItem key={person.id} role="listitem">
                         <ListItemText primary={person.full_name} />
-                        <IconButton onClick={removePerson}>
+                        <IconButton onClick={() => removePerson(person.id, person.full_name)}>
                           <CloseIcon />
                         </IconButton>
                       </ListItem>
@@ -81,7 +81,7 @@ export default function ProyectoForm({
               </List>
             </AccordionDetails>
           </Accordion>
-        </Grid >
+        </Grid>
       );
     } else return null;
   };

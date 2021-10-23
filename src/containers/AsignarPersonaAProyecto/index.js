@@ -3,6 +3,7 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
+import Notificacion from "../../components/Notificacion";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.shape({
@@ -34,7 +35,13 @@ export default function AgregarPersona({ projectData }) {
   });
 
   const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
+
   const isValid = () => {
     return (
       asignacion.people != [],
@@ -72,33 +79,52 @@ export default function AgregarPersona({ projectData }) {
             })
             .then((response) => {
               if (response.status == 200) {
-                setMsg("Asignación creada correctamente");
-                setError("");
-              } else setError("Error: Paso algo inesperado");
+                setNotify({
+                  isOpen: true,
+                  message: `Asignación creada exitosamente`,
+                  type: "success",
+                  reload: false,
+                });
+              } else {
+                setNotify({
+                  isOpen: true,
+                  message: `Error inesperado en fetch de proyectos`,
+                  type: "error",
+                  reload: false,
+                });
+              }
             })
             .catch((error) => {
-              console.log("error", error.response);
               if (
                 error.response != undefined &&
                 error.response.status != null &&
                 error.response.status == 401
               )
-                setError("Falta autentificarse!");
+                setNotify({
+                  isOpen: true,
+                  message: "Falta autentificarse!",
+                  type: "error",
+                  reload: false,
+                });
               else if (error.response.status == 400) {
                 let errors = error.response.data.errors;
-                setError(
-                  "Error, hay un problema con los datos ingresados - " +
+                setNotify({
+                  isOpen: true,
+                  message: "Error, hay un problema con los datos ingresados - " +
                     Object.keys(errors)[0] +
                     " " +
-                    errors[Object.keys(errors)[0]]
-                );
+                    errors[Object.keys(errors)[0]],
+                  type: "error",
+                  reload: false,
+                });
               } else
-                setError(
-                  "Error inesperado al enviar formulario - " +
+                setNotify({
+                  isOpen: true,
+                  message: "Error inesperado al enviar formulario - " +
                     Object.keys(errors)[0] +
                     " " +
                     errors[Object.keys(errors)[0]]
-                );
+                });
             })
         )
       );

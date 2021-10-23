@@ -33,6 +33,7 @@ const Acciones = ({ projectRow }) => {
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
+  const [personToRemove, setPersonToRemove] = React.useState(["", ""]);
 
   const classes = useStyles();
   const [notify, setNotify] = React.useState({
@@ -64,7 +65,10 @@ const Acciones = ({ projectRow }) => {
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
 
-  const handleRemovePersonOpen = () => setOpenRemovePerson(true);
+  const handleRemovePersonOpen = (id, name) => {
+    setOpenRemovePerson(true);
+    setPersonToRemove([id, name]);
+  };
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
 
   const handleAddOpen = () => setOpenAdd(true);
@@ -121,8 +125,8 @@ const Acciones = ({ projectRow }) => {
               aria-labelledby="confirmation-dialog-title"
             >
               <RemoverPersona
-                personName={"Juancito"}
-                personId={1}
+                personName={personToRemove[1]}
+                personId={personToRemove[0]}
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemovePersonClose}
