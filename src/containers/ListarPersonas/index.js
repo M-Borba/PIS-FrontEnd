@@ -21,6 +21,8 @@ export default function ListarPersonas() {
       let rowsNuevas = rows.map((row) => {
         return {
           fullName: row.full_name,
+          firstName: row.first_name,
+          lastName: row.last_name,
           email: row.email,
           id: row.id,
           roles: row.roles,
