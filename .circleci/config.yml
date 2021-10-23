@@ -18,9 +18,6 @@ jobs:
           name: Run server
           command: ENV=cypress yarn start
           background: true
-      - run:
-          name: Run tests
-          command: react-scripts test
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
