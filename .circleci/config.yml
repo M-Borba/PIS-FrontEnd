@@ -20,10 +20,7 @@ jobs:
           background: true
       - run:
           name: Run tests
-          command: yarn test:ci
-      - run:
-          name: Run Jest tests
-          command: yarn jest src
+          command: cross-env CI=true react-scripts test --env=jsdom
       - save_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
