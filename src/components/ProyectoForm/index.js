@@ -72,7 +72,11 @@ export default function ProyectoForm({
                     <>
                       <ListItem key={person.id} role="listitem">
                         <ListItemText primary={person.full_name} />
-                        <IconButton onClick={() => removePerson(person.id, person.full_name)}>
+                        <IconButton
+                          onClick={() =>
+                            removePerson(person.id, person.full_name)
+                          }
+                        >
                           <CloseIcon />
                         </IconButton>
                       </ListItem>

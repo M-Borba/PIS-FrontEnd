@@ -3,7 +3,6 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import Notificacion from "../../components/Notificacion";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.shape({
@@ -12,9 +11,10 @@ AgregarPersona.propTypes = {
     startDate: propTypes.string,
     endDate: propTypes.string,
   }).isRequired,
+  setNotify: propTypes.func.isRequired,
 };
 
-export default function AgregarPersona({ projectData }) {
+export default function AgregarPersona({ projectData, setNotify }) {
   const [asignacion, setAsignacion] = useState({
     roles: [
       ["Developer", false],
@@ -35,12 +35,6 @@ export default function AgregarPersona({ projectData }) {
   });
 
   const [error, setError] = useState("");
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
 
   const isValid = () => {
     return (
@@ -53,6 +47,7 @@ export default function AgregarPersona({ projectData }) {
   };
 
   const handleSubmit = (e) => {
+    console.log("called");
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -95,6 +90,7 @@ export default function AgregarPersona({ projectData }) {
               }
             })
             .catch((error) => {
+              console.log(error.response.status);
               if (
                 error.response != undefined &&
                 error.response.status != null &&
@@ -110,7 +106,8 @@ export default function AgregarPersona({ projectData }) {
                 let errors = error.response.data.errors;
                 setNotify({
                   isOpen: true,
-                  message: "Error, hay un problema con los datos ingresados - " +
+                  message:
+                    "Error, hay un problema con los datos ingresados - " +
                     Object.keys(errors)[0] +
                     " " +
                     errors[Object.keys(errors)[0]],
@@ -120,10 +117,11 @@ export default function AgregarPersona({ projectData }) {
               } else
                 setNotify({
                   isOpen: true,
-                  message: "Error inesperado al enviar formulario - " +
+                  message:
+                    "Error inesperado al enviar formulario - " +
                     Object.keys(errors)[0] +
                     " " +
-                    errors[Object.keys(errors)[0]]
+                    errors[Object.keys(errors)[0]],
                 });
             })
         )
@@ -194,7 +192,6 @@ export default function AgregarPersona({ projectData }) {
         onSubmit={handleSubmit}
         onInputChange={checkInput}
         asign={asignacion}
-        msg={msg}
         error={error}
         title={"Asignando Persona a " + projectData.name}
       />

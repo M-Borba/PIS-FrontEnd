@@ -177,6 +177,7 @@ const Acciones = ({ projectRow }) => {
                     startDate: projectData.start_date,
                     endDate: projectData.end_date,
                   }}
+                  setNotify={setNotify}
                 />
               </Box>
             </Modal>

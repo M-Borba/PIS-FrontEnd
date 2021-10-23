@@ -12,12 +12,13 @@ Switcher.propTypes = {
 export default function Switcher({ onSwitch, isProjectView }) {
   return (
     <div style={{ margin: "1vh 1vh 0 1vh" }}>
-      <Grid container
+      <Grid
+        container
         direction="row"
         alignItems="center"
         justifyContent="center"
-
-        spacing={0} >
+        spacing={0}
+      >
         <Typography variant="body2" color="common.white">
           Proyecto
         </Typography>
