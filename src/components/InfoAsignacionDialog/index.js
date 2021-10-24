@@ -103,7 +103,10 @@ function InfoAsignacionDialog({
                 required={true}
                 value={asignacionInfo.working_hours}
                 onChange={onChange}
-                inputProps={{ min: 1 }}
+                inputProps={{
+                  min: 1,
+                  max: asignacionInfo.working_hours_type == "daily" ? 24 : 100,
+                }}
               />
               <TextField
                 fullWidth
@@ -150,8 +153,10 @@ function InfoAsignacionDialog({
           className={Classes.actions}
           style={{ justifyContent: "space-between" }}
         >
-          <Button onClick={desasignar}>desasignar</Button>
-          <Button role="submit" type="submit">
+          <Button onClick={desasignar} variant="contained">
+            desasignar
+          </Button>
+          <Button role="submit" type="submit" variant="contained">
             Aplicar Cambios
           </Button>
         </DialogActions>

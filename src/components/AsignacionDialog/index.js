@@ -4,6 +4,7 @@ import {
   rolesFormateados,
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
+import { useStyles } from "../InfoAsignacionDialog/styles";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,6 +14,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,
@@ -33,6 +36,8 @@ function AsignacionDialog({
   onInputChange,
   datos,
 }) {
+  const Classes = useStyles();
+
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
     return (
       <MenuItem key={id} value={cargaHoraria}>
@@ -59,7 +64,18 @@ function AsignacionDialog({
 
   return (
     <Fragment>
-      <DialogTitle>Asignacion de proyecto a {personName}</DialogTitle>
+      <DialogTitle>
+        <Stack direction="row" className={Classes.jC_sb}>
+          Asignacion de proyecto a {personName}
+          <IconButton
+            aria-label="Close"
+            className={Classes.closeButton}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+      </DialogTitle>
       <form onSubmit={onSubmit}>
         <DialogContent>
           <Stack spacing={2} divider={<Divider flexItem />}>
@@ -108,7 +124,10 @@ function AsignacionDialog({
                 type="number"
                 value={datos.working_hours}
                 onChange={onInputChange}
-                inputProps={{ min: 1 }}
+                inputProps={{
+                  min: 1,
+                  max: datos.working_hours_type == "daily" ? 24 : 100,
+                }}
               />
             </Stack>
             <Stack spacing={1} direction="row">

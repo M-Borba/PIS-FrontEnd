@@ -112,6 +112,7 @@ export default function ProyectoForm({
               value={proyecto.name}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 40 }}
             />
           </Grid>
 
