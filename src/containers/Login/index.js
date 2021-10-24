@@ -74,7 +74,7 @@ export default function LoginView() {
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
       <Grid item md={3} sm={12}>
-       <Paper variant="elevation" elevation={3} className={classes.paper}>
+        <Paper variant="elevation" elevation={3} className={classes.paper}>
           <span className={classes.imgcontainer}>
             <img
               src={effectus_wallpaper}

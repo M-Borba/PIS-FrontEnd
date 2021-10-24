@@ -55,7 +55,7 @@ export default function ProyectoForm({
               value={proyecto.name}
               onChange={onInputChange}
               autoFocus
-              inputProps={{ maxLength: 40 }}
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
 
@@ -155,6 +155,7 @@ export default function ProyectoForm({
               value={proyecto.organization}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -171,6 +172,7 @@ export default function ProyectoForm({
               maxRows={5}
               value={proyecto.description}
               onChange={onInputChange}
+              inputProps={{ maxLength: 500 }}
             />
           </Grid>
         </Grid>

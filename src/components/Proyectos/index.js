@@ -9,8 +9,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
@@ -72,7 +72,7 @@ const Acciones = ({ projectRow }) => {
   const handleRemovePersonOpen = (id, name) => {
     setPersonToRemove([id, name]);
     setOpenRemovePerson(true);
-  }
+  };
 
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
 

@@ -109,14 +109,14 @@ function AsignacionDialog({
                 fullWidth
                 required
                 name="working_hours_type"
-                label="Tipo de carga"
+                label="Tipo de carga horaria"
                 value={datos.working_hours_type}
                 onChange={onInputChange}
               >
                 {cargasHorariasItems}
               </TextField>
               <TextField
-                fullWidth
+                style={{ width: 280 }}
                 required
                 id="horas"
                 label="Carga horaria"

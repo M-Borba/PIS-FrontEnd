@@ -67,8 +67,10 @@ export default function Edit({ personData, id, setNotify }) {
     checkedRoles = checkedRoles
       .filter((rol) => rol[1] == true)
       .map((rol) => {
-        rol[0].toLowerCase()
-        return Object.keys(rolesFormateados).find(key => rolesFormateados[key] === rol[0]);
+        rol[0].toLowerCase();
+        return Object.keys(rolesFormateados).find(
+          (key) => rolesFormateados[key] === rol[0]
+        );
       });
 
     axiosInstance

@@ -63,7 +63,7 @@ function InfoAsignacionDialog({
         <Stack direction="row" className={Classes.jC_sb}>
           <Typography variant="h6">
             {personName} en {projectName.split("-")[0]} como{" "}
-            {rolesFormateados[projectName.split("-")[1].trim()]}
+            {projectName.split("-")[1]}
           </Typography>
           <IconButton
             aria-label="Close"
@@ -154,7 +154,7 @@ function InfoAsignacionDialog({
           style={{ justifyContent: "space-between" }}
         >
           <Button onClick={desasignar} variant="contained">
-            desasignar
+            Desasignar
           </Button>
           <Button role="submit" type="submit" variant="contained">
             Aplicar Cambios
