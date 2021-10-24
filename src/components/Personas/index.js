@@ -35,8 +35,9 @@ const Acciones = ({ personRow }) => {
     last_name: personRow.lastName,
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
-    roles: personRow.roles,
+    roles: personRow.roles.map((rol) => rol.trim()),
     tags: personRow.tags,
+    technologies: personRow.technologies || [],
   });
 
   const handleEditOpen = () => setOpenEdit(true);
@@ -106,6 +107,11 @@ const Acciones = ({ personRow }) => {
 
 const columns = [
   {
+    field: "id",
+    headerName: "ID",
+    hide: true,
+  },
+  {
     field: "fullName",
     headerName: "Nombre completo",
     sortable: true,
@@ -127,6 +133,11 @@ const columns = [
     headerName: "Roles",
     sortable: false,
     flex: 1.5,
+  },
+  {
+    field: "technologies",
+    headerName: "Tecnologías",
+    hide: true,
   },
   {
     field: "actions",

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-MenuItem
+MenuItem;
 import Chip from "@material-ui/core/Chip";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -22,7 +22,7 @@ TechnologyForm.propTypes = {
   selectedList: PropTypes.array,
   onInputChange: PropTypes.func.isRequired,
   senioritySelected: PropTypes.string,
-  setSeniority: PropTypes.func
+  setSeniority: PropTypes.func,
 };
 
 export default function TechnologyForm({
@@ -46,7 +46,7 @@ export default function TechnologyForm({
         handleHomeEndKeys
         fullWidth
         id="tech-combo-box"
-        options={techList.map(obj => obj.name)}
+        options={techList.map((obj) => obj.name)}
         value={inputTech}
         inputValue={inputTech}
         onChange={onInputChange}
@@ -63,16 +63,19 @@ export default function TechnologyForm({
           return filtered;
         }}
       />
-      <Select
-        id="seniority"
-        value={senioritySelected}
-        label="experiencia"
-        onChange={e => setSeniority(e.target.value)}
-      >
-        <MenuItem value={"senior"}>senior</MenuItem>
-        <MenuItem value={"semi-senior"}>semi-senior</MenuItem>
-        <MenuItem value={"junior"}>junior</MenuItem>
-      </Select>
+      {senioritySelected && (
+        <Select
+          id="seniority"
+          value={senioritySelected}
+          label="experiencia"
+          onChange={(e) => setSeniority(e.target.value)}
+        >
+          <MenuItem value={"senior"}>senior</MenuItem>
+          <MenuItem value={"semi-senior"}>semi-senior</MenuItem>
+          <MenuItem value={"junior"}>junior</MenuItem>
+        </Select>
+      )}
+
       <Button
         role="submit"
         type="submit"
@@ -86,14 +89,23 @@ export default function TechnologyForm({
       </Button>
 
       <div className={classes.techsChips}>
-        {selectedList.map(([inputTech, senioritySelected]) => (
-          <Chip
-            key={inputTech}
-            label={inputTech + " - " + senioritySelected}
-            variant="outlined"
-            onDelete={() => onRemove([inputTech, senioritySelected])}
-          />
-        ))}
+        {senioritySelected
+          ? selectedList.map(([inputTech, seniority]) => (
+              <Chip
+                key={inputTech}
+                label={inputTech + " - " + seniority}
+                variant="outlined"
+                onDelete={() => onRemove([inputTech, seniority])}
+              />
+            ))
+          : selectedList.map((inputTech) => (
+              <Chip
+                key={inputTech}
+                label={inputTech}
+                variant="outlined"
+                onDelete={() => onRemove(inputTech)}
+              />
+            ))}
       </div>
     </div>
   );

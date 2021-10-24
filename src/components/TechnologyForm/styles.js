@@ -19,12 +19,13 @@ export const useStyles = makeStyles((theme) => ({
   techsChips: {
     gap: "5px",
     margin: theme.spacing(2, 4),
-    justifyContent: "space-around",
+    justifyContent: "center",
+    alignContent: "flex-start",
     display: "flex",
     flexWrap: "wrap",
     height: "50%",
 
-    overflow: "scroll"
+    overflow: "scroll",
   },
   errorMsg: { position: "fixed", color: "red" },
 }));

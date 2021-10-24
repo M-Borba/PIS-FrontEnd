@@ -50,9 +50,9 @@ const Acciones = ({ projectRow }) => {
     budget: projectRow.budget,
     start_date: projectRow.start_date,
     end_date: projectRow.end_date,
-    technologies: ["java", "python"], //projectRow.technologies,
     people: projectRow.people,
     organization: projectRow.organization,
+    technologies: projectRow.technologies || [],
   });
 
   const handleInfoClick = () => {
@@ -251,6 +251,11 @@ const Acciones = ({ projectRow }) => {
 
 const columns = [
   {
+    field: "id",
+    headerName: "ID",
+    hide: true,
+  },
+  {
     field: "name",
     headerName: "Nombre",
     sortable: true,
@@ -278,6 +283,11 @@ const columns = [
     headerName: "Fecha Fin",
     flex: 0.6,
     type: "date",
+  },
+  {
+    field: "technologies",
+    headerName: "tecnologías",
+    hide: true,
   },
   {
     field: "actions",

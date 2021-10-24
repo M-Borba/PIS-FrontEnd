@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import ProyectTechnologyHandler from "../ProyectTechnologyHandler";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -14,6 +15,7 @@ EditarProjecto.propTypes = {
     end_date: propTypes.string,
     people: propTypes.array,
     organization: propTypes.string,
+    technologies: propTypes.array,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
@@ -97,13 +99,19 @@ export default function EditarProjecto({
   };
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <ProyectoForm
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
         title={"Modificacion de Proyecto"}
         removePerson={removePerson}
+      />
+      <ProyectTechnologyHandler
+        techSelected={proyecto.technologies}
+        setTechSelected={(techs) =>
+          setProyecto({ ...proyecto, technologies: techs })
+        }
       />
     </div>
   );

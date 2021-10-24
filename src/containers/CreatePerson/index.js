@@ -7,7 +7,7 @@ import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
 import { rolesFormateados } from "../../config/globalVariables";
-import TechnologyHandler from "../../containers/TechnologyHandler";
+import TechnologyHandler from "../PersonTechnologyHandler";
 
 CreatePerson.defaultProps = {
   person: {
@@ -69,6 +69,7 @@ export default function CreatePerson({ setNotify }) {
           email: person.email,
           working_hours: person.working_hours,
           roles: checkedRoles,
+          technologies: person.technologies,
         },
       })
       .then((response) => {
@@ -99,14 +100,15 @@ export default function CreatePerson({ setNotify }) {
       });
   };
 
-  const checkInput = (value, type) => {
-    if (type == "Rol") {
+  const checkInput = (event, type) => {
+    if (person.roles.indexOf(event) !== -1) {
+      console.log("in", event);
       let newRoles = person.roles;
       let i = 0;
       try {
         newRoles.forEach(([a, b]) => {
           //find index of selected role
-          if (a == value[0]) throw Found;
+          if (a == event[0]) throw Found;
           if (i != newRoles.length - 1) i++;
         });
       } catch (e) {
@@ -117,15 +119,15 @@ export default function CreatePerson({ setNotify }) {
         ...person,
         roles: newRoles,
       });
-    } else if (type == undefined && value.target) {
-      if (value.target.id == "first_name")
-        setPerson({ ...person, first_name: value.target.value });
-      else if (value.target.id == "last_name")
-        setPerson({ ...person, last_name: value.target.value });
-      else if (value.target.id == "email")
-        setPerson({ ...person, email: value.target.value });
-      else if (value.target.id == "working_hours")
-        setPerson({ ...person, working_hours: parseInt(value.target.value) });
+    } else if (type == undefined) {
+      if (event.target.id == "first_name")
+        setPerson({ ...person, first_name: event.target.value });
+      else if (event.target.id == "last_name")
+        setPerson({ ...person, last_name: event.target.value });
+      else if (event.target.id == "email")
+        setPerson({ ...person, email: event.target.value });
+      else if (event.target.id == "working_hours")
+        setPerson({ ...person, working_hours: parseInt(event.target.value) });
     }
   };
 

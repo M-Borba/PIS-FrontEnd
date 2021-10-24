@@ -36,7 +36,7 @@ export default function PersonForm({
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <div style={{ display: "flex", gap: "10px", height: "100%" }}>
+        <div style={{ display: "flex", gap: "5px" }}>
           <div>
             <TextField
               variant="outlined"
@@ -102,7 +102,6 @@ export default function PersonForm({
             />
           </div>
         </div>
-        <div style={{ paddingTop: 10 }} />
         <Button
           role="submit"
           type="submit"

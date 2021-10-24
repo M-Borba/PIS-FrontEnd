@@ -19,6 +19,7 @@ export default function ListarPersonas() {
       });
 
       let rowsNuevas = rows.map((row) => {
+        console.log(row.roles);
         return {
           fullName: row.full_name,
           firstName: row.first_name,
@@ -27,6 +28,8 @@ export default function ListarPersonas() {
           id: row.id,
           roles: row.roles,
           cargaHoraria: row.working_hours,
+          tag: ".",
+          technologies: row.technologies,
         };
       });
       setRows(rowsNuevas);
