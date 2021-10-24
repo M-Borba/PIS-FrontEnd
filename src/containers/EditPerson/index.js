@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { rolesFormateados } from "../../config/globalVariables";
 
 Edit.propTypes = {
   personData: propTypes.shape({
@@ -21,21 +22,16 @@ Edit.propTypes = {
 
 export default function Edit({ personData, id, setNotify }) {
   var completeRoles = [
-    ["Developer", false],
-    ["PM", false],
+    ["Desarrollador", false],
+    ["Project Manager", false],
     ["Tester", false],
-    ["Architect", false],
-    ["Analyst", false],
-    ["Designer", false],
+    ["Arquitecto", false],
+    ["Diseñador", false],
+    ["Analista", false],
   ];
 
   personData.roles.forEach((role) => {
-    var formattedRole;
-    if (role == "pm")
-      //hardcodeado porque bueno, es el unico rol que no tiene mayuscula al principio
-      formattedRole = "PM";
-    else formattedRole = role.charAt(0).toUpperCase() + role.slice(1);
-
+    var formattedRole = role.trim();
     var i = 0;
 
     try {
@@ -48,11 +44,12 @@ export default function Edit({ personData, id, setNotify }) {
       //index was found, do nothing :)
     }
 
-    if (i != completeRoles.length - 1)
+    if (i != completeRoles.length)
       //role was found
       completeRoles[i] = [formattedRole, true];
-    else
+    else {
       console.log("Error: Hubo un error identificando los roles de la persona");
+    }
   });
 
   const [person, setPerson] = useState({
@@ -69,7 +66,10 @@ export default function Edit({ personData, id, setNotify }) {
     var checkedRoles = Object.assign(person.roles);
     checkedRoles = checkedRoles
       .filter((rol) => rol[1] == true)
-      .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
+      .map((rol) => {
+        rol[0].toLowerCase()
+        return Object.keys(rolesFormateados).find(key => rolesFormateados[key] === rol[0]);
+      });
 
     axiosInstance
       .put("/people/" + id, {
