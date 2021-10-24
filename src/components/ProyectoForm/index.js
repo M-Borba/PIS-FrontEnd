@@ -18,7 +18,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
