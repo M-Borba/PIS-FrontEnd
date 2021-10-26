@@ -118,7 +118,7 @@ export default function PersonForm({
         </Typography>
 
         <Box mt={5}></Box>
-      </form >
-    </div >
+      </form>
+    </div>
   );
 }

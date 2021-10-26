@@ -90,21 +90,21 @@ export default function TechnologyForm({
       <div className={classes.techsChips}>
         {senioritySelected
           ? selectedList.map(([inputTech, seniority]) => (
-            <Chip
-              key={inputTech}
-              label={inputTech + " - " + seniority}
-              variant="outlined"
-              onDelete={() => onRemove([inputTech, seniority])}
-            />
-          ))
+              <Chip
+                key={inputTech}
+                label={inputTech + " - " + seniority}
+                variant="outlined"
+                onDelete={() => onRemove([inputTech, seniority])}
+              />
+            ))
           : selectedList.map((inputTech) => (
-            <Chip
-              key={inputTech}
-              label={inputTech}
-              variant="outlined"
-              onDelete={() => onRemove(inputTech)}
-            />
-          ))}
+              <Chip
+                key={inputTech}
+                label={inputTech}
+                variant="outlined"
+                onDelete={() => onRemove(inputTech)}
+              />
+            ))}
       </div>
     </div>
   );
