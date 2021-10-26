@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import propTypes from "prop-types";
-import {Button, TextField, Box, Typography} from "@material-ui/core";
+import { Button, TextField, Box, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
 
@@ -10,7 +10,7 @@ AdministratorForm.propTypes = {
   administrator: propTypes.shape({
     email: propTypes.string,
     password: propTypes.string,
-    password_confirmation: propTypes.string
+    password_confirmation: propTypes.string,
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
@@ -50,23 +50,23 @@ export default function AdministratorForm({
           required
           fullWidth
           id="password"
-          type="text"
+          type="password"
           label="Password"
           name="password"
           value={administrator.password}
           onChange={onInputChange}
         />
         <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="password_confirmation"
-            type="text"
-            label="Password Confirmation"
-            name="password_confirmation"
-            value={administrator.password_confirmation}
-            onChange={onInputChange}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="password_confirmation"
+          type="password"
+          label="Password Confirmation"
+          name="password_confirmation"
+          value={administrator.password_confirmation}
+          onChange={onInputChange}
         />
         <div style={{ paddingTop: 10 }} />
         <Button
