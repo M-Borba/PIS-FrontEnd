@@ -21,4 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  textClass: {
+    wordWrap: "break-word",
+  },
 }));

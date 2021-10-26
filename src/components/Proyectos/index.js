@@ -9,7 +9,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PersonAdd from "@material-ui/icons/PersonAdd";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
@@ -17,18 +18,16 @@ import InfoProyecto from "../../containers/InfoProyecto";
 import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
+import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 
 Proyecto.propTypes = {
   rows: PropTypes.array,
 };
 
-// function removePerson(id) {
-//   console.log("se quizo borrar ", id);
-// }
-
 const Acciones = ({ projectRow }) => {
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [openAssigned, setOpenAssigned] = React.useState(false);
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
@@ -66,10 +65,15 @@ const Acciones = ({ projectRow }) => {
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
 
+  const handleAssignedOpen = () => setOpenAssigned(true);
+
+  const handleAssignedClose = () => setOpenAssigned(false);
+
   const handleRemovePersonOpen = (id, name) => {
-    setOpenRemovePerson(true);
     setPersonToRemove([id, name]);
+    setOpenRemovePerson(true);
   };
+
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
 
   const handleAddOpen = () => setOpenAdd(true);
@@ -119,21 +123,6 @@ const Acciones = ({ projectRow }) => {
             <IconButton onClick={handleEditOpen}>
               <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
-            <Dialog
-              open={openRemovePerson}
-              onClose={handleRemovePersonClose}
-              maxWidth="xs"
-              aria-labelledby="confirmation-dialog-title"
-            >
-              <RemoverPersona
-                personName={personToRemove[1]}
-                personId={personToRemove[0]}
-                projectId={projectRow.id}
-                projectName={projectRow.name}
-                handleClose={handleRemovePersonClose}
-                setNotify={setNotify}
-              />
-            </Dialog>
             <Modal
               open={openEdit}
               onClose={handleEditClose}
@@ -151,7 +140,6 @@ const Acciones = ({ projectRow }) => {
                   projectData={projectData}
                   id={projectData.id}
                   setNotify={setNotify}
-                  removePerson={handleRemovePersonOpen}
                 />
               </Box>
             </Modal>
@@ -162,7 +150,7 @@ const Acciones = ({ projectRow }) => {
         control={
           <>
             <IconButton onClick={handleAddOpen}>
-              <PersonAdd style={{ color: "rgb(30, 30, 30)" }} />
+              <PersonAddAlt1Icon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Modal
               open={openAdd}
@@ -185,6 +173,49 @@ const Acciones = ({ projectRow }) => {
                     endDate: projectData.end_date,
                   }}
                   setNotify={setNotify}
+                />
+              </Box>
+            </Modal>
+          </>
+        }
+      />
+      <FormControlLabel
+        control={
+          <>
+            <IconButton onClick={handleAssignedOpen}>
+              <PersonRemoveIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Dialog
+              open={openRemovePerson}
+              onClose={handleRemovePersonClose}
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <RemoverPersona
+                personName={personToRemove[1]}
+                personId={personToRemove[0]}
+                projectId={projectRow.id}
+                projectName={projectRow.name}
+                handleClose={handleRemovePersonClose}
+                setNotify={setNotify}
+              />
+            </Dialog>
+            <Modal
+              open={openAssigned}
+              onClose={handleAssignedClose}
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <Box className={classes.modal}>
+                <IconButton
+                  aria-label="Close"
+                  onClick={handleAssignedClose}
+                  className={classes.closeButton}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <ListadoPersonasAsignadas
+                  people={projectRow.people}
+                  removePerson={handleRemovePersonOpen}
                 />
               </Box>
             </Modal>
@@ -224,6 +255,12 @@ const columns = [
     headerName: "Nombre",
     sortable: true,
     flex: 1, //tamaño
+  },
+  {
+    field: "organization",
+    headerName: "Organización",
+    sortable: true,
+    flex: 0.6,
   },
   {
     field: "project_type",

@@ -10,6 +10,7 @@ AsignarProyectoPersona.propTypes = {
   onClose: PropTypes.func.isRequired,
   personId: PropTypes.number.isRequired,
   personName: PropTypes.string.isRequired,
+  fechaInicio: PropTypes.string.isRequired,
 };
 
 const initialState = {
@@ -21,7 +22,13 @@ const initialState = {
   end_date: "",
 };
 
-function AsignarProyectoPersona({ open, onClose, personId, personName }) {
+function AsignarProyectoPersona({
+  open,
+  onClose,
+  personId,
+  personName,
+  fechaInicio,
+}) {
   const [proyectos, setProyectos] = useState([]);
   const [roles, setRoles] = useState([]);
   const [notify, setNotify] = useState({
@@ -30,6 +37,7 @@ function AsignarProyectoPersona({ open, onClose, personId, personName }) {
     type: "success",
     reload: false,
   });
+  initialState.start_date = fechaInicio;
   const [requestBody, setRequestBdoy] = useState(initialState);
 
   useEffect(() => {

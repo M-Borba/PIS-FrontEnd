@@ -20,4 +20,10 @@ export const useStyles = makeStyles((theme) => ({
   jC_sb: {
     justifyContent: "space-between",
   },
+  working_hours_type_width: {
+    with: theme.spacing(1),
+  },
+  textClass: {
+    wordWrap: "break-word",
+  },
 }));

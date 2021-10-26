@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { rolesFormateados } from "../../config/globalVariables";
 
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
@@ -18,12 +19,12 @@ export default function CreatePerson({ setNotify }) {
     email: "",
     working_hours: 30,
     roles: [
-      ["Developer", false],
-      ["PM", false],
+      ["Desarrollador", false],
       ["Tester", false],
-      ["Architect", false],
-      ["Analyst", false],
-      ["Designer", false],
+      ["Project Manager", false],
+      ["Arquitecto", false],
+      ["Diseñador", false],
+      ["Analista", false],
     ],
   });
 
@@ -42,7 +43,12 @@ export default function CreatePerson({ setNotify }) {
     var checkedRoles = Object.assign(person.roles);
     checkedRoles = checkedRoles
       .filter((rol) => rol[1] == true)
-      .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
+      .map((rol) => {
+        rol[0].toLowerCase();
+        return Object.keys(rolesFormateados).find(
+          (key) => rolesFormateados[key] === rol[0]
+        );
+      });
 
     axiosInstance
       .post("/people", {

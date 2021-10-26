@@ -50,6 +50,7 @@ export default function PersonForm({
               value={person.first_name}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
             <TextField
               variant="outlined"
@@ -62,6 +63,7 @@ export default function PersonForm({
               name="last_name"
               value={person.last_name}
               onChange={onInputChange}
+              inputProps={{ maxLength: 100 }}
             />
             <TextField
               variant="outlined"
@@ -77,7 +79,7 @@ export default function PersonForm({
               onChange={onInputChange}
             />
             <TextField
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, max: 100 }}
               variant="outlined"
               margin="normal"
               required
