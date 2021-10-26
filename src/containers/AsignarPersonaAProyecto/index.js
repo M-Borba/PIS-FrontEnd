@@ -55,11 +55,11 @@ export default function AgregarPersona({ projectData, setNotify }) {
             console.log("found");
             return true;
           }
-        })
+        });
       }
-    })
+    });
     return result;
-  }
+  };
 
   const handleSubmit = (e) => {
     var newRole = false;
@@ -77,7 +77,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
       body.people.forEach((person) =>
         body.roles.forEach((role) => {
           if (newRole || !personHasRole(person, role)) {
-            newRole = true
+            newRole = true;
           }
           axiosInstance
             .post("/people/" + person + "/person_project", {
@@ -98,17 +98,15 @@ export default function AgregarPersona({ projectData, setNotify }) {
                     message: `Alguna persona no tenia un rol indicado, pero la asignación fue creada exitosamente ✓`,
                     type: "warning",
                     reload: false,
-                  }
-                  )
+                  });
                 } else {
                   setNotify({
                     isOpen: true,
                     message: `Asignación creada exitosamente`,
                     type: "success",
                     reload: false,
-                  }
-                  )
-                };
+                  });
+                }
               } else {
                 setNotify({
                   isOpen: true,
@@ -152,9 +150,8 @@ export default function AgregarPersona({ projectData, setNotify }) {
                     " " +
                     errors[Object.keys(errors)[0]],
                 });
-            })
-        }
-        )
+            });
+        })
       );
     }
   };
@@ -165,14 +162,11 @@ export default function AgregarPersona({ projectData, setNotify }) {
       .then((response) => {
         var ordered = response.data.people.sort(function (a, b) {
           return a.id - b.id;
-        })
+        });
         setRoles(ordered.map((row) => [{ id: row.id, roles: row.roles }]));
         setAsignacion({
           ...asignacion,
-          people: ordered.map((row) => [
-            row.id + " - " + row.full_name,
-            false,
-          ]),
+          people: ordered.map((row) => [row.id + " - " + row.full_name, false]),
         });
       })
       .catch((error) => {
