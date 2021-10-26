@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-MenuItem;
 import Chip from "@material-ui/core/Chip";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -91,21 +90,21 @@ export default function TechnologyForm({
       <div className={classes.techsChips}>
         {senioritySelected
           ? selectedList.map(([inputTech, seniority]) => (
-              <Chip
-                key={inputTech}
-                label={inputTech + " - " + seniority}
-                variant="outlined"
-                onDelete={() => onRemove([inputTech, seniority])}
-              />
-            ))
+            <Chip
+              key={inputTech}
+              label={inputTech + " - " + seniority}
+              variant="outlined"
+              onDelete={() => onRemove([inputTech, seniority])}
+            />
+          ))
           : selectedList.map((inputTech) => (
-              <Chip
-                key={inputTech}
-                label={inputTech}
-                variant="outlined"
-                onDelete={() => onRemove(inputTech)}
-              />
-            ))}
+            <Chip
+              key={inputTech}
+              label={inputTech}
+              variant="outlined"
+              onDelete={() => onRemove(inputTech)}
+            />
+          ))}
       </div>
     </div>
   );

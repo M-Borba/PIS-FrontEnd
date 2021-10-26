@@ -92,7 +92,7 @@ export default function PersonForm({
               onChange={onInputChange}
             />
           </div>
-          <div>
+          <div style={{ marginTop: 15, marginLeft: 10 }}>
             <CardSelector
               name={"roles"}
               id={"roles"}
@@ -118,7 +118,7 @@ export default function PersonForm({
         </Typography>
 
         <Box mt={5}></Box>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 }
