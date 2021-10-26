@@ -33,7 +33,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
     hours: 0,
     hoursType: "weekly",
   });
-
+  const [idAndRoles, setRoles] = useState([]);
   const [error, setError] = useState("");
 
   const isValid = () => {
@@ -46,8 +46,23 @@ export default function AgregarPersona({ projectData, setNotify }) {
     );
   };
 
+  const personHasRole = (person, newRole) => {
+    var result = false;
+    idAndRoles.forEach((tuple) => {
+      if (tuple[0] == person) {
+        tuple[1].forEach((role) => {
+          if (role == newRole) {
+            console.log("found");
+            return true;
+          }
+        })
+      }
+    })
+    return result;
+  }
+
   const handleSubmit = (e) => {
-    console.log("called");
+    var newRole = false;
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -60,7 +75,10 @@ export default function AgregarPersona({ projectData, setNotify }) {
         .filter((rol) => rol[1] == true)
         .map((person) => person[0].slice(0, person[0].indexOf(" "))); //conseguir la lista de personas por id
       body.people.forEach((person) =>
-        body.roles.forEach((role) =>
+        body.roles.forEach((role) => {
+          if (newRole || !personHasRole(person, role)) {
+            newRole = true
+          }
           axiosInstance
             .post("/people/" + person + "/person_project", {
               person_project: {
@@ -74,16 +92,27 @@ export default function AgregarPersona({ projectData, setNotify }) {
             })
             .then((response) => {
               if (response.status == 200) {
-                setNotify({
-                  isOpen: true,
-                  message: `Asignación creada exitosamente`,
-                  type: "success",
-                  reload: false,
-                });
+                if (newRole) {
+                  setNotify({
+                    isOpen: true,
+                    message: `Alguna persona no tenia un rol indicado, pero la asignación fue creada exitosamente ✓`,
+                    type: "warning",
+                    reload: false,
+                  }
+                  )
+                } else {
+                  setNotify({
+                    isOpen: true,
+                    message: `Asignación creada exitosamente`,
+                    type: "success",
+                    reload: false,
+                  }
+                  )
+                };
               } else {
                 setNotify({
                   isOpen: true,
-                  message: `Error inesperado en fetch de proyectos`,
+                  message: `Error inesperado`,
                   type: "error",
                   reload: false,
                 });
@@ -124,6 +153,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
                     errors[Object.keys(errors)[0]],
                 });
             })
+        }
         )
       );
     }
@@ -133,9 +163,13 @@ export default function AgregarPersona({ projectData, setNotify }) {
     axiosInstance
       .get("/people")
       .then((response) => {
+        var ordered = response.data.people.sort(function (a, b) {
+          return a.id - b.id;
+        })
+        setRoles(ordered.map((row) => [{ id: row.id, roles: row.roles }]));
         setAsignacion({
           ...asignacion,
-          people: response.data.people.map((row) => [
+          people: ordered.map((row) => [
             row.id + " - " + row.full_name,
             false,
           ]),
