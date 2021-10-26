@@ -257,6 +257,12 @@ const columns = [
     flex: 1, //tamaño
   },
   {
+    field: "organization",
+    headerName: "Organización",
+    sortable: true,
+    flex: 0.6,
+  },
+  {
     field: "project_type",
     headerName: "Tipo",
     flex: 0.7,
