@@ -7,7 +7,17 @@ import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
 import { rolesFormateados } from "../../config/globalVariables";
+import TechnologyHandler from "../PersonTechnologyHandler";
 
+CreatePerson.defaultProps = {
+  person: {
+    first_name: "",
+    last_name: "",
+    email: "",
+    working_hours: 30,
+    technologies: [],
+  },
+};
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
 };
@@ -26,6 +36,7 @@ export default function CreatePerson({ setNotify }) {
       ["Diseñador", false],
       ["Analista", false],
     ],
+    technologies: [],
   });
 
   const isValid = () => {
@@ -58,6 +69,7 @@ export default function CreatePerson({ setNotify }) {
           email: person.email,
           working_hours: person.working_hours,
           roles: checkedRoles,
+          technologies: person.technologies,
         },
       })
       .then((response) => {
@@ -88,14 +100,15 @@ export default function CreatePerson({ setNotify }) {
       });
   };
 
-  const checkInput = (value, type) => {
-    if (type == "Rol") {
+  const checkInput = (event, type) => {
+    if (person.roles.indexOf(event) !== -1) {
+      console.log("in", event);
       let newRoles = person.roles;
       let i = 0;
       try {
         newRoles.forEach(([a, b]) => {
           //find index of selected role
-          if (a == value[0]) throw Found;
+          if (a == event[0]) throw Found;
           if (i != newRoles.length - 1) i++;
         });
       } catch (e) {
@@ -107,23 +120,31 @@ export default function CreatePerson({ setNotify }) {
         roles: newRoles,
       });
     } else if (type == undefined) {
-      if (value.target.id == "first_name")
-        setPerson({ ...person, first_name: value.target.value });
-      else if (value.target.id == "last_name")
-        setPerson({ ...person, last_name: value.target.value });
-      else if (value.target.id == "email")
-        setPerson({ ...person, email: value.target.value });
-      else if (value.target.id == "working_hours")
-        setPerson({ ...person, working_hours: parseInt(value.target.value) });
+      if (event.target.id == "first_name")
+        setPerson({ ...person, first_name: event.target.value });
+      else if (event.target.id == "last_name")
+        setPerson({ ...person, last_name: event.target.value });
+      else if (event.target.id == "email")
+        setPerson({ ...person, email: event.target.value });
+      else if (event.target.id == "working_hours")
+        setPerson({ ...person, working_hours: parseInt(event.target.value) });
     }
   };
 
   return (
-    <PersonForm
-      title={"Creación de persona"}
-      onSubmit={handleSubmit}
-      onInputChange={checkInput}
-      person={person}
-    />
+    <div style={{ display: "flex" }}>
+      <PersonForm
+        title={"Creacion de persona"}
+        onSubmit={(e) => handleSubmit(e)}
+        onInputChange={(e) => checkInput(e)}
+        person={person}
+      />
+      <TechnologyHandler
+        techSelected={person.technologies}
+        setTechSelected={(techs) =>
+          setPerson({ ...person, technologies: techs })
+        }
+      />
+    </div>
   );
 }

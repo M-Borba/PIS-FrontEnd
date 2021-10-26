@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
@@ -15,7 +15,7 @@ import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
 
 Personas.propTypes = {
-  rows: PropTypes.array,
+  rows: propTypes.array,
 };
 
 const Acciones = ({ personRow }) => {
@@ -35,8 +35,9 @@ const Acciones = ({ personRow }) => {
     last_name: personRow.lastName,
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
-    roles: personRow.roles,
+    roles: personRow.roles.map((rol) => rol.trim()),
     tags: personRow.tags,
+    technologies: personRow.technologies || [],
   });
 
   const handleEditOpen = () => setOpenEdit(true);
@@ -106,6 +107,11 @@ const Acciones = ({ personRow }) => {
 
 const columns = [
   {
+    field: "id",
+    headerName: "ID",
+    hide: true,
+  },
+  {
     field: "fullName",
     headerName: "Nombre completo",
     sortable: true,
@@ -129,6 +135,11 @@ const columns = [
     flex: 1.5,
   },
   {
+    field: "technologies",
+    headerName: "Tecnologías",
+    hide: true,
+  },
+  {
     field: "actions",
     type: "actions",
     headerName: "Acciones",
@@ -144,7 +155,7 @@ const columns = [
 ];
 
 Acciones.propTypes = {
-  personRow: PropTypes.any,
+  personRow: propTypes.any,
 };
 
 export default function Personas({ rows }) {

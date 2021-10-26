@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
@@ -22,7 +22,7 @@ import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 
 Proyecto.propTypes = {
-  rows: PropTypes.array,
+  rows: propTypes.array,
 };
 
 const Acciones = ({ projectRow }) => {
@@ -50,9 +50,9 @@ const Acciones = ({ projectRow }) => {
     budget: projectRow.budget,
     start_date: projectRow.start_date,
     end_date: projectRow.end_date,
-    technologies: ["java", "python"], //projectRow.technologies,
     people: projectRow.people,
     organization: projectRow.organization,
+    technologies: projectRow.technologies || [],
   });
 
   const handleInfoClick = () => {
@@ -251,6 +251,11 @@ const Acciones = ({ projectRow }) => {
 
 const columns = [
   {
+    field: "id",
+    headerName: "ID",
+    hide: true,
+  },
+  {
     field: "name",
     headerName: "Nombre",
     sortable: true,
@@ -286,6 +291,11 @@ const columns = [
     type: "date",
   },
   {
+    field: "technologies",
+    headerName: "tecnologías",
+    hide: true,
+  },
+  {
     field: "actions",
     type: "actions",
     headerName: "Acciones",
@@ -301,7 +311,7 @@ const columns = [
 ];
 
 Acciones.propTypes = {
-  projectRow: PropTypes.any,
+  projectRow: propTypes.any,
 };
 
 export default function Proyecto({ rows }) {
