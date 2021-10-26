@@ -24,6 +24,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     open: false,
     groupId: -1,
     personName: "",
+    time: 0,
   });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
@@ -164,12 +165,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   // Asignacion
 
   const handleCanvasClick = (groupId, time, e) => {
-    console.log(groupId);
     let personName = groups.find((group) => group.id == groupId).title;
     setAssignObject({
       open: true,
       groupId: groupId,
       personName: personName,
+      time: moment(time + 86400000).format("yyyy-MM-DD"), // Le sumo un dia
     });
   };
 
@@ -179,7 +180,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   // Info Asignacion
 
   const handleItemClick = (itemId, e, time) => {
-    console.log(itemId);
     let itemObject = items.find((item) => item.id == itemId);
     console.log(itemObject);
     let projectName = itemObject.title;
@@ -241,6 +241,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           personId={parseInt(assignObject.groupId)}
           personName={assignObject.personName}
           onClose={handleAsignacionClose}
+          fechaInicio={String(assignObject.time)}
         />
         <InfoAsignacion
           open={infoAssignObject.open}

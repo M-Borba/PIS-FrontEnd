@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import TechnologyHandler from "../ProyectTechnologyHandler";
 
 //TODO Revisar error en select de project_type y project_state
 //TODO Error: Unstable_TrapFocus.js:214 Uncaught RangeError: Maximum call stack size exceeded
@@ -20,6 +21,7 @@ export default function CreateProject({ setNotify }) {
     project_type: "-",
     project_state: "-",
     organization: "",
+    technologies: [],
   });
 
   const handleSubmit = (e) => {
@@ -77,12 +79,18 @@ export default function CreateProject({ setNotify }) {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <ProyectoForm
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={checkInput}
         proyecto={project}
         title={"Creacion de proyecto"}
+      />
+      <TechnologyHandler
+        techSelected={project.technologies}
+        setTechSelected={(techs) =>
+          setProject({ ...project, technologies: techs })
+        }
       />
     </div>
   );

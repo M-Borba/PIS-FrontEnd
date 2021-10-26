@@ -9,6 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
+    width: "auto",
     p: 4,
   },
   closeButton: {

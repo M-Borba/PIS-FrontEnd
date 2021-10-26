@@ -2,6 +2,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, IconButton, Box, Modal, Button, TextField, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { DataGrid } from "@mui/x-data-grid";
 import { useStyles } from "./styles";
 import CreateAdministrator from "../../containers/CreateAdministrator";
 import Notificacion from "../../components/Notificacion";
@@ -99,7 +100,6 @@ const Acciones = ({ adminRow }) => {
 };
 
 const columns = [
-
   {
     field: "id",
     headerName: "Email",
@@ -107,9 +107,9 @@ const columns = [
     flex: 1, //tamaño
   },
   {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Acciones',
+    field: "actions",
+    type: "actions",
+    headerName: "Acciones",
     flex: 0.3,
     renderCell: (params) => {
       return (
@@ -117,7 +117,7 @@ const columns = [
           <Acciones adminRow={params.row}/>
         </div>
       );
-    }
+    },
   },
 ];
 

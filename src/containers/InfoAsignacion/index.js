@@ -1,9 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
+import { rolesFormateados } from "../../config/globalVariables";
 import propTypes from "prop-types";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
 import { axiosInstance } from "../../config/axios";
 import Notificacion from "../../components/Notificacion";
+import DeleteDialogContent from "../../components/DeleteDialogContent";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -36,6 +38,10 @@ function InfoAsignacion({
   });
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const [roles, setRoles] = useState([]);
+  const [openConfirmacion, setOpenConfirmacion] = useState(false);
+  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
+    projectName.split("-")[0]
+  } como ${projectName.split("-")[1]}?`;
 
   useEffect(() => {
     // Traigo asignacion
@@ -166,6 +172,7 @@ function InfoAsignacion({
         });
       });
     onClose();
+    handleConfirmacionClose();
   };
 
   const onInputChange = (e) => {
@@ -189,6 +196,10 @@ function InfoAsignacion({
     setAsignacionInfo(initialState);
   };
 
+  const handleConfirmacionClose = () => setOpenConfirmacion(false);
+
+  const handleConfirmacionOpen = () => setOpenConfirmacion(true);
+
   return (
     <Fragment>
       <Dialog
@@ -206,7 +217,19 @@ function InfoAsignacion({
           onClose={handleClose}
           onChange={onInputChange}
           aplicarCambios={handleAplicarCambios}
-          desasignar={handleDesasignar}
+          desasignar={handleConfirmacionOpen}
+        />
+      </Dialog>
+      <Dialog
+        fullWidth
+        open={openConfirmacion}
+        onClose={handleConfirmacionClose}
+        maxWidth={"xs"}
+      >
+        <DeleteDialogContent
+          dialogContent={dialogContent}
+          onClose={handleConfirmacionClose}
+          onConfirmation={handleDesasignar}
         />
       </Dialog>
       <Notificacion notify={notify} setNotify={setNotify} />

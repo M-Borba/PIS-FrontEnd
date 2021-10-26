@@ -6,61 +6,42 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { rolesFormateados } from "../../config/globalVariables";
+import TechnologyHandler from "../../containers/PersonTechnologyHandler";
 
-Edit.propTypes = {
+EditPerson.propTypes = {
   personData: propTypes.shape({
     first_name: propTypes.string,
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    technologies: propTypes.array,
     roles: propTypes.array,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
 };
 
-export default function Edit({ personData, id, setNotify }) {
+export default function EditPerson({ personData, id, setNotify }) {
   var completeRoles = [
-    ["Developer", false],
+    ["Desarrollador", false],
     ["PM", false],
     ["Tester", false],
-    ["Architect", false],
-    ["Analyst", false],
-    ["Designer", false],
+    ["Arquitecto", false],
+    ["Analista", false],
+    ["Diseñador", false],
   ];
-
-  personData.roles.forEach((role) => {
-    var formattedRole;
-    if (role == "pm")
-      //hardcodeado porque bueno, es el unico rol que no tiene mayuscula al principio
-      formattedRole = "PM";
-    else formattedRole = role.charAt(0).toUpperCase() + role.slice(1);
-
-    var i = 0;
-
-    try {
-      completeRoles.forEach(([a, b]) => {
-        //find index of selected role
-        if (a == formattedRole) throw Found;
-        if (i != completeRoles.length - 1) i++;
-      });
-    } catch (e) {
-      //index was found, do nothing :)
-    }
-
-    if (i != completeRoles.length - 1)
-      //role was found
-      completeRoles[i] = [formattedRole, true];
-    else
-      console.log("Error: Hubo un error identificando los roles de la persona");
-  });
 
   const [person, setPerson] = useState({
     first_name: personData.first_name,
     last_name: personData.last_name,
     email: personData.email,
     working_hours: personData.working_hours,
-    roles: completeRoles,
+    roles: completeRoles.map((rol) => {
+      console.log("->", rol[0], personData.roles);
+      return [rol[0], personData.roles.indexOf(rol[0]) != -1];
+    }),
+    technologies: personData.technologies || [],
   });
 
   const handleSubmit = (e) => {
@@ -69,7 +50,12 @@ export default function Edit({ personData, id, setNotify }) {
     var checkedRoles = Object.assign(person.roles);
     checkedRoles = checkedRoles
       .filter((rol) => rol[1] == true)
-      .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles checkeados
+      .map((rol) => {
+        rol[0].toLowerCase();
+        return Object.keys(rolesFormateados).find(
+          (key) => rolesFormateados[key] === rol[0]
+        );
+      });
 
     axiosInstance
       .put("/people/" + id, {
@@ -79,6 +65,7 @@ export default function Edit({ personData, id, setNotify }) {
           email: person.email,
           working_hours: person.working_hours,
           roles: checkedRoles,
+          technologies: person.technologies,
         },
       })
       .then((response) => {
@@ -119,14 +106,15 @@ export default function Edit({ personData, id, setNotify }) {
       });
   };
 
-  const checkInput = (value, type) => {
-    if (type == "Rol") {
+  const checkInput = (event, type) => {
+    if (person.roles.indexOf(event) !== -1) {
+      console.log("in", event);
       let newRoles = person.roles;
       let i = 0;
       try {
         newRoles.forEach(([a, b]) => {
           //find index of selected role
-          if (a == value[0]) throw Found;
+          if (a == event[0]) throw Found;
           if (i != newRoles.length - 1) i++;
         });
       } catch (e) {
@@ -138,23 +126,31 @@ export default function Edit({ personData, id, setNotify }) {
         roles: newRoles,
       });
     } else if (type == undefined) {
-      if (value.target.id == "first_name")
-        setPerson({ ...person, first_name: value.target.value });
-      else if (value.target.id == "last_name")
-        setPerson({ ...person, last_name: value.target.value });
-      else if (value.target.id == "email")
-        setPerson({ ...person, email: value.target.value });
-      else if (value.target.id == "working_hours")
-        setPerson({ ...person, working_hours: parseInt(value.target.value) });
+      if (event.target.id == "first_name")
+        setPerson({ ...person, first_name: event.target.value });
+      else if (event.target.id == "last_name")
+        setPerson({ ...person, last_name: event.target.value });
+      else if (event.target.id == "email")
+        setPerson({ ...person, email: event.target.value });
+      else if (event.target.id == "working_hours")
+        setPerson({ ...person, working_hours: parseInt(event.target.value) });
     }
   };
 
   return (
-    <PersonForm
-      onSubmit={handleSubmit}
-      onInputChange={checkInput}
-      person={person}
-      title={"Modificacion de Persona"}
-    />
+    <div style={{ display: "flex", width: "100%" }}>
+      <PersonForm
+        onSubmit={(e) => handleSubmit(e)}
+        onInputChange={(e) => checkInput(e)}
+        person={person}
+        title={"Modificacion de Persona"}
+      />
+      <TechnologyHandler
+        techSelected={person.technologies}
+        setTechSelected={(techs) =>
+          setPerson({ ...person, technologies: techs })
+        }
+      />
+    </div>
   );
 }

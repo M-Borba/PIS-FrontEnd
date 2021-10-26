@@ -30,6 +30,7 @@ export default function ListarProyectos() {
                 row.end_date != null ? row.end_date.replaceAll("-", "/") : null,
               people: row.people,
               organization: row.organization,
+              technologies: row.technologies || [],
             };
           });
       setRows(rowsNuevas);

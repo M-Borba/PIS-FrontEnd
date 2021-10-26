@@ -101,7 +101,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         //onItemResize={this.handleItemResize}
       >
         <TimelineHeaders className="sticky">
-          <SidebarHeader>
+          <SidebarHeader style={{}}>
             {({ getRootProps }) => {
               return (
                 <div {...getRootProps()}>

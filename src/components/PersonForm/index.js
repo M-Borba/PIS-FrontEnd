@@ -36,7 +36,7 @@ export default function PersonForm({
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <div style={{ display: "flex", gap: "10px", height: "100%" }}>
+        <div style={{ display: "flex", gap: "5px" }}>
           <div>
             <TextField
               variant="outlined"
@@ -50,6 +50,7 @@ export default function PersonForm({
               value={person.first_name}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
             <TextField
               variant="outlined"
@@ -62,6 +63,7 @@ export default function PersonForm({
               name="last_name"
               value={person.last_name}
               onChange={onInputChange}
+              inputProps={{ maxLength: 100 }}
             />
             <TextField
               variant="outlined"
@@ -77,7 +79,7 @@ export default function PersonForm({
               onChange={onInputChange}
             />
             <TextField
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, max: 100 }}
               variant="outlined"
               margin="normal"
               required
@@ -90,7 +92,7 @@ export default function PersonForm({
               onChange={onInputChange}
             />
           </div>
-          <div>
+          <div style={{ marginTop: 15, marginLeft: 10 }}>
             <CardSelector
               name={"roles"}
               id={"roles"}
@@ -100,7 +102,6 @@ export default function PersonForm({
             />
           </div>
         </div>
-        <div style={{ paddingTop: 10 }} />
         <Button
           role="submit"
           type="submit"

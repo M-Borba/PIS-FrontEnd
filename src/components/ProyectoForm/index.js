@@ -9,16 +9,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import { useStyles } from "./styles";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Divider from '@mui/material/Divider';
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -35,7 +25,6 @@ ProyectoForm.propTypes = {
     organization: propTypes.string,
   }).isRequired,
   title: propTypes.string,
-  removePerson: propTypes.func,
 };
 
 export default function ProyectoForm({
@@ -43,54 +32,8 @@ export default function ProyectoForm({
   onSubmit,
   onInputChange,
   proyecto,
-  removePerson,
 }) {
   const classes = useStyles();
-
-  const renderPeopleAndTechs = () => {
-    if (proyecto.people != undefined) {
-      return (
-        <Grid item key={"people"} xs={6}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Personas Asignadas</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List
-                sx={{
-                  width: "100%",
-                  position: "relative",
-                  overflow: "auto",
-                }}
-              >
-                {proyecto.people.map((person) => {
-                  return (
-                    <>
-                      <ListItem key={person.id} role="listitem">
-                        <ListItemText primary={person.full_name} />
-                        <IconButton
-                          onClick={() =>
-                            removePerson(person.id, person.full_name)
-                          }
-                        >
-                          <CloseIcon />
-                        </IconButton>
-                      </ListItem>
-                      <Divider component="li" />
-                    </>
-                  );
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </Grid>
-      );
-    } else return null;
-  };
 
   return (
     <div className={classes.paper}>
@@ -112,6 +55,7 @@ export default function ProyectoForm({
               value={proyecto.name}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
 
@@ -211,6 +155,7 @@ export default function ProyectoForm({
               value={proyecto.organization}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -227,9 +172,9 @@ export default function ProyectoForm({
               maxRows={5}
               value={proyecto.description}
               onChange={onInputChange}
+              inputProps={{ maxLength: 500 }}
             />
           </Grid>
-          {renderPeopleAndTechs()}
         </Grid>
 
         <Button
