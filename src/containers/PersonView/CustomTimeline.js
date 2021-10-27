@@ -21,6 +21,7 @@ PersonTimeline.propTypes = {
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
+  const [key, setKey] = useState(Math.random());
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -66,7 +67,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   };
 
   const fetchData = () => {
-    return axiosInstance.get("/person_project").then((response) => {
+    axiosInstance.get("/person_project").then((response) => {
       const rows = response.data.person_project;
       rows.map((ppl) => {
         var person = ppl.person;
@@ -121,6 +122,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const handleItemResize = (itemId, time, edge) => {
     let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
 
+    console.log("item resize");
+
     // Cambio el item en backend
     let requestBody = {
       role: undefined,
@@ -133,7 +136,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end).format("yyyy-MM-DD")
-          : moment(time).format("yyyy-MM-DD"),
+          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
     };
 
     axiosInstance
@@ -142,14 +145,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         console.log("Resized", itemId, time, edge, response.statusText);
 
         // Cambio en item en la timeline
-        console.log(edge === "left");
-        let newItems = items;
-        newItems[itemIndex] = {
+        let newitem = {
           ...items[itemIndex],
-          start: edge == "left" ? time : items[itemIndex].start,
-          end: edge == "left" ? items[itemIndex].end : time,
+          start: edge === "left" ? time : items[itemIndex].start,
+          end: edge === "left" ? items[itemIndex].end : time,
         };
-        setItems(newItems);
+        setItems(items.map((item) => (item.id == itemId ? newitem : item)));
       })
       .catch((error) => {
         console.log(error.response);
@@ -203,6 +204,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           groups={groups}
           items={items}
           keys={keys}
+          key={key}
           fullUpdate
           itemsSorted
           itemTouchSendsClick={true}
