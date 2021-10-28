@@ -21,7 +21,6 @@ PersonTimeline.propTypes = {
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
-  const [key, setKey] = useState(Math.random());
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -151,14 +150,22 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .then()
       .catch((error) => {
         console.log(error.response);
-        setNotify({
-          isOpen: true,
-          message:
-            error.response.data.errors.start_date ??
-            error.response.data.errors.end_date,
-          type: "error",
-          reload: false,
-        });
+        if (error.response.status == 400)
+          setNotify({
+            isOpen: true,
+            message:
+              error.response.data.errors.start_date ??
+              error.response.data.errors.end_date,
+            type: "error",
+            reload: false,
+          });
+        else if (error.response.status == 404)
+          setNotify({
+            isOpen: true,
+            message: error.response.data.error,
+            type: "error",
+            reload: true,
+          });
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
       });
   };
@@ -202,7 +209,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           groups={groups}
           items={items}
           keys={keys}
-          key={key}
           fullUpdate
           itemsSorted
           itemTouchSendsClick={true}
