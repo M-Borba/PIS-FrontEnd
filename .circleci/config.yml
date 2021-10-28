@@ -28,7 +28,7 @@ checks:
   method-lines:
     enabled: true
     config:
-      threshold: 25
+      threshold: 30
 exclude_patterns:
 - node_modules/
 - "**/__tests__/"
