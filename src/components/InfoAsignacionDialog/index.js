@@ -136,7 +136,6 @@ function InfoAsignacionDialog({
               />
               <TextField
                 fullWidth
-                required
                 InputLabelProps={{ shrink: true }}
                 id="end_date"
                 label="Fecha Fin"

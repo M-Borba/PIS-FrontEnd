@@ -65,6 +65,13 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
+  // Formato esperado de date : yyyy-MM-DD
+  const dateToMiliseconds = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(newDate).valueOf();
+  };
+
   const fetchData = () => {
     axiosInstance.get("/person_project").then((response) => {
       const rows = response.data.person_project;
@@ -78,26 +85,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
         person.projects.map((proj) => {
           proj.dates.map((dt) => {
-            var startDate = new Date(dt.start_date);
-            startDate.setDate(startDate.getDate());
-
-            const startValue = moment(startDate).valueOf();
-
-            var endDate = new Date(dt.end_date);
-            endDate.setDate(endDate.getDate() + 1);
-
-            var endValue = moment(endDate).valueOf();
-
-            if (!dt.end_date) {
-              endDate = new Date(1, 1, 2050);
-              endValue = moment(endDate).valueOf();
-            }
-
             itemsToAdd.push({
               id: dt.id,
               group: person.id,
-              start: startValue + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              end: endValue + 10800000,
+              start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+              end: dateToMiliseconds(dt.end_date ?? "2100-01-01") + 97200000,
               canResize: "both",
               canMove: false,
               title: proj.name + " - " + rolesFormateados[dt.role],
@@ -142,7 +134,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"),
+          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
     };
 
     axiosInstance
@@ -150,6 +142,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .then()
       .catch((error) => {
         console.log(error.response);
+        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
         if (error.response.status == 400)
           setNotify({
             isOpen: true,
@@ -166,7 +159,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             type: "error",
             reload: true,
           });
-        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
       });
   };
 
@@ -185,6 +177,21 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const handleAsignacionClose = () =>
     setAssignObject({ ...assignObject, open: false });
 
+  // Formato esperado de startDate y endDate : yyyy-MM-DD
+  const addAsignacion = (asignacionId, personId, title, startDate, endDate) =>
+    setItems([
+      ...items,
+      {
+        id: asignacionId,
+        group: personId,
+        start: dateToMiliseconds(startDate) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+        end: dateToMiliseconds(endDate) + 97200000, // le sumo un dia y 3 horas
+        canResize: "both",
+        canMove: false,
+        title: title,
+      },
+    ]);
+
   // Info Asignacion
 
   const handleItemClick = (itemId, e, time) => {
@@ -201,6 +208,23 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
   const handleInfoAsignacionClose = () =>
     setInfoAssignObject({ ...infoAssignObject, open: false });
+
+  const removeAsignacion = (asignacionId) =>
+    setItems(items.filter((item) => item.id != asignacionId));
+
+  const updateAsignacion = (asignacionId, title, startDate, endDate) =>
+    setItems(
+      items.map((item) =>
+        item.id == asignacionId
+          ? {
+              ...item,
+              start: dateToMiliseconds(startDate) + 10800000,
+              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+              title: title,
+            }
+          : item
+      )
+    );
 
   if (groups.length > 0 && isProjectView) {
     return (
@@ -249,6 +273,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           personName={assignObject.personName}
           onClose={handleAsignacionClose}
           fechaInicio={String(assignObject.time)}
+          addAsignacion={addAsignacion}
         />
         <InfoAsignacion
           open={infoAssignObject.open}
@@ -256,6 +281,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           personName={infoAssignObject.personName}
           asignacionId={parseInt(infoAssignObject.asignacionId)}
           onClose={handleInfoAsignacionClose}
+          removeAsignacion={removeAsignacion}
+          updateAsignacion={updateAsignacion}
         />
         <Notificacion notify={notify} setNotify={setNotify} />
       </Fragment>

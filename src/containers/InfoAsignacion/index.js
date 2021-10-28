@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import { axiosInstance } from "../../config/axios";
 import Notificacion from "../../components/Notificacion";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
+import { rolesFormateados } from "../../config/globalVariables";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -12,6 +13,8 @@ InfoAsignacion.propTypes = {
   personName: propTypes.string.isRequired,
   asignacionId: propTypes.number.isRequired,
   onClose: propTypes.func.isRequired,
+  removeAsignacion: propTypes.func.isRequired,
+  updateAsignacion: propTypes.func.isRequired,
 };
 
 const initialState = {
@@ -28,6 +31,8 @@ function InfoAsignacion({
   personName,
   asignacionId,
   onClose,
+  removeAsignacion,
+  updateAsignacion,
 }) {
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -98,15 +103,21 @@ function InfoAsignacion({
         person_project: asignacionInfo,
       })
       .then((response) => {
-        console.log(response.data);
-        if (response.status == 200)
+        if (response.status == 200) {
+          let asignacion = response.data.person_project;
+          updateAsignacion(
+            asignacionId,
+            `${asignacion.project.name} - ${rolesFormateados[asignacion.role]}`,
+            asignacion.start_date,
+            asignacion.end_date
+          );
           setNotify({
             isOpen: true,
             message: "Los cambios se aplicaron con exito.",
             type: "success",
-            reload: true,
+            reload: false,
           });
-        else
+        } else
           setNotify({
             isOpen: true,
             message: `Error inesperado`,
@@ -114,18 +125,19 @@ function InfoAsignacion({
             reload: false,
           });
         onClose();
+        setAsignacionInfo(initialState);
       })
       .catch((error) => {
         console.error(error.response);
         if (error.response.status == 404) {
-          let message = error.response.data.error;
           setNotify({
             isOpen: true,
-            message: message,
+            message: error.response.data.error,
             type: "error",
-            reload: false,
+            reload: true,
           });
           onClose();
+          setAsignacionInfo(initialState);
         } else {
           let message = error.response.data.errors;
           setNotify({
@@ -141,18 +153,22 @@ function InfoAsignacion({
   const handleDesasignar = () => {
     // API call
 
+    handleConfirmacionClose();
+    onClose();
+    setAsignacionInfo(initialState);
+
     axiosInstance
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
-        console.log(response.data);
-        if (response.status == 200)
+        if (response.status == 200) {
+          removeAsignacion(asignacionId);
           setNotify({
             isOpen: true,
-            message: "Se elimino la asignacion con exito.",
+            message: response.data.message,
             type: "success",
-            reload: true,
+            reload: false,
           });
-        else
+        } else
           setNotify({
             isOpen: true,
             message: `Error inesperado.`,
@@ -170,8 +186,6 @@ function InfoAsignacion({
           reload: false,
         });
       });
-    onClose();
-    handleConfirmacionClose();
   };
 
   const onInputChange = (e) => {
@@ -201,13 +215,7 @@ function InfoAsignacion({
 
   return (
     <Fragment>
-      <Dialog
-        fullWidth
-        open={open}
-        onClose={handleClose}
-        maxWidth={"xs"}
-        hideBackdrop={true}
-      >
+      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
         <InfoAsignacionDialog
           asignacionInfo={asignacionInfo}
           roles={roles}

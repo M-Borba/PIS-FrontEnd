@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import AsignacionForm from "../../components/AsignacionDialog";
 import { axiosInstance } from "../../config/axios";
+import { rolesFormateados } from "../../config/globalVariables";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import Notificacion from "../../components/Notificacion";
@@ -11,6 +12,7 @@ AsignarProyectoPersona.propTypes = {
   personId: PropTypes.number.isRequired,
   personName: PropTypes.string.isRequired,
   fechaInicio: PropTypes.string.isRequired,
+  addAsignacion: PropTypes.func.isRequired,
 };
 
 const initialState = {
@@ -28,6 +30,7 @@ function AsignarProyectoPersona({
   personId,
   personName,
   fechaInicio,
+  addAsignacion,
 }) {
   const [proyectos, setProyectos] = useState([]);
   const [roles, setRoles] = useState([]);
@@ -110,12 +113,22 @@ function AsignarProyectoPersona({
         person_project: requestBody,
       })
       .then((response) => {
+        let asignacionData = response.data.person_project;
+        addAsignacion(
+          asignacionData.id,
+          asignacionData.person.id,
+          `${asignacionData.project.name} - ${
+            rolesFormateados[asignacionData.role]
+          }`,
+          asignacionData.start_date,
+          asignacionData.end_date
+        );
         if (response.status == 200)
           setNotify({
             isOpen: true,
             message: "Asignacion creada con exito.",
             type: "success",
-            reload: true,
+            reload: false,
           });
         else
           setNotify({
@@ -125,18 +138,19 @@ function AsignarProyectoPersona({
             reload: false,
           });
         onClose();
+        setRequestBdoy(initialState);
       })
       .catch((error) => {
         console.error(error.response);
         if (error.response.status == 404) {
-          let message = error.response.data.error;
           setNotify({
             isOpen: true,
-            message: message,
+            message: error.response.data.error,
             type: "error",
-            reload: false,
+            reload: true,
           });
           onClose();
+          setRequestBdoy(initialState);
         } else {
           let message = error.response.data.errors;
           setNotify({
