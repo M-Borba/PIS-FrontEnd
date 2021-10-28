@@ -122,7 +122,14 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const handleItemResize = (itemId, time, edge) => {
     let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
 
-    console.log("item resize");
+    // Cambio en item en la timeline
+    let currentItem = items[itemIndex];
+    let newItem = {
+      ...items[itemIndex],
+      start: edge === "left" ? time : items[itemIndex].start,
+      end: edge === "left" ? items[itemIndex].end : time,
+    };
+    setItems(items.map((item) => (item.id == itemId ? newItem : item)));
 
     // Cambio el item en backend
     let requestBody = {
@@ -135,23 +142,13 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           : moment(items[itemIndex].start).format("yyyy-MM-DD"),
       end_date:
         edge === "left"
-          ? moment(items[itemIndex].end).format("yyyy-MM-DD")
-          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
+          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
+          : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
     axiosInstance
       .put(`/person_project/${itemId}`, { person_project: requestBody })
-      .then((response) => {
-        console.log("Resized", itemId, time, edge, response.statusText);
-
-        // Cambio en item en la timeline
-        let newitem = {
-          ...items[itemIndex],
-          start: edge === "left" ? time : items[itemIndex].start,
-          end: edge === "left" ? items[itemIndex].end : time,
-        };
-        setItems(items.map((item) => (item.id == itemId ? newitem : item)));
-      })
+      .then()
       .catch((error) => {
         console.log(error.response);
         setNotify({
@@ -162,6 +159,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           type: "error",
           reload: false,
         });
+        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
       });
   };
 
