@@ -36,38 +36,26 @@ export default function LoginView() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email == "" || password == "") {
-      setLoginError("Completar todos los campos para iniciar sesión");
-    } else {
-      axiosInstance
-        .post("/users/sign_in", {
-          user: {
-            email: email,
-            password: password,
-          },
-        })
-        .then((response) => {
-          let headers = response.headers;
-          console.log(response);
-          localStorage.setItem("token", headers["access-token"]);
-          localStorage.setItem("client", headers.client);
-          localStorage.setItem("uid", headers.uid);
-          window.location.reload(); // header gets updated
-          history.push("/Inicio");
-          window.location.reload();
-
-          setLoginError("");
-        })
-        .catch((error) => {
-          setPassowrd("");
-          if (error.response != undefined && error.response.status == 401)
-            setLoginError("El usuario y/o contraseña ingresado no es correcto");
-          else setLoginError("Error inesperado al iniciar sesión");
-        });
-    }
+    axiosInstance
+      .post("/users/sign_in", {
+        user: {
+          email: email,
+          password: password,
+        },
+      })
+      .then((response) => {
+        const { headers } = response;
+        localStorage.setItem("token", headers["access-token"]);
+        localStorage.setItem("client", headers.client);
+        localStorage.setItem("uid", headers.uid);
+        history.push("/Inicio");
+      })
+      .catch((error) => {
+        setLoginError(error.response?.data?.error);
+      });
   };
   const checkInput = (e) => {
-    e.preventDefault();
+    setLoginError("");
     if (e.target.name == "email") setEmail(e.target.value);
     if (e.target.name == "password") setPassowrd(e.target.value);
   };
