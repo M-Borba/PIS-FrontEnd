@@ -72,16 +72,14 @@ export default function LoginView() {
     if (e.target.name == "password") setPassowrd(e.target.value);
   };
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item md={3} sm={12}>
-        <Paper variant="elevation" elevation={3} className={classes.paper}>
-          <span className={classes.imgcontainer}>
-            <img
-              src={effectus_wallpaper}
-              alt="effectus wallpaper"
-              width="27%"
-            />
-          </span>
+    <Box className={classes.container}>
+      <Paper variant="elevation" elevation={3} className={classes.paper}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <img
+            className={classes.imgcontainer}
+            src={effectus_wallpaper}
+            alt="Logo"
+          />
           <Login
             onSubmit={(e) => handleSubmit(e)}
             onInputChange={(e) => checkInput(e)}
@@ -89,8 +87,8 @@ export default function LoginView() {
             password={password}
             error={loginError}
           />
-        </Paper>
-      </Grid>
-    </Grid>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
