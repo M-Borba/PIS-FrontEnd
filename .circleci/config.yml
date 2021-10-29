@@ -16,7 +16,7 @@ plugins:
     config:
       languages:
         javascript:
-          mass_threshold: 120
+          mass_threshold: 150
   eslint:
     enabled: true
   fixme:
@@ -31,7 +31,7 @@ checks:
   method-lines:
     enabled: true
     config:
-      threshold: 25
+      threshold: 40
 exclude_patterns:
 - node_modules/
 - "**/__tests__/"
