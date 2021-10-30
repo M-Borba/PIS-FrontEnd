@@ -51,8 +51,8 @@ function RemoverPersona({
     dialogContent = `Esta seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectName}?`;
 
   const onConfirmation = () => {
-    if (asignId == undefined) //si se quiere borrar a toda la persona del proyecto
-    {
+    if (asignId == undefined) {
+      //si se quiere borrar a toda la persona del proyecto
       axiosInstance
         .get(`/person_project`)
         .then((response) => {
@@ -140,7 +140,8 @@ function RemoverPersona({
             });
           }
         });
-    } else { //se especifico la asignacion que se quiere borrar
+    } else {
+      //se especifico la asignacion que se quiere borrar
       axiosInstance
         .delete("person_project/" + asignId)
         .then((response) => {

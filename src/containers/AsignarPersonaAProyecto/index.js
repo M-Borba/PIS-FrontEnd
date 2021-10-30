@@ -3,7 +3,7 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import { ROLES_CHECKBOX } from "../../config/globalVariables"
+import { ROLES_CHECKBOX } from "../../config/globalVariables";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.shape({

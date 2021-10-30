@@ -95,10 +95,10 @@ const Acciones = ({ projectRow }) => {
               id: person.person.id,
               name: person.person.full_name,
               roles: project.dates,
-            })
+            });
           }
-        })
-      })
+        });
+      });
       setAsignaciones(asignaciones);
     });
   };

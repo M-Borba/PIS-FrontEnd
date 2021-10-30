@@ -21,11 +21,7 @@ EditarProjecto.propTypes = {
   setNotify: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({
-  projectData,
-  id,
-  setNotify,
-}) {
+export default function EditarProjecto({ projectData, id, setNotify }) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
