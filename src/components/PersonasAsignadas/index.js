@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Divider from "@mui/material/Divider";
 import { useStyles } from "./styles";
+import { rolesFormateados } from "../../config/globalVariables";
 
 ListadoPersonasAsignadas.propTypes = {
   people: propTypes.array,
@@ -24,29 +25,47 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
           <>
             <Typography>Personas Asignadas</Typography>
             <List className={classes.list}>
-              {people.map((person) => {
-                return (
-                  <>
-                    <ListItem key={person.id} role="listitem">
-                      <ListItemText primary={person.full_name} />
-                      <IconButton
-                        onClick={() =>
-                          removePerson(person.id, person.full_name)
-                        }
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </ListItem>
-                    <Divider component="li" />
-                  </>
-                );
-              })}
+              {
+                people.map((person) => {
+                  return (
+                    <>
+                      <ListItem key={person.id} role="listitem">
+                        <ListItemText primary={person.name} />
+                        <IconButton
+                          onClick={() =>
+                            removePerson(person.id, person.name, undefined, undefined)
+                          }
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </ListItem>
+                      {person.roles.map((asignation) => {
+                        return (
+                          <>
+                            <ListItem key={asignation.id} role="listitem">
+                              <ListItemText primary={"  ↳" + rolesFormateados[asignation.role]} />
+                              <IconButton
+                                onClick={() =>
+                                  removePerson(person.id, person.name, asignation.id, rolesFormateados[asignation.role])
+                                }
+                              >
+                                <CloseIcon />
+                              </IconButton>
+                            </ListItem>
+                          </>
+                        );
+                      })}
+                      <Divider component="li" />
+                    </>
+                  )
+                })
+              }
             </List>
           </>
         ) : (
           "Aun no hay nadie asignado"
         )}
       </Grid>
-    </div>
+    </div >
   );
 }

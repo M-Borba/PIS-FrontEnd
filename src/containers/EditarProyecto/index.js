@@ -19,18 +19,17 @@ EditarProjecto.propTypes = {
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
-  removePerson: propTypes.func.isRequired,
 };
 
 export default function EditarProjecto({
   projectData,
   id,
   setNotify,
-  removePerson,
 }) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
+
   const [proyecto, setProyecto] = useState(projectData);
 
   const handleSubmit = (e) => {
@@ -105,7 +104,6 @@ export default function EditarProjecto({
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
         title={"Modificacion de Proyecto"}
-        removePerson={removePerson}
       />
       <ProyectTechnologyHandler
         techSelected={proyecto.technologies}

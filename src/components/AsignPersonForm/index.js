@@ -19,6 +19,8 @@ AsignPersonForm.propTypes = {
     people: propTypes.array.isRequired,
     startDate: propTypes.string.isRequired,
     endDate: propTypes.string,
+    hours: propTypes.number.isRequired,
+    hoursType: propTypes.string.isRequired,
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
@@ -92,12 +94,15 @@ export default function AsignPersonForm({
               style={{ marginTop: 23 }}
               variant="outlined"
               margin="normal"
+              required
               fullWidth
               name="workingHours"
               label="Horas"
               type="number"
               id="workingHours"
+              value={asign.hours}
               onChange={onInputChange}
+              InputLabelProps={{ shrink: true }}
               inputProps={{ min: 1, max: 100 }}
             />
           </Grid>
@@ -106,6 +111,7 @@ export default function AsignPersonForm({
             <Select
               fullWidth
               required
+              value={asign.hoursType}
               id="hoursType"
               labelId="tipo"
               onChange={onInputChange}

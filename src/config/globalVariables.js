@@ -8,6 +8,14 @@ export const rolesFormateados = {
   analyst: "Analista",
   designer: "Diseñador",
 };
+export const ROLES_CHECKBOX = [
+  ["Developer", false],
+  ["PM", false],
+  ["Tester", false],
+  ["Architect", false],
+  ["Analyst", false],
+  ["Designer", false],
+];
 export const cargasHorarias_t = ["daily", "weekly"];
 export const cargasHorarias_tFormateadas = {
   daily: "Diarias",

@@ -19,7 +19,6 @@ export default function ListarPersonas() {
       });
 
       let rowsNuevas = rows.map((row) => {
-        console.log(row.roles);
         return {
           fullName: row.full_name,
           firstName: row.first_name,
