@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import propTypes from "prop-types";
 import { Button, TextField, Box, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
-import CardSelector from "../CardSelector";
 
 AdministratorForm.propTypes = {
   onSubmit: propTypes.func,
