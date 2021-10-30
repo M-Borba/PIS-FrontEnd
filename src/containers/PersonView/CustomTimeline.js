@@ -181,7 +181,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
   const handleItemClick = (itemId, e, time) => {
     let itemObject = items.find((item) => item.id == itemId);
-    console.log(itemObject);
     let projectName = itemObject.title;
     let personName = groups.find((group) => group.id == itemObject.group).title;
     setInfoAssignObject({

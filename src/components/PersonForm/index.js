@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
-import CardSelector from "../CardSelector";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -15,7 +14,6 @@ PersonForm.propTypes = {
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
-    roles: propTypes.array,
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
@@ -71,7 +69,7 @@ export default function PersonForm({
               required
               fullWidth
               id="email"
-              type="email"
+              type="text"
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -79,7 +77,7 @@ export default function PersonForm({
               onChange={onInputChange}
             />
             <TextField
-              inputProps={{ min: 0, max: 100 }}
+              inputProps={{ min: 0, max: 168 }}
               variant="outlined"
               margin="normal"
               required
@@ -90,15 +88,6 @@ export default function PersonForm({
               id="working_hours"
               value={person.working_hours}
               onChange={onInputChange}
-            />
-          </div>
-          <div style={{ marginTop: 15, marginLeft: 10 }}>
-            <CardSelector
-              name={"roles"}
-              id={"roles"}
-              title={"Rol"}
-              list={person.roles}
-              onInputChange={onInputChange}
             />
           </div>
         </div>

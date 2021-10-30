@@ -1,7 +1,7 @@
 import {
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
-  rolesFormateados,
+  roles
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
 import { useStyles } from "../InfoAsignacionDialog/styles";
@@ -17,9 +17,9 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
+
 AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,
-  roles: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   personName: PropTypes.string.isRequired,
@@ -29,7 +29,6 @@ AsignacionDialog.propTypes = {
 
 function AsignacionDialog({
   proyectos,
-  roles,
   onClose,
   onSubmit,
   personName,
@@ -46,10 +45,10 @@ function AsignacionDialog({
     );
   });
 
-  const rolItems = roles.map((rol, id) => {
+  const rolItems = roles.map((role) => {
     return (
-      <MenuItem key={id} value={rol}>
-        {rolesFormateados[rol]}
+      <MenuItem key={role} value={role}>
+        {role}
       </MenuItem>
     );
   });
@@ -96,9 +95,8 @@ function AsignacionDialog({
               select
               fullWidth
               required
-              name="rol"
+              name="role"
               label="Rol"
-              value={datos.role}
               onChange={(e) => onInputChange(e)}
             >
               {rolItems}
