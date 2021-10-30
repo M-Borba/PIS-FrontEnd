@@ -21,9 +21,9 @@ ProyectoForm.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
+    organization: propTypes.string,
   }).isRequired,
-  msg: propTypes.string,
-  error: propTypes.string,
   title: propTypes.string,
 };
 
@@ -32,21 +32,17 @@ export default function ProyectoForm({
   onSubmit,
   onInputChange,
   proyecto,
-  error,
-  msg,
 }) {
   const classes = useStyles();
+
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
-      <Typography className={classes.msg} component="h2">
-        {msg}
-      </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={{ xs: 2 }}>
-          <Grid item xs={6}>
+          <Grid item xs={6} mt={1}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -59,16 +55,18 @@ export default function ProyectoForm({
               value={proyecto.name}
               onChange={onInputChange}
               autoFocus
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
-          <Grid item xs={6}>
+
+          <Grid item xs={6} mt={1}>
             <TextField
-              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              inputProps={{ min: 1 }}
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="budget"
+              type="number"
               label="Budget"
               name="budget"
               value={proyecto.budget}
@@ -76,7 +74,7 @@ export default function ProyectoForm({
             />
           </Grid>
           <Grid item xs={6}>
-            <InputLabel id="tipo">Tipo</InputLabel>
+            <InputLabel id="tipo">Tipo *</InputLabel>
             <Select
               fullWidth
               required
@@ -89,13 +87,12 @@ export default function ProyectoForm({
               <MenuItem value={"staff_augmentation"}>
                 Staff Augmentation
               </MenuItem>
-              <MenuItem value={"-"}> -</MenuItem>
               <MenuItem value={"end_to_end"}>End to End</MenuItem>
               <MenuItem value={"tercerizado"}>Tercerizado</MenuItem>
             </Select>
           </Grid>
           <Grid item xs={6}>
-            <InputLabel id="estado">Estado</InputLabel>
+            <InputLabel id="estado">Estado *</InputLabel>
             <Select
               fullWidth
               required
@@ -105,15 +102,16 @@ export default function ProyectoForm({
               onChange={onInputChange}
               name="project_state"
             >
-              <MenuItem value={"-"}>-</MenuItem>
               <MenuItem value={"verde"}>Verde</MenuItem>
               <MenuItem value={"amarillo"}>Amarillo</MenuItem>
               <MenuItem value={"rojo"}>Rojo</MenuItem>
               <MenuItem value={"upcomping"}>Upcomping</MenuItem>
             </Select>
           </Grid>
+
           <Grid item xs={6}>
             <TextField
+              InputProps={{ inputProps: { max: "9999-12-31" } }} //https://github.com/mui-org/material-ui/issues/10675
               variant="outlined"
               margin="normal"
               required
@@ -123,11 +121,13 @@ export default function ProyectoForm({
               type="date"
               id="start_date"
               value={proyecto.start_date}
+              InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
+              InputProps={{ inputProps: { max: "9999-12-31" } }} //https://github.com/mui-org/material-ui/issues/10675
               variant="outlined"
               margin="normal"
               fullWidth
@@ -136,7 +136,24 @@ export default function ProyectoForm({
               type="date"
               id="end_date"
               value={proyecto.end_date}
+              InputLabelProps={{ shrink: true }}
               onChange={onInputChange}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="organization"
+              type="text"
+              label="Organización"
+              name="organization"
+              value={proyecto.organization}
+              onChange={onInputChange}
+              autoFocus
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -147,12 +164,13 @@ export default function ProyectoForm({
               fullWidth
               id="description"
               type="text"
-              label="Descripcion"
+              label="Descripción"
               name="description"
               multiline
               maxRows={5}
               value={proyecto.description}
               onChange={onInputChange}
+              inputProps={{ maxLength: 500 }}
             />
           </Grid>
         </Grid>
@@ -167,10 +185,6 @@ export default function ProyectoForm({
         >
           Guardar
         </Button>
-
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
 
         <Box mt={5}></Box>
       </form>

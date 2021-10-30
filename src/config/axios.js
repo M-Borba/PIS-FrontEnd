@@ -1,7 +1,8 @@
 import axios from "axios";
 import { BACKEND_HOST } from "./globalVariables";
+import { NOT_LOGGED } from "./globalVariables";
 
-export const axiosInstance = axios.create({
+const instance = axios.create({
   baseURL: `${BACKEND_HOST}/api/v1`,
   headers: {
     accept: "application/json",
@@ -10,3 +11,18 @@ export const axiosInstance = axios.create({
     client: localStorage.getItem("client"),
   },
 });
+
+instance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      localStorage.setItem("uid", NOT_LOGGED);
+      if (window.location.pathname !== "/login") window.location = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+export const axiosInstance = instance;

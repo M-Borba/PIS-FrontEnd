@@ -68,16 +68,15 @@ export default function Header() {
               </Link>
             </Button>
             <Button color="inherit">
-              <Link className={classes.link} to="/">
+              <Link className={classes.link} to="/administradores">
                 Administradores
               </Link>
             </Button>
           </Typography>
           <Fragment>
-            <Tooltip title="Configuracion de la cuenta">
+            <Tooltip title="Configuración de la cuenta">
               <IconButton
                 aria-label="account of current user"
-                aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"

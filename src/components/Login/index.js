@@ -28,7 +28,7 @@ export default function Login({
       <Typography component="h1" variant="h5">
         Iniciar sesión
       </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
@@ -36,7 +36,7 @@ export default function Login({
           fullWidth
           id="email"
           type="email"
-          label="Email Address"
+          label="Email"
           name="email"
           autoComplete="email"
           value={email}
@@ -49,7 +49,7 @@ export default function Login({
           required
           fullWidth
           name="password"
-          label="Password"
+          label="Contraseña"
           type="password"
           id="password"
           value={password}
@@ -64,7 +64,7 @@ export default function Login({
           color="primary"
           className={classes.submit}
         >
-          Sign in
+          Iniciar sesión
         </Button>
 
         <Typography className={classes.errorMsg} component="h2">

@@ -81,7 +81,7 @@ exports[`renders and redirects when loged 1`] = `
             >
               <a
                 class="makeStyles-link-11"
-                href="/"
+                href="/administradores"
               >
                 Administradores
               </a>
@@ -92,13 +92,12 @@ exports[`renders and redirects when loged 1`] = `
           </button>
         </h6>
         <button
-          aria-controls="menu-appbar"
           aria-haspopup="true"
           aria-label="account of current user"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
           tabindex="0"
-          title="Configuracion de la cuenta"
+          title="Configuración de la cuenta"
           type="button"
         >
           <span
@@ -208,7 +207,7 @@ exports[`renders correctly unloged 1`] = `
             >
               <a
                 class="makeStyles-link-4"
-                href="/"
+                href="/administradores"
               >
                 Administradores
               </a>
@@ -219,13 +218,12 @@ exports[`renders correctly unloged 1`] = `
           </button>
         </h6>
         <button
-          aria-controls="menu-appbar"
           aria-haspopup="true"
           aria-label="account of current user"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit"
           data-testid="menu-perfil"
           tabindex="0"
-          title="Configuracion de la cuenta"
+          title="Configuración de la cuenta"
           type="button"
         >
           <span

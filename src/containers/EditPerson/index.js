@@ -6,88 +6,150 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { rolesFormateados } from "../../config/globalVariables";
+import TechnologyHandler from "../../containers/PersonTechnologyHandler";
 
-Edit.propTypes = {
+EditPerson.propTypes = {
   personData: propTypes.shape({
     first_name: propTypes.string,
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
+    technologies: propTypes.array,
+    roles: propTypes.array,
   }).isRequired,
   id: propTypes.number,
-  resultOk: propTypes.bool,
+  setNotify: propTypes.func.isRequired,
 };
 
-export default function Edit({ personData, id, resultOk }) {
-  const [person, setPerson] = useState(personData);
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      person.first_name != "" &&
-      person.last_name != "" &&
-      person.email != "" &&
-      person.hourly_load != ""
-    );
-  };
+export default function EditPerson({ personData, id, setNotify }) {
+  var completeRoles = [
+    ["Desarrollador", false],
+    ["PM", false],
+    ["Tester", false],
+    ["Arquitecto", false],
+    ["Analista", false],
+    ["Diseñador", false],
+  ];
+
+  const [person, setPerson] = useState({
+    first_name: personData.first_name,
+    last_name: personData.last_name,
+    email: personData.email,
+    working_hours: personData.working_hours,
+    roles: completeRoles.map((rol) => {
+      console.log("->", rol[0], personData.roles);
+      return [rol[0], personData.roles.indexOf(rol[0]) != -1];
+    }),
+    technologies: personData.technologies || [],
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(person)) {
-      setError("Completar todos los campos para completar la modificación");
-    } else {
-      axiosInstance
-        .put("/people/" + id, {
-          person: person,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            resultOk();
-            setMsg("Usuario modificado correctamente");
-            setError("");
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log(error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            let errors = error.response.data.errors;
-            setError(
-              "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-          } else setError("Error inesperado al enviar formulario ");
+
+    var checkedRoles = Object.assign(person.roles);
+    checkedRoles = checkedRoles
+      .filter((rol) => rol[1] == true)
+      .map((rol) => {
+        rol[0].toLowerCase();
+        return Object.keys(rolesFormateados).find(
+          (key) => rolesFormateados[key] === rol[0]
+        );
+      });
+
+    axiosInstance
+      .put("/people/" + id, {
+        person: {
+          first_name: person.first_name,
+          last_name: person.last_name,
+          email: person.email,
+          working_hours: person.working_hours,
+          roles: checkedRoles,
+          technologies: person.technologies,
+        },
+      })
+      .then((response) => {
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
+            type: "success",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
+      });
+  };
+
+  const checkInput = (event, type) => {
+    if (person.roles.indexOf(event) !== -1) {
+      console.log("in", event);
+      let newRoles = person.roles;
+      let i = 0;
+      try {
+        newRoles.forEach(([a, b]) => {
+          //find index of selected role
+          if (a == event[0]) throw Found;
+          if (i != newRoles.length - 1) i++;
         });
+      } catch (e) {
+        //do nothing :)
+      }
+      if (i != -1) newRoles[i][1] = !newRoles[i][1];
+      setPerson({
+        ...person,
+        roles: newRoles,
+      });
+    } else if (type == undefined) {
+      if (event.target.id == "first_name")
+        setPerson({ ...person, first_name: event.target.value });
+      else if (event.target.id == "last_name")
+        setPerson({ ...person, last_name: event.target.value });
+      else if (event.target.id == "email")
+        setPerson({ ...person, email: event.target.value });
+      else if (event.target.id == "working_hours")
+        setPerson({ ...person, working_hours: parseInt(event.target.value) });
     }
   };
-  const checkInput = (e) => {
-    if (e.target.id == "first_name")
-      setPerson({ ...person, first_name: e.target.value });
-    else if (e.target.id == "last_name")
-      setPerson({ ...person, last_name: e.target.value });
-    else if (e.target.id == "email")
-      setPerson({ ...person, email: e.target.value });
-    else if (e.target.id == "working_hours") {
-      let hours = parseInt(e.target.value);
-      setPerson({ ...person, working_hours: hours });
-    }
-  };
+
   return (
-    <div>
+    <div style={{ display: "flex", width: "100%" }}>
       <PersonForm
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         person={person}
-        error={error}
-        msg={msg}
-        title={"Editando Persona"}
+        title={"Modificacion de Persona"}
+      />
+      <TechnologyHandler
+        techSelected={person.technologies}
+        setTechSelected={(techs) =>
+          setPerson({ ...person, technologies: techs })
+        }
       />
     </div>
   );

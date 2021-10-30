@@ -1,11 +1,8 @@
-/**
- * Create person
- */
-
 import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import ProyectTechnologyHandler from "../ProyectTechnologyHandler";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -16,61 +13,69 @@ EditarProjecto.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
+    organization: propTypes.string,
+    technologies: propTypes.array,
   }).isRequired,
   id: propTypes.number,
+  setNotify: propTypes.func.isRequired,
+  removePerson: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id }) {
+export default function EditarProjecto({
+  projectData,
+  id,
+  setNotify,
+  removePerson,
+}) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
     projectData.end_date = projectData.end_date.replaceAll("/", "-");
   const [proyecto, setProyecto] = useState(projectData);
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      //descripcion, budget y end date son opcionales y no se validan
-      proyecto.name != "" &&
-      proyecto.project_type != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //cambiar esto, verificar que es uno de los enumerados
-      proyecto.start_date != ""
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid(proyecto)) {
-      setError("Completar todos los campos para completar la modificación");
-    } else {
-      axiosInstance
-        .put("/projects/" + id, {
-          project: proyecto,
-        })
-        .then((response) => {
-          if (response.status == 200) {
-            setMsg("Proyecto modificado correctamente");
-            setError("");
-          } else setError("Error inesperado");
-        })
-        .catch((error) => {
-          console.log(error.response);
-          if (
-            error.response != undefined &&
-            error.response.status != null &&
-            error.response.status == 401
-          )
-            setError("Falta autentificarse !");
-          else if (error.response.status == 400) {
-            let errors = error.response.data.errors;
-            setError(
-              "Error, hay un problema con los datos ingresados - " +
-                Object.keys(errors)[0] +
-                " " +
-                errors[Object.keys(errors)[0]]
-            );
-          } else setError("Error inesperado al enviar formulario ");
-        });
-    }
+
+    axiosInstance
+      .put("/projects/" + id, {
+        project: proyecto,
+      })
+      .then((response) => {
+        if (response.status == 200)
+          setNotify({
+            isOpen: true,
+            message: `El proyecto ${projectData.name} se modifico con exito.`,
+            type: "success",
+            reload: true,
+          });
+        else
+          setNotify({
+            isOpen: true,
+            message: `Error inesperado.`,
+            type: "error",
+            reload: false,
+          });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
+        } else {
+          let message = error.response.data.errors;
+          setNotify({
+            isOpen: true,
+            message: message[Object.keys(message)[0]],
+            type: "error",
+            reload: false,
+          });
+        }
+      });
   };
 
   const checkInput = (e) => {
@@ -89,17 +94,24 @@ export default function EditarProjecto({ projectData, id }) {
       setProyecto({ ...proyecto, start_date: e.target.value });
     else if (e.target.id == "end_date")
       setProyecto({ ...proyecto, end_date: e.target.value });
+    else if (e.target.id == "organization")
+      setProyecto({ ...proyecto, organization: e.target.value });
   };
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <ProyectoForm
         onSubmit={(e) => handleSubmit(e)}
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
-        error={error}
-        msg={msg}
-        title={"Editando Proyecto"}
+        title={"Modificacion de Proyecto"}
+        removePerson={removePerson}
+      />
+      <ProyectTechnologyHandler
+        techSelected={proyecto.technologies}
+        setTechSelected={(techs) =>
+          setProyecto({ ...proyecto, technologies: techs })
+        }
       />
     </div>
   );

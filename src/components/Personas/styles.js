@@ -6,10 +6,24 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
+    width: "auto",
     p: 4,
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+  box: {
+    display: "flex",
+    padding: 8,
+  },
+  rightBox: {
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },
 }));
