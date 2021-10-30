@@ -15,11 +15,13 @@ describe("login component tests", () => {
         onInputChange={(e) => mockInputChange(e)}
         email={email}
         password={password}
-        error={"No se pudo iniciar sesión"}
+        error={"Identidad o contraseña no válida."}
       />
     );
     //Make sure the error is visible
-    expect(screen.queryByText("No se pudo iniciar sesión")).toBeVisible();
+    expect(
+      screen.queryByText("Identidad o contraseña no válida.")
+    ).toBeVisible();
     // Matches the last snapshot taken
     expect(container).toMatchSnapshot();
     // calls both functions
