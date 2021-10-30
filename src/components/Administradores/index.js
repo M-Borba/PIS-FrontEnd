@@ -1,11 +1,13 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { FormControlLabel, IconButton, Box, Modal, Button, TextField, Typography } from "@material-ui/core";
+import { FormControlLabel, IconButton, Box, Modal, Button, Dialog, TextField, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 import { useStyles } from "./styles";
 import CreateAdministrator from "../../containers/CreateAdministrator";
 import Notificacion from "../../components/Notificacion";
+import EliminarAdministrador from "../../containers/EliminarAdministrador"
 
 Administrador.propTypes = {
   rows: PropTypes.array,
@@ -24,7 +26,6 @@ const Acciones = ({ adminRow }) => {
   });
   const [adminData] = React.useState({
     id: adminRow.id,
-    // name: adminRow.name,
     email: adminRow.email,
   });
 
@@ -43,8 +44,8 @@ const Acciones = ({ adminRow }) => {
             margin: "10px",
           }}
       >
-        {/*
-        <FormControlLabel
+
+        {/*<FormControlLabel
             control={
               <>
                 <IconButton variant="outlined" onClick={handleInfoClick}>
@@ -71,7 +72,7 @@ const Acciones = ({ adminRow }) => {
                 </Modal>
               </>
             }
-        />
+        />*/}
         <FormControlLabel
             control={
               <>
@@ -84,16 +85,17 @@ const Acciones = ({ adminRow }) => {
                     maxWidth="xs"
                     aria-labelledby="confirmation-dialog-title"
                 >
-                  <EliminarProyecto
-                      projectId={projectRow.id}
-                      projectName={projectRow.name}
+                  <EliminarAdministrador
+                      administratorId={adminRow.id}
+                      administratorName={adminRow.name}
+                      administratorEmail={adminRow.email}
                       handleClose={handleRemoveClose}
                       setNotify={setNotify}
                   />
                 </Dialog>
               </>
             }
-        />*/}
+        />
         <Notificacion notify={notify} setNotify={setNotify} />
       </div>
   );
@@ -103,8 +105,21 @@ const columns = [
   {
     field: "id",
     headerName: "Email",
+    hide: true,
     sortable: true,
     flex: 1, //tamaño
+  },
+  {
+    field: "fullName",
+    headerName: "Nombre completo",
+    sortable: true,
+    flex: 1, //tamaño
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    sortable: true,
+    flex: 1,
   },
   {
     field: "actions",
@@ -125,11 +140,6 @@ Acciones.propTypes = {
   adminRow: PropTypes.any,
 };
 
-
-let rows = [
-  { id: 'example@effectus.com' },
-];
-
 export default function Administrador({ rows }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
@@ -139,9 +149,16 @@ export default function Administrador({ rows }) {
     type: "success",
     reload: false,
   });
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: "id",
+      sort: "dsc",
+    },
+  ]);
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
+
   return (
       <div
           style={{
@@ -170,7 +187,7 @@ export default function Administrador({ rows }) {
             <CreateAdministrator setNotify={setNotify} />
           </Box>
         </Modal>
-        {/*<DataGrid
+        <DataGrid
             rows={rows}
             columns={columns}
             disableSelectionOnClick
@@ -178,7 +195,7 @@ export default function Administrador({ rows }) {
             onSortModelChange={(model) => setSortModel(model)}
             style={{ height: "70vh" }}
         />
-*/}
+
         <Notificacion notify={notify} setNotify={setNotify} />
       </div>
   );

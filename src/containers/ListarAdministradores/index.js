@@ -10,16 +10,14 @@ export default function ListarAdministradores() {
 
   //no esta el endpoint en back para traer admins
   const fetchData = () => {
-    axiosInstance.get("/people").then((response) => {
-      rows = response.data.people;
+    axiosInstance.get("/users").then((response) => {
+      rows = response.data.administrators;
 
       let rowsNuevas = rows.map((row) => {
         return {
-          fullName: row.full_name,
-          firstName: row.first_name,
-          lastName: row.last_name,
-          email: row.email,
           id: row.id,
+          email: row.email,
+          fullName: row.name,
         };
       });
       setRows(rowsNuevas);
