@@ -10,10 +10,13 @@ jobs:
 plugins:
   duplication:
     enabled: true
+    checks:
+      Similar code:
+        enabled: false
     config:
       languages:
         javascript:
-          mass_threshold: 100
+          mass_threshold: 150
   eslint:
     enabled: true
   fixme:
@@ -28,7 +31,7 @@ checks:
   method-lines:
     enabled: true
     config:
-      threshold: 25
+      threshold: 40
 exclude_patterns:
 - node_modules/
 - "**/__tests__/"
