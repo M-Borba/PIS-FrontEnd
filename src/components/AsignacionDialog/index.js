@@ -1,7 +1,7 @@
 import {
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
-  roles
+  roles,
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
 import { useStyles } from "../InfoAsignacionDialog/styles";
@@ -16,7 +16,6 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-
 
 AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,

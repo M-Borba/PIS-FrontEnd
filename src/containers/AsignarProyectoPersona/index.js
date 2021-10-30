@@ -67,7 +67,6 @@ function AsignarProyectoPersona({
         });
   }, [open]);
 
-
   const onSubmit = (e) => {
     // API call
     e.preventDefault();

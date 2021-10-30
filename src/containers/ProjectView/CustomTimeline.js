@@ -97,8 +97,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         defaultTimeEnd={defaultTimeEnd}
         timeSteps={customTimeSteps}
         sidebarWidth={200}
-      //onItemMove={this.handleItemMove}
-      //onItemResize={this.handleItemResize}
+        //onItemMove={this.handleItemMove}
+        //onItemResize={this.handleItemResize}
       >
         <TimelineHeaders className="sticky">
           <SidebarHeader style={{}}>
