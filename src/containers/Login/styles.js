@@ -1,13 +1,14 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  imgcontainer: {
-    margin: theme.spacing(8, 4),
+  container: {
     display: "flex",
-    flexDirection: "column",
+    height: "100vh",
+    justifyContent: "center",
     alignItems: "center",
   },
-  paper: {
-    marginTop: 200,
+  imgcontainer: {
+    width: theme.typography.pxToRem(200),
+    marginTop: theme.typography.pxToRem(40),
   },
 }));
