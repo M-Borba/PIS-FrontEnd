@@ -34,6 +34,14 @@ const Acciones = ({ projectRow }) => {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [personToRemove, setPersonToRemove] = React.useState(["", ""]);
 
+  if (projectRow.organization == null) {
+    projectRow.organization = "-";
+  }
+  if (projectRow.end_date == null) {
+    projectRow.end_date = "Indefinido";
+  }
+
+
   const classes = useStyles();
   const [notify, setNotify] = React.useState({
     isOpen: false,
