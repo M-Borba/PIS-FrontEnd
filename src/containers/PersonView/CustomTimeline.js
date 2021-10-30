@@ -82,7 +82,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             var endValue = moment(endDate).valueOf();
 
             if (!dt.end_date) {
-              endDate = new Date(1, 1, 2050);
+              endDate = new Date(2050, 1, 1);
               endValue = moment(endDate).valueOf();
             }
 

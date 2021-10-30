@@ -56,7 +56,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       setGroups(groupsToAdd);
       const startDate = new Date(proj.start_date);
       const startValue = moment(startDate).valueOf();
-      const endDate = new Date(proj.end_date);
+      const endDate = !proj.end_date ? new Date(2050, 1, 1) : new Date(proj.end_date);
       const endValue = moment(endDate).valueOf();
       itemsToAdd.push({
         id: proj.id,
@@ -97,8 +97,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         defaultTimeEnd={defaultTimeEnd}
         timeSteps={customTimeSteps}
         sidebarWidth={200}
-        //onItemMove={this.handleItemMove}
-        //onItemResize={this.handleItemResize}
       >
         <TimelineHeaders className="sticky">
           <SidebarHeader style={{}}>
