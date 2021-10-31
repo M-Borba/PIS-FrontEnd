@@ -13,6 +13,8 @@ import Header from "./components/Header";
 import Administradores from "./components/Administradores";
 import ListarPersonas from "./containers/ListarPersonas";
 import ListarProyectos from "./containers/ListarProyectos";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DateAdapter from "@mui/lab/AdapterMoment";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
@@ -25,27 +27,32 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <div>
-        <Route
-          render={({ location }) =>
-            !["/login", "/Login"].includes(location.pathname) && <Header />
-          }
-        />
-        <SwitchRouter>
-          <Route path="/login" component={LoginView} />
-          {uid == NOT_LOGGED && <Redirect to="/login" />}
-          <Route path="/personas" component={ListarPersonas} />
-          <Route path="/proyectos" component={ListarProyectos} />
-          <Route path="/administradores" component={Administradores} />
-          <Route path={["/", "/inicio"]}>
-            <>
-              <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
-              <ProjectView onSwitch={onSwitch} isProjectView={isProjectView} />
-            </>
-          </Route>
-        </SwitchRouter>
-      </div>
-    </Router>
+    <LocalizationProvider dateAdapter={DateAdapter}>
+      <Router>
+        <div>
+          <Route
+            render={({ location }) =>
+              !["/login", "/Login"].includes(location.pathname) && <Header />
+            }
+          />
+          <SwitchRouter>
+            <Route path="/login" component={LoginView} />
+            {uid == NOT_LOGGED && <Redirect to="/login" />}
+            <Route path="/personas" component={ListarPersonas} />
+            <Route path="/proyectos" component={ListarProyectos} />
+            <Route path="/administradores" component={Administradores} />
+            <Route path={["/", "/inicio"]}>
+              <>
+                <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
+                <ProjectView
+                  onSwitch={onSwitch}
+                  isProjectView={isProjectView}
+                />
+              </>
+            </Route>
+          </SwitchRouter>
+        </div>
+      </Router>
+    </LocalizationProvider>
   );
 }
