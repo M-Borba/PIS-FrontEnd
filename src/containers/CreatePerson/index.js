@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
-import { rolesFormateados } from "../../config/globalVariables";
 
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
@@ -20,15 +19,14 @@ export default function CreatePerson({ setNotify }) {
     working_hours: 30,
     technologies: [],
   });
-  const [errors, setErrors] = useState({})
-
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axiosInstance
       .post("/people", {
-        person
+        person,
       })
       .then(() => {
         setNotify({
@@ -37,7 +35,6 @@ export default function CreatePerson({ setNotify }) {
           type: "success",
           reload: true,
         });
-
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);

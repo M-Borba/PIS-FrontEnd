@@ -166,7 +166,7 @@ export default function PersonForm({
                 technologies={person.technologies}
                 addTechnology={handleAddTechnology}
                 removeTechnology={handleRemoveTechnology}
-                error={!!errors?.technologies}
+                error={errors?.technologies}
                 setTechnologiesError={setTechnologiesError}
                 technologiesError={technologiesError}
                 setAllErrors={setErrors}

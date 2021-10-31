@@ -21,7 +21,7 @@ TechnologyForm.propTypes = {
   removeTechnology: PropTypes.func,
   setTechnologiesError: PropTypes.func,
   setAllErrors: PropTypes.func,
-  error: PropTypes.array,
+  error: PropTypes.string,
   technologiesError: PropTypes.object,
   tech: PropTypes.object,
   setTech: PropTypes.func,
@@ -65,8 +65,10 @@ export default function TechnologyForm({
               onChange={handleChange}
               value={tech.technology}
             >
-              {defaultTechs?.map((option) => (
-                <MenuItem value={option}>{option}</MenuItem>
+              {defaultTechs?.map((option, index) => (
+                <MenuItem key={`default-tech-${index}`} value={option}>
+                  {option}
+                </MenuItem>
               ))}
             </Select>
             <FormHelperText>{technologiesError?.technology}</FormHelperText>
@@ -96,7 +98,7 @@ export default function TechnologyForm({
         </Grid>
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center" mt={1}>
-            <IconButton fullWidth color="primary" onClick={addTechnology}>
+            <IconButton color="primary" onClick={addTechnology}>
               <AddIcon />
             </IconButton>
           </Box>
@@ -138,5 +140,5 @@ const Chip = ({ onDelete, tech }) => {
 
 Chip.propTypes = {
   onDelete: PropTypes.func,
-  tech: PropTypes.object,
+  tech: PropTypes.array,
 };
