@@ -6,9 +6,7 @@ import { Typography } from "@material-ui/core";
 export default function ListarAdministradores() {
   var rows;
   const [rowsFormateadas, setRows] = useState([]);
-
-
-  //no esta el endpoint en back para traer admins
+    
   const fetchData = () => {
     axiosInstance.get("/users").then((response) => {
       rows = response.data.administrators;
