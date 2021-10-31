@@ -13,12 +13,19 @@ import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
+import { UpdateGridContext } from "../../containers/ListarPersonas/index";
 
 Personas.propTypes = {
   rows: propTypes.array,
+  setRows: propTypes.func,
 };
 
-const Acciones = ({ personRow }) => {
+Acciones.propTypes = {
+  personRow: propTypes.any,
+};
+
+function Acciones({ personRow }) {
+  const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [notify, setNotify] = React.useState({
@@ -29,7 +36,7 @@ const Acciones = ({ personRow }) => {
   });
 
   const classes = useStyles();
-  const [personData] = React.useState({
+  const personData = {
     id: personRow.id,
     first_name: personRow.firstName,
     last_name: personRow.lastName,
@@ -38,7 +45,7 @@ const Acciones = ({ personRow }) => {
     roles: personRow.roles.map((rol) => rol.trim()),
     tags: personRow.tags,
     technologies: personRow.technologies || [],
-  });
+  };
 
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
@@ -72,6 +79,8 @@ const Acciones = ({ personRow }) => {
                   personData={personData}
                   id={personData.id}
                   setNotify={setNotify}
+                  onClose={handleEditClose}
+                  editRow={editRow.current}
                 />
               </Box>
             </Modal>
@@ -88,6 +97,7 @@ const Acciones = ({ personRow }) => {
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"
+              fullWidth
               aria-labelledby="confirmation-dialog-title"
             >
               <EliminarPersona
@@ -95,6 +105,7 @@ const Acciones = ({ personRow }) => {
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
                 setNotify={setNotify}
+                removeRow={removeRow.current}
               />
             </Dialog>
           </React.Fragment>
@@ -103,7 +114,7 @@ const Acciones = ({ personRow }) => {
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
-};
+}
 
 const columns = [
   {
@@ -154,30 +165,51 @@ const columns = [
   },
 ];
 
-Acciones.propTypes = {
-  personRow: propTypes.any,
-};
-
-export default function Personas({ rows }) {
+export default function Personas({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
-  const classes = useStyles();
   const [notify, setNotify] = React.useState({
     isOpen: false,
     message: "",
     type: "success",
     reload: false,
   });
-
-  const handleNewOpen = () => setOpenNew(true);
-
-  const handleNewClose = () => setOpenNew(false);
-
   const [sortModel, setSortModel] = React.useState([
     {
       field: "fullName",
       sort: "asc",
     },
   ]);
+  const classes = useStyles();
+
+  const handleNewOpen = () => setOpenNew(true);
+
+  const handleNewClose = () => setOpenNew(false);
+
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
+  const removeRow = (personId) =>
+    setRows(rows.filter((row) => row.id != personId));
+  setRemoveRow.current = (personId) => removeRow(personId);
+
+  const editRow = (personData) =>
+    setRows(
+      rows.map((row) =>
+        row.id == personData.id
+          ? {
+              ...row,
+              fullName: personData.fullName,
+              firstName: personData.firstName,
+              lastName: personData.lastName,
+              email: personData.email,
+              cargaHoraria: personData.cargaHoraria,
+              tag: ".",
+              technologies: personData.technologies,
+            }
+          : row
+      )
+    );
+  setEditRow.current = (personData) => editRow(personData);
 
   return (
     <div
@@ -205,7 +237,11 @@ export default function Personas({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreatePerson setNotify={setNotify} />
+          <CreatePerson
+            setNotify={setNotify}
+            addRow={addRow}
+            onClose={handleNewClose}
+          />
         </Box>
       </Modal>
       <DataGrid

@@ -20,9 +20,17 @@ EditPerson.propTypes = {
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
-export default function EditPerson({ personData, id, setNotify }) {
+export default function EditPerson({
+  personData,
+  id,
+  setNotify,
+  onClose,
+  editRow,
+}) {
   var completeRoles = [
     ["Desarrollador", false],
     ["PM", false],
@@ -38,7 +46,6 @@ export default function EditPerson({ personData, id, setNotify }) {
     email: personData.email,
     working_hours: personData.working_hours,
     roles: completeRoles.map((rol) => {
-      console.log("->", rol[0], personData.roles);
       return [rol[0], personData.roles.indexOf(rol[0]) != -1];
     }),
     technologies: personData.technologies || [],
@@ -69,20 +76,33 @@ export default function EditPerson({ personData, id, setNotify }) {
         },
       })
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
+          let personInfo = response.data.person;
+          let person = {
+            id: personInfo.id,
+            fullName: personInfo.full_name,
+            firstName: personInfo.first_name,
+            lastName: personInfo.last_name,
+            email: personInfo.email,
+            cargaHoraria: personInfo.working_hours,
+            tag: ".",
+            technologies: personInfo.technologies,
+          };
+          editRow(person);
           setNotify({
             isOpen: true,
             message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
             type: "success",
-            reload: true,
+            reload: false,
           });
-        else
+        } else
           setNotify({
             isOpen: true,
             message: `Error inesperado.`,
             type: "error",
             reload: false,
           });
+        onClose();
       })
       .catch((error) => {
         console.error(error.response);
@@ -94,6 +114,7 @@ export default function EditPerson({ personData, id, setNotify }) {
             type: "error",
             reload: true,
           });
+          onClose();
         } else {
           let message = error.response.data.errors;
           setNotify({
@@ -108,7 +129,6 @@ export default function EditPerson({ personData, id, setNotify }) {
 
   const checkInput = (event, type) => {
     if (person.roles.indexOf(event) !== -1) {
-      console.log("in", event);
       let newRoles = person.roles;
       let i = 0;
       try {

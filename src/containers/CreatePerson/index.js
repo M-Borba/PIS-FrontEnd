@@ -20,9 +20,11 @@ CreatePerson.defaultProps = {
 };
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
+  addRow: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function CreatePerson({ setNotify }) {
+export default function CreatePerson({ setNotify, addRow, onClose }) {
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
@@ -38,15 +40,6 @@ export default function CreatePerson({ setNotify }) {
     ],
     technologies: [],
   });
-
-  const isValid = () => {
-    return (
-      person.first_name != "" &&
-      person.last_name != "" &&
-      person.email != "" &&
-      person.hourly_load != ""
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,20 +66,37 @@ export default function CreatePerson({ setNotify }) {
         },
       })
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
+          let personData = response.data.person;
+          personData.roles = personData.roles.map((role) => {
+            return `${rolesFormateados[role]} `;
+          });
+          let newRow = {
+            fullName: personData.full_name,
+            firstName: personData.first_name,
+            lastName: personData.last_name,
+            email: personData.email,
+            id: personData.id,
+            roles: personData.roles,
+            cargaHoraria: personData.working_hours,
+            tag: ".",
+            technologies: personData.technologies,
+          };
+          addRow(newRow);
           setNotify({
             isOpen: true,
             message: `La persona se creo con exito.`,
             type: "success",
-            reload: true,
+            reload: false,
           });
-        else
+        } else
           setNotify({
             isOpen: true,
             message: `Error inesperado.`,
             type: "error",
             reload: false,
           });
+        onClose();
       })
       .catch((error) => {
         console.error(error.response);
@@ -135,8 +145,8 @@ export default function CreatePerson({ setNotify }) {
     <div style={{ display: "flex" }}>
       <PersonForm
         title={"Creacion de persona"}
-        onSubmit={(e) => handleSubmit(e)}
-        onInputChange={(e) => checkInput(e)}
+        onSubmit={handleSubmit}
+        onInputChange={checkInput}
         person={person}
       />
       <TechnologyHandler

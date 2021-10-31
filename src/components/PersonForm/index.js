@@ -35,7 +35,7 @@ export default function PersonForm({
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+      <form className={classes.form} onSubmit={onSubmit}>
         <div style={{ display: "flex", gap: "5px" }}>
           <div>
             <TextField
