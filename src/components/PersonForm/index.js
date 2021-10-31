@@ -69,7 +69,7 @@ export default function PersonForm({
               required
               fullWidth
               id="email"
-              type="text"
+              type="email"
               label="Email Address"
               name="email"
               autoComplete="email"
