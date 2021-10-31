@@ -98,7 +98,6 @@ function InfoAsignacion({
         person_project: asignacionInfo,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.status == 200)
           setNotify({
             isOpen: true,
@@ -144,7 +143,6 @@ function InfoAsignacion({
     axiosInstance
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
-        console.log(response.data);
         if (response.status == 200)
           setNotify({
             isOpen: true,

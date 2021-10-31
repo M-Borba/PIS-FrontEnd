@@ -35,7 +35,6 @@ const Acciones = ({ personRow }) => {
     last_name: personRow.lastName,
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
-    roles: personRow.roles.map((rol) => rol.trim()),
     tags: personRow.tags,
     technologies: personRow.technologies || [],
   });
@@ -113,7 +112,7 @@ const columns = [
   },
   {
     field: "fullName",
-    headerName: "Nombre completo",
+    headerName: "Nombre Completo",
     sortable: true,
     flex: 1, //tamaño
   },
@@ -125,14 +124,8 @@ const columns = [
   },
   {
     field: "cargaHoraria",
-    headerName: "Carga horaria",
+    headerName: "Carga Horaria Semanal",
     flex: 0.7,
-  },
-  {
-    field: "roles",
-    headerName: "Roles",
-    sortable: false,
-    flex: 1.5,
   },
   {
     field: "technologies",
