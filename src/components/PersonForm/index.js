@@ -3,66 +3,78 @@ import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
+import TechnologyForm from "../TechnologyForm";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
-  onInputChange: propTypes.func,
+  setErrors: propTypes.func,
+  setPerson: propTypes.func,
   person: propTypes.shape({
     first_name: propTypes.string,
     last_name: propTypes.string,
     email: propTypes.string,
     working_hours: propTypes.number,
   }).isRequired,
-  error: propTypes.string,
+  errors: propTypes.object,
   title: propTypes.string,
 };
 
 export default function PersonForm({
   title,
   onSubmit,
-  onInputChange,
   person,
-  error,
+  setPerson,
+  errors,
+  setErrors,
 }) {
   const classes = useStyles();
+
+  const onInputChange = e => {
+    setErrors({});
+    setPerson(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <div style={{ display: "flex", gap: "5px" }}>
-          <div>
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <Grid container mt={3} spacing={2}>
+          <Grid item xs={12} md={6}>
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
               id="first_name"
+              name="first_name"
               type="text"
               label="Nombre"
               name="first_name"
               value={person.first_name}
               onChange={onInputChange}
-              autoFocus
-              inputProps={{ maxLength: 100 }}
+              error={!!errors?.first_name}
+              helperText={errors?.first_name?.[0]}
             />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <TextField
               variant="outlined"
-              margin="normal"
-              required
               fullWidth
               id="last_name"
+              name="last_name"
               type="text"
               label="Apellidos"
               name="last_name"
               value={person.last_name}
               onChange={onInputChange}
-              inputProps={{ maxLength: 100 }}
+              error={!!errors?.last_name}
+              helperText={errors?.last_name?.[0]}
             />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -75,7 +87,11 @@ export default function PersonForm({
               autoComplete="email"
               value={person.email}
               onChange={onInputChange}
+              error={!!errors?.email}
+              helperText={errors?.email?.[0]}
             />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <TextField
               inputProps={{ min: 0, max: 168 }}
               variant="outlined"
@@ -88,9 +104,14 @@ export default function PersonForm({
               id="working_hours"
               value={person.working_hours}
               onChange={onInputChange}
+              error={!!errors?.working_hours}
+              helperText={errors?.working_hours?.[0]}
             />
-          </div>
-        </div>
+          </Grid>
+          <Grid item xs={12}>
+            <TechnologyForm />
+          </Grid>
+        </Grid>
         <Button
           role="submit"
           type="submit"
@@ -101,12 +122,6 @@ export default function PersonForm({
         >
           Guardar
         </Button>
-
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
-
-        <Box mt={5}></Box>
       </form>
     </div>
   );
