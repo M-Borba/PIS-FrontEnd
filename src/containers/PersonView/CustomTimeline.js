@@ -11,6 +11,7 @@ import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
+import Notificacion from "../../components/Notificacion";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -31,6 +32,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     asignacionId: -1,
     projectName: "",
     personName: "",
+  });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
   });
 
   var groupsToAdd = [];
@@ -59,7 +66,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   };
 
   const fetchData = () => {
-    return axiosInstance.get("/person_project").then((response) => {
+    axiosInstance.get("/person_project").then((response) => {
       const rows = response.data.person_project;
       rows.map((ppl) => {
         var person = ppl.person;
@@ -72,7 +79,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         person.projects.map((proj) => {
           proj.dates.map((dt) => {
             var startDate = new Date(dt.start_date);
-            startDate.setDate(startDate.getDate() + 1);
+            startDate.setDate(startDate.getDate());
 
             const startValue = moment(startDate).valueOf();
 
@@ -89,8 +96,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             itemsToAdd.push({
               id: dt.id,
               group: person.id,
-              start: startValue,
-              end: endValue,
+              start: startValue + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+              end: endValue + 10800000,
               canResize: "both",
               canMove: false,
               title: proj.name + " - " + rolesFormateados[dt.role],
@@ -111,55 +118,56 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
-  const backendFormatDate = (date) => {
-    date = date.split("/");
-    let aux = date[0];
-    date[0] = date[2];
-    date[2] = date[1];
-    date[1] = aux;
-    return date.join("/");
-  };
-
   const handleItemResize = (itemId, time, edge) => {
     let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
 
-    // Cambio el item en backend
-    let start_value =
-      edge === "left"
-        ? moment(time).format("l")
-        : moment(items[itemIndex].start).format("l");
-    start_value = backendFormatDate(start_value);
-    let end_value =
-      edge === "left"
-        ? moment(items[itemIndex].end).format("l")
-        : moment(time).format("l");
-    end_value = backendFormatDate(end_value);
-    let requestBody = {
-      role: items[itemIndex].role,
-      working_hours: items[itemIndex].working_hours,
-      working_hours_type: items[itemIndex].working_hours_type,
-      start_date: start_value,
-      end_date: end_value,
-    };
-    axiosInstance
-      .put(`/person_project/${itemId}`, { person_project: requestBody })
-      .then((response) => {
-        console.log("Resized", itemId, time, edge);
-      })
-      .catch((error) => console.log(error.response));
-
     // Cambio en item en la timeline
-    let newItems = items;
-    newItems[itemIndex] = {
-      id: items[itemIndex].id,
-      group: items[itemIndex].group,
+    let currentItem = items[itemIndex];
+    let newItem = {
+      ...items[itemIndex],
       start: edge === "left" ? time : items[itemIndex].start,
       end: edge === "left" ? items[itemIndex].end : time,
-      canResize: "both",
-      canMove: false,
-      title: items[itemIndex].title,
     };
-    setItems(newItems);
+    setItems(items.map((item) => (item.id == itemId ? newItem : item)));
+
+    // Cambio el item en backend
+    let requestBody = {
+      role: undefined,
+      working_hours: undefined,
+      working_hours_type: undefined,
+      start_date:
+        edge === "left"
+          ? moment(time).format("yyyy-MM-DD")
+          : moment(items[itemIndex].start).format("yyyy-MM-DD"),
+      end_date:
+        edge === "left"
+          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
+          : moment(time - 86400000).format("yyyy-MM-DD"),
+    };
+
+    axiosInstance
+      .put(`/person_project/${itemId}`, { person_project: requestBody })
+      .then()
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.status == 400)
+          setNotify({
+            isOpen: true,
+            message:
+              error.response.data.errors.start_date ??
+              error.response.data.errors.end_date,
+            type: "error",
+            reload: false,
+          });
+        else if (error.response.status == 404)
+          setNotify({
+            isOpen: true,
+            message: error.response.data.error,
+            type: "error",
+            reload: true,
+          });
+        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+      });
   };
 
   // Asignacion
@@ -181,7 +189,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
   const handleItemClick = (itemId, e, time) => {
     let itemObject = items.find((item) => item.id == itemId);
-    console.log(itemObject);
     let projectName = itemObject.title;
     let personName = groups.find((group) => group.id == itemObject.group).title;
     setInfoAssignObject({
@@ -250,6 +257,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           asignacionId={parseInt(infoAssignObject.asignacionId)}
           onClose={handleInfoAsignacionClose}
         />
+        <Notificacion notify={notify} setNotify={setNotify} />
       </Fragment>
     );
   }

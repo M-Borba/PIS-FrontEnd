@@ -4,23 +4,19 @@ exports[`renders learn react link 1`] = `
 <div>
   <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-align-items-xs-center MuiGrid-justify-content-xs-center"
+      class="makeStyles-container-8 MuiBox-root css-0"
     >
       <div
-        class="MuiGrid-root MuiGrid-item MuiGrid-grid-sm-12 MuiGrid-grid-md-3"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 makeStyles-paper-9 css-3su884-MuiPaper-root"
+          class="MuiBox-root css-dvxtzn"
         >
-          <span
-            class="makeStyles-imgcontainer-8"
-          >
-            <img
-              alt="effectus wallpaper"
-              src="effectus_wallpaper.png"
-              width="27%"
-            />
-          </span>
+          <img
+            alt="Logo"
+            class="makeStyles-imgcontainer-9"
+            src="effectus_wallpaper.png"
+          />
           <div
             class="makeStyles-paper-10"
             data-testid="login"
@@ -32,6 +28,7 @@ exports[`renders learn react link 1`] = `
             </h1>
             <form
               class="makeStyles-form-11"
+              novalidate=""
             >
               <div
                 class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
