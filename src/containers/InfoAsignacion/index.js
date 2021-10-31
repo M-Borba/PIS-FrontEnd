@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { rolesFormateados } from "../../config/globalVariables";
 import propTypes from "prop-types";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";

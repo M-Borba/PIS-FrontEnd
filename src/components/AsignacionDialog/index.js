@@ -81,7 +81,7 @@ function AsignacionDialog({
           <Stack spacing={2} divider={<Divider flexItem />}>
             <TextField
               select
-              fullwidth
+              fullWidth
               required
               autoFocus
               name="project"
@@ -99,7 +99,7 @@ function AsignacionDialog({
               name="rol"
               label="Rol"
               value={datos.role}
-              onChange={(e) => onInputChange(e)}
+              onChange={onInputChange}
             >
               {rolItems}
             </TextField>
