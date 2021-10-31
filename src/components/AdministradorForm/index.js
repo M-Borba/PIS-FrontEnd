@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import propTypes from "prop-types";
 import { Button, TextField, Box, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
-import CardSelector from "../CardSelector";
+import Grid from "@mui/material/Grid";
 
 AdministratorForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
   administrator: propTypes.shape({
     email: propTypes.string,
+    first_name: propTypes.string,
+    last_name: propTypes.string,
     password: propTypes.string,
     password_confirmation: propTypes.string,
   }).isRequired,
@@ -31,43 +33,77 @@ export default function AdministratorForm({
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          type="email"
-          label="Email"
-          name="email"
-          value={administrator.email}
-          onChange={onInputChange}
-          autoFocus
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="password"
-          type="password"
-          label="Password"
-          name="password"
-          value={administrator.password}
-          onChange={onInputChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="password_confirmation"
-          type="password"
-          label="Password Confirmation"
-          name="password_confirmation"
-          value={administrator.password_confirmation}
-          onChange={onInputChange}
-        />
+        <Grid container rowSpacing={0} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              type="email"
+              label="Email"
+              name="email"
+              value={administrator.email}
+              onChange={onInputChange}
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="first_name"
+              type="text"
+              label="Nombre"
+              name="first_name"
+              value={administrator.first_name}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="last_name"
+              type="text"
+              label="Apellido"
+              name="last_name"
+              value={administrator.last_name}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              type="password"
+              label="Contraseña"
+              name="password"
+              value={administrator.password}
+              onChange={onInputChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="password_confirmation"
+              type="password"
+              label="Confirmación de contraseña"
+              name="password_confirmation"
+              value={administrator.password_confirmation}
+              onChange={onInputChange}
+            />
+          </Grid>
+        </Grid>
         <div style={{ paddingTop: 10 }} />
         <Button
           role="submit"

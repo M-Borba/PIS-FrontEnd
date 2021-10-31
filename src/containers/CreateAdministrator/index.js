@@ -14,6 +14,8 @@ CreateAdministrator.propTypes = {
 export default function CreateAdministrator({ setNotify }) {
     const [administrator, setAdministrator] = useState({
         email: "",
+    first_name: "",
+    last_name: "",
         password: "",
         password_confirmation: ""
     });
@@ -65,6 +67,8 @@ export default function CreateAdministrator({ setNotify }) {
             setAdministrator({...administrator, password: e.target.value});
         } else if (e.target.id == "password_confirmation") {
                 setAdministrator({...administrator, password_confirmation: e.target.value});
+    } else if (e.target.id == "last_name") {
+      setAdministrator({ ...administrator, last_name: e.target.value });
             }
         if ((e.target.id == "password" || e.target.id == "password_confirmation") && !(administrator.password == administrator.password_confirmation))
             setNotify({
