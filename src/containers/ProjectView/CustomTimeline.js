@@ -66,43 +66,44 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   };
 
   const fetchData = async () => {
-
-    axiosInstance.get("/projects").then((response) => {
-      const rows = response.data.projects;
-      rows.map((proj) => {
-        groupsToAdd.push({
-          id: proj.id,
-          title: proj.name,
-          bgColor: randomColor({ luminosity: "light" }),
+    axiosInstance
+      .get("/projects")
+      .then((response) => {
+        const rows = response.data.projects;
+        rows.map((proj) => {
+          groupsToAdd.push({
+            id: proj.id,
+            title: proj.name,
+            bgColor: randomColor({ luminosity: "light" }),
+          });
+          setGroups(groupsToAdd);
+          const startDate = new Date(proj.start_date);
+          const startValue = moment(startDate).valueOf();
+          const endDate = new Date(proj.end_date);
+          const endValue = moment(endDate).valueOf();
+          itemsToAdd.push({
+            id: proj.id,
+            group: proj.id,
+            start: startValue,
+            end: endValue,
+            canMove: startValue > new Date().getTime(),
+            canResize: "both",
+            className:
+              moment(startDate).day() === 6 || moment(startDate).day() === 0
+                ? "item-weekend"
+                : "",
+          });
         });
-        setGroups(groupsToAdd);
-        const startDate = new Date(proj.start_date);
-        const startValue = moment(startDate).valueOf();
-        const endDate = new Date(proj.end_date);
-        const endValue = moment(endDate).valueOf();
-        itemsToAdd.push({
-          id: proj.id,
-          group: proj.id,
-          start: startValue,
-          end: endValue,
-          canMove: startValue > new Date().getTime(),
-          canResize: "both",
-          className:
-            moment(startDate).day() === 6 || moment(startDate).day() === 0
-              ? "item-weekend"
-              : "",
-        });
-      });
-      setItems(itemsToAdd);
-    }).catch(error => setNotify({
-      ...notify,
-      isOpen: true,
-      message: "No se pudieron cargar los datos de los proyectos",
-      type: "error",
-    }));
-
-
-
+        setItems(itemsToAdd);
+      })
+      .catch((error) =>
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "No se pudieron cargar los datos de los proyectos",
+          type: "error",
+        })
+      );
   };
   useEffect(() => {
     fetchData();
@@ -120,7 +121,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
   if (groups.length > 0 && items.length > 0 && !isProjectView) {
-
     return (
       <Fragment>
         <Timeline
