@@ -130,11 +130,10 @@ export default function PersonForm({
               <TextField
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 id="email"
                 type="email"
-                label="Email Address"
+                label="Email"
                 name="email"
                 autoComplete="email"
                 value={person.email}
@@ -148,7 +147,6 @@ export default function PersonForm({
                 inputProps={{ min: 0, max: 168 }}
                 variant="outlined"
                 margin="normal"
-                required
                 fullWidth
                 name="working_hours"
                 label="Horas Semanales"
