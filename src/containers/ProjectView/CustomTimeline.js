@@ -17,7 +17,6 @@ import { useStyles } from "./styles";
 
 import InfoProyecto from "../../containers/InfoProyecto";
 
-
 var keys = {
   groupIdKey: "id",
   groupTitleKey: "title",
@@ -72,7 +71,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       setGroups(groupsToAdd);
       const startDate = new Date(proj.start_date);
       const startValue = moment(startDate).valueOf();
-      const endDate = !proj.end_date ? new Date(2050, 1, 1) : new Date(proj.end_date);
+      const endDate = !proj.end_date
+        ? new Date(2050, 1, 1)
+        : new Date(proj.end_date);
       const endValue = moment(endDate).valueOf();
       itemsToAdd.push({
         id: proj.id,
@@ -94,12 +95,10 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   }, []);
 
   const handleItemClick = async (itemId) => {
-
     axiosInstance.get("/projects/" + itemId).then((response) => {
       var data = response.data.project;
       setProjectData(data);
       setOpenInfo(true);
-
     });
   };
 
@@ -109,7 +108,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   if (groups.length > 0 && items.length > 0 && !isProjectView) {
     return (
       <Fragment>
-
         <Timeline
           groups={groups}
           items={items}
@@ -132,7 +130,10 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
               {({ getRootProps }) => {
                 return (
                   <div {...getRootProps()}>
-                    <Switcher onSwitch={onSwitch} isProjectView={isProjectView} />
+                    <Switcher
+                      onSwitch={onSwitch}
+                      isProjectView={isProjectView}
+                    />
                   </div>
                 );
               }}
@@ -142,11 +143,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           </TimelineHeaders>
         </Timeline>
 
-        <Modal
-          open={openInfo}
-          onClose={handleInfoClose}
-          disableEnforceFocus
-        >
+        <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>
             <IconButton
               aria-label="Close"
@@ -163,8 +160,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           </Box>
         </Modal>
       </Fragment>
-
-
     );
   }
   return null;
