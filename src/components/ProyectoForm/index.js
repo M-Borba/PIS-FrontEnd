@@ -93,6 +93,7 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.name}
               helperText={errors?.name?.[0]}
+              inputProps={{ maxLength: 30 }}
             />
           </Grid>
           <Grid item xs={12} md={4}>
@@ -152,6 +153,7 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.description}
               helperText={errors?.description?.[0]}
+              inputProps={{ maxLength: 500 }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -212,6 +214,7 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.organization}
               helperText={errors?.organization?.[0]}
+              inputProps={{ maxLength: 100 }}
             />
           </Grid>
 
