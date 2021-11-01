@@ -28,7 +28,7 @@ export default function Login({
       <Typography component="h1" variant="h5">
         Iniciar sesión
       </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
