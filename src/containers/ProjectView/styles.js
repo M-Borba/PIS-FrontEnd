@@ -6,11 +6,10 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    // width: 800,
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
-    maxHeight: "85vh",
-    overflow: "auto",
     p: 4,
   },
   modalInfo: {
@@ -18,11 +17,14 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    // width: 1000,
+    // maxHeight: 600,
     height: "65%",
     width: "30%",
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
+    // p: 4,
     overflow: "scroll",
     overflowX: "hidden",
   },
@@ -35,9 +37,5 @@ export const useStyles = makeStyles((theme) => ({
   box: {
     display: "flex",
     padding: 8,
-  },
-  rightBox: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
   },
 }));

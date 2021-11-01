@@ -17,12 +17,11 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status == 401) {
+    if (error.response.status === 401) {
       localStorage.setItem("uid", NOT_LOGGED);
-      window.location = "/login";
-    } else {
-      return Promise.reject(error);
+      if (window.location.pathname !== "/login") window.location = "/login";
     }
+    return Promise.reject(error);
   }
 );
 

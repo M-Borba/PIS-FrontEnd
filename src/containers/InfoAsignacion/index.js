@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { rolesFormateados } from "../../config/globalVariables";
 import propTypes from "prop-types";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
@@ -99,7 +98,6 @@ function InfoAsignacion({
         person_project: asignacionInfo,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.status == 200)
           setNotify({
             isOpen: true,
@@ -145,7 +143,6 @@ function InfoAsignacion({
     axiosInstance
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
-        console.log(response.data);
         if (response.status == 200)
           setNotify({
             isOpen: true,
