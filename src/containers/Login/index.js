@@ -61,8 +61,7 @@ export default function LoginView() {
           localStorage.setItem("uid", headers.uid);
           setPassword("");
           setPasswordReset(true);
-        }
-        else {
+        } else {
           setLoginError(error.response?.data?.error);
         }
       });
@@ -73,7 +72,7 @@ export default function LoginView() {
     axiosInstance
       .put("/users/password", {
         password: password,
-        password_confirmation: passwordConfirmation
+        password_confirmation: passwordConfirmation,
       })
       .then((response) => {
         history.push("/Inicio");
@@ -84,12 +83,12 @@ export default function LoginView() {
       });
   };
 
-
   const checkInput = (e) => {
     setLoginError("");
     if (e.target.name == "email") setEmail(e.target.value);
     if (e.target.name == "password") setPassword(e.target.value);
-    if (e.target.name == "passwordConfirmation") setPasswordConfirmation(e.target.value);
+    if (e.target.name == "passwordConfirmation")
+      setPasswordConfirmation(e.target.value);
   };
   if (!needsPasswordReset)
     return (
