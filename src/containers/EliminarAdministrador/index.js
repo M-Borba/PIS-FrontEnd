@@ -62,11 +62,11 @@ function EliminarAdministrador({
   };
 
   return (
-      <DeleteDialogContent
-        dialogContent={dialogContent}
-        onClose={handleClose}
-        onConfirmation={onConfirmation}
-      />
+    <DeleteDialogContent
+      dialogContent={dialogContent}
+      onClose={handleClose}
+      onConfirmation={onConfirmation}
+    />
   );
 }
 

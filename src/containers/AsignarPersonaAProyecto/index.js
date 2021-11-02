@@ -47,7 +47,6 @@ export default function AgregarPersona({ projectData, setNotify }) {
   };
 
   const handleSubmit = (e) => {
-    console.log("called");
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");

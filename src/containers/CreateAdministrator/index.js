@@ -31,21 +31,21 @@ export default function CreateAdministrator({ setNotify }) {
         },
       })
       .then(() => {
-          setNotify({
-            isOpen: true,
-            message: `El administrador se creo con exito.`,
-            type: "success",
-            reload: true,
-          });
+        setNotify({
+          isOpen: true,
+          message: `El administrador se creo con exito.`,
+          type: "success",
+          reload: true,
+        });
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);
       });
-  }
+  };
 
   const handleInputChange = (e) => {
     setErrors({});
-    setAdministrator((prev)=> ({...prev, [e.target.id]: e.target.value}));
+    setAdministrator((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   return (

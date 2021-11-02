@@ -1,111 +1,144 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Chip from "@material-ui/core/Chip";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+import Typography from "@material-ui/core/Typography";
+import MuiChip from "@material-ui/core/Chip";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import { useStyles } from "./styles";
+import randomColor from "randomcolor";
 
-const filter = createFilterOptions();
-TechnologyForm.defaultProps = {
-  techList: [],
-  selectedList: [],
-};
 TechnologyForm.propTypes = {
-  onAdd: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  techList: PropTypes.array,
-  inputTech: PropTypes.string,
-  selectedList: PropTypes.array,
-  onInputChange: PropTypes.func.isRequired,
-  senioritySelected: PropTypes.string,
-  setSeniority: PropTypes.func,
+  defaultTechs: PropTypes.array,
+  technologies: PropTypes.array,
+  addTechnology: PropTypes.func,
+  removeTechnology: PropTypes.func,
+  setTechnologiesError: PropTypes.func,
+  setAllErrors: PropTypes.func,
+  error: PropTypes.string,
+  technologiesError: PropTypes.object,
+  tech: PropTypes.object,
+  setTech: PropTypes.func,
 };
 
 export default function TechnologyForm({
-  onAdd,
-  onRemove,
-  techList,
-  selectedList,
-  senioritySelected,
-  setSeniority,
-  inputTech,
-  onInputChange,
+  defaultTechs,
+  technologies,
+  addTechnology,
+  removeTechnology,
+  setTechnologiesError,
+  technologiesError,
+  error,
+  setAllErrors,
+  tech,
+  setTech,
 }) {
   const classes = useStyles();
 
+  const handleChange = (e) => {
+    setAllErrors({});
+    setTechnologiesError({});
+    setTech((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
-    <div className={classes.paper} data-testid="login">
-      <Autocomplete
-        selectOnFocus
-        isOptionEqualToValue={() => true}
-        clearOnBlur
-        handleHomeEndKeys
-        fullWidth
-        id="tech-combo-box"
-        options={techList.map((obj) => obj.name)}
-        value={inputTech}
-        inputValue={inputTech}
-        onChange={onInputChange}
-        onInputChange={onInputChange}
-        renderInput={(params) => <TextField {...params} label="Tecnología" />}
-        renderOption={(props, option) => <li {...props}>{option}</li>}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-
-          const { inputValue } = params;
-          // Suggest the creation of a new value
-          const isExisting = options.some((option) => inputValue === option);
-          if (inputValue !== "" && !isExisting) filtered.push(inputValue);
-          return filtered;
-        }}
-      />
-      {senioritySelected && (
-        <Select
-          id="seniority"
-          value={senioritySelected}
-          label="experiencia"
-          onChange={(e) => setSeniority(e.target.value)}
-        >
-          <MenuItem value={"senior"}>senior</MenuItem>
-          <MenuItem value={"semi-senior"}>semi-senior</MenuItem>
-          <MenuItem value={"junior"}>junior</MenuItem>
-        </Select>
-      )}
-
-      <Button
-        role="submit"
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-        onClick={() => onAdd([inputTech, senioritySelected])}
-      >
-        Agregar tecnología ⬇️
-      </Button>
-
-      <div className={classes.techsChips}>
-        {senioritySelected
-          ? selectedList.map(([inputTech, seniority]) => (
-              <Chip
-                key={inputTech}
-                label={inputTech + " - " + seniority}
-                variant="outlined"
-                onDelete={() => onRemove([inputTech, seniority])}
-              />
-            ))
-          : selectedList.map((inputTech) => (
-              <Chip
-                key={inputTech}
-                label={inputTech}
-                variant="outlined"
-                onDelete={() => onRemove(inputTech)}
-              />
-            ))}
-      </div>
-    </div>
+    <Box id="technology-form" className={classes.container}>
+      <Grid container spacing={1}>
+        <Grid item xs={5}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            error={!!technologiesError?.technology}
+          >
+            <InputLabel id="technology-select">Tecnologia</InputLabel>
+            <Select
+              label="Tecnologia"
+              id="technology"
+              labelId="technology-select"
+              name="technology"
+              onChange={handleChange}
+              value={tech.technology}
+            >
+              {defaultTechs?.map((option, index) => (
+                <MenuItem key={`default-tech-${index}`} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>{technologiesError?.technology}</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item xs={5}>
+          <FormControl
+            variant="outlined"
+            fullWidth
+            error={!!technologiesError?.seniority}
+          >
+            <InputLabel id="seniority-select">Seniority</InputLabel>
+            <Select
+              label="Seniority"
+              id="seniority"
+              labelId="seniority-select"
+              name="seniority"
+              onChange={handleChange}
+              value={tech.seniority}
+            >
+              <MenuItem value="senior">Senior</MenuItem>
+              <MenuItem value="semi-senior">Semi senior</MenuItem>
+              <MenuItem value="junior">Junior</MenuItem>
+            </Select>
+            <FormHelperText>{technologiesError?.seniority}</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid item xs={2}>
+          <Box display="flex" justifyContent="center" mt={1}>
+            <IconButton color="primary" onClick={addTechnology}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+        </Grid>
+      </Grid>
+      <Box display="flex" justifyContent="center">
+        <Typography color="error">{error}</Typography>
+      </Box>
+      <Box mt={2}>
+        <Grid container spacing={1}>
+          {technologies?.map((tech, index) => (
+            <Grid key={`tech-${index}`} item>
+              <Chip tech={tech} onDelete={removeTechnology} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Box>
   );
 }
+
+const Chip = ({ onDelete, tech }) => {
+  const color = useMemo(() => randomColor({ luminosity: "light" }), [tech]);
+  const capitalizeSeniority = {
+    senior: "Senior",
+    "semi-senior": "Semi senior",
+    junior: "Junior",
+  };
+
+  return (
+    <MuiChip
+      style={{ backgroundColor: color }}
+      label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
+      variant="outlined"
+      onDelete={() => onDelete(tech)}
+    />
+  );
+};
+
+Chip.propTypes = {
+  onDelete: PropTypes.func,
+  tech: PropTypes.array,
+};
