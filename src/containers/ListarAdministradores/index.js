@@ -4,14 +4,14 @@ import Administradores from "../../components/Administradores";
 import { Typography } from "@material-ui/core";
 
 export default function ListarAdministradores() {
-  var rows;
+  let rows;
   const [rowsFormateadas, setRows] = useState([]);
-    
+
   const fetchData = () => {
     axiosInstance.get("/users").then((response) => {
       rows = response.data.administrators;
 
-      let rowsNuevas = rows.map((row) => {
+      const rowsNuevas = rows.map((row) => {
         return {
           id: row.id,
           email: row.email,

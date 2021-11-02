@@ -14,7 +14,7 @@ AdministratorForm.propTypes = {
     password: propTypes.string,
     password_confirmation: propTypes.string,
   }).isRequired,
-  error: propTypes.string,
+  errors: propTypes.object,
   title: propTypes.string,
 };
 
@@ -23,7 +23,7 @@ export default function AdministratorForm({
   onSubmit,
   onInputChange,
   administrator,
-  error,
+  errors,
 }) {
   const classes = useStyles();
 
@@ -32,13 +32,12 @@ export default function AdministratorForm({
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+      <form className={classes.form} noValidate onSubmit={(e) => onSubmit(e)}>
         <Grid container rowSpacing={0} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
           <Grid item xs={12}>
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="email"
               type="email"
@@ -46,6 +45,8 @@ export default function AdministratorForm({
               name="email"
               value={administrator.email}
               onChange={onInputChange}
+              error={!!errors?.email}
+              helperText={errors?.email?.[0]}
               autoFocus
             />
           </Grid>
@@ -79,13 +80,14 @@ export default function AdministratorForm({
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="password"
               type="password"
               label="Contraseña"
               name="password"
               value={administrator.password}
+              error={!!errors?.password}
+              helperText={errors?.password?.[0]}
               onChange={onInputChange}
             />
           </Grid>
@@ -93,13 +95,14 @@ export default function AdministratorForm({
             <TextField
               variant="outlined"
               margin="normal"
-              required
               fullWidth
               id="password_confirmation"
               type="password"
               label="Confirmación de contraseña"
               name="password_confirmation"
               value={administrator.password_confirmation}
+              error={!!errors?.password_confirmation}
+              helperText={errors?.password_confirmation?.[0]}
               onChange={onInputChange}
             />
           </Grid>
@@ -115,11 +118,6 @@ export default function AdministratorForm({
         >
           Confirmar
         </Button>
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
-
-        <Box mt={5}></Box>
       </form>
     </div>
   );

@@ -11,7 +11,13 @@ EliminarAdministrador.propTypes = {
   setNotify: PropTypes.func.isRequired,
 };
 
-function EliminarAdministrador({ administratorEmail, administratorName, administratorId, handleClose, setNotify }) {
+function EliminarAdministrador({
+  administratorEmail,
+  administratorName,
+  administratorId,
+  handleClose,
+  setNotify,
+}) {
   const dialogContent = `Esta seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
 
   const onConfirmation = () => {
@@ -56,13 +62,11 @@ function EliminarAdministrador({ administratorEmail, administratorName, administ
   };
 
   return (
-    <Fragment>
       <DeleteDialogContent
         dialogContent={dialogContent}
         onClose={handleClose}
         onConfirmation={onConfirmation}
       />
-    </Fragment>
   );
 }
 
