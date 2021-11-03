@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import LoginView from "./containers/Login";
 import Header from "./components/Header";
-import Administradores from "./components/Administradores";
+import ListarAdministradores from "./containers/ListarAdministradores";
 import ListarPersonas from "./containers/ListarPersonas";
 import ListarProyectos from "./containers/ListarProyectos";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -40,7 +40,7 @@ export default function App() {
             {uid == NOT_LOGGED && <Redirect to="/login" />}
             <Route path="/personas" component={ListarPersonas} />
             <Route path="/proyectos" component={ListarProyectos} />
-            <Route path="/administradores" component={Administradores} />
+            <Route path="/administradores" component={ListarAdministradores} />
             <Route path={["/", "/inicio"]}>
               <>
                 <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
