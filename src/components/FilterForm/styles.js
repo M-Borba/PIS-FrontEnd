@@ -1,8 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(8, 4),
+  container: {
+    margin: "1vh 2vw",
+  },
+  comboBox: {
+    width: "50%",
   },
   form: {
     width: "100%", // Fix IE 11 issue.

@@ -3,28 +3,27 @@
 exports[`login component tests renders correctly 1`] = `
 <div>
   <div
-    class="makeStyles-paper-1"
-    data-testid="login"
+    class="makeStyles-container-1"
   >
-    <h1
-      class="MuiTypography-root MuiTypography-h5"
+    <h6
+      class="MuiTypography-root MuiTypography-h6"
     >
       Filtros
-    </h1>
+    </h6>
     <form
-      class="makeStyles-form-2"
+      class="makeStyles-form-3"
       novalidate=""
     >
       <div
         class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-focused Mui-focused Mui-required Mui-required"
-          data-shrink="true"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+          data-shrink="false"
           for="project_type"
           id="project_type-label"
         >
-          tipo de proyecto
+          Tipo de proyecto
           <span
             aria-hidden="true"
             class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
@@ -34,7 +33,7 @@ exports[`login component tests renders correctly 1`] = `
           </span>
         </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth Mui-focused Mui-focused MuiInputBase-formControl"
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
         >
           <input
             aria-invalid="false"
@@ -48,13 +47,92 @@ exports[`login component tests renders correctly 1`] = `
           />
           <fieldset
             aria-hidden="true"
-            class="PrivateNotchedOutline-root-4 MuiOutlinedInput-notchedOutline"
+            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
           >
             <legend
-              class="PrivateNotchedOutline-legendLabelled-6 PrivateNotchedOutline-legendNotched-7"
+              class="PrivateNotchedOutline-legendLabelled-7"
             >
               <span>
-                tipo de proyecto
+                Tipo de proyecto
+                 *
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="MuiInputBase-root MuiInput-root MuiInput-underline makeStyles-comboBox-2"
+      >
+        <div
+          aria-haspopup="listbox"
+          aria-labelledby="project_state project_state"
+          class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+          id="project_state"
+          role="button"
+          tabindex="0"
+        >
+          <span>
+            ​
+          </span>
+        </div>
+        <input
+          aria-hidden="true"
+          class="MuiSelect-nativeInput"
+          name="project_state"
+          tabindex="-1"
+          value=""
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSelect-icon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
+      <div
+        class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-focused Mui-focused Mui-required Mui-required"
+          data-shrink="true"
+          for="organization"
+          id="organization-label"
+        >
+          Organización
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth Mui-focused Mui-focused MuiInputBase-formControl"
+        >
+          <input
+            aria-invalid="false"
+            autocomplete="organization"
+            class="MuiInputBase-input MuiOutlinedInput-input"
+            id="organization"
+            name="organization"
+            required=""
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
+            >
+              <span>
+                Organización
                  *
               </span>
             </legend>
@@ -62,7 +140,7 @@ exports[`login component tests renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-3 MuiButton-containedPrimary MuiButton-fullWidth"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-4 MuiButton-containedPrimary MuiButton-fullWidth"
         role="submit"
         tabindex="0"
         type="submit"
@@ -88,7 +166,7 @@ exports[`login component tests renders correctly 1`] = `
         />
       </button>
       <div
-        class="MuiBox-root MuiBox-root-8"
+        class="MuiBox-root MuiBox-root-9"
       />
     </form>
   </div>

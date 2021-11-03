@@ -45,6 +45,11 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+    organization: "",
+  });
 
   const classes = useStyles();
 
@@ -126,15 +131,24 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
+  const onFilterChange = (e) => {
+    e.target.name == "project_type" &&
+      setFilters({ ...filters, project_type: e.target.value });
+    e.target.name == "project_state" &&
+      setFilters({ ...filters, project_state: e.target.value });
+    e.target.id == "organization" &&
+      setFilters({ ...filters, organization: e.target.value });
+  };
+
   if (groups.length > 0 && items.length > 0 && !isProjectView) {
     return (
       <Fragment>
         <FilterForm
-          onSunmit={() =>
-            isProjectView
-              ? console.log("call al backend para ver projectos")
-              : console.log("call al backend para ver personas")
-          }
+          onSubmit={() => console.log("call al backend para ver projectos")}
+          onInputChange={onFilterChange}
+          project_state={filters.project_state}
+          project_type={filters.project_type}
+          organization={filters.organization}
         />
         <Timeline
           groups={groups}
