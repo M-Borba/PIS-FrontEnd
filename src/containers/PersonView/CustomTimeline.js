@@ -12,6 +12,7 @@ import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
+import FilterForm from "../../components/FilterForm";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -229,6 +230,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   if (groups.length > 0 && isProjectView) {
     return (
       <Fragment>
+        <FilterForm
+          onSunmit={() => console.log("call al backend para ver projectos")}
+        />
         <Timeline
           groups={groups}
           items={items}

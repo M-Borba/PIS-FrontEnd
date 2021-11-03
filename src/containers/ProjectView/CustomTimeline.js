@@ -16,7 +16,11 @@ import "./style.css";
 import { useStyles } from "./styles";
 
 import InfoProyecto from "../../containers/InfoProyecto";
+<<<<<<< HEAD
 import Notificacion from "../../components/Notificacion";
+=======
+import FilterForm from "../../components/FilterForm";
+>>>>>>> 310d3494 (form incompleto colocado en ambos timelines)
 
 var keys = {
   groupIdKey: "id",
@@ -125,6 +129,13 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   if (groups.length > 0 && items.length > 0 && !isProjectView) {
     return (
       <Fragment>
+        <FilterForm
+          onSunmit={() =>
+            isProjectView
+              ? console.log("call al backend para ver projectos")
+              : console.log("call al backend para ver personas")
+          }
+        />
         <Timeline
           groups={groups}
           items={items}
