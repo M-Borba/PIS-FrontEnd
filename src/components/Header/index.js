@@ -98,10 +98,6 @@ export default function Header() {
               anchorOrigin={anchorElPoint}
             >
               <MenuItem>
-                <AccountCircleIcon className={classes.mr5} /> Mi Perfil
-              </MenuItem>
-              <Divider />
-              <MenuItem>
                 <LogoutIcon fontSize="small" className={classes.mr5} />
                 <Link
                   className={classes.menuLink}

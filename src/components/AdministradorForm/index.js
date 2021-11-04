@@ -40,6 +40,7 @@ export default function AdministratorForm({
               margin="normal"
               fullWidth
               id="email"
+              required
               type="email"
               label="Email"
               name="email"
@@ -84,6 +85,7 @@ export default function AdministratorForm({
               id="password"
               type="password"
               label="Contraseña"
+              required
               name="password"
               value={administrator.password}
               error={!!errors?.password}
@@ -98,6 +100,7 @@ export default function AdministratorForm({
               fullWidth
               id="password_confirmation"
               type="password"
+              required
               label="Confirmación de contraseña"
               name="password_confirmation"
               value={administrator.password_confirmation}
