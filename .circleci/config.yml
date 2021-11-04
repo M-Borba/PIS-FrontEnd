@@ -25,6 +25,8 @@ plugins:
   nodesecurity:
     enabled: true
 checks:
+  similar-code:
+    enabled: false
   file-lines:
     enabled: true
     config:
