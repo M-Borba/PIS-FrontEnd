@@ -129,6 +129,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
       .then((response) => {
         setAsignacion({
           ...asignacion,
+
           people: response.data.people.map((row) => [
             row.id + " - " + row.full_name,
             false,

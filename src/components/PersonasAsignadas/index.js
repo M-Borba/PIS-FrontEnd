@@ -29,7 +29,6 @@ function formatDate(dateString) {
 
 export default function ListadoPersonasAsignadas({ people, removePerson }) {
   const classes = useStyles();
-  console.log(people);
   return (
     <div className={classes.paper}>
       <Grid item key={"people"}>

@@ -17,7 +17,7 @@ instance.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status == 401) {
       localStorage.setItem("uid", NOT_LOGGED);
       if (window.location.pathname !== "/login") window.location = "/login";
     }

@@ -16,6 +16,7 @@ import "./style.css";
 import { useStyles } from "./styles";
 
 import InfoProyecto from "../../containers/InfoProyecto";
+import Notificacion from "../../components/Notificacion";
 
 var keys = {
   groupIdKey: "id",
@@ -49,7 +50,12 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
 
   var groupsToAdd = [];
   var itemsToAdd = [];
-
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
   const customTimeSteps = {
     second: 0,
     minute: 0,
@@ -60,35 +66,46 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   };
 
   const fetchData = async () => {
-    const response = await axiosInstance.get("/projects");
-    const rows = response.data.projects;
-    rows.map((proj) => {
-      groupsToAdd.push({
-        id: proj.id,
-        title: proj.name,
-        bgColor: randomColor({ luminosity: "light" }),
-      });
-      setGroups(groupsToAdd);
-      const startDate = new Date(proj.start_date);
-      const startValue = moment(startDate).valueOf();
-      const endDate = !proj.end_date
-        ? new Date(2050, 1, 1)
-        : new Date(proj.end_date);
-      const endValue = moment(endDate).valueOf();
-      itemsToAdd.push({
-        id: proj.id,
-        group: proj.id,
-        start: startValue,
-        end: endValue,
-        canMove: startValue > new Date().getTime(),
-        canResize: "both",
-        className:
-          moment(startDate).day() === 6 || moment(startDate).day() === 0
-            ? "item-weekend"
-            : "",
-      });
-    });
-    setItems(itemsToAdd);
+    axiosInstance
+      .get("/projects")
+      .then((response) => {
+        const rows = response.data.projects;
+        rows.map((proj) => {
+          groupsToAdd.push({
+            id: proj.id,
+            title: proj.name,
+            bgColor: randomColor({ luminosity: "light" }),
+          });
+          setGroups(groupsToAdd);
+          const startDate = new Date(proj.start_date);
+          const startValue = moment(startDate).valueOf();
+          const endDate = !proj.end_date
+            ? new Date(2050, 1, 1)
+            : new Date(proj.end_date);
+          const endValue = moment(endDate).valueOf();
+          itemsToAdd.push({
+            id: proj.id,
+            group: proj.id,
+            start: startValue,
+            end: endValue,
+            canMove: startValue > new Date().getTime(),
+            canResize: "both",
+            className:
+              moment(startDate).day() === 6 || moment(startDate).day() === 0
+                ? "item-weekend"
+                : "",
+          });
+        });
+        setItems(itemsToAdd);
+      })
+      .catch((error) =>
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "No se pudieron cargar los datos de los proyectos",
+          type: "error",
+        })
+      );
   };
   useEffect(() => {
     fetchData();
@@ -162,5 +179,5 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       </Fragment>
     );
   }
-  return null;
+  return <Notificacion notify={notify} setNotify={setNotify} />;
 }
