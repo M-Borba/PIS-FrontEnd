@@ -16,8 +16,14 @@ ListadoPersonasAsignadas.propTypes = {
   removePerson: propTypes.func,
 };
 
+function formatDate(dateString) {
+  //formato actual: aaaa-MM-dd
+  return dateString.substring(8) + "-" + dateString.substring(5, 7) + "-" + dateString.substring(0, 4);
+}
+
 export default function ListadoPersonasAsignadas({ people, removePerson }) {
   const classes = useStyles();
+  console.log(people);
   return (
     <div className={classes.paper}>
       <Grid item key={"people"}>
@@ -49,7 +55,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
                           <ListItem key={asignation.id} role="listitem">
                             <ListItemText
                               primary={
-                                "  ↳" + rolesFormateados[asignation.role]
+                                "  ↳" + rolesFormateados[asignation.role] + " (" + formatDate(asignation.start_date) + " / " + formatDate(asignation.end_date) + ")"
                               }
                             />
                             <IconButton
