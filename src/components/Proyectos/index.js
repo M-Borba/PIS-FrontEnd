@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { axiosInstance } from "../../config/axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
@@ -32,7 +33,7 @@ const Acciones = ({ projectRow }) => {
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
-  const [personToRemove, setPersonToRemove] = React.useState(["", ""]);
+  const [personToRemove, setPersonToRemove] = React.useState([]);
 
   const classes = useStyles();
   const [notify, setNotify] = React.useState({
@@ -69,8 +70,8 @@ const Acciones = ({ projectRow }) => {
 
   const handleAssignedClose = () => setOpenAssigned(false);
 
-  const handleRemovePersonOpen = (id, name) => {
-    setPersonToRemove([id, name]);
+  const handleRemovePersonOpen = (pId, pName, aId, aRole) => {
+    setPersonToRemove([pId, pName, aId, aRole]);
     setOpenRemovePerson(true);
   };
 
@@ -81,6 +82,30 @@ const Acciones = ({ projectRow }) => {
 
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
+
+  const [asignaciones, setAsignaciones] = useState([]);
+
+  const fetchAsignaciones = () => {
+    return axiosInstance.get("/person_project").then((response) => {
+      let asignaciones = [];
+      response.data.person_project.map((person) => {
+        person.person.projects.map((project) => {
+          if (project.id == projectData.id) {
+            asignaciones.push({
+              id: person.person.id,
+              name: person.person.full_name,
+              roles: project.dates,
+            });
+          }
+        });
+      });
+      setAsignaciones(asignaciones);
+    });
+  };
+
+  useEffect(() => {
+    fetchAsignaciones();
+  }, []);
 
   return (
     <div
@@ -194,6 +219,8 @@ const Acciones = ({ projectRow }) => {
               <RemoverPersona
                 personName={personToRemove[1]}
                 personId={personToRemove[0]}
+                asignId={personToRemove[2]}
+                asignRole={personToRemove[3]}
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemovePersonClose}
@@ -214,7 +241,7 @@ const Acciones = ({ projectRow }) => {
                   <CloseIcon />
                 </IconButton>
                 <ListadoPersonasAsignadas
-                  people={projectRow.people}
+                  people={asignaciones}
                   removePerson={handleRemovePersonOpen}
                 />
               </Box>
