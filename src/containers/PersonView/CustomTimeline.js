@@ -141,7 +141,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .put(`/person_project/${itemId}`, { person_project: requestBody })
       .then()
       .catch((error) => {
-        console.log(error.response);
+        console.error(error.response);
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
         if (error.response.status == 400)
           setNotify({

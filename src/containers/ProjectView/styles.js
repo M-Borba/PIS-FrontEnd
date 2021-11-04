@@ -6,10 +6,27 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    // width: 800,
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+  },
+  modalInfo: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    // width: 1000,
+    // maxHeight: 600,
+    height: "65%",
+    width: "30%",
+    background: "white",
+    border: "2px solid #000",
+    boxShadow: 24,
+    // p: 4,
+    overflow: "scroll",
+    overflowX: "hidden",
   },
   closeButton: {
     position: "absolute",
@@ -17,25 +34,8 @@ export const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
   box: {
     display: "flex",
     padding: 8,
-  },
-  rightBox: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
   },
 }));

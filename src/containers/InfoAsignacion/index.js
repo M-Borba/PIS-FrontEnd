@@ -41,7 +41,6 @@ function InfoAsignacion({
     reload: false,
   });
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
-  const [roles, setRoles] = useState([]);
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
   const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
     projectName.split("-")[0]
@@ -53,23 +52,14 @@ function InfoAsignacion({
       axiosInstance
         .get(`/person_project/${asignacionId}`)
         .then((response) => {
-          if (response.status == 200) {
-            let asignacionData = response.data.person_project;
-            setAsignacionInfo({
-              role: asignacionData.role,
-              working_hours: asignacionData.working_hours,
-              working_hours_type: asignacionData.working_hours_type,
-              start_date: asignacionData.start_date,
-              end_date: asignacionData.end_date,
-            });
-            setRoles(asignacionData.person.roles);
-          } else
-            setNotify({
-              isOpen: true,
-              message: `Error inesperado`,
-              type: "error",
-              reload: false,
-            });
+          let asignacionData = response.data.person_project;
+          setAsignacionInfo({
+            role: asignacionData.role,
+            working_hours: asignacionData.working_hours,
+            working_hours_type: asignacionData.working_hours_type,
+            start_date: asignacionData.start_date,
+            end_date: asignacionData.end_date,
+          });
         })
         .catch((error) => {
           console.error(error);
@@ -103,27 +93,19 @@ function InfoAsignacion({
         person_project: asignacionInfo,
       })
       .then((response) => {
-        if (response.status == 200) {
-          let asignacion = response.data.person_project;
-          updateAsignacion(
-            asignacionId,
-            `${asignacion.project.name} - ${rolesFormateados[asignacion.role]}`,
-            asignacion.start_date,
-            asignacion.end_date
-          );
-          setNotify({
-            isOpen: true,
-            message: "Los cambios se aplicaron con exito.",
-            type: "success",
-            reload: false,
-          });
-        } else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado`,
-            type: "error",
-            reload: false,
-          });
+        let asignacion = response.data.person_project;
+        updateAsignacion(
+          asignacionId,
+          `${asignacion.project.name} - ${rolesFormateados[asignacion.role]}`,
+          asignacion.start_date,
+          asignacion.end_date
+        );
+        setNotify({
+          isOpen: true,
+          message: "Los cambios se aplicaron con exito.",
+          type: "success",
+          reload: false,
+        });
         onClose();
         setAsignacionInfo(initialState);
       })
@@ -160,21 +142,13 @@ function InfoAsignacion({
     axiosInstance
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
-        if (response.status == 200) {
-          removeAsignacion(asignacionId);
-          setNotify({
-            isOpen: true,
-            message: response.data.message,
-            type: "success",
-            reload: false,
-          });
-        } else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
-            reload: false,
-          });
+        removeAsignacion(asignacionId);
+        setNotify({
+          isOpen: true,
+          message: response.data.message,
+          type: "success",
+          reload: false,
+        });
       })
       .catch((error) => {
         console.error(error.response);
@@ -218,7 +192,6 @@ function InfoAsignacion({
       <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
         <InfoAsignacionDialog
           asignacionInfo={asignacionInfo}
-          roles={roles}
           projectName={projectName}
           personName={personName}
           onClose={handleClose}

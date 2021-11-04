@@ -6,14 +6,21 @@ jobs:
     steps:
       - checkout
       - restore_cache: # special step to restore the dependency
-          key: dependency-cache-{{ checksum "package.json" }} 
+          key: dependency-cache-{{ checksum "package.json" }}
 plugins:
   duplication:
     enabled: true
+    checks:
+    identical-code:
+      config:
+        threshold: 30
+    similar-code:
+      config:
+        enabled: false
     config:
       languages:
         javascript:
-          mass_threshold: 120
+          mass_threshold: 150
   eslint:
     enabled: true
   fixme:
@@ -28,7 +35,7 @@ checks:
   method-lines:
     enabled: true
     config:
-      threshold: 30
+      threshold: 40
 exclude_patterns:
-- node_modules/
-- "**/__tests__/"
+  - node_modules/
+  - "**/__tests__/"

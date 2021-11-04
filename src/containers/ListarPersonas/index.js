@@ -29,12 +29,6 @@ export default function ListarPersonas() {
     axiosInstance.get("/people").then((response) => {
       rawRows = response.data.people;
 
-      rawRows.forEach((person) => {
-        person.roles = person.roles.map((role) => {
-          return `${rolesFormateados[role]} `;
-        });
-      });
-
       let rowsNuevas = rawRows.map((row) => {
         return {
           fullName: row.full_name,
@@ -42,7 +36,6 @@ export default function ListarPersonas() {
           lastName: row.last_name,
           email: row.email,
           id: row.id,
-          roles: row.roles,
           cargaHoraria: row.working_hours,
           tag: ".",
           technologies: row.technologies,

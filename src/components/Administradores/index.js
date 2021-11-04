@@ -1,27 +1,98 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+import {
+  FormControlLabel,
+  IconButton,
+  Box,
+  Modal,
+  Button,
+  Dialog,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { DataGrid } from "@mui/x-data-grid";
-import Button from "@material-ui/core/Button";
 import { useStyles } from "./styles";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Acciones from "./acciones";
+import CreateAdministrator from "../../containers/CreateAdministrator";
+import Notificacion from "../../components/Notificacion";
+import EliminarAdministrador from "../../containers/EliminarAdministrador";
 
-Administradores.propTypes = {
-  onSubmit: PropTypes.func,
-  onInputChange: PropTypes.func,
-  email: PropTypes.string,
-  password: PropTypes.string,
-  error: PropTypes.string,
+Administrador.propTypes = {
+  rows: PropTypes.array,
+};
+
+const Acciones = ({ adminRow }) => {
+  const [openRemove, setOpenRemove] = React.useState(false);
+
+  const classes = useStyles();
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
+  const [adminData] = React.useState({
+    id: adminRow.id,
+    email: adminRow.email,
+  });
+
+  const handleRemoveOpen = () => setOpenRemove(true);
+  const handleRemoveClose = () => setOpenRemove(false);
+
+  return (
+    <div
+      style={{
+        margin: "10px",
+      }}
+    >
+      <FormControlLabel
+        control={
+          <>
+            <IconButton onClick={handleRemoveOpen}>
+              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
+            </IconButton>
+            <Dialog
+              open={openRemove}
+              onClose={handleRemoveClose}
+              maxWidth="xs"
+              aria-labelledby="confirmation-dialog-title"
+            >
+              <EliminarAdministrador
+                administratorId={adminRow.id}
+                administratorName={adminRow.name}
+                administratorEmail={adminRow.email}
+                handleClose={handleRemoveClose}
+                setNotify={setNotify}
+              />
+            </Dialog>
+          </>
+        }
+      />
+      <Notificacion notify={notify} setNotify={setNotify} />
+    </div>
+  );
 };
 
 const columns = [
   {
     field: "id",
     headerName: "Email",
+    hide: true,
     sortable: true,
     flex: 1, //tamaño
+  },
+  {
+    field: "fullName",
+    headerName: "Nombre completo",
+    sortable: true,
+    flex: 1, //tamaño
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    sortable: true,
+    flex: 1,
   },
   {
     field: "actions",
@@ -31,58 +102,74 @@ const columns = [
     renderCell: (params) => {
       return (
         <div>
-          <Acciones />
+          <Acciones adminRow={params.row} />
         </div>
       );
     },
   },
 ];
 
-let rows = [{ id: "example@effectus.com" }];
+Acciones.propTypes = {
+  adminRow: PropTypes.any,
+};
 
-export default function Administradores({
-  onSubmit,
-  onInputChange,
-  email,
-  password,
-  error,
-}) {
+export default function Administrador({ rows }) {
   const classes = useStyles();
+  const [openNew, setOpenNew] = React.useState(false);
+  const [notify, setNotify] = React.useState({
+    isOpen: false,
+    message: "",
+    type: "success",
+    reload: false,
+  });
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: "id",
+      sort: "dsc",
+    },
+  ]);
 
-  const [openAdmin, setOpenAdmin] = React.useState(false);
-
-  const handleAdminOpen = () => setOpenAdmin(true);
-  const handleAdminClose = () => setOpenAdmin(false);
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => setOpenNew(false);
 
   return (
-    <>
-      <Typography
-        style={{ marginTop: 20 }}
-        color="primary"
-        variant="h4"
-        align="center"
+    <div
+      style={{
+        margin: "1vw",
+      }}
+    >
+      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+        <Button color="primary" variant="contained" onClick={handleNewOpen}>
+          Agregar Administrador
+        </Button>
+      </Box>
+      <Modal
+        open={openNew}
+        onClose={handleNewClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        LISTADO DE ADMINISTRADORES
-      </Typography>
-      <div
-        style={{
-          margin: "1vw",
-        }}
-      >
-        <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-          <Button color="primary" variant="contained" onClick={handleAdminOpen}>
-            Agregar Proyecto
-          </Button>
+        <Box className={classes.modal}>
+          <IconButton
+            aria-label="Close"
+            onClick={handleNewClose}
+            className={classes.closeButton}
+          >
+            <CloseIcon />
+          </IconButton>
+          <CreateAdministrator setNotify={setNotify} />
         </Box>
-        <div>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            disableSelectionOnClick
-            style={{ height: "70vh" }}
-          />
-        </div>
-      </div>
-    </>
+      </Modal>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
+      />
+
+      <Notificacion notify={notify} setNotify={setNotify} />
+    </div>
   );
 }
