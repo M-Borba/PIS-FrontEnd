@@ -20,21 +20,25 @@ import { useStyles } from "./styles";
 export default function LoginView() {
   const history = useHistory();
   const [email, setEmail] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [loginError, setLoginError] = useState({});
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [needsPasswordReset, setPasswordReset] = useState(false);
   const classes = useStyles();
+  const [token, setToken] = useState("");
+  const [client, setClient] = useState("");
+  const [uid, setUid] = useState("");
 
   useEffect(() => {
     if (
       localStorage.getItem("uid") != null &&
-      localStorage.getItem("uid") != NOT_LOGGED
+      localStorage.getItem("uid") != NOT_LOGGED &&
+      !needsPasswordReset
     ) {
       history.push("/Inicio");
       window.location.reload();
     }
-  }, []);
+  }, [needsPasswordReset]);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -46,45 +50,63 @@ export default function LoginView() {
         },
       })
       .then((response) => {
-        const { headers } = response;
+        const headers = response.headers;
         console.log(response);
         localStorage.setItem("token", headers["access-token"]);
-        localStorage.setItem("client", headers.client);
-        localStorage.setItem("uid", headers.uid);
+        localStorage.setItem("client", headers["client"]);
+        localStorage.setItem("uid", headers["uid"]);
         history.push("/Inicio");
       })
       .catch((error) => {
-        if (error.response.data.needs_password_reset == true) {
-          const { headers } = error.response;
-          localStorage.setItem("token", headers["access-token"]);
-          localStorage.setItem("client", headers.client);
-          localStorage.setItem("uid", headers.uid);
+        if (error.response?.data?.needs_password_reset == true) {
+          const headers = error.response.headers;
+          setToken(headers["access-token"]);
+          setUid(headers.uid);
+          setClient(headers.client);
+          // localStorage.setItem("token", headers["access-token"]);
+          // localStorage.setItem("client", headers.client);
+          // localStorage.setItem("uid", headers.uid);
           setPassword("");
           setPasswordReset(true);
         } else {
-          setLoginError(error.response?.data?.error);
+          setLoginError(error.response?.data?.errors);
         }
       });
   };
 
   const handlePasswordChangeSubmit = (e) => {
     e.preventDefault();
+    // const token = localStorage.getItem("token");
+    // const uid = localStorage.getItem("uid");
+    // const client = localStorage.getItem("client");
+    localStorage.setItem("token", token);
+    localStorage.setItem("client", client);
+    localStorage.setItem("uid", uid);
     axiosInstance
       .put("/users/password", {
         password: password,
         password_confirmation: passwordConfirmation,
+      }, {
+        headers: {
+          accept: "application/json",
+          "access-token": token,
+          uid: uid,
+          client: client,
+          "Access-Control-Expose-Headers": "*"
+        }
       })
       .then((response) => {
+        console.log(response);
         history.push("/Inicio");
       })
       .catch((error) => {
         console.log(error);
-        setLoginError(error.response?.data?.error);
+        setLoginError(error.response?.data?.errors);
       });
   };
 
   const checkInput = (e) => {
-    setLoginError("");
+    setLoginError({});
     if (e.target.name == "email") setEmail(e.target.value);
     if (e.target.name == "password") setPassword(e.target.value);
     if (e.target.name == "passwordConfirmation")
@@ -105,7 +127,7 @@ export default function LoginView() {
               onInputChange={(e) => checkInput(e)}
               email={email}
               password={password}
-              error={loginError}
+              errors={loginError}
             />
           </Box>
         </Paper>
@@ -126,7 +148,7 @@ export default function LoginView() {
               onInputChange={(e) => checkInput(e)}
               password={password}
               passwordConfirmation={passwordConfirmation}
-              error={loginError}
+              errors={loginError}
             />
           </Box>
         </Paper>

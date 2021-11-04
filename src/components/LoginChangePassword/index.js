@@ -11,7 +11,7 @@ ChangePassword.propTypes = {
   onInputChange: PropTypes.func,
   password: PropTypes.string.isRequired,
   passwordConfirmation: PropTypes.string.isRequired,
-  error: PropTypes.string,
+  errors: PropTypes.object,
 };
 
 export default function ChangePassword({
@@ -19,7 +19,7 @@ export default function ChangePassword({
   onInputChange,
   password,
   passwordConfirmation,
-  error,
+  errors,
 }) {
   const classes = useStyles();
 
@@ -40,6 +40,8 @@ export default function ChangePassword({
           type="password"
           id="password"
           value={password}
+          error={!!errors?.password}
+          helperText={errors?.password?.[0]}
           onChange={(e) => onInputChange(e)}
           autoComplete="current-password"
         />
@@ -53,6 +55,8 @@ export default function ChangePassword({
           type="password"
           id="passwordConfirmation"
           value={passwordConfirmation}
+          error={!!errors?.password_confirmation}
+          helperText={errors?.password_confirmation?.[0]}
           onChange={(e) => onInputChange(e)}
           autoComplete="current-password"
         />
@@ -67,11 +71,6 @@ export default function ChangePassword({
           Establecer nueva contraseña e iniciar sesión
         </Button>
 
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
-
-        <Box mt={5}></Box>
       </form>
     </div>
   );

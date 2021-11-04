@@ -9,6 +9,7 @@ const instance = axios.create({
     "access-token": localStorage.getItem("token"),
     uid: localStorage.getItem("uid"),
     client: localStorage.getItem("client"),
+    "Access-Control-Expose-Headers": "*"
   },
 });
 
@@ -21,6 +22,17 @@ instance.interceptors.response.use(
       localStorage.setItem("uid", NOT_LOGGED);
       if (window.location.pathname !== "/login") window.location = "/login";
     }
+    // if (error?.response?.status === 401) {
+    //   let uid;
+    //   if (error.response.headers['uid'] == undefined){
+    //     uid = "NOT_LOGGEDpasdo";
+    //   }
+    //   else {
+    //     uid = error.response.headers['uid'];
+    //   }
+    //   localStorage.setItem("uid", uid);
+    //   if (window.location.pathname !== "/login") window.location = "/login";
+    // }
     return Promise.reject(error);
   }
 );
