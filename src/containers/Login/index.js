@@ -100,6 +100,7 @@ export default function LoginView() {
         history.push("/Inicio");
       })
       .catch((error) => {
+        localStorage.clear();
         console.log(error);
         setLoginError(error.response?.data?.errors);
       });
