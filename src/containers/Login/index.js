@@ -51,7 +51,6 @@ export default function LoginView() {
       })
       .then((response) => {
         const headers = response.headers;
-        console.log(response);
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("client", headers["client"]);
         localStorage.setItem("uid", headers["uid"]);
@@ -63,9 +62,6 @@ export default function LoginView() {
           setToken(headers["access-token"]);
           setUid(headers.uid);
           setClient(headers.client);
-          // localStorage.setItem("token", headers["access-token"]);
-          // localStorage.setItem("client", headers.client);
-          // localStorage.setItem("uid", headers.uid);
           setPassword("");
           setPasswordReset(true);
         } else {
@@ -76,9 +72,6 @@ export default function LoginView() {
 
   const handlePasswordChangeSubmit = (e) => {
     e.preventDefault();
-    // const token = localStorage.getItem("token");
-    // const uid = localStorage.getItem("uid");
-    // const client = localStorage.getItem("client");
     localStorage.setItem("token", token);
     localStorage.setItem("client", client);
     localStorage.setItem("uid", uid);
@@ -101,7 +94,20 @@ export default function LoginView() {
       )
       .then((response) => {
         console.log(response);
-        history.push("/Inicio");
+        axiosInstance
+          .post("/users/sign_in", {
+            user: {
+              email: email,
+              password: password,
+            },
+          })
+          .then((response) => {
+            const headers = response.headers;
+            localStorage.setItem("token", headers["access-token"]);
+            localStorage.setItem("client", headers["client"]);
+            localStorage.setItem("uid", headers["uid"]);
+            history.push("/Inicio");
+          });
       })
       .catch((error) => {
         localStorage.clear();
