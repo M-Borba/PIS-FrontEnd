@@ -15,7 +15,6 @@ plugins:
       config:
         threshold: 30
     similar-code:
-      config:
         enabled: false
     config:
       languages:
