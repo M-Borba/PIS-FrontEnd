@@ -27,17 +27,17 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     personName: "",
     time: 0,
   });
-  const [infoAssignObject, setInfoAssignObject] = useState({
-    open: false,
-    asignacionId: -1,
-    projectName: "",
-    personName: "",
-  });
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "success",
     reload: false,
+  });
+  const [infoAssignObject, setInfoAssignObject] = useState({
+    open: false,
+    asignacionId: -1,
+    projectName: "",
+    personName: "",
   });
 
   var groupsToAdd = [];
@@ -89,7 +89,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               id: dt.id,
               group: person.id,
               start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              end: dateToMiliseconds(dt.end_date ?? "2100-01-01") + 97200000,
+              end: dateToMiliseconds(dt.end_date ?? "2050-01-01") + 97200000,
               canResize: "both",
               canMove: false,
               title: proj.name + " - " + rolesFormateados[dt.role],
@@ -217,11 +217,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: dateToMiliseconds(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: dateToMiliseconds(startDate) + 10800000,
+            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+            title: title,
+          }
           : item
       )
     );
