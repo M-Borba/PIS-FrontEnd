@@ -18,7 +18,7 @@ FilterForm.propTypes = {
   technologies: propTypes.arrayOf(propTypes.string),
 };
 FilterForm.defaultProps = {
-  project_state: "-",
+  project_state: "",
   project_type: "",
   project_state: "",
   organization: "",
@@ -39,7 +39,6 @@ export default function FilterForm({
       <Typography variant="h6">Filtros</Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
-          variant="outlined"
           margin="normal"
           required
           fullWidth
@@ -52,23 +51,28 @@ export default function FilterForm({
           onChange={onInputChange}
           autoFocus
         />
-        <Select
-          label="Estado del proyecto"
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          type="text"
+          label="Estado del projecto"
+          onChange={onInputChange}
           id="project_state"
           labelId="project_state"
           name="project_state"
           onChange={onInputChange}
+          select
           value={project_state}
-          className={classes.comboBox}
+          autoFocus
         >
-          <MenuItem value="-">-</MenuItem>
+          <MenuItem value="">Cualquiera</MenuItem>
           <MenuItem value="verde">Verde</MenuItem>
           <MenuItem value="amarillo">Amarillo</MenuItem>
           <MenuItem value="rojo">Rojo</MenuItem>
           <MenuItem value="upcomping">Upcomping</MenuItem>
-        </Select>
+        </TextField>
         <TextField
-          variant="outlined"
           margin="normal"
           required
           fullWidth

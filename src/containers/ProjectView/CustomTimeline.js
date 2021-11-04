@@ -16,11 +16,8 @@ import "./style.css";
 import { useStyles } from "./styles";
 
 import InfoProyecto from "../../containers/InfoProyecto";
-<<<<<<< HEAD
-import Notificacion from "../../components/Notificacion";
-=======
 import FilterForm from "../../components/FilterForm";
->>>>>>> 310d3494 (form incompleto colocado en ambos timelines)
+import Notificacion from "../../components/Notificacion";
 
 var keys = {
   groupIdKey: "id",
@@ -74,9 +71,15 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
-  const fetchData = async () => {
+  const fetchData = (filterParams = {}) => {
+    // to avoid sending empty query params
+    for (let key in filterParams) {
+      if (filterParams[key] === "" || filterParams[key] === null) {
+        delete filterParams[key];
+      }
+    }
     axiosInstance
-      .get("/projects")
+      .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
         rows.map((proj) => {
@@ -136,7 +139,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       setFilters({ ...filters, project_type: e.target.value });
     e.target.name == "project_state" &&
       setFilters({ ...filters, project_state: e.target.value });
-    e.target.id == "organization" &&
+    e.target.name == "organization" &&
+      setFilters({ ...filters, organization: e.target.value });
+    e.target.name == "organization" &&
       setFilters({ ...filters, organization: e.target.value });
   };
 
@@ -144,7 +149,10 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     return (
       <Fragment>
         <FilterForm
-          onSubmit={() => console.log("call al backend para ver projectos")}
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
           project_type={filters.project_type}

@@ -218,11 +218,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: dateToMiliseconds(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: dateToMiliseconds(startDate) + 10800000,
+            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+            title: title,
+          }
           : item
       )
     );
