@@ -27,18 +27,26 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     personName: "",
     time: 0,
   });
-  const [infoAssignObject, setInfoAssignObject] = useState({
-    open: false,
-    asignacionId: -1,
-    projectName: "",
-    personName: "",
-  });
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "success",
     reload: false,
   });
+  const [infoAssignObject, setInfoAssignObject] = useState({
+    open: false,
+    asignacionId: -1,
+    projectName: "",
+    personName: "",
+  });
+  const backendFormatDate = (date) => {
+    date = date.split("/");
+    let aux = date[0];
+    date[0] = date[2];
+    date[2] = date[1];
+    date[1] = aux;
+    return date.join("/");
+  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -131,6 +139,24 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     setItems(items.map((item) => (item.id == itemId ? newItem : item)));
 
     // Cambio el item en backend
+    let start_value =
+      edge === "left"
+        ? moment(time).format("l")
+        : moment(items[itemIndex].start).format("l");
+    start_value = backendFormatDate(start_value);
+    let end_value =
+      edge === "left"
+        ? moment(items[itemIndex].end).format("l")
+        : moment(time).format("l");
+    end_value = backendFormatDate(end_value);
+
+    if (edge === "left")
+      setItems(
+        items.map((i) => (i.id == itemIndex ? { ...i, start: time } : i))
+      );
+    else
+      setItems(items.map((i) => (i.id == itemIndex ? { ...i, end: time } : i)));
+
     let requestBody = {
       role: undefined,
       working_hours: undefined,
@@ -147,27 +173,38 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
     axiosInstance
       .put(`/person_project/${itemId}`, { person_project: requestBody })
-      .then()
+      .then((response) => {
+        console.log("Resized", itemId, time, edge);
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "Fecha cambiada satisfactoriamente",
+          type: "success",
+        });
+      })
       .catch((error) => {
+        let res = error.response.data.errors;
         console.log(error.response);
-        if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message:
-              error.response.data.errors.start_date ??
-              error.response.data.errors.end_date,
-            type: "error",
-            reload: false,
-          });
-        else if (error.response.status == 404)
-          setNotify({
-            isOpen: true,
-            message: error.response.data.error,
-            type: "error",
-            reload: true,
-          });
-        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: Object.keys(res)[0] + " - " + res[Object.keys(res)[0]],
+          type: "error",
+        });
       });
+
+    // Cambio en item en la timeline
+    let newItems = items;
+    newItems[itemIndex] = {
+      id: items[itemIndex].id,
+      group: items[itemIndex].group,
+      start: edge === "left" ? time : items[itemIndex].start,
+      end: edge === "left" ? items[itemIndex].end : time,
+      canResize: "both",
+      canMove: false,
+      title: items[itemIndex].title,
+    };
+    setItems(newItems);
   };
 
   // Asignacion
