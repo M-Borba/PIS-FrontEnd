@@ -1,18 +1,16 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import CreatePerson from "../../containers/CreatePerson";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
+import Listado from "../../components/Listado"
 
 Personas.propTypes = {
   rows: propTypes.array,
@@ -173,44 +171,17 @@ export default function Personas({ rows }) {
   ]);
 
   return (
-    <div
-      style={{
-        margin: "1vw",
-      }}
-    >
-      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={handleNewOpen}>
-          Agregar Persona
-        </Button>
-      </Box>
-
-      <Modal
-        open={openNew}
-        onClose={handleNewClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <IconButton
-            aria-label="Close"
-            onClick={handleNewClose}
-            className={classes.closeButton}
-          >
-            <CloseIcon />
-          </IconButton>
-          <CreatePerson setNotify={setNotify} />
-        </Box>
-      </Modal>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
-
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </div>
+    <Listado
+      button={"Agregar Persona"}
+      buttonClick={handleNewOpen}
+      modalOpen={openNew}
+      modalOnClose={handleNewClose}
+      sortModel={sortModel}
+      setSortModel={setSortModel}
+      notify={notify}
+      setNotify={setNotify}
+      columns={columns}
+      rows={rows}
+    />
   );
 }

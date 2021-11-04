@@ -1,10 +1,8 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -16,10 +14,11 @@ import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
 import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
-import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
+import Listado from "../../components/Listado"
+
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -335,43 +334,17 @@ export default function Proyecto({ rows }) {
   ]);
 
   return (
-    <div
-      style={{
-        margin: "1vw",
-      }}
-    >
-      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={handleNewOpen}>
-          Agregar Proyecto
-        </Button>
-      </Box>
-      <Modal
-        open={openNew}
-        onClose={handleNewClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <IconButton
-            aria-label="Close"
-            onClick={handleNewClose}
-            className={classes.closeButton}
-          >
-            <CloseIcon />
-          </IconButton>
-          <CreateProject setNotify={setNotify} />
-        </Box>
-      </Modal>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
-
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </div>
+    <Listado
+      button={"Agregar Proyecto"}
+      buttonClick={handleNewOpen}
+      modalOpen={openNew}
+      modalOnClose={handleNewClose}
+      sortModel={sortModel}
+      setSortModel={setSortModel}
+      notify={notify}
+      setNotify={setNotify}
+      columns={columns}
+      rows={rows}
+    />
   );
 }
