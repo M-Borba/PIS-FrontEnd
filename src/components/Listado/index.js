@@ -32,7 +32,7 @@ export default function Listado({
   notify,
   setNotify,
   columns,
-  rows
+  rows,
 }) {
   const classes = useStyles();
 

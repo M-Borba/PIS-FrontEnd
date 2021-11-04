@@ -123,37 +123,23 @@ export default function LoginView() {
     if (e.target.name == "passwordConfirmation")
       setPasswordConfirmation(e.target.value);
   };
-  if (!needsPasswordReset)
-    return (
-      <Box className={classes.container}>
-        <Paper variant="elevation" elevation={3} className={classes.paper}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              className={classes.imgcontainer}
-              src={effectus_wallpaper}
-              alt="Logo"
-            />
+  return (
+    <Box className={classes.container}>
+      <Paper variant="elevation" elevation={3} className={classes.paper}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <img
+            className={classes.imgcontainer}
+            src={effectus_wallpaper}
+            alt="Logo"
+          />
+          {!needsPasswordReset ?
             <Login
               onSubmit={(e) => handleLoginSubmit(e)}
               onInputChange={(e) => checkInput(e)}
               email={email}
               password={password}
               errors={loginError}
-            />
-          </Box>
-        </Paper>
-      </Box>
-    );
-  else
-    return (
-      <Box className={classes.container}>
-        <Paper variant="elevation" elevation={3} className={classes.paper}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              className={classes.imgcontainer}
-              src={effectus_wallpaper}
-              alt="Logo"
-            />
+            /> :
             <ChangePassword
               onSubmit={(e) => handlePasswordChangeSubmit(e)}
               onInputChange={(e) => checkInput(e)}
@@ -161,8 +147,10 @@ export default function LoginView() {
               passwordConfirmation={passwordConfirmation}
               errors={loginError}
             />
-          </Box>
-        </Paper>
-      </Box>
-    );
+          }
+        </Box>
+      </Paper>
+    </Box>
+  );
+
 }
