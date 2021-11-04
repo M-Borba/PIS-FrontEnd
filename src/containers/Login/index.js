@@ -83,18 +83,22 @@ export default function LoginView() {
     localStorage.setItem("client", client);
     localStorage.setItem("uid", uid);
     axiosInstance
-      .put("/users/password", {
-        password: password,
-        password_confirmation: passwordConfirmation,
-      }, {
-        headers: {
-          accept: "application/json",
-          "access-token": token,
-          uid: uid,
-          client: client,
-          "Access-Control-Expose-Headers": "*"
+      .put(
+        "/users/password",
+        {
+          password: password,
+          password_confirmation: passwordConfirmation,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "access-token": token,
+            uid: uid,
+            client: client,
+            "Access-Control-Expose-Headers": "*",
+          },
         }
-      })
+      )
       .then((response) => {
         console.log(response);
         history.push("/Inicio");

@@ -9,7 +9,7 @@ const instance = axios.create({
     "access-token": localStorage.getItem("token"),
     uid: localStorage.getItem("uid"),
     client: localStorage.getItem("client"),
-    "Access-Control-Expose-Headers": "*"
+    "Access-Control-Expose-Headers": "*",
   },
 });
 

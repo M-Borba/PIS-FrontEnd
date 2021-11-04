@@ -70,7 +70,6 @@ export default function ChangePassword({
         >
           Establecer nueva contraseña e iniciar sesión
         </Button>
-
       </form>
     </div>
   );
