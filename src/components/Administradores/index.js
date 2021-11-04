@@ -149,10 +149,15 @@ export default function Administrador({ rows }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-          <Button color="primary" variant="contained" onClick={handleAdminOpen}>
-            Agregar Administrador
-          </Button>
+        <Box className={classes.modal}>
+          <IconButton
+            aria-label="Close"
+            onClick={handleNewClose}
+            className={classes.closeButton}
+          >
+            <CloseIcon />
+          </IconButton>
+          <CreateAdministrator setNotify={setNotify} />
         </Box>
       </Modal>
       <DataGrid
