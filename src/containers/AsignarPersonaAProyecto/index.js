@@ -3,6 +3,7 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
+import { ROLES_CHECKBOX } from "../../config/globalVariables";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.shape({
@@ -15,22 +16,16 @@ AgregarPersona.propTypes = {
 };
 
 export default function AgregarPersona({ projectData, setNotify }) {
+  const classes = useStyles();
   const [asignacion, setAsignacion] = useState({
-    roles: [
-      ["Desarrollador", false],
-      ["PM", false],
-      ["Tester", false],
-      ["Arquitecto", false],
-      ["Analista", false],
-      ["Diseñador", false],
-    ],
+    roles: ROLES_CHECKBOX,
     people: [],
     startDate: projectData.startDate.replaceAll("/", "-"),
     endDate:
       projectData.endDate != null
         ? projectData.endDate.replaceAll("/", "-")
         : "",
-    hours: 0,
+    hours: 30,
     hoursType: "weekly",
   });
 
@@ -172,20 +167,18 @@ export default function AgregarPersona({ projectData, setNotify }) {
         ...asignacion,
         people: newPeople,
       });
-    } else if (type == undefined) {
-      if (value.target.id == "startDate")
+    } else {
+      if (value.target.name == "startDate") {
         setAsignacion({ ...asignacion, startDate: value.target.value });
-      else if (value.target.id == "endDate") {
-        setAsignacion({ ...asignacion, endDate: value.target.value });
-      } else if (value.target.id == "workingHours") {
-        setAsignacion({ ...asignacion, hours: value.target.value });
       } else if (value.target.name == "endDate") {
+        setAsignacion({ ...asignacion, endDate: value.target.value });
+      } else if (value.target.name == "workingHours") {
+        setAsignacion({ ...asignacion, hours: value.target.value });
+      } else if (value.target.name == "hoursType") {
         setAsignacion({ ...asignacion, hoursType: value.target.value });
       }
     }
   };
-
-  const classes = useStyles();
 
   return (
     <div className={classes.paper}>
