@@ -142,6 +142,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
   }, []);
 
   const checkInput = (value, type) => {
+    console.log("value", value, type);
     if (type == "Rol") {
       let newRoles = asignacion.roles;
       let i = 0;
