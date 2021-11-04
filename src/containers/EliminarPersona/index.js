@@ -32,13 +32,7 @@ function EliminarPersona({
             type: "success",
             reload: false,
           });
-        } else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
-            reload: false,
-          });
+        }
         handleClose();
       })
       .catch((error) => {

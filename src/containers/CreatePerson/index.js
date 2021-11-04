@@ -72,11 +72,11 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
             return `${rolesFormateados[role]} `;
           });
           let newRow = {
+            id: personData.id,
             fullName: personData.full_name,
             firstName: personData.first_name,
             lastName: personData.last_name,
             email: personData.email,
-            id: personData.id,
             roles: personData.roles,
             cargaHoraria: personData.working_hours,
             tag: ".",
@@ -89,13 +89,7 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
             type: "success",
             reload: false,
           });
-        } else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
-            reload: false,
-          });
+        }
         onClose();
       })
       .catch((error) => {

@@ -19,14 +19,18 @@ EditarProjecto.propTypes = {
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
-  removePerson: propTypes.func.isRequired,
+  // removePerson: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
 export default function EditarProjecto({
   projectData,
   id,
   setNotify,
-  removePerson,
+  // removePerson,
+  onClose,
+  editRow,
 }) {
   projectData.start_date = projectData.start_date.replaceAll("/", "-");
   if (projectData.end_date != null)
@@ -41,20 +45,36 @@ export default function EditarProjecto({
         project: proyecto,
       })
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
+          let projectInfo = response.data.project;
+          let project = {
+            id: projectInfo.id,
+            name: projectInfo.name,
+            project_type: projectInfo.project_type
+              .replaceAll("_", " ")
+              .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+            project_state: projectInfo.project_state.replace(/^\w/, (m) =>
+              m.toUpperCase()
+            ),
+            description: projectInfo.description,
+            budget: projectInfo.budget,
+            start_date: projectInfo.start_date.replaceAll("-", "/"),
+            end_date:
+              projectInfo.end_date != null
+                ? projectInfo.end_date.replaceAll("-", "/")
+                : null,
+            organization: projectInfo.organization,
+            technologies: projectInfo.technologies || [],
+          };
+          editRow(project);
           setNotify({
             isOpen: true,
             message: `El proyecto ${projectData.name} se modifico con exito.`,
             type: "success",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
             reload: false,
           });
+        }
+        onClose();
       })
       .catch((error) => {
         console.error(error.response);
@@ -105,7 +125,7 @@ export default function EditarProjecto({
         onInputChange={(e) => checkInput(e)}
         proyecto={proyecto}
         title={"Modificacion de Proyecto"}
-        removePerson={removePerson}
+        // removePerson={removePerson}
       />
       <ProyectTechnologyHandler
         techSelected={proyecto.technologies}

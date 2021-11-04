@@ -9,9 +9,11 @@ import TechnologyHandler from "../ProyectTechnologyHandler";
 
 CreateProject.propTypes = {
   setNotify: propTypes.func.isRequired,
+  addRow: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function CreateProject({ setNotify }) {
+export default function CreateProject({ setNotify, addRow, onClose }) {
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -32,20 +34,37 @@ export default function CreateProject({ setNotify }) {
         project: project,
       })
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
+          let projectData = response.data.project;
+          let newRow = {
+            id: projectData.id,
+            name: projectData.name,
+            project_type: projectData.project_type
+              .replaceAll("_", " ")
+              .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+            project_state: projectData.project_state.replace(/^\w/, (m) =>
+              m.toUpperCase()
+            ),
+            description: projectData.description,
+            budget: projectData.budget,
+            start_date: projectData.start_date.replaceAll("-", "/"),
+            end_date:
+              projectData.end_date != null
+                ? projectData.end_date.replaceAll("-", "/")
+                : null,
+            people: projectData.people,
+            organization: projectData.organization,
+            technologies: projectData.technologies || [],
+          };
+          addRow(newRow);
           setNotify({
             isOpen: true,
             message: `El proyecto se creo con exito.`,
             type: "success",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
             reload: false,
           });
+        }
+        onClose();
       })
       .catch((error) => {
         console.error(error.response);

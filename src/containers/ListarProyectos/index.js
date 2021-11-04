@@ -1,18 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, createContext } from "react";
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
+import propTypes from "prop-types";
 import { Typography } from "@material-ui/core";
 
+export const UpdateGridContext = createContext();
+
+const UpdateGridProvider = (props) => {
+  const removeRow = useRef(null);
+  const editRow = useRef(null);
+  return (
+    <UpdateGridContext.Provider value={[removeRow, editRow]}>
+      {props.children}
+    </UpdateGridContext.Provider>
+  );
+};
+
+UpdateGridProvider.propTypes = {
+  children: propTypes.any,
+};
+
 export default function ListarProyectos() {
-  var rows;
-  const [rowsFormateadas, setRows] = useState([]);
+  var rawRows;
+  const [rows, setRows] = useState([]);
 
   const fetchData = () => {
-    return axiosInstance.get("/projects").then((response) => {
-      rows = response.data.projects;
+    axiosInstance.get("/projects").then((response) => {
+      rawRows = response.data.projects;
       //const currDate = new Date();
       let rowsNuevas =
-        rows /*.filter(row => new Date(row.end_date) > currDate)*/
+        rawRows /*.filter(row => new Date(row.end_date) > currDate)*/
           .map((row) => {
             return {
               id: row.id,
@@ -51,7 +68,9 @@ export default function ListarProyectos() {
       >
         LISTADO DE PROYECTOS
       </Typography>
-      <Proyectos rows={rowsFormateadas} />
+      <UpdateGridProvider>
+        <Proyectos rows={rows} setRows={setRows} />
+      </UpdateGridProvider>
     </div>
   );
 }
