@@ -25,13 +25,13 @@ function EliminarProyecto({
       .delete(`/projects/${projectId}`)
       .then((response) => {
         if (response.status == 200) {
-          removeRow(projectId);
           setNotify({
             isOpen: true,
             message: `El proyecto ${projectName} se elimino con exito.`,
             type: "success",
-            reload: true,
+            reload: false,
           });
+          removeRow(projectId);
         }
         handleClose();
       })
