@@ -2,6 +2,7 @@ import {
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
   roles,
+  rolesTraducidos,
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
 import { useStyles } from "../InfoAsignacionDialog/styles";
@@ -46,7 +47,7 @@ function AsignacionDialog({
 
   const rolItems = roles.map((role) => {
     return (
-      <MenuItem key={role} value={role}>
+      <MenuItem key={role} value={rolesTraducidos[role]}>
         {role}
       </MenuItem>
     );

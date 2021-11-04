@@ -5,9 +5,11 @@ import propTypes from "prop-types";
 
 CreateProject.propTypes = {
   setNotify: propTypes.func.isRequired,
+  addRow: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function CreateProject({ setNotify }) {
+export default function CreateProject({ setNotify, addRow, onClose }) {
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -28,13 +30,36 @@ export default function CreateProject({ setNotify }) {
       .post("/projects", {
         project: project,
       })
-      .then(() => {
+      .then((response) => {
+        let projectData = response.data.project;
+        let newRow = {
+          id: projectData.id,
+          name: projectData.name,
+          project_type: projectData.project_type
+            .replaceAll("_", " ")
+            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+          project_state: projectData.project_state.replace(/^\w/, (m) =>
+            m.toUpperCase()
+          ),
+          description: projectData.description,
+          budget: projectData.budget,
+          start_date: projectData.start_date.replaceAll("-", "/"),
+          end_date:
+            projectData.end_date != null
+              ? projectData.end_date.replaceAll("-", "/")
+              : null,
+          people: projectData.people,
+          organization: projectData.organization,
+          technologies: projectData.technologies || [],
+        };
+        addRow(newRow);
         setNotify({
           isOpen: true,
           message: `El proyecto se creo con exito.`,
           type: "success",
-          reload: true,
+          reload: false,
         });
+        onClose();
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);

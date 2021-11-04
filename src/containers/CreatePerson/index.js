@@ -9,9 +9,11 @@ import propTypes from "prop-types";
 
 CreatePerson.propTypes = {
   setNotify: propTypes.func.isRequired,
+  addRow: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function CreatePerson({ setNotify }) {
+export default function CreatePerson({ setNotify, addRow, onClose }) {
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
@@ -28,13 +30,26 @@ export default function CreatePerson({ setNotify }) {
       .post("/people", {
         person,
       })
-      .then(() => {
+      .then((response) => {
+        let personData = response.data.person;
+        let newRow = {
+          id: personData.id,
+          fullName: personData.full_name,
+          firstName: personData.first_name,
+          lastName: personData.last_name,
+          email: personData.email,
+          cargaHoraria: personData.working_hours,
+          tag: ".",
+          technologies: personData.technologies,
+        };
+        addRow(newRow);
         setNotify({
           isOpen: true,
           message: `La persona se creo con exito.`,
           type: "success",
-          reload: true,
+          reload: false,
         });
+        onClose();
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);

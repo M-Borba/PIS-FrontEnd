@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: # special step to restore the dependency
-          key: dependency-cache-{{ checksum "package.json" }} 
+          key: dependency-cache-{{ checksum "package.json" }}
 plugins:
   duplication:
     enabled: true
@@ -36,5 +36,5 @@ checks:
     config:
       threshold: 40
 exclude_patterns:
-- node_modules/
-- "**/__tests__/"
+  - node_modules/
+  - "**/__tests__/"

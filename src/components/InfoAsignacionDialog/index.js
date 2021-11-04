@@ -1,7 +1,9 @@
 import {
+  roles,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
   rolesFormateados,
+  rolesTraducidos,
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
 import { useStyles } from "./styles";
@@ -20,7 +22,6 @@ import MenuItem from "@mui/material/MenuItem";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
-  roles: propTypes.array.isRequired,
   projectName: propTypes.string.isRequired,
   personName: propTypes.string.isRequired,
   onClose: propTypes.func.isRequired,
@@ -31,7 +32,6 @@ InfoAsignacionDialog.propTypes = {
 
 function InfoAsignacionDialog({
   asignacionInfo,
-  roles,
   projectName,
   personName,
   onClose,
@@ -51,8 +51,8 @@ function InfoAsignacionDialog({
 
   const rolItems = roles.map((rol, id) => {
     return (
-      <MenuItem key={id} value={rol}>
-        {rolesFormateados[rol]}
+      <MenuItem key={id} value={rolesTraducidos[rol]}>
+        {rol}
       </MenuItem>
     );
   });
@@ -136,7 +136,6 @@ function InfoAsignacionDialog({
               />
               <TextField
                 fullWidth
-                required
                 InputLabelProps={{ shrink: true }}
                 id="end_date"
                 label="Fecha Fin"

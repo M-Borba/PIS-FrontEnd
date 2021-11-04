@@ -21,12 +21,19 @@ import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
+import { UpdateGridContext } from "../../containers/ListarProyectos/index";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
+  setRows: propTypes.func,
 };
 
-const Acciones = ({ projectRow }) => {
+Acciones.propTypes = {
+  projectRow: propTypes.any,
+};
+
+function Acciones({ projectRow }) {
+  const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openAssigned, setOpenAssigned] = React.useState(false);
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
@@ -42,7 +49,7 @@ const Acciones = ({ projectRow }) => {
     type: "success",
     reload: false,
   });
-  const [projectData] = React.useState({
+  const projectData = {
     id: projectRow.id,
     name: projectRow.name,
     project_type: projectRow.project_type.toLowerCase().replaceAll(" ", "_"),
@@ -54,7 +61,7 @@ const Acciones = ({ projectRow }) => {
     people: projectRow.people,
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],
-  });
+  };
 
   const handleInfoClick = () => {
     setOpenInfo(true);
@@ -165,6 +172,8 @@ const Acciones = ({ projectRow }) => {
                   projectData={projectData}
                   id={projectData.id}
                   setNotify={setNotify}
+                  editRow={editRow.current}
+                  onClose={handleEditClose}
                 />
               </Box>
             </Modal>
@@ -266,6 +275,7 @@ const Acciones = ({ projectRow }) => {
                 projectName={projectRow.name}
                 handleClose={handleRemoveClose}
                 setNotify={setNotify}
+                removeRow={removeRow.current}
               />
             </Dialog>
           </>
@@ -274,7 +284,7 @@ const Acciones = ({ projectRow }) => {
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
-};
+}
 
 const columns = [
   {
@@ -337,11 +347,8 @@ const columns = [
   },
 ];
 
-Acciones.propTypes = {
-  projectRow: propTypes.any,
-};
-
-export default function Proyecto({ rows }) {
+export default function Proyecto({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
@@ -350,16 +357,42 @@ export default function Proyecto({ rows }) {
     type: "success",
     reload: false,
   });
-
-  const handleNewOpen = () => setOpenNew(true);
-  const handleNewClose = () => setOpenNew(false);
-
   const [sortModel, setSortModel] = React.useState([
     {
       field: "name",
       sort: "asc",
     },
   ]);
+
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => setOpenNew(false);
+
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
+  const removeRow = (projectId) =>
+    setRows(rows.filter((row) => row.id != projectId));
+  setRemoveRow.current = (projectId) => removeRow(projectId);
+
+  const editRow = (projectData) =>
+    setRows(
+      rows.map((row) =>
+        row.id == projectData.id
+          ? {
+              ...row,
+              name: projectData.name,
+              project_type: projectData.project_type,
+              project_state: projectData.project_state,
+              description: projectData.description,
+              budget: projectData.budget,
+              start_date: projectData.start_date,
+              end_date: projectData.end_date,
+              organization: projectData.organization,
+              technologies: projectData.technologies,
+            }
+          : row
+      )
+    );
+  setEditRow.current = (projectData) => editRow(projectData);
 
   return (
     <div
@@ -386,7 +419,11 @@ export default function Proyecto({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreateProject setNotify={setNotify} />
+          <CreateProject
+            setNotify={setNotify}
+            addRow={addRow}
+            onClose={handleNewClose}
+          />
         </Box>
       </Modal>
       <DataGrid
