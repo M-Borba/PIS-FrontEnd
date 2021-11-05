@@ -4,9 +4,6 @@ export const useStyles = makeStyles((theme) => ({
   container: {
     margin: "1vh 2vw",
   },
-  comboBox: {
-    width: "50%",
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
     display: "flex",
@@ -15,6 +12,6 @@ export const useStyles = makeStyles((theme) => ({
     gap: "1vw",
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    width: "50%",
   },
 }));

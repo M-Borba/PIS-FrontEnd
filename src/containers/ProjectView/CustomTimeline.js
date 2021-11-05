@@ -135,16 +135,11 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
   const onFilterChange = (e) => {
-    e.target.name == "project_type" &&
-      setFilters({ ...filters, project_type: e.target.value });
-    e.target.name == "project_state" &&
-      setFilters({ ...filters, project_state: e.target.value });
-    e.target.name == "organization" &&
-      setFilters({ ...filters, organization: e.target.value });
-    e.target.name == "organization" &&
-      setFilters({ ...filters, organization: e.target.value });
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      [e.target.name]: e.target.value,
+    }));
   };
-
   if (groups.length > 0 && items.length > 0 && !isProjectView) {
     return (
       <Fragment>

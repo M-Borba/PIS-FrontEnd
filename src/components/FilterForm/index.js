@@ -39,7 +39,6 @@ export default function FilterForm({
       <Typography variant="h6">Filtros</Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
-          margin="normal"
           required
           fullWidth
           id="project_type"
@@ -47,24 +46,26 @@ export default function FilterForm({
           label="Tipo de proyecto"
           name="project_type"
           autoComplete="project_type"
+          select
           value={project_type}
           onChange={onInputChange}
-          autoFocus
-        />
+        >
+          <MenuItem value="">Cualquiera</MenuItem>
+          <MenuItem value="staff_augmentation">Staff Augmentation</MenuItem>
+          <MenuItem value="end_to_end">End to End</MenuItem>
+          <MenuItem value="tercerizado">Tercerizado</MenuItem>
+        </TextField>
         <TextField
-          margin="normal"
           required
           fullWidth
           type="text"
           label="Estado del projecto"
           onChange={onInputChange}
           id="project_state"
-          labelId="project_state"
           name="project_state"
           onChange={onInputChange}
           select
           value={project_state}
-          autoFocus
         >
           <MenuItem value="">Cualquiera</MenuItem>
           <MenuItem value="verde">Verde</MenuItem>
@@ -73,7 +74,6 @@ export default function FilterForm({
           <MenuItem value="upcomping">Upcomping</MenuItem>
         </TextField>
         <TextField
-          margin="normal"
           required
           fullWidth
           id="organization"
@@ -83,7 +83,6 @@ export default function FilterForm({
           autoComplete="organization"
           value={organization}
           onChange={onInputChange}
-          autoFocus
         />
 
         <Button
@@ -97,8 +96,6 @@ export default function FilterForm({
           Filtrar &ensp;
           <FilterAltIcon />
         </Button>
-
-        <Box mt={5}></Box>
       </form>
     </div>
   );

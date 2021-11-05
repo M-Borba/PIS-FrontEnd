@@ -34,6 +34,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     type: "success",
     reload: false,
   });
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+    organization: "",
+  });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
     asignacionId: -1,
@@ -65,44 +70,69 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     month: 1,
     year: 1,
   };
-
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
+  const onFilterChange = (e) => {
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      [e.target.name]: e.target.value,
+    }));
   };
+  const fetchData = (filterParams = {}) => {
+    // to avoid sending empty query params
+    for (let key in filterParams) {
+      if (filterParams[key] === "" || filterParams[key] === null) {
+        delete filterParams[key];
+      }
+    }
 
-  const fetchData = () => {
-    axiosInstance.get("/person_project").then((response) => {
-      const rows = response.data.person_project;
-      rows.map((ppl) => {
-        var person = ppl.person;
+    axiosInstance
+      .get("/person_project", { params: filterParams })
+      .then((response) => {
+        const rows = response.data.person_project;
+        rows.map((ppl) => {
+          const person = ppl.person;
 
-        groupsToAdd.push({
-          id: person.id,
-          title: person.full_name,
-        });
+          groupsToAdd.push({
+            id: person.id,
+            title: person.full_name,
+          });
 
-        person.projects.map((proj) => {
-          proj.dates.map((dt) => {
-            itemsToAdd.push({
-              id: dt.id,
-              group: person.id,
-              start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              end: dateToMiliseconds(dt.end_date ?? "2050-01-01") + 97200000,
-              canResize: "both",
-              canMove: false,
-              title: proj.name + " - " + rolesFormateados[dt.role],
+          person.projects.map((proj) => {
+            proj.dates.map((dt) => {
+              let startDate = new Date(dt.start_date);
+              startDate.setDate(startDate.getDate());
+
+              const startValue = moment(
+                moment(startDate).add(3, "hours")
+              ).valueOf();
+
+              let endDate = new Date(dt.end_date);
+              endDate.setDate(endDate.getDate() + 1);
+
+              let endValue = moment(endDate).valueOf();
+
+              if (!dt.end_date) {
+                endDate = moment(Date()).add(5, "years");
+                endValue = moment(moment(endDate).add(3, "hours")).valueOf(); // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+              }
+
+              itemsToAdd.push({
+                id: dt.id,
+                group: person.id,
+                start: startValue,
+                end: endValue,
+                canResize: "both",
+                canMove: false,
+                title: proj.name + " - " + rolesFormateados[dt.role],
+              });
             });
           });
         });
       });
 
-      setGroups(groupsToAdd);
-      setItems(itemsToAdd);
-    });
+    setGroups(groupsToAdd);
+    setItems(itemsToAdd);
   };
+
 
   useEffect(() => {
     fetchData();
