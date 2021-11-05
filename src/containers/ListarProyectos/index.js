@@ -26,8 +26,8 @@ export default function ListarProyectos() {
 
   const fetchData = () => {
     return axiosInstance.get("/projects").then((response) => {
-      rows = response.data.projects;
-      let rowsNuevas = rows.map((row) => {
+      rawRows = response.data.projects;
+      let rowsNuevas = rawRows.map((row) => {
         return {
           id: row.id,
           name: row.name,
