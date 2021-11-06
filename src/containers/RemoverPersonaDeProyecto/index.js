@@ -8,10 +8,13 @@ RemoverPersona.propTypes = {
   personId: PropTypes.number.isRequired,
   asignId: PropTypes.number,
   asignRole: PropTypes.string,
+  asignClose: PropTypes.func.isRequired,
   projectName: PropTypes.string.isRequired,
   projectId: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
   setNotify: PropTypes.func.isRequired,
+  asignaciones: PropTypes.array.isRequired,
+  setAsignaciones: PropTypes.func.isRequired,
 };
 
 function findPersonInPersonProjects(id, array) {
@@ -39,10 +42,13 @@ function RemoverPersona({
   personId,
   asignId,
   asignRole,
+  asignClose,
   projectName,
   projectId,
   handleClose,
   setNotify,
+  asignaciones,
+  setAsignaciones,
 }) {
   var dialogContent;
   if (asignId == undefined)
@@ -52,128 +58,106 @@ function RemoverPersona({
 
   const onConfirmation = () => {
     if (asignId == undefined) {
-      //si se quiere borrar a toda la persona del proyecto
+      //si se quiere borrar a todas las asignaciones de una persona personas del proyecto
       axiosInstance
         .get(`/person_project`)
         .then((response) => {
-          //buscar persona en el arreglo
+          //buscar la persona en el arreglo
           let person = findPersonInPersonProjects(
             personId,
             response.data.person_project
           );
           if (person != undefined) {
-            //busco las asignaciones del proyecto
+            //busco las asignaciones de la persona en el proyecto
             let dates = findDateInProject(projectId, person.projects);
             if (dates != undefined) {
               //itero en la lista de dates
               dates.forEach((assingment) => {
                 axiosInstance
                   .delete("person_project/" + assingment.id)
-                  .then((response) => {
+                  .then(() => {
+                    let nuevasAsignaciones = asignaciones;
+                    nuevasAsignaciones.forEach((persona) => {
+                      if (persona.id == personId) {
+                        persona.roles = persona.roles.filter(
+                          (asignacion) => asignacion.id != assingment.id
+                        );
+                      }
+                    });
+                    nuevasAsignaciones = nuevasAsignaciones.filter(
+                      (asignacion) => asignacion.roles.length > 0
+                    );
+                    setAsignaciones(nuevasAsignaciones);
                     let message = "Se ha borrado la asignacion exitosamente";
                     setNotify({
                       isOpen: true,
                       message: message,
                       type: "success",
-                      reload: true,
+                      reload: false,
                     });
                   })
                   .catch((error) => {
                     console.error(error.response);
-                    if (error.response.status == 404) {
-                      let message = error.response.data.error;
-                      setNotify({
-                        isOpen: true,
-                        message: message,
-                        type: "error",
-                        reload: true,
-                      });
-                    } else {
-                      let message = error.response.data.errors;
-                      setNotify({
-                        isOpen: true,
-                        message: message[Object.keys(message)[0]],
-                        type: "error",
-                        reload: false,
-                      });
-                    }
+                    let message = error.response.data.error;
+                    setNotify({
+                      isOpen: true,
+                      message: message,
+                      type: "error",
+                      reload: true,
+                    });
                   });
               });
-            } else {
-              let message =
-                "Error, parece que esa asignacion no existe, recargue la pagina e intente nuevamente";
-              setNotify({
-                isOpen: true,
-                message: message,
-                type: "error",
-                reload: true,
-              });
             }
-          } else {
-            let message =
-              "Error, parece que esa asignacion no existe, recargue la pagina e intente nuevamente";
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "error",
-              reload: true,
-            });
           }
         })
         .catch((error) => {
           console.error(error.response);
-          if (error.response.status == 404) {
-            let message = error.response.data.error;
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "error",
-              reload: true,
-            });
-          } else {
-            let message = error.response.data.errors;
-            setNotify({
-              isOpen: true,
-              message: message[Object.keys(message)[0]],
-              type: "error",
-              reload: false,
-            });
-          }
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
         });
     } else {
       //se especifico la asignacion que se quiere borrar
       axiosInstance
         .delete("person_project/" + asignId)
-        .then((response) => {
+        .then(() => {
+          let nuevasAsignaciones = asignaciones;
+          nuevasAsignaciones.forEach((persona) => {
+            if (persona.id == personId) {
+              persona.roles = persona.roles.filter(
+                (asignacion) => asignacion.id != asignId
+              );
+            }
+          });
+          nuevasAsignaciones = nuevasAsignaciones.filter(
+            (asignacion) => asignacion.roles.length > 0
+          );
+          setAsignaciones(nuevasAsignaciones);
           let message = "Se ha borrado la asignacion exitosamente";
           setNotify({
             isOpen: true,
             message: message,
             type: "success",
-            reload: true,
+            reload: false,
           });
         })
         .catch((error) => {
           console.error(error.response);
-          if (error.response.status == 404) {
-            let message = error.response.data.error;
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "error",
-              reload: true,
-            });
-          } else {
-            let message = error.response.data.errors;
-            setNotify({
-              isOpen: true,
-              message: message[Object.keys(message)[0]],
-              type: "error",
-              reload: false,
-            });
-          }
+          let message = error.response.data.error;
+          setNotify({
+            isOpen: true,
+            message: message,
+            type: "error",
+            reload: true,
+          });
         });
     }
+    asignClose();
+    handleClose();
   };
 
   return (

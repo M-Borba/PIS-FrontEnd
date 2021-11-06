@@ -13,9 +13,18 @@ AgregarPersona.propTypes = {
     endDate: propTypes.string,
   }).isRequired,
   setNotify: propTypes.func.isRequired,
+  asignaciones: propTypes.array.isRequired,
+  setAsignaciones: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function AgregarPersona({ projectData, setNotify }) {
+export default function AgregarPersona({
+  projectData,
+  setNotify,
+  asignaciones,
+  setAsignaciones,
+  onClose,
+}) {
   const classes = useStyles();
   const [asignacion, setAsignacion] = useState({
     roles: ROLES_CHECKBOX,
@@ -53,6 +62,7 @@ export default function AgregarPersona({ projectData, setNotify }) {
       body.people = body.people
         .filter((rol) => rol[1] == true)
         .map((person) => person[0].slice(0, person[0].indexOf(" "))); //conseguir la lista de personas por id
+      let nuevasAsignaciones = asignaciones;
       body.people.forEach((person) =>
         body.roles.forEach((role) =>
           axiosInstance
@@ -67,36 +77,41 @@ export default function AgregarPersona({ projectData, setNotify }) {
               },
             })
             .then((response) => {
-              if (response.status == 200) {
-                setNotify({
-                  isOpen: true,
-                  message: `Asignación creada exitosamente`,
-                  type: "success",
-                  reload: false,
-                });
-              } else {
-                setNotify({
-                  isOpen: true,
-                  message: `Error inesperado en fetch de proyectos`,
-                  type: "error",
-                  reload: false,
-                });
+              let asignacionData = response.data.person_project;
+              let index = nuevasAsignaciones.findIndex(
+                (asignacion) => asignacion.id == person
+              );
+              let asignacion = {
+                end_date: asignacionData.end_date,
+                id: asignacionData.id,
+                role: asignacionData.role,
+                start_date: asignacionData.start_date,
+              };
+              if (index != -1)
+                nuevasAsignaciones[index].roles = [
+                  ...nuevasAsignaciones[index].roles,
+                  asignacion,
+                ];
+              else {
+                let persona = {
+                  id: asignacionData.person.id,
+                  name: asignacionData.person.full_name,
+                  roles: [asignacion],
+                };
+                nuevasAsignaciones = [...nuevasAsignaciones, persona];
               }
+              setAsignaciones(nuevasAsignaciones);
+              setNotify({
+                isOpen: true,
+                message: `Asignación creada exitosamente`,
+                type: "success",
+                reload: false,
+              });
+              onClose();
             })
             .catch((error) => {
               console.log(error.response.status);
-              if (
-                error.response != undefined &&
-                error.response.status != null &&
-                error.response.status == 401
-              )
-                setNotify({
-                  isOpen: true,
-                  message: "Falta autentificarse!",
-                  type: "error",
-                  reload: false,
-                });
-              else if (error.response.status == 400) {
+              if (error.response.status == 400) {
                 let errors = error.response.data.errors;
                 setNotify({
                   isOpen: true,
@@ -111,11 +126,9 @@ export default function AgregarPersona({ projectData, setNotify }) {
               } else
                 setNotify({
                   isOpen: true,
-                  message:
-                    "Error inesperado al enviar formulario - " +
-                    Object.keys(errors)[0] +
-                    " " +
-                    errors[Object.keys(errors)[0]],
+                  message: error.response.data.error,
+                  type: "error",
+                  reload: false,
                 });
             })
         )
