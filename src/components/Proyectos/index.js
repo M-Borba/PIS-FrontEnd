@@ -1,7 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
 import Listado from "../../components/Listado";
-import Acciones from "./acciones"
+import Acciones from "./acciones";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -99,17 +99,17 @@ export default function Proyecto({ rows, setRows }) {
       rows.map((row) =>
         row.id == projectData.id
           ? {
-            ...row,
-            name: projectData.name,
-            project_type: projectData.project_type,
-            project_state: projectData.project_state,
-            description: projectData.description,
-            budget: projectData.budget,
-            start_date: projectData.start_date,
-            end_date: projectData.end_date,
-            organization: projectData.organization,
-            technologies: projectData.technologies,
-          }
+              ...row,
+              name: projectData.name,
+              project_type: projectData.project_type,
+              project_state: projectData.project_state,
+              description: projectData.description,
+              budget: projectData.budget,
+              start_date: projectData.start_date,
+              end_date: projectData.end_date,
+              organization: projectData.organization,
+              technologies: projectData.technologies,
+            }
           : row
       )
     );

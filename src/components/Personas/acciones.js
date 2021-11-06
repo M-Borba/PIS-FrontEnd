@@ -100,4 +100,4 @@ export default function Acciones({ personRow }) {
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
-};
+}

@@ -3,7 +3,6 @@ import { axiosInstance } from "../../config/axios";
 import Personas from "../../components/Personas";
 import propTypes from "prop-types";
 import { Typography } from "@material-ui/core";
-import { rolesFormateados } from "../../config/globalVariables";
 
 export const UpdateGridContext = createContext();
 

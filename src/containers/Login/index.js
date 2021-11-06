@@ -132,14 +132,15 @@ export default function LoginView() {
             src={effectus_wallpaper}
             alt="Logo"
           />
-          {!needsPasswordReset ?
+          {!needsPasswordReset ? (
             <Login
               onSubmit={(e) => handleLoginSubmit(e)}
               onInputChange={(e) => checkInput(e)}
               email={email}
               password={password}
               errors={loginError}
-            /> :
+            />
+          ) : (
             <ChangePassword
               onSubmit={(e) => handlePasswordChangeSubmit(e)}
               onInputChange={(e) => checkInput(e)}
@@ -147,10 +148,9 @@ export default function LoginView() {
               passwordConfirmation={passwordConfirmation}
               errors={loginError}
             />
-          }
+          )}
         </Box>
       </Paper>
     </Box>
   );
-
 }

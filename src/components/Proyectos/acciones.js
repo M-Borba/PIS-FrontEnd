@@ -264,4 +264,4 @@ export default function Acciones({ projectRow }) {
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
-};
+}

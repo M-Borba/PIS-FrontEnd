@@ -2,8 +2,7 @@ import * as React from "react";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import Listado from "../../components/Listado";
-import Acciones from "./acciones"
-
+import Acciones from "./acciones";
 
 Personas.propTypes = {
   rows: propTypes.array,
@@ -85,15 +84,15 @@ export default function Personas({ rows, setRows }) {
       rows.map((row) =>
         row.id == personData.id
           ? {
-            ...row,
-            fullName: personData.fullName,
-            firstName: personData.firstName,
-            lastName: personData.lastName,
-            email: personData.email,
-            cargaHoraria: personData.cargaHoraria,
-            tag: ".",
-            technologies: personData.technologies,
-          }
+              ...row,
+              fullName: personData.fullName,
+              firstName: personData.firstName,
+              lastName: personData.lastName,
+              email: personData.email,
+              cargaHoraria: personData.cargaHoraria,
+              tag: ".",
+              technologies: personData.technologies,
+            }
           : row
       )
     );
