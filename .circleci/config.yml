@@ -19,4 +19,4 @@ checks:
       threshold: 40
 exclude_patterns:
   - node_modules/
-  - "*.test.js"
+  - "**.test.js"
