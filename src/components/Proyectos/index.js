@@ -40,9 +40,8 @@ function Acciones({ projectRow }) {
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
-  const [personToRemove, setPersonToRemove] = React.useState([]);
-
-  const classes = useStyles();
+  const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
+  const [asignaciones, setAsignaciones] = useState([]);
   const [notify, setNotify] = React.useState({
     isOpen: false,
     message: "",
@@ -62,26 +61,21 @@ function Acciones({ projectRow }) {
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],
   };
+  const classes = useStyles();
 
-  const handleInfoClick = () => {
-    setOpenInfo(true);
-  };
-  const handleInfoClose = () => {
-    setOpenInfo(false);
-  };
+  const handleInfoOpen = () => setOpenInfo(true);
+  const handleInfoClose = () => setOpenInfo(false);
 
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
 
   const handleAssignedOpen = () => setOpenAssigned(true);
-
   const handleAssignedClose = () => setOpenAssigned(false);
 
   const handleRemovePersonOpen = (pId, pName, aId, aRole) => {
     setPersonToRemove([pId, pName, aId, aRole]);
     setOpenRemovePerson(true);
   };
-
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
 
   const handleAddOpen = () => setOpenAdd(true);
@@ -90,10 +84,8 @@ function Acciones({ projectRow }) {
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
 
-  const [asignaciones, setAsignaciones] = useState([]);
-
   const fetchAsignaciones = () => {
-    return axiosInstance.get("/person_project").then((response) => {
+    axiosInstance.get("/person_project").then((response) => {
       let asignaciones = [];
       response.data.person_project.map((person) => {
         person.person.projects.map((project) => {
@@ -123,7 +115,7 @@ function Acciones({ projectRow }) {
       <FormControlLabel
         control={
           <>
-            <IconButton variant="outlined" onClick={handleInfoClick}>
+            <IconButton variant="outlined" onClick={handleInfoOpen}>
               <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Modal
@@ -207,6 +199,9 @@ function Acciones({ projectRow }) {
                     endDate: projectData.end_date,
                   }}
                   setNotify={setNotify}
+                  asignaciones={asignaciones}
+                  setAsignaciones={setAsignaciones}
+                  onClose={handleAddClose}
                 />
               </Box>
             </Modal>
@@ -230,10 +225,13 @@ function Acciones({ projectRow }) {
                 personId={personToRemove[0]}
                 asignId={personToRemove[2]}
                 asignRole={personToRemove[3]}
+                asignClose={handleAssignedClose}
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemovePersonClose}
                 setNotify={setNotify}
+                asignaciones={asignaciones}
+                setAsignaciones={setAsignaciones}
               />
             </Dialog>
             <Modal
