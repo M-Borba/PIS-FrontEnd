@@ -19,10 +19,6 @@ checks:
 plugins:
   duplication:
     enabled: true
-    checks:
-    identical-code:
-      config:
-        threshold: 30
     config:
       languages:
         javascript:
