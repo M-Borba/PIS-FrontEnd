@@ -1,4 +1,4 @@
-version: "2"         # required to adjust maintainability checks
+version: "2" # required to adjust maintainability checks
 
 checks:
   argument-count:
@@ -35,11 +35,7 @@ checks:
       threshold: 4
   similar-code:
     enabled: false
-  identical-code:
-    enabled: true
-    config:
-      threshold: 10
 
 exclude_patterns:
   - node_modules/
-  - "**/__tests__/"
+  - "**.tests.js"
