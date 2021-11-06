@@ -7,6 +7,8 @@ import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CloseIcon from "@material-ui/icons/Close";
 import CreatePerson from "../../containers/CreatePerson";
+import CreateProject from "../../containers/CreateProject";
+import CreateAdministrator from "../../containers/CreateAdministrator";
 import Notificacion from "../../components/Notificacion";
 
 Listado.propTypes = {
@@ -20,7 +22,9 @@ Listado.propTypes = {
   setNotify: propTypes.func.isRequired,
   columns: propTypes.array.isRequired,
   rows: propTypes.array.isRequired,
+  type: propTypes.number.isRequired,
 };
+
 
 export default function Listado({
   button,
@@ -33,7 +37,19 @@ export default function Listado({
   setNotify,
   columns,
   rows,
+  type,
 }) {
+  function renderCreate(type) {
+    switch (type) {
+      case 0: //PERSONA
+        return <CreatePerson setNotify={setNotify} />;
+      case 1: //PROYECTO
+        return <CreateProject setNotify={setNotify} />;
+      case 2: //ADMIN
+        return <CreateAdministrator setNotify={setNotify} />;
+    }
+  }
+
   const classes = useStyles();
 
   return (
@@ -62,7 +78,7 @@ export default function Listado({
           >
             <CloseIcon />
           </IconButton>
-          <CreatePerson setNotify={setNotify} />
+          {renderCreate(type)}
         </Box>
       </Modal>
       <DataGrid

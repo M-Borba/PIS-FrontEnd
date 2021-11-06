@@ -1,7 +1,15 @@
 import React from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { IconButton, Box } from "@material-ui/core";
+import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
-import Listado from "../../components/Listado";
-import Acciones from "./acciones";
+import { useStyles } from "./styles";
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
+import CreateProject from "../../containers/CreateProject";
+import Notificacion from "../../components/Notificacion";
+import { UpdateGridContext } from "../../containers/ListarProyectos/index";
+import Acciones from "./acciones"
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -71,6 +79,7 @@ const columns = [
 
 export default function Proyecto({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
+  const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
     isOpen: false,
@@ -99,34 +108,64 @@ export default function Proyecto({ rows, setRows }) {
       rows.map((row) =>
         row.id == projectData.id
           ? {
-              ...row,
-              name: projectData.name,
-              project_type: projectData.project_type,
-              project_state: projectData.project_state,
-              description: projectData.description,
-              budget: projectData.budget,
-              start_date: projectData.start_date,
-              end_date: projectData.end_date,
-              organization: projectData.organization,
-              technologies: projectData.technologies,
-            }
+            ...row,
+            name: projectData.name,
+            project_type: projectData.project_type,
+            project_state: projectData.project_state,
+            description: projectData.description,
+            budget: projectData.budget,
+            start_date: projectData.start_date,
+            end_date: projectData.end_date,
+            organization: projectData.organization,
+            technologies: projectData.technologies,
+          }
           : row
       )
     );
   setEditRow.current = (projectData) => editRow(projectData);
 
   return (
-    <Listado
-      button={"Agregar Proyecto"}
-      buttonClick={handleNewOpen}
-      modalOpen={openNew}
-      modalOnClose={handleNewClose}
-      sortModel={sortModel}
-      setSortModel={setSortModel}
-      notify={notify}
-      setNotify={setNotify}
-      columns={columns}
-      rows={rows}
-    />
+    <div
+      style={{
+        margin: "1vw",
+      }}
+    >
+      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+        <Button color="primary" variant="contained" onClick={handleNewOpen}>
+          Agregar Proyecto
+        </Button>
+      </Box>
+      <Modal
+        open={openNew}
+        onClose={handleNewClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.modal}>
+          <IconButton
+            aria-label="Close"
+            onClick={handleNewClose}
+            className={classes.closeButton}
+          >
+            <CloseIcon />
+          </IconButton>
+          <CreateProject
+            setNotify={setNotify}
+            addRow={addRow}
+            onClose={handleNewClose}
+          />
+        </Box>
+      </Modal>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
+      />
+
+      <Notificacion notify={notify} setNotify={setNotify} />
+    </div>
   );
 }

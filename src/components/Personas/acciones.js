@@ -10,13 +10,14 @@ import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
-import Listado from "../../components/Listado";
+import { UpdateGridContext } from "../../containers/ListarPersonas/index";
 
 Acciones.propTypes = {
   personRow: propTypes.any,
 };
 
 export default function Acciones({ personRow }) {
+  const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [notify, setNotify] = React.useState({
@@ -27,7 +28,7 @@ export default function Acciones({ personRow }) {
   });
 
   const classes = useStyles();
-  const [personData] = React.useState({
+  const personData = {
     id: personRow.id,
     first_name: personRow.firstName,
     last_name: personRow.lastName,
@@ -35,7 +36,7 @@ export default function Acciones({ personRow }) {
     working_hours: personRow.cargaHoraria,
     tags: personRow.tags,
     technologies: personRow.technologies || [],
-  });
+  };
 
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
@@ -69,6 +70,8 @@ export default function Acciones({ personRow }) {
                   personData={personData}
                   id={personData.id}
                   setNotify={setNotify}
+                  onClose={handleEditClose}
+                  editRow={editRow.current}
                 />
               </Box>
             </Modal>
@@ -85,6 +88,7 @@ export default function Acciones({ personRow }) {
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"
+              fullWidth
               aria-labelledby="confirmation-dialog-title"
             >
               <EliminarPersona
@@ -92,6 +96,7 @@ export default function Acciones({ personRow }) {
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
                 setNotify={setNotify}
+                removeRow={removeRow.current}
               />
             </Dialog>
           </React.Fragment>

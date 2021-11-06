@@ -18,28 +18,29 @@ import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
+import { UpdateGridContext } from "../../containers/ListarProyectos/index";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
 };
 
 export default function Acciones({ projectRow }) {
+  const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openAssigned, setOpenAssigned] = React.useState(false);
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
-  const [personToRemove, setPersonToRemove] = React.useState([]);
-  const classes = useStyles();
+  const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
+  const [asignaciones, setAsignaciones] = useState([]);
   const [notify, setNotify] = React.useState({
     isOpen: false,
     message: "",
     type: "success",
     reload: false,
   });
-
-  const [projectData] = React.useState({
+  const projectData = {
     id: projectRow.id,
     name: projectRow.name,
     project_type: projectRow.project_type.toLowerCase().replaceAll(" ", "_"),
@@ -51,9 +52,10 @@ export default function Acciones({ projectRow }) {
     people: projectRow.people,
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],
-  });
+  };
+  const classes = useStyles();
 
-  const handleInfoClick = () => setOpenInfo(true);
+  const handleInfoOpen = () => setOpenInfo(true);
   const handleInfoClose = () => setOpenInfo(false);
 
   const handleEditOpen = () => setOpenEdit(true);
@@ -74,9 +76,8 @@ export default function Acciones({ projectRow }) {
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
 
-  const [asignaciones, setAsignaciones] = useState([]);
   const fetchAsignaciones = () => {
-    return axiosInstance.get("/person_project").then((response) => {
+    axiosInstance.get("/person_project").then((response) => {
       let asignaciones = [];
       response.data.person_project.map((person) => {
         person.person.projects.map((project) => {
@@ -106,7 +107,7 @@ export default function Acciones({ projectRow }) {
       <FormControlLabel
         control={
           <>
-            <IconButton variant="outlined" onClick={handleInfoClick}>
+            <IconButton variant="outlined" onClick={handleInfoOpen}>
               <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Modal
@@ -155,6 +156,8 @@ export default function Acciones({ projectRow }) {
                   projectData={projectData}
                   id={projectData.id}
                   setNotify={setNotify}
+                  editRow={editRow.current}
+                  onClose={handleEditClose}
                 />
               </Box>
             </Modal>
@@ -188,6 +191,9 @@ export default function Acciones({ projectRow }) {
                     endDate: projectData.end_date,
                   }}
                   setNotify={setNotify}
+                  asignaciones={asignaciones}
+                  setAsignaciones={setAsignaciones}
+                  onClose={handleAddClose}
                 />
               </Box>
             </Modal>
@@ -211,10 +217,13 @@ export default function Acciones({ projectRow }) {
                 personId={personToRemove[0]}
                 asignId={personToRemove[2]}
                 asignRole={personToRemove[3]}
+                asignClose={handleAssignedClose}
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemovePersonClose}
                 setNotify={setNotify}
+                asignaciones={asignaciones}
+                setAsignaciones={setAsignaciones}
               />
             </Dialog>
             <Modal
@@ -256,6 +265,7 @@ export default function Acciones({ projectRow }) {
                 projectName={projectRow.name}
                 handleClose={handleRemoveClose}
                 setNotify={setNotify}
+                removeRow={removeRow.current}
               />
             </Dialog>
           </>
