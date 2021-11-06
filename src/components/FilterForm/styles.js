@@ -14,4 +14,7 @@ export const useStyles = makeStyles((theme) => ({
   submit: {
     width: "50%",
   },
+  clear: {
+    width: "auto",
+  },
 }));

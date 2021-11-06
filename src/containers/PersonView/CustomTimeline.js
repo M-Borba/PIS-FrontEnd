@@ -13,6 +13,7 @@ import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import FilterForm from "../../components/FilterForm";
+import Tooltip from "@mui/material/Tooltip";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -96,7 +97,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             isOpen: true,
             message: "No existen datos para los filtros seleccionados",
             type: "error",
-          })
+          });
         }
         rows.map((ppl) => {
           setFilteredData(true);
@@ -271,9 +272,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     return (
       <Fragment>
         <FilterForm
-          onSunmit={() => console.log("call al backend para ver projectos")}
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
+          onInputChange={onFilterChange}
+          project_state={filters.project_state}
+          project_type={filters.project_type}
+          organization={filters.organization}
         />
-        {filteredData ?
+        {filteredData ? (
           <Timeline
             groups={groups}
             items={items}
@@ -312,7 +324,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               <DateHeader />
             </TimelineHeaders>
           </Timeline>
-          : <Notificacion notify={notify} setNotify={setNotify} />}
+        ) : (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <AsignarProyectoPersona
           open={assignObject.open}
           personId={parseInt(assignObject.groupId)}

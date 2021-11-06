@@ -91,7 +91,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             isOpen: true,
             message: "No existen datos para los filtros seleccionados",
             type: "error",
-          })
+          });
         }
         rows.map((proj) => {
           setFilteredData(true);
@@ -130,10 +130,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           isOpen: true,
           message: "No se pudieron cargar los datos de los proyectos",
           type: "error",
-        })
+        });
         setFetchingError(true);
-      }
-      );
+      });
   };
   useEffect(() => {
     fetchData();
@@ -164,12 +163,16 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             e.preventDefault();
             fetchData(filters);
           }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
           project_type={filters.project_type}
           organization={filters.organization}
         />
-        {filteredData ?
+        {filteredData ? (
           <Timeline
             groups={groups}
             items={items}
@@ -204,7 +207,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
               <DateHeader />
             </TimelineHeaders>
           </Timeline>
-          : <Notificacion notify={notify} setNotify={setNotify} />}
+        ) : (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>
             <IconButton
