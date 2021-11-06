@@ -1,4 +1,4 @@
-version: 2
+version: "2"
 jobs:
   build:
     docker:
@@ -19,4 +19,4 @@ checks:
       threshold: 40
 exclude_patterns:
   - node_modules/
-  - "**/__tests__/"
+  - "**.test.js"
