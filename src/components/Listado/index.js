@@ -25,7 +25,6 @@ Listado.propTypes = {
   type: propTypes.number.isRequired,
 };
 
-
 export default function Listado({
   button,
   buttonClick,

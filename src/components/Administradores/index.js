@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Listado from "../../components/Listado";
-import Acciones from "./acciones"
+import Acciones from "./acciones";
 
 Administrador.propTypes = {
   rows: PropTypes.array,

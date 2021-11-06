@@ -14,7 +14,7 @@ import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
 import { UpdateGridContext } from "../../containers/ListarPersonas/index";
-import Acciones from "./acciones"
+import Acciones from "./acciones";
 
 Personas.propTypes = {
   rows: propTypes.array,
@@ -96,15 +96,15 @@ export default function Personas({ rows, setRows }) {
       rows.map((row) =>
         row.id == personData.id
           ? {
-            ...row,
-            fullName: personData.fullName,
-            firstName: personData.firstName,
-            lastName: personData.lastName,
-            email: personData.email,
-            cargaHoraria: personData.cargaHoraria,
-            tag: ".",
-            technologies: personData.technologies,
-          }
+              ...row,
+              fullName: personData.fullName,
+              firstName: personData.firstName,
+              lastName: personData.lastName,
+              email: personData.email,
+              cargaHoraria: personData.cargaHoraria,
+              tag: ".",
+              technologies: personData.technologies,
+            }
           : row
       )
     );

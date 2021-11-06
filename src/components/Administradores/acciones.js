@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  FormControlLabel,
-  IconButton,
-  Dialog,
-} from "@material-ui/core";
+import { FormControlLabel, IconButton, Dialog } from "@material-ui/core";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Notificacion from "../../components/Notificacion";
@@ -58,4 +54,4 @@ export default function Acciones({ adminRow }) {
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
-};
+}
