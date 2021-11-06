@@ -8,29 +8,32 @@ EliminarProyecto.propTypes = {
   projectId: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
   setNotify: PropTypes.func.isRequired,
+  removeRow: PropTypes.func.isRequired,
 };
 
-function EliminarProyecto({ projectId, projectName, handleClose, setNotify }) {
+function EliminarProyecto({
+  projectId,
+  projectName,
+  handleClose,
+  setNotify,
+  removeRow,
+}) {
   const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
       .delete(`/projects/${projectId}`)
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
           setNotify({
             isOpen: true,
             message: `El proyecto ${projectName} se elimino con exito.`,
             type: "success",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
             reload: false,
           });
+          removeRow(projectId);
+        }
+        handleClose();
       })
       .catch((error) => {
         console.error(error);

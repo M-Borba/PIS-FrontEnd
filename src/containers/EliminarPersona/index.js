@@ -8,29 +8,32 @@ EliminarPersona.propTypes = {
   handleClose: PropTypes.func.isRequired,
   personId: PropTypes.number.isRequired,
   setNotify: PropTypes.func.isRequired,
+  removeRow: PropTypes.func.isRequired,
 };
 
-function EliminarPersona({ personName, personId, handleClose, setNotify }) {
+function EliminarPersona({
+  personName,
+  personId,
+  handleClose,
+  setNotify,
+  removeRow,
+}) {
   const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
       .delete(`/people/${personId}`)
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
+          removeRow(personId);
           setNotify({
             isOpen: true,
             message: `La persona ${personName} se elimino con exito.`,
             type: "success",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
             reload: false,
           });
+        }
+        handleClose();
       })
       .catch((error) => {
         console.error(error.response);

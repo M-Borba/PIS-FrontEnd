@@ -5,6 +5,7 @@ import Acciones from "./acciones"
 
 Proyecto.propTypes = {
   rows: propTypes.array,
+  setRows: propTypes.func,
 };
 
 const columns = [
@@ -68,7 +69,8 @@ const columns = [
   },
 ];
 
-export default function Proyecto({ rows }) {
+export default function Proyecto({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
     isOpen: false,
@@ -76,16 +78,42 @@ export default function Proyecto({ rows }) {
     type: "success",
     reload: false,
   });
-
-  const handleNewOpen = () => setOpenNew(true);
-  const handleNewClose = () => setOpenNew(false);
-
   const [sortModel, setSortModel] = React.useState([
     {
       field: "name",
       sort: "asc",
     },
   ]);
+
+  const handleNewOpen = () => setOpenNew(true);
+  const handleNewClose = () => setOpenNew(false);
+
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
+  const removeRow = (projectId) =>
+    setRows(rows.filter((row) => row.id != projectId));
+  setRemoveRow.current = (projectId) => removeRow(projectId);
+
+  const editRow = (projectData) =>
+    setRows(
+      rows.map((row) =>
+        row.id == projectData.id
+          ? {
+            ...row,
+            name: projectData.name,
+            project_type: projectData.project_type,
+            project_state: projectData.project_state,
+            description: projectData.description,
+            budget: projectData.budget,
+            start_date: projectData.start_date,
+            end_date: projectData.end_date,
+            organization: projectData.organization,
+            technologies: projectData.technologies,
+          }
+          : row
+      )
+    );
+  setEditRow.current = (projectData) => editRow(projectData);
 
   return (
     <Listado

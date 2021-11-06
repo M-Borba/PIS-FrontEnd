@@ -18,9 +18,17 @@ EditPerson.propTypes = {
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
-export default function EditPerson({ personData, id, setNotify }) {
+export default function EditPerson({
+  personData,
+  id,
+  setNotify,
+  onClose,
+  editRow,
+}) {
   const [person, setPerson] = useState({
     first_name: personData.first_name,
     last_name: personData.last_name,
@@ -43,13 +51,26 @@ export default function EditPerson({ personData, id, setNotify }) {
           technologies: person.technologies,
         },
       })
-      .then(() => {
+      .then((response) => {
+        let personInfo = response.data.person;
+        let person = {
+          id: personInfo.id,
+          fullName: personInfo.full_name,
+          firstName: personInfo.first_name,
+          lastName: personInfo.last_name,
+          email: personInfo.email,
+          cargaHoraria: personInfo.working_hours,
+          tag: ".",
+          technologies: personInfo.technologies,
+        };
+        editRow(person);
         setNotify({
           isOpen: true,
-          message: `La persona ${personData.first_name} ${personData.last_name} se modifico con exito.`,
+          message: `La persona ${personInfo.full_name} se modifico con exito.`,
           type: "success",
-          reload: true,
+          reload: false,
         });
+        onClose();
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);

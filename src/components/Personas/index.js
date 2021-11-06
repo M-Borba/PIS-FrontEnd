@@ -7,6 +7,7 @@ import Acciones from "./acciones"
 
 Personas.propTypes = {
   rows: propTypes.array,
+  setRows: propTypes.func,
 };
 
 const columns = [
@@ -52,26 +53,51 @@ const columns = [
   },
 ];
 
-export default function Personas({ rows }) {
+export default function Personas({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
-  const classes = useStyles();
   const [notify, setNotify] = React.useState({
     isOpen: false,
     message: "",
     type: "success",
     reload: false,
   });
-
-  const handleNewOpen = () => setOpenNew(true);
-
-  const handleNewClose = () => setOpenNew(false);
-
   const [sortModel, setSortModel] = React.useState([
     {
       field: "fullName",
       sort: "asc",
     },
   ]);
+  const classes = useStyles();
+
+  const handleNewOpen = () => setOpenNew(true);
+
+  const handleNewClose = () => setOpenNew(false);
+
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
+  const removeRow = (personId) =>
+    setRows(rows.filter((row) => row.id != personId));
+  setRemoveRow.current = (personId) => removeRow(personId);
+
+  const editRow = (personData) =>
+    setRows(
+      rows.map((row) =>
+        row.id == personData.id
+          ? {
+            ...row,
+            fullName: personData.fullName,
+            firstName: personData.firstName,
+            lastName: personData.lastName,
+            email: personData.email,
+            cargaHoraria: personData.cargaHoraria,
+            tag: ".",
+            technologies: personData.technologies,
+          }
+          : row
+      )
+    );
+  setEditRow.current = (personData) => editRow(personData);
 
   return (
     <Listado

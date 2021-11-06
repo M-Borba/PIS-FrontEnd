@@ -18,9 +18,17 @@ EditarProjecto.propTypes = {
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id, setNotify }) {
+export default function EditarProjecto({
+  projectData,
+  id,
+  setNotify,
+  onClose,
+  editRow,
+}) {
   const [errors, setErrors] = useState({});
   const [project, setProject] = useState(projectData);
 
@@ -31,13 +39,35 @@ export default function EditarProjecto({ projectData, id, setNotify }) {
       .put(`/projects/${id}`, {
         project,
       })
-      .then(() => {
+      .then((response) => {
+        let projectInfo = response.data.project;
+        let project = {
+          id: projectInfo.id,
+          name: projectInfo.name,
+          project_type: projectInfo.project_type
+            .replaceAll("_", " ")
+            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+          project_state: projectInfo.project_state.replace(/^\w/, (m) =>
+            m.toUpperCase()
+          ),
+          description: projectInfo.description,
+          budget: projectInfo.budget,
+          start_date: projectInfo.start_date.replaceAll("-", "/"),
+          end_date:
+            projectInfo.end_date != null
+              ? projectInfo.end_date.replaceAll("-", "/")
+              : null,
+          organization: projectInfo.organization,
+          technologies: projectInfo.technologies || [],
+        };
+        editRow(project);
         setNotify({
           isOpen: true,
           message: `El proyecto ${projectData.name} se modifico con exito.`,
           type: "success",
-          reload: true,
+          reload: false,
         });
+        onClose();
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);
