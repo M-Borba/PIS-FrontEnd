@@ -2,9 +2,7 @@ import React from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./styles";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -15,7 +13,6 @@ FilterForm.propTypes = {
   project_type: propTypes.string,
   project_state: propTypes.string,
   organization: propTypes.string,
-  technologies: propTypes.arrayOf(propTypes.string),
 };
 FilterForm.defaultProps = {
   project_state: "",
@@ -30,7 +27,6 @@ export default function FilterForm({
   project_type,
   project_state,
   organization,
-  technologies,
 }) {
   const classes = useStyles();
 

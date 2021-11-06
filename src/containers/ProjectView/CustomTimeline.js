@@ -42,6 +42,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [filteredData, setFilteredData] = useState([true]);
+  const [fetchingError, setFetchingError] = useState([false]);
   const [filters, setFilters] = useState({
     project_type: "",
     project_state: "",
@@ -82,7 +84,19 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
+        if (rows.length == 0) {
+          setFilteredData(false);
+          setNotify({
+            ...notify,
+            isOpen: true,
+            message: "No existen datos para los filtros seleccionados",
+            type: "error",
+          })
+        }
         rows.map((proj) => {
+          setFilteredData(true);
+          setFetchingError(false);
+
           groupsToAdd.push({
             id: proj.id,
             title: proj.name,
@@ -110,13 +124,15 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         });
         setItems(itemsToAdd);
       })
-      .catch((error) =>
+      .catch((error) => {
         setNotify({
           ...notify,
           isOpen: true,
           message: "No se pudieron cargar los datos de los proyectos",
           type: "error",
         })
+        setFetchingError(true);
+      }
       );
   };
   useEffect(() => {
@@ -140,7 +156,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
-  if (groups.length > 0 && items.length > 0 && !isProjectView) {
+  if (!isProjectView && !fetchingError) {
     return (
       <Fragment>
         <FilterForm
@@ -153,41 +169,42 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           project_type={filters.project_type}
           organization={filters.organization}
         />
-        <Timeline
-          groups={groups}
-          items={items}
-          keys={keys}
-          fullUpdate
-          itemTouchSendsClick={true}
-          dragSnap={60 * 60 * 24 * 1000} //dia
-          itemHeightRatio={0.75}
-          canMove={true} //se pueden mover
-          canChangeGroup={false} //no se pueden "cambiar de renglon"
-          canResize={"both"}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
-          timeSteps={customTimeSteps}
-          onItemClick={handleItemClick}
-          sidebarWidth={200}
-        >
-          <TimelineHeaders className="sticky">
-            <SidebarHeader style={{}}>
-              {({ getRootProps }) => {
-                return (
-                  <div {...getRootProps()}>
-                    <Switcher
-                      onSwitch={onSwitch}
-                      isProjectView={isProjectView}
-                    />
-                  </div>
-                );
-              }}
-            </SidebarHeader>
-            <DateHeader unit="primaryHeader" />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
-
+        {filteredData ?
+          <Timeline
+            groups={groups}
+            items={items}
+            keys={keys}
+            fullUpdate
+            itemTouchSendsClick={true}
+            dragSnap={60 * 60 * 24 * 1000} //dia
+            itemHeightRatio={0.75}
+            canMove={true} //se pueden mover
+            canChangeGroup={false} //no se pueden "cambiar de renglon"
+            canResize={"both"}
+            defaultTimeStart={defaultTimeStart}
+            defaultTimeEnd={defaultTimeEnd}
+            timeSteps={customTimeSteps}
+            onItemClick={handleItemClick}
+            sidebarWidth={200}
+          >
+            <TimelineHeaders className="sticky">
+              <SidebarHeader style={{}}>
+                {({ getRootProps }) => {
+                  return (
+                    <div {...getRootProps()}>
+                      <Switcher
+                        onSwitch={onSwitch}
+                        isProjectView={isProjectView}
+                      />
+                    </div>
+                  );
+                }}
+              </SidebarHeader>
+              <DateHeader unit="primaryHeader" />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+          : <Notificacion notify={notify} setNotify={setNotify} />}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>
             <IconButton

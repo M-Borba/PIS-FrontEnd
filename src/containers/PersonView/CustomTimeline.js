@@ -22,6 +22,7 @@ PersonTimeline.propTypes = {
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
+  const [filteredData, setFilteredData] = useState([true]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -88,9 +89,18 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
+        if (rows.length == 0) {
+          setFilteredData(false);
+          setNotify({
+            ...notify,
+            isOpen: true,
+            message: "No existen datos para los filtros seleccionados",
+            type: "error",
+          })
+        }
         rows.map((ppl) => {
+          setFilteredData(true);
           const person = ppl.person;
-
           groupsToAdd.push({
             id: person.id,
             title: person.full_name,
@@ -263,44 +273,46 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         <FilterForm
           onSunmit={() => console.log("call al backend para ver projectos")}
         />
-        <Timeline
-          groups={groups}
-          items={items}
-          keys={keys}
-          fullUpdate
-          itemsSorted
-          itemTouchSendsClick={true}
-          dragSnap={60 * 60 * 24 * 1000} //dia
-          stackItems
-          timeSteps={customTimeSteps}
-          itemHeightRatio={0.75}
-          canMove={true}
-          canResize={"both"}
-          lineHeight={40}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
-          onItemResize={handleItemResize}
-          onCanvasClick={handleCanvasClick}
-          onItemClick={handleItemClick}
-          sidebarWidth={200}
-        >
-          <TimelineHeaders className="sticky">
-            <SidebarHeader>
-              {({ getRootProps }) => {
-                return (
-                  <div {...getRootProps()}>
-                    <Switcher
-                      onSwitch={onSwitch}
-                      isProjectView={isProjectView}
-                    />
-                  </div>
-                );
-              }}
-            </SidebarHeader>
-            <DateHeader unit="primaryHeader" />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
+        {filteredData ?
+          <Timeline
+            groups={groups}
+            items={items}
+            keys={keys}
+            fullUpdate
+            itemsSorted
+            itemTouchSendsClick={true}
+            dragSnap={60 * 60 * 24 * 1000} //dia
+            stackItems
+            timeSteps={customTimeSteps}
+            itemHeightRatio={0.75}
+            canMove={true}
+            canResize={"both"}
+            lineHeight={40}
+            defaultTimeStart={defaultTimeStart}
+            defaultTimeEnd={defaultTimeEnd}
+            onItemResize={handleItemResize}
+            onCanvasClick={handleCanvasClick}
+            onItemClick={handleItemClick}
+            sidebarWidth={200}
+          >
+            <TimelineHeaders className="sticky">
+              <SidebarHeader>
+                {({ getRootProps }) => {
+                  return (
+                    <div {...getRootProps()}>
+                      <Switcher
+                        onSwitch={onSwitch}
+                        isProjectView={isProjectView}
+                      />
+                    </div>
+                  );
+                }}
+              </SidebarHeader>
+              <DateHeader unit="primaryHeader" />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+          : <Notificacion notify={notify} setNotify={setNotify} />}
         <AsignarProyectoPersona
           open={assignObject.open}
           personId={parseInt(assignObject.groupId)}
