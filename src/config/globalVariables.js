@@ -1,4 +1,4 @@
-export const BACKEND_HOST = "https://pis-es-backend-test.herokuapp.com";
+export const BACKEND_HOST = "https://pis-es-backend.herokuapp.com";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
