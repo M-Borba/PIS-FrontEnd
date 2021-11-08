@@ -65,12 +65,33 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
+  var proyectsToAdd = [];
+  const [proyectos, setProyectos] = useState([]);
+
   // Formato esperado de date : yyyy-MM-DD
   const dateToMiliseconds = (date) => {
     let newDate = new Date(date);
     newDate.setDate(newDate.getDate());
     return moment(newDate).valueOf();
   };
+
+  const getProject = async () => {
+    axiosInstance.get("/projects")
+      .then((response) => {
+        const rows = response.data.projects;
+        rows.map((proj) => {
+          proyectsToAdd.push({
+            id: proj.id,
+            end_date_proj: dateToMiliseconds(proj.end_date) + 10800000,
+          });
+          setProyectos(proyectsToAdd);
+        });
+
+      });
+  }
+  useEffect(() => {
+    getProject();
+  }, []);
 
   const fetchData = () => {
     axiosInstance.get("/person_project").then((response) => {
@@ -83,15 +104,49 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           title: person.full_name,
         });
 
+
+
+
         person.projects.map((proj) => {
+          let color = '#9B9F84'
+          console.log('aaaaaaa')
           proj.dates.map((dt) => {
+            proyectos.map((p) => {
+              if (p.id == proj.id) {
+                console.log('aaaaaaaaaaa')
+                var finproy = p.end_date_proj;
+                //if (p.id == 148) { console.log('este es ') }
+                var finasignacion = dateToMiliseconds(dt.end_date);
+                //console.log('fin de proyecto ' + finproy);
+                //console.log('fin de asignaci ' + finasignacion);
+                var hoy = new Date().getTime()
+                if (hoy < finproy) {
+                  console.log('El proyecto ' + p.id + ' no ha terminado')
+                  if (finasignacion - 864000000 < hoy) {
+                    console.log('la asignacion no ha terminado')
+                    if (finproy - 864000000 < finasignacion) {
+                      console.log('la asignacion esta en peligro')
+                      color = '#C14B3A';
+                    }
+                  }
+                }
+              }
+            })
+
             itemsToAdd.push({
               id: dt.id,
               group: person.id,
               start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
               end: dateToMiliseconds(dt.end_date ?? "2050-01-01") + 97200000,
+
               canResize: "both",
               canMove: false,
+              itemProps: {
+                style: {
+                  borderRadius: 5,
+                  background: color,
+                }
+              },
               title: proj.name + " - " + rolesFormateados[dt.role],
             });
           });
@@ -189,6 +244,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         canResize: "both",
         canMove: false,
         title: title,
+
       },
     ]);
 
@@ -217,11 +273,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: dateToMiliseconds(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: dateToMiliseconds(startDate) + 10800000,
+            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+            title: title,
+          }
           : item
       )
     );

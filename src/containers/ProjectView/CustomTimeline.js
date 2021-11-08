@@ -83,6 +83,21 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             ? new Date(2050, 1, 1)
             : new Date(proj.end_date);
           const endValue = moment(endDate).valueOf();
+          let color = ''
+          switch (proj.project_state) {
+            case 'verde':
+              color = '#33FF61';
+              break;
+            case 'rojo':
+              color = '#C14B3A';
+              break;
+            case 'amarillo':
+              color = '#E4FF33';
+              break;
+            case 'upcomping':
+              color = '#9B9F84';
+              break;
+          }
           itemsToAdd.push({
             id: proj.id,
             group: proj.id,
@@ -90,6 +105,12 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             end: endValue,
             canMove: startValue > new Date().getTime(),
             canResize: "both",
+            itemProps: {
+              style: {
+                borderRadius: 5,
+                background: color,
+              }
+            },
             className:
               moment(startDate).day() === 6 || moment(startDate).day() === 0
                 ? "item-weekend"
