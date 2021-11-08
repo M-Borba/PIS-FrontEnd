@@ -12,6 +12,8 @@ import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
+import FilterForm from "../../components/FilterForm";
+import Tooltip from "@mui/material/Tooltip";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -21,6 +23,7 @@ PersonTimeline.propTypes = {
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
+  const [filteredData, setFilteredData] = useState([true]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -33,12 +36,23 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     type: "success",
     reload: false,
   });
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+    organization: "",
+  });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
     asignacionId: -1,
     projectName: "",
     personName: "",
   });
+  // Formato esperado de date : yyyy-MM-DD
+  const dateToMiliseconds = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(newDate).valueOf();
+  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -64,44 +78,78 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     month: 1,
     year: 1,
   };
-
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
+  const onFilterChange = (e) => {
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      [e.target.name]: e.target.value,
+    }));
   };
+  const fetchData = (filterParams = {}) => {
+    // to avoid sending empty query params
+    for (let key in filterParams) {
+      if (filterParams[key] === "" || filterParams[key] === null) {
+        delete filterParams[key];
+      }
+    }
 
-  const fetchData = () => {
-    axiosInstance.get("/person_project").then((response) => {
-      const rows = response.data.person_project;
-      rows.map((ppl) => {
-        var person = ppl.person;
+    axiosInstance
+      .get("/person_project", { params: filterParams })
+      .then((response) => {
+        const rows = response.data.person_project;
+        if (rows.length == 0) {
+          setFilteredData(false);
+          setNotify({
+            ...notify,
+            isOpen: true,
+            message: "No existen datos para los filtros seleccionados",
+            type: "error",
+          });
+        }
+        rows.map((ppl) => {
+          setFilteredData(true);
+          const person = ppl.person;
+          groupsToAdd.push({
+            id: person.id,
+            title: person.full_name,
+          });
 
-        groupsToAdd.push({
-          id: person.id,
-          title: person.full_name,
-        });
+          person.projects.map((proj) => {
+            proj.dates.map((dt) => {
+              let startDate = new Date(dt.start_date);
+              startDate.setDate(startDate.getDate());
 
-        person.projects.map((proj) => {
-          proj.dates.map((dt) => {
-            itemsToAdd.push({
-              id: dt.id,
-              group: person.id,
-              start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              end: dateToMiliseconds(dt.end_date ?? "2050-01-01") + 97200000,
-              canResize: "both",
-              canMove: false,
-              title: proj.name + " - " + rolesFormateados[dt.role],
+              const startValue = moment(
+                moment(startDate).add(3, "hours")
+              ).valueOf();
+
+              let endDate = new Date(dt.end_date);
+              endDate.setDate(endDate.getDate() + 1);
+
+              let endValue = moment(endDate).valueOf();
+
+              if (!dt.end_date) {
+                endDate = moment(Date()).add(5, "years");
+                endValue = moment(moment(endDate).add(3, "hours")).valueOf(); // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+              }
+
+              itemsToAdd.push({
+                id: dt.id,
+                group: person.id,
+                start: startValue,
+                end: endValue,
+                canResize: "both",
+                canMove: false,
+                title: proj.name + " - " + rolesFormateados[dt.role],
+              });
             });
           });
         });
       });
 
-      setGroups(groupsToAdd);
-      setItems(itemsToAdd);
-    });
+    setGroups(groupsToAdd);
+    setItems(itemsToAdd);
   };
+
 
   useEffect(() => {
     fetchData();
@@ -217,11 +265,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: dateToMiliseconds(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: ƒ(startDate) + 10800000,
+            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+            title: title,
+          }
           : item
       )
     );
@@ -229,44 +277,62 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   if (groups.length > 0 && isProjectView) {
     return (
       <Fragment>
-        <Timeline
-          groups={groups}
-          items={items}
-          keys={keys}
-          fullUpdate
-          itemsSorted
-          itemTouchSendsClick={true}
-          dragSnap={60 * 60 * 24 * 1000} //dia
-          stackItems
-          timeSteps={customTimeSteps}
-          itemHeightRatio={0.75}
-          canMove={true}
-          canResize={"both"}
-          lineHeight={40}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
-          onItemResize={handleItemResize}
-          onCanvasClick={handleCanvasClick}
-          onItemClick={handleItemClick}
-          sidebarWidth={200}
-        >
-          <TimelineHeaders className="sticky">
-            <SidebarHeader>
-              {({ getRootProps }) => {
-                return (
-                  <div {...getRootProps()}>
-                    <Switcher
-                      onSwitch={onSwitch}
-                      isProjectView={isProjectView}
-                    />
-                  </div>
-                );
-              }}
-            </SidebarHeader>
-            <DateHeader unit="primaryHeader" />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
+        <FilterForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
+          onInputChange={onFilterChange}
+          project_state={filters.project_state}
+          project_type={filters.project_type}
+          organization={filters.organization}
+        />
+        {filteredData ? (
+          <Timeline
+            groups={groups}
+            items={items}
+            keys={keys}
+            fullUpdate
+            itemsSorted
+            itemTouchSendsClick={true}
+            dragSnap={60 * 60 * 24 * 1000} //dia
+            stackItems
+            timeSteps={customTimeSteps}
+            itemHeightRatio={0.75}
+            canMove={true}
+            canResize={"both"}
+            lineHeight={40}
+            defaultTimeStart={defaultTimeStart}
+            defaultTimeEnd={defaultTimeEnd}
+            onItemResize={handleItemResize}
+            onCanvasClick={handleCanvasClick}
+            onItemClick={handleItemClick}
+            sidebarWidth={200}
+          >
+            <TimelineHeaders className="sticky">
+              <SidebarHeader>
+                {({ getRootProps }) => {
+                  return (
+                    <div {...getRootProps()}>
+                      <Switcher
+                        onSwitch={onSwitch}
+                        isProjectView={isProjectView}
+                      />
+                    </div>
+                  );
+                }}
+              </SidebarHeader>
+              <DateHeader unit="primaryHeader" />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+        ) : (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <AsignarProyectoPersona
           open={assignObject.open}
           personId={parseInt(assignObject.groupId)}

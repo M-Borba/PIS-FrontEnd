@@ -16,6 +16,7 @@ import "./style.css";
 import { useStyles } from "./styles";
 
 import InfoProyecto from "../../containers/InfoProyecto";
+import FilterForm from "../../components/FilterForm";
 import Notificacion from "../../components/Notificacion";
 
 var keys = {
@@ -41,6 +42,13 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [filteredData, setFilteredData] = useState([true]);
+  const [fetchingError, setFetchingError] = useState([false]);
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+    organization: "",
+  });
 
   const classes = useStyles();
 
@@ -65,12 +73,30 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
-  const fetchData = async () => {
+  const fetchData = (filterParams = {}) => {
+    // to avoid sending empty query params
+    for (let key in filterParams) {
+      if (filterParams[key] === "" || filterParams[key] === null) {
+        delete filterParams[key];
+      }
+    }
     axiosInstance
-      .get("/projects")
+      .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
+        if (rows.length == 0) {
+          setFilteredData(false);
+          setNotify({
+            ...notify,
+            isOpen: true,
+            message: "No existen datos para los filtros seleccionados",
+            type: "error",
+          });
+        }
         rows.map((proj) => {
+          setFilteredData(true);
+          setFetchingError(false);
+
           groupsToAdd.push({
             id: proj.id,
             title: proj.name,
@@ -98,14 +124,15 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         });
         setItems(itemsToAdd);
       })
-      .catch((error) =>
+      .catch((error) => {
         setNotify({
           ...notify,
           isOpen: true,
           message: "No se pudieron cargar los datos de los proyectos",
           type: "error",
-        })
-      );
+        });
+        setFetchingError(true);
+      });
   };
   useEffect(() => {
     fetchData();
@@ -122,44 +149,67 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
-  if (groups.length > 0 && items.length > 0 && !isProjectView) {
+  const onFilterChange = (e) => {
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  if (!isProjectView && !fetchingError) {
     return (
       <Fragment>
-        <Timeline
-          groups={groups}
-          items={items}
-          keys={keys}
-          fullUpdate
-          itemTouchSendsClick={true}
-          dragSnap={60 * 60 * 24 * 1000} //dia
-          itemHeightRatio={0.75}
-          canMove={true} //se pueden mover
-          canChangeGroup={false} //no se pueden "cambiar de renglon"
-          canResize={"both"}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
-          timeSteps={customTimeSteps}
-          onItemClick={handleItemClick}
-          sidebarWidth={200}
-        >
-          <TimelineHeaders className="sticky">
-            <SidebarHeader style={{}}>
-              {({ getRootProps }) => {
-                return (
-                  <div {...getRootProps()}>
-                    <Switcher
-                      onSwitch={onSwitch}
-                      isProjectView={isProjectView}
-                    />
-                  </div>
-                );
-              }}
-            </SidebarHeader>
-            <DateHeader unit="primaryHeader" />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
-
+        <FilterForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
+          onInputChange={onFilterChange}
+          project_state={filters.project_state}
+          project_type={filters.project_type}
+          organization={filters.organization}
+        />
+        {filteredData ? (
+          <Timeline
+            groups={groups}
+            items={items}
+            keys={keys}
+            fullUpdate
+            itemTouchSendsClick={true}
+            dragSnap={60 * 60 * 24 * 1000} //dia
+            itemHeightRatio={0.75}
+            canMove={true} //se pueden mover
+            canChangeGroup={false} //no se pueden "cambiar de renglon"
+            canResize={"both"}
+            defaultTimeStart={defaultTimeStart}
+            defaultTimeEnd={defaultTimeEnd}
+            timeSteps={customTimeSteps}
+            onItemClick={handleItemClick}
+            sidebarWidth={200}
+          >
+            <TimelineHeaders className="sticky">
+              <SidebarHeader style={{}}>
+                {({ getRootProps }) => {
+                  return (
+                    <div {...getRootProps()}>
+                      <Switcher
+                        onSwitch={onSwitch}
+                        isProjectView={isProjectView}
+                      />
+                    </div>
+                  );
+                }}
+              </SidebarHeader>
+              <DateHeader unit="primaryHeader" />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+        ) : (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>
             <IconButton
