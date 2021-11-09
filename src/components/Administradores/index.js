@@ -53,7 +53,7 @@ export default function Administrador({ rows }) {
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
-      sort: "dsc",
+      sort: "desc",
     },
   ]);
 
