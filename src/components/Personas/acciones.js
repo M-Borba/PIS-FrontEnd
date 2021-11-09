@@ -71,9 +71,7 @@ export default function Acciones({ personRow }) {
                 >
                   <CloseIcon />
                 </IconButton>
-                <InfoPersona
-                  personData={personRow}
-                />
+                <InfoPersona personData={personRow} />
               </Box>
             </Modal>
           </>

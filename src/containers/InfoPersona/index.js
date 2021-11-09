@@ -57,7 +57,6 @@ export default function InfoPersona({ personData }) {
         " "
       )}
 
-
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
           Carga Horaria:{" "}
@@ -104,7 +103,6 @@ export default function InfoPersona({ personData }) {
       ) : (
         " "
       )}
-
     </div>
   );
 }

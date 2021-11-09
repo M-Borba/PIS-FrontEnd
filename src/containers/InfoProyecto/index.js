@@ -61,7 +61,6 @@ export default function InfoProyecto({ projectData, type, state }) {
         " "
       )}
 
-
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
           Budget:{" "}
