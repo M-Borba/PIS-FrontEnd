@@ -79,7 +79,7 @@ export default function EditarProjecto({
       onSubmit={handleSubmit}
       project={project}
       setProject={setProject}
-      title={"Modificacion de Proyecto"}
+      title={"Modificación de Proyecto"}
       errors={errors}
       setErrors={setErrors}
     />

@@ -79,7 +79,7 @@ export default function EditPerson({
 
   return (
     <PersonForm
-      title={"Modificacion de Persona"}
+      title={"Modificación de Persona"}
       onSubmit={handleSubmit}
       person={person}
       errors={errors}

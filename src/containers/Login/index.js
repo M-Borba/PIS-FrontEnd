@@ -20,7 +20,7 @@ import { useStyles } from "./styles";
 export default function LoginView() {
   const history = useHistory();
   const [email, setEmail] = useState("");
-  const [loginError, setLoginError] = useState({});
+  const [loginError, setLoginError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [needsPasswordReset, setPasswordReset] = useState(false);
@@ -32,16 +32,15 @@ export default function LoginView() {
   useEffect(() => {
     if (
       localStorage.getItem("uid") != null &&
+      localStorage.getItem("uid") != undefined &&
       localStorage.getItem("uid") != NOT_LOGGED &&
       !needsPasswordReset
     ) {
-      history.push("/Inicio");
-      window.location.reload();
+      window.location = "/inicio";
     }
-  }, [needsPasswordReset]);
+  }, []);
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
+  const signInAndSetHeaders = () =>
     axiosInstance
       .post("/users/sign_in", {
         user: {
@@ -54,20 +53,24 @@ export default function LoginView() {
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("client", headers["client"]);
         localStorage.setItem("uid", headers["uid"]);
+        console.log(localStorage, "seteado ls");
         history.push("/Inicio");
-      })
-      .catch((error) => {
-        if (error.response?.data?.needs_password_reset == true) {
-          const headers = error.response.headers;
-          setToken(headers["access-token"]);
-          setUid(headers.uid);
-          setClient(headers.client);
-          setPassword("");
-          setPasswordReset(true);
-        } else {
-          setLoginError(error.response?.data?.errors);
-        }
       });
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    signInAndSetHeaders().catch((error) => {
+      if (error.response?.data?.needs_password_reset == true) {
+        const headers = error.response.headers;
+        setToken(headers["access-token"]);
+        setUid(headers.uid);
+        setClient(headers.client);
+        setPassword("");
+        setPasswordReset(true);
+      } else {
+        setLoginError(error.response?.data?.error);
+      }
+    });
   };
 
   const handlePasswordChangeSubmit = (e) => {
@@ -93,76 +96,48 @@ export default function LoginView() {
         }
       )
       .then((response) => {
-        console.log(response);
-        axiosInstance
-          .post("/users/sign_in", {
-            user: {
-              email: email,
-              password: password,
-            },
-          })
-          .then((response) => {
-            const headers = response.headers;
-            localStorage.setItem("token", headers["access-token"]);
-            localStorage.setItem("client", headers["client"]);
-            localStorage.setItem("uid", headers["uid"]);
-            history.push("/Inicio");
-          });
-      })
-      .catch((error) => {
-        localStorage.clear();
-        console.log(error);
-        setLoginError(error.response?.data?.errors);
+        signInAndSetHeaders().catch((error) => {
+          localStorage.clear();
+          console.log("error, clean local storage", error);
+          setLoginError(error.response?.data?.error);
+        });
       });
   };
-
   const checkInput = (e) => {
-    setLoginError({});
+    setLoginError("");
     if (e.target.name == "email") setEmail(e.target.value);
     if (e.target.name == "password") setPassword(e.target.value);
     if (e.target.name == "passwordConfirmation")
       setPasswordConfirmation(e.target.value);
   };
-  if (!needsPasswordReset)
-    return (
-      <Box className={classes.container}>
-        <Paper variant="elevation" elevation={3} className={classes.paper}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              className={classes.imgcontainer}
-              src={effectus_wallpaper}
-              alt="Logo"
-            />
+  return (
+    <Box className={classes.container}>
+      <Paper variant="elevation" elevation={3} className={classes.paper}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <img
+            className={classes.imgcontainer}
+            src={effectus_wallpaper}
+            alt="Logo"
+          />
+          {!needsPasswordReset ? (
             <Login
               onSubmit={(e) => handleLoginSubmit(e)}
               onInputChange={(e) => checkInput(e)}
               email={email}
               password={password}
-              errors={loginError}
+              error={loginError}
             />
-          </Box>
-        </Paper>
-      </Box>
-    );
-  else
-    return (
-      <Box className={classes.container}>
-        <Paper variant="elevation" elevation={3} className={classes.paper}>
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              className={classes.imgcontainer}
-              src={effectus_wallpaper}
-              alt="Logo"
-            />
+          ) : (
             <ChangePassword
               onSubmit={(e) => handlePasswordChangeSubmit(e)}
               onInputChange={(e) => checkInput(e)}
               password={password}
               passwordConfirmation={passwordConfirmation}
-              errors={loginError}
+              error={loginError}
             />
-          </Box>
-        </Paper>
-      </Box>
-    );
+          )}
+        </Box>
+      </Paper>
+    </Box>
+  );
 }

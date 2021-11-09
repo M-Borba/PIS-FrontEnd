@@ -92,7 +92,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
             </List>
           </>
         ) : (
-          "Aun no hay nadie asignado"
+          "Aún no hay nadie asignado"
         )}
       </Grid>
     </div>

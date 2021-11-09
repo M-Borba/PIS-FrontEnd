@@ -58,7 +58,7 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
 
   return (
     <PersonForm
-      title={"Creacion de persona"}
+      title={"Creación de persona"}
       onSubmit={handleSubmit}
       person={person}
       errors={errors}
