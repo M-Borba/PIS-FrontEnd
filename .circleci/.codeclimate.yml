@@ -1,15 +1,12 @@
-version: "2"
+version: 2
 jobs:
   build:
     docker:
       - image: circleci/node:8
     steps:
       - checkout
-      - restore_cache: # special step to restore the dependency cache
+      - restore_cache: # special step to restore the dependency
           key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Setup Dependencies
-          command: npm install
 checks:
   file-lines:
     config:
@@ -19,4 +16,4 @@ checks:
       threshold: 40
 exclude_patterns:
   - node_modules/
-  - "**.test.js"
+  - "**/__tests__/"

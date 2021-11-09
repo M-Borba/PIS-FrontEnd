@@ -52,7 +52,7 @@ function AsignarProyectoPersona({
           setProyectos(response.data.projects);
         })
         .catch((error) => {
-          console.error(error.response);
+          console.log("e", error.response);
           let message = error.response.data.errors;
           setNotify({
             isOpen: true,
@@ -75,8 +75,7 @@ function AsignarProyectoPersona({
         addAsignacion(
           asignacionData.id,
           asignacionData.person.id,
-          `${asignacionData.project.name} - ${
-            rolesFormateados[asignacionData.role]
+          `${asignacionData.project.name} - ${rolesFormateados[asignacionData.role]
           }`,
           asignacionData.start_date,
           asignacionData.end_date
@@ -91,8 +90,8 @@ function AsignarProyectoPersona({
         setRequestBody(initialState);
       })
       .catch((error) => {
-        console.error(error.response);
-        if (error.response.status == 404) {
+        console.error(error);
+        if (error.response?.status == 404) {
           setNotify({
             isOpen: true,
             message: error.response.data.error,
