@@ -49,7 +49,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         </Typography>
       </Box>
 
-      {projectData.organization ?
+      {projectData.organization ? (
         <Box mt={2}>
           <Typography variant="h6" display="inline" gutterBottom>
             Organización:{" "}
@@ -57,8 +57,10 @@ export default function InfoProyecto({ projectData, type, state }) {
           <Typography display="inline" variant="subtitle1">
             {projectData.organization}
           </Typography>
-        </Box> : " "
-      }
+        </Box>
+      ) : (
+        " "
+      )}
 
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
@@ -103,20 +105,20 @@ export default function InfoProyecto({ projectData, type, state }) {
             <Typography variant="h6" display="inline" gutterBottom>
               Fecha Fin:{" "}
             </Typography>
-            {projectData.end_date ?
+            {projectData.end_date ? (
               <Typography display="inline" variant="subtitle1">
                 {projectData.end_date}
               </Typography>
-              :
+            ) : (
               <Typography display="inline" variant="subtitle1">
                 Indefinida
               </Typography>
-            }
+            )}
           </Box>
         </Grid>
       </Grid>
 
-      {projectData.technologies.length != 0 ?
+      {projectData.technologies.length != 0 ? (
         <Box mr={15} mt={2}>
           <Accordion>
             <AccordionSummary
@@ -150,10 +152,10 @@ export default function InfoProyecto({ projectData, type, state }) {
             </AccordionDetails>
           </Accordion>
         </Box>
-        :
+      ) : (
         " "
-      }
-      {projectData.people.length != 0 ?
+      )}
+      {projectData.people.length != 0 ? (
         <Box m="auto" mr={15} mt={2}>
           <Accordion>
             <AccordionSummary
@@ -189,14 +191,13 @@ export default function InfoProyecto({ projectData, type, state }) {
             </AccordionDetails>
           </Accordion>
         </Box>
-        :
+      ) : (
         <Box style={{ paddingTop: 20 }}>
           <Typography variant="button" display="block" gutterBottom>
             Aún no hay nadie asignado
           </Typography>
         </Box>
-      }
-
+      )}
     </div>
   );
 }
