@@ -169,8 +169,8 @@ export default function Personas({ rows, setRows }) {
   });
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "fullName",
-      sort: "asc",
+      field: "id",
+      sort: "desc",
     },
   ]);
   const classes = useStyles();
@@ -190,15 +190,15 @@ export default function Personas({ rows, setRows }) {
       rows.map((row) =>
         row.id == personData.id
           ? {
-              ...row,
-              fullName: personData.fullName,
-              firstName: personData.firstName,
-              lastName: personData.lastName,
-              email: personData.email,
-              cargaHoraria: personData.cargaHoraria,
-              tag: ".",
-              technologies: personData.technologies,
-            }
+            ...row,
+            fullName: personData.fullName,
+            firstName: personData.firstName,
+            lastName: personData.lastName,
+            email: personData.email,
+            cargaHoraria: personData.cargaHoraria,
+            tag: ".",
+            technologies: personData.technologies,
+          }
           : row
       )
     );
