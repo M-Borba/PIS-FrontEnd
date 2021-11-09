@@ -41,28 +41,30 @@ export default function InfoProyecto({ projectData, type, state }) {
 
       <Box mt={3}>
         <Typography variant="h6" gutterBottom>
-          Descripcion
+          Descripción
         </Typography>
 
-        <Typography display="" variant="body2">
+        <Typography display="" variant="subtitle1">
           {projectData.description}
         </Typography>
       </Box>
 
-      <Box mt={2}>
-        <Typography variant="h6" display="inline" gutterBottom>
-          Organización:{" "}
-        </Typography>
-        <Typography display="inline" variant="body2">
-          {projectData.organization}
-        </Typography>
-      </Box>
+      {projectData.organization ?
+        <Box mt={2}>
+          <Typography variant="h6" display="inline" gutterBottom>
+            Organización:{" "}
+          </Typography>
+          <Typography display="inline" variant="subtitle1">
+            {projectData.organization}
+          </Typography>
+        </Box> : " "
+      }
 
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
           Budget:{" "}
         </Typography>
-        <Typography display="inline" variant="body2">
+        <Typography display="inline" variant="subtitle1">
           {projectData.budget}
         </Typography>
       </Box>
@@ -71,7 +73,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Tipo proyecto:{" "}
         </Typography>
-        <Typography display="inline" variant="body2">
+        <Typography display="inline" variant="subtitle1">
           {type}
         </Typography>
       </Box>
@@ -80,7 +82,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Estado:{" "}
         </Typography>
-        <Typography display="inline" variant="body2">
+        <Typography display="inline" variant="subtitle1">
           {state}
         </Typography>
       </Box>
@@ -91,7 +93,7 @@ export default function InfoProyecto({ projectData, type, state }) {
             <Typography variant="h6" display="inline" gutterBottom>
               Fecha Inicio:{" "}
             </Typography>
-            <Typography display="inline" variant="body2">
+            <Typography display="inline" variant="subtitle1">
               {projectData.start_date}
             </Typography>
           </Box>
@@ -101,82 +103,100 @@ export default function InfoProyecto({ projectData, type, state }) {
             <Typography variant="h6" display="inline" gutterBottom>
               Fecha Fin:{" "}
             </Typography>
-            <Typography display="inline" variant="body2">
-              {projectData.end_date}
-            </Typography>
+            {projectData.end_date ?
+              <Typography display="inline" variant="subtitle1">
+                {projectData.end_date}
+              </Typography>
+              :
+              <Typography display="inline" variant="subtitle1">
+                Indefinida
+              </Typography>
+            }
           </Box>
         </Grid>
       </Grid>
 
-      <Box mr={15} mt={2}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography variant="h6">Tecnologías</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                position: "relative",
-                overflow: "auto",
-                "& ul": { padding: 0 },
-              }}
-              subheader={<li />}
+      {projectData.technologies.length != 0 ?
+        <Box mr={15} mt={2}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
             >
-              {projectData.technologies.map((technology) => {
-                return (
-                  <>
-                    <ListItem key={technology} role="listitem">
-                      <ListItemText primary={technology} />
-                    </ListItem>
-                  </>
-                );
-              })}
-            </List>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
+              <Typography variant="h6">Tecnologías</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  position: "relative",
+                  overflow: "auto",
+                  "& ul": { padding: 0 },
+                }}
+                subheader={<li />}
+              >
+                {projectData.technologies.map((technology) => {
+                  return (
+                    <>
+                      <ListItem key={technology} role="listitem">
+                        <ListItemText primary={technology} />
+                      </ListItem>
+                    </>
+                  );
+                })}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        :
+        " "
+      }
+      {projectData.people.length != 0 ?
+        <Box m="auto" mr={15} mt={2}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h6">Personas Asignadas</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  // bgcolor: "rgb(240,240,240)",
+                  position: "relative",
+                  // overflow: "auto",
+                  maxHeight: 500,
+                  "& ul": { padding: 0 },
+                }}
+                subheader={<li />}
+              >
+                {projectData.people.map((person) => {
+                  return (
+                    <>
+                      <ListItem key={person.id} role="listitem">
+                        <ListItemText primary={person.full_name} />
+                      </ListItem>
+                    </>
+                  );
+                })}
+              </List>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        :
+        <Box style={{ paddingTop: 20 }}>
+          <Typography variant="button" display="block" gutterBottom>
+            Aún no hay nadie asignado
+          </Typography>
+        </Box>
+      }
 
-      <Box mr={15} mt={2}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography variant="h6">Personas Asignadas</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                // bgcolor: "rgb(240,240,240)",
-                position: "relative",
-                // overflow: "auto",
-                maxHeight: 500,
-                "& ul": { padding: 0 },
-              }}
-              subheader={<li />}
-            >
-              {projectData.people.map((person) => {
-                return (
-                  <>
-                    <ListItem key={person.id} role="listitem">
-                      <ListItemText primary={person.full_name} />
-                    </ListItem>
-                  </>
-                );
-              })}
-            </List>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
     </div>
   );
 }

@@ -71,7 +71,7 @@ export default function CreateProject({ setNotify, addRow, onClose }) {
       onSubmit={(e) => handleSubmit(e)}
       setProject={setProject}
       project={project}
-      title={"Creacion de proyecto"}
+      title={"Creación de proyecto"}
       errors={errors}
       setErrors={setErrors}
     />
