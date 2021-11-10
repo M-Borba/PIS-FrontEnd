@@ -40,27 +40,7 @@ export default function EditarProjecto({
         project,
       })
       .then((response) => {
-        let projectInfo = response.data.project;
-        let project = {
-          id: projectInfo.id,
-          name: projectInfo.name,
-          project_type: projectInfo.project_type
-            .replaceAll("_", " ")
-            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
-          project_state: projectInfo.project_state.replace(/^\w/, (m) =>
-            m.toUpperCase()
-          ),
-          description: projectInfo.description,
-          budget: projectInfo.budget,
-          start_date: projectInfo.start_date.replaceAll("-", "/"),
-          end_date:
-            projectInfo.end_date != null
-              ? projectInfo.end_date.replaceAll("-", "/")
-              : null,
-          organization: projectInfo.organization,
-          technologies: projectInfo.technologies || [],
-        };
-        editRow(project);
+        editRow(response.data.project);
         setNotify({
           isOpen: true,
           message: `El proyecto ${projectData.name} se modifico con exito.`,
@@ -79,7 +59,7 @@ export default function EditarProjecto({
       onSubmit={handleSubmit}
       project={project}
       setProject={setProject}
-      title={"Modificacion de Proyecto"}
+      title={"Modificación de Proyecto"}
       errors={errors}
       setErrors={setErrors}
     />

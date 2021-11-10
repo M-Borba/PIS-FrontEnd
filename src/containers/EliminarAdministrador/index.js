@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
@@ -9,6 +9,7 @@ EliminarAdministrador.propTypes = {
   handleClose: PropTypes.func.isRequired,
   administratorId: PropTypes.number.isRequired,
   setNotify: PropTypes.func.isRequired,
+  removeRow: PropTypes.func.isRequired,
 };
 
 function EliminarAdministrador({
@@ -17,27 +18,22 @@ function EliminarAdministrador({
   administratorId,
   handleClose,
   setNotify,
+  removeRow,
 }) {
   const dialogContent = `Esta seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
       .delete(`/users/${administratorId}`)
-      .then((response) => {
-        if (response.status == 200)
-          setNotify({
-            isOpen: true,
-            message: `El administrador con email: \"${administratorEmail}\" se elimino con exito.`,
-            type: "success",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado.`,
-            type: "error",
-            reload: false,
-          });
+      .then(() => {
+        removeRow(administratorId);
+        setNotify({
+          isOpen: true,
+          message: `El administrador con email: \"${administratorEmail}\" se elimino con exito.`,
+          type: "success",
+          reload: true,
+        });
+        handleClose();
       })
       .catch((error) => {
         console.error(error.response);

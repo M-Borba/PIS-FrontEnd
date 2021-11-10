@@ -56,9 +56,9 @@ export default function TechnologyForm({
             fullWidth
             error={!!technologiesError?.technology}
           >
-            <InputLabel id="technology-select">Tecnologia</InputLabel>
+            <InputLabel id="technology-select">Tecnología</InputLabel>
             <Select
-              label="Tecnologia"
+              label="Tecnología"
               id="technology"
               labelId="technology-select"
               name="technology"
