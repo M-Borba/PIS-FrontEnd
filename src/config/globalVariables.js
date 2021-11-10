@@ -37,3 +37,12 @@ export const cargasHorarias_tFormateadas = {
   daily: "Diarias",
   weekly: "Semanales",
 };
+
+export const customTimeSteps = {
+  second: 0,
+  minute: 0,
+  hour: 0,
+  day: 31,
+  month: 1,
+  year: 1,
+};

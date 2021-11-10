@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados } from "../../config/globalVariables";
+import { rolesFormateados, customTimeSteps } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import FilterForm from "../../components/FilterForm";
@@ -24,6 +24,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
+  const [fetchingError, setFetchingError] = useState([false]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -70,21 +71,13 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     groupLabelKey: "title",
   };
 
-  const customTimeSteps = {
-    second: 0,
-    minute: 0,
-    hour: 0,
-    day: 1,
-    month: 1,
-    year: 1,
-  };
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
       [e.target.name]: e.target.value,
     }));
   };
-  const fetchData = (filterParams = {}) => {
+  const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -92,7 +85,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       }
     }
 
-    axiosInstance
+    await axiosInstance
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
@@ -107,6 +100,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         }
         rows.map((ppl) => {
           setFilteredData(true);
+          setFetchingError(false);
           const person = ppl.person;
           groupsToAdd.push({
             id: person.id,
@@ -144,6 +138,14 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             });
           });
         });
+      }).catch((error) => {
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "No se pudieron cargar los datos de las personas",
+          type: "error",
+        });
+        setFetchingError(true);
       });
 
     setGroups(groupsToAdd);
@@ -264,26 +266,27 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: ƒ(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: ƒ(startDate) + 10800000,
+            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+            title: title,
+          }
           : item
       )
     );
 
-  if (groups.length > 0 && isProjectView) {
+  if (isProjectView && !fetchingError) {
+    console.log(filteredData)
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            fetchData(filters);
+            await fetchData(filters);
           }}
-          onClear={() => {
+          onClear={async () => {
             setFilters({});
-            fetchData();
+            await fetchData();
           }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
@@ -353,5 +356,5 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       </Fragment>
     );
   }
-  return null;
+  return <Notificacion notify={notify} setNotify={setNotify} />;
 }
