@@ -89,8 +89,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             let color = '#9B9F84'
             var finasignacion = dateToMiliseconds(dt.end_date);
             var hoy = new Date().getTime();
-            console.log('fin asignacion: ' + finasignacion);
-            console.log('hoy : ' + hoy)
             if (hoy < finasignacion) {
               if (finasignacion - 864000000 < hoy) {//10 dias = 864000000
                 color = '#C14B3A';
