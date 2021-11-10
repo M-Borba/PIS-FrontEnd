@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados } from "../../config/globalVariables";
+import { rolesFormateados, customTimeSteps } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
@@ -24,6 +24,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
+  const [fetchingError, setFetchingError] = useState([false]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -101,8 +102,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
-
-  const fetchData = (filterParams = {}) => {
+  const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -110,7 +110,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       }
     }
 
-    axiosInstance
+    await axiosInstance
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
@@ -125,6 +125,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         }
         rows.map((ppl) => {
           setFilteredData(true);
+          setFetchingError(false);
           const person = ppl.person;
           groupsToAdd.push({
             id: person.id,
@@ -163,6 +164,14 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setGroups(groupsToAdd);
         setItems(itemsToAdd);
+      }).catch((error) => {
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "No se pudieron cargar los datos de las personas",
+          type: "error",
+        });
+        setFetchingError(true);
       });
   }
 
@@ -289,17 +298,18 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       )
     );
 
-  if (groups.length > 0 && isProjectView) {
+  if (isProjectView && !fetchingError) {
+    console.log(filteredData)
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            fetchData(filters);
+            await fetchData(filters);
           }}
-          onClear={() => {
+          onClear={async () => {
             setFilters({});
-            fetchData();
+            await fetchData();
           }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
@@ -383,5 +393,5 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       </Fragment>
     );
   }
-  return null;
+  return <Notificacion notify={notify} setNotify={setNotify} />;
 }

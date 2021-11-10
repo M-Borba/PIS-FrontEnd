@@ -14,7 +14,7 @@ import Switcher from "../../components/Switcher/";
 import PropTypes from "prop-types";
 import "./style.css";
 import { useStyles } from "./styles";
-
+import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import Notificacion from "../../components/Notificacion";
@@ -64,23 +64,15 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     type: "success",
     reload: false,
   });
-  const customTimeSteps = {
-    second: 0,
-    minute: 0,
-    hour: 0,
-    day: 1,
-    month: 1,
-    year: 1,
-  };
 
-  const fetchData = (filterParams = {}) => {
+  const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
         delete filterParams[key];
       }
     }
-    axiosInstance
+    await axiosInstance
       .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
@@ -180,13 +172,13 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            fetchData(filters);
+            await fetchData(filters);
           }}
-          onClear={() => {
+          onClear={async () => {
             setFilters({});
-            fetchData();
+            await fetchData();
           }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
