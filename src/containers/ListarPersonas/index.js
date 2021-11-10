@@ -20,7 +20,6 @@ export default function ListarPersonas() {
           email: row.email,
           id: row.id,
           cargaHoraria: row.working_hours,
-          tag: ".",
           technologies: row.technologies,
         };
       });

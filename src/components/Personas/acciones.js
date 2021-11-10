@@ -34,7 +34,6 @@ export default function Acciones({ personRow }) {
     last_name: personRow.lastName,
     email: personRow.email,
     working_hours: personRow.cargaHoraria,
-    tags: personRow.tags,
     technologies: personRow.technologies || [],
   };
 
