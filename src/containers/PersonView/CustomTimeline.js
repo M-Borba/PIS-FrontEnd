@@ -65,33 +65,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
-  var proyectsToAdd = [];
-  const [proyectos, setProyectos] = useState([]);
-
   // Formato esperado de date : yyyy-MM-DD
   const dateToMiliseconds = (date) => {
     let newDate = new Date(date);
     newDate.setDate(newDate.getDate());
     return moment(newDate).valueOf();
   };
-
-  const getProject = async () => {
-    axiosInstance.get("/projects")
-      .then((response) => {
-        const rows = response.data.projects;
-        rows.map((proj) => {
-          proyectsToAdd.push({
-            id: proj.id,
-            end_date_proj: dateToMiliseconds(proj.end_date) + 10800000,
-          });
-          setProyectos(proyectsToAdd);
-        });
-
-      });
-  }
-  useEffect(() => {
-    getProject();
-  }, []);
 
   const fetchData = () => {
     axiosInstance.get("/person_project").then((response) => {
@@ -103,35 +82,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           id: person.id,
           title: person.full_name,
         });
-
-
-
-
         person.projects.map((proj) => {
-          let color = '#9B9F84'
-          console.log('aaaaaaa')
+
+
           proj.dates.map((dt) => {
-            proyectos.map((p) => {
-              if (p.id == proj.id) {
-                console.log('aaaaaaaaaaa')
-                var finproy = p.end_date_proj;
-                //if (p.id == 148) { console.log('este es ') }
-                var finasignacion = dateToMiliseconds(dt.end_date);
-                //console.log('fin de proyecto ' + finproy);
-                //console.log('fin de asignaci ' + finasignacion);
-                var hoy = new Date().getTime()
-                if (hoy < finproy) {
-                  console.log('El proyecto ' + p.id + ' no ha terminado')
-                  if (finasignacion - 864000000 < hoy) {
-                    console.log('la asignacion no ha terminado')
-                    if (finproy - 864000000 < finasignacion) {
-                      console.log('la asignacion esta en peligro')
-                      color = '#C14B3A';
-                    }
-                  }
-                }
+            let color = '#9B9F84'
+            var finasignacion = dateToMiliseconds(dt.end_date);
+            var hoy = new Date().getTime();
+            console.log('fin asignacion: ' + finasignacion);
+            console.log('hoy : ' + hoy)
+            if (hoy < finasignacion) {
+              if (finasignacion - 864000000 < hoy) {//10 dias = 864000000
+                color = '#C14B3A';
               }
-            })
+            }
 
             itemsToAdd.push({
               id: dt.id,

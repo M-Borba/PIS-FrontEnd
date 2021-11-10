@@ -86,13 +86,13 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           let color = ''
           switch (proj.project_state) {
             case 'verde':
-              color = '#33FF61';
+              color = '#3AC14B';
               break;
             case 'rojo':
               color = '#C14B3A';
               break;
             case 'amarillo':
-              color = '#E4FF33';
+              color = '#DFDC3D';
               break;
             case 'upcomping':
               color = '#9B9F84';
