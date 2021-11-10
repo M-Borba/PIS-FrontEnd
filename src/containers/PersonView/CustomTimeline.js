@@ -150,7 +150,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     setItems(itemsToAdd);
   };
 
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -265,11 +264,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: ƒ(startDate) + 10800000,
-            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-            title: title,
-          }
+              ...item,
+              start: ƒ(startDate) + 10800000,
+              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+              title: title,
+            }
           : item
       )
     );

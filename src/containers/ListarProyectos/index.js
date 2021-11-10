@@ -25,7 +25,7 @@ export default function ListarProyectos() {
   const [rows, setRows] = useState([]);
 
   const fetchData = () => {
-    return axiosInstance.get("/projects").then((response) => {
+    axiosInstance.get("/projects").then((response) => {
       rawRows = response.data.projects;
       let rowsNuevas = rawRows.map((row) => {
         return {
