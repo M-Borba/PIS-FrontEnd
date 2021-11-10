@@ -165,7 +165,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(itemsToAdd);
       });
   }
-  
+
   useEffect(() => {
     fetchData();
   }, []);
