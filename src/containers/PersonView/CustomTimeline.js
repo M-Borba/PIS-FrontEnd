@@ -257,11 +257,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );
@@ -270,8 +270,14 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => { e.preventDefault(); fetchData(filters); }}
-          onClear={() => { setFilters({}); fetchData(); }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
           project_type={filters.project_type}

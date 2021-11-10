@@ -37,7 +37,13 @@ function findDateInProject(id, array) {
   return foundDate;
 }
 
-function removePerson(personId, personProject, projectData, asignaciones, setNotify) {
+function removePerson(
+  personId,
+  personProject,
+  projectData,
+  asignaciones,
+  setNotify
+) {
   //buscar la persona en el arreglo
   let person = findPersonInPersonProjects(personId, personProject);
   if (person != undefined) {
@@ -120,7 +126,7 @@ function RemoverPersona({
             projectData,
             asignaciones,
             setNotify
-          )
+          );
         })
         .catch((error) => {
           let message = error?.response?.data.error;

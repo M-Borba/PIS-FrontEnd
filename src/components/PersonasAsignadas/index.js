@@ -19,27 +19,29 @@ ListadoPersonasAsignadas.propTypes = {
 function formatDate(dateString) {
   //formato actual: aaaa-MM-dd
   let result;
-  dateString != null ?
-    result =
-    dateString.substring(8) +
-    "-" +
-    dateString.substring(5, 7) +
-    "-" +
-    dateString.substring(0, 4) :
-    result = "Final indefinido";
+  dateString != null
+    ? (result =
+        dateString.substring(8) +
+        "-" +
+        dateString.substring(5, 7) +
+        "-" +
+        dateString.substring(0, 4))
+    : (result = "Final indefinido");
 
   return result;
 }
 
 function asignationText(asignation) {
   //console.log(asignation.end_date);
-  return "  ↳" +
+  return (
+    "  ↳" +
     rolesFormateados[asignation.role] +
     " (" +
     formatDate(asignation.start_date) +
     " / " +
     formatDate(asignation.end_date) +
-    ")";
+    ")"
+  );
 }
 
 export default function ListadoPersonasAsignadas({ people, removePerson }) {
