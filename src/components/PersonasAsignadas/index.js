@@ -18,13 +18,28 @@ ListadoPersonasAsignadas.propTypes = {
 
 function formatDate(dateString) {
   //formato actual: aaaa-MM-dd
-  return (
+  let result;
+  dateString != null ?
+    result =
     dateString.substring(8) +
     "-" +
     dateString.substring(5, 7) +
     "-" +
-    dateString.substring(0, 4)
-  );
+    dateString.substring(0, 4) :
+    result = "Final indefinido";
+
+  return result;
+}
+
+function asignationText(asignation) {
+  //console.log(asignation.end_date);
+  return "  ↳" +
+    rolesFormateados[asignation.role] +
+    " (" +
+    formatDate(asignation.start_date) +
+    " / " +
+    formatDate(asignation.end_date) +
+    ")";
 }
 
 export default function ListadoPersonasAsignadas({ people, removePerson }) {
@@ -59,15 +74,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
                         <>
                           <ListItem key={asignation.id} role="listitem">
                             <ListItemText
-                              primary={
-                                "  ↳" +
-                                rolesFormateados[asignation.role] +
-                                " (" +
-                                formatDate(asignation.start_date) +
-                                " / " +
-                                formatDate(asignation.end_date) +
-                                ")"
-                              }
+                              primary={asignationText(asignation)}
                             />
                             <IconButton
                               onClick={() =>

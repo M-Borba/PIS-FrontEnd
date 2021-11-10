@@ -159,14 +159,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchData(filters);
-          }}
-          onClear={() => {
-            setFilters({});
-            fetchData();
-          }}
+          onSubmit={(e) => { e.preventDefault(); fetchData(filters); }}
+          onClear={() => { setFilters({}); fetchData(); }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
           project_type={filters.project_type}
