@@ -75,7 +75,8 @@ function AsignarProyectoPersona({
         addAsignacion(
           asignacionData.id,
           asignacionData.person.id,
-          `${asignacionData.project.name} - ${rolesFormateados[asignacionData.role]
+          `${asignacionData.project.name} - ${
+            rolesFormateados[asignacionData.role]
           }`,
           asignacionData.start_date,
           asignacionData.end_date
