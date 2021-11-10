@@ -13,7 +13,6 @@ import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import FilterForm from "../../components/FilterForm";
-import Tooltip from "@mui/material/Tooltip";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -47,12 +46,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     projectName: "",
     personName: "",
   });
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
-  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -78,12 +71,29 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     month: 1,
     year: 1,
   };
+
+  const startValue = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(moment(newDate).add(3, "hours")).valueOf();
+  };
+
+  const endValue = (date) => {
+    if (date) {
+      let newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return moment(moment(newDate).add(3, "hours")).valueOf();
+    }
+    return moment(Date()).add(5, "years").add(9, "hours").valueOf();
+  };
+
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
       [e.target.name]: e.target.value,
     }));
   };
+
   const fetchData = (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
@@ -115,28 +125,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let startDate = new Date(dt.start_date);
-              startDate.setDate(startDate.getDate());
-
-              const startValue = moment(
-                moment(startDate).add(3, "hours")
-              ).valueOf();
-
-              let endDate = new Date(dt.end_date);
-              endDate.setDate(endDate.getDate() + 1);
-
-              let endValue = moment(endDate).valueOf();
-
-              if (!dt.end_date) {
-                endDate = moment(Date()).add(5, "years");
-                endValue = moment(moment(endDate).add(3, "hours")).valueOf(); // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              }
-
               itemsToAdd.push({
                 id: dt.id,
                 group: person.id,
-                start: startValue,
-                end: endValue,
+                start: startValue(dt.start_date),
+                end: endValue(dt.end_date),
                 canResize: "both",
                 canMove: false,
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -181,7 +174,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
+          : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
     axiosInstance
@@ -231,8 +224,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       {
         id: asignacionId,
         group: personId,
-        start: dateToMiliseconds(startDate) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-        end: dateToMiliseconds(endDate) + 97200000, // le sumo un dia y 3 horas
+        start: startValue(startDate),
+        end: endValue(endDate),
         canResize: "both",
         canMove: false,
         title: title,
@@ -265,8 +258,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         item.id == asignacionId
           ? {
               ...item,
-              start: ƒ(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+              start: startValue(startDate),
+              end: endValue(endDate),
               title: title,
             }
           : item

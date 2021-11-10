@@ -1,19 +1,14 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import { IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
-import EditPerson from "../../containers/EditPerson";
-import Dialog from "@material-ui/core/Dialog";
-import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
-import { UpdateGridContext } from "../../containers/ListarPersonas/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 
 Personas.propTypes = {

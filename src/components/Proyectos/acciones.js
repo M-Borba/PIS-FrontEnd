@@ -18,7 +18,7 @@ import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
-import { UpdateGridContext } from "../../containers/ListarProyectos/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,

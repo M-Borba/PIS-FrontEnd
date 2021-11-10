@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
-import { UpdateGridContext } from "../../containers/ListarProyectos/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 
 Proyecto.propTypes = {

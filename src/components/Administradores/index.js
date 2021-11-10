@@ -2,9 +2,11 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Listado from "../../components/Listado";
 import Acciones from "./acciones";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Administrador.propTypes = {
   rows: PropTypes.array,
+  setRows: PropTypes.func,
 };
 
 const columns = [
@@ -42,7 +44,8 @@ const columns = [
   },
 ];
 
-export default function Administrador({ rows }) {
+export default function Administrador({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
     isOpen: false,
@@ -60,6 +63,10 @@ export default function Administrador({ rows }) {
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
 
+  const removeRow = (adminId) =>
+    setRows(rows.filter((row) => row.id != adminId));
+  setRemoveRow.current = (adminId) => removeRow(adminId);
+
   return (
     <Listado
       button={"Agregar Persona"}
@@ -72,6 +79,7 @@ export default function Administrador({ rows }) {
       setNotify={setNotify}
       columns={columns}
       rows={rows}
+      setRows={setRows}
       type={2} //type=2 representa admin
     />
   );

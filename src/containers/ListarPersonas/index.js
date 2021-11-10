@@ -1,27 +1,11 @@
-import React, { useEffect, useState, useRef, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import Personas from "../../components/Personas";
-import propTypes from "prop-types";
 import { Typography } from "@material-ui/core";
-
-export const UpdateGridContext = createContext();
-
-const UpdateGridProvider = (props) => {
-  const removeRow = useRef(null);
-  const editRow = useRef(null);
-  return (
-    <UpdateGridContext.Provider value={[removeRow, editRow]}>
-      {props.children}
-    </UpdateGridContext.Provider>
-  );
-};
-
-UpdateGridProvider.propTypes = {
-  children: propTypes.any,
-};
+import UpdateGridProvider from "../UpdateGridProvider";
 
 export default function ListarPersonas() {
-  var rawRows;
+  let rawRows;
   const [rows, setRows] = useState([]);
 
   const fetchData = () => {

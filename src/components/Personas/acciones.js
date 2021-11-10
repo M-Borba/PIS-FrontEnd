@@ -10,7 +10,7 @@ import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import Notificacion from "../../components/Notificacion";
-import { UpdateGridContext } from "../../containers/ListarPersonas/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Acciones.propTypes = {
   personRow: propTypes.any,
