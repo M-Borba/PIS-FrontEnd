@@ -47,12 +47,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     projectName: "",
     personName: "",
   });
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
-  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -171,7 +165,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(itemsToAdd);
       });
   }
-  
+
   useEffect(() => {
     fetchData();
   }, []);
