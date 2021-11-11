@@ -1,77 +1,12 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {
-  FormControlLabel,
-  IconButton,
-  Box,
-  Modal,
-  Button,
-  Dialog,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { DataGrid } from "@mui/x-data-grid";
-import { useStyles } from "./styles";
-import CreateAdministrator from "../../containers/CreateAdministrator";
-import Notificacion from "../../components/Notificacion";
-import EliminarAdministrador from "../../containers/EliminarAdministrador";
+import Listado from "../../components/Listado";
+import Acciones from "./acciones";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Administrador.propTypes = {
   rows: PropTypes.array,
-};
-
-const Acciones = ({ adminRow }) => {
-  const [openRemove, setOpenRemove] = React.useState(false);
-
-  const classes = useStyles();
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
-  const [adminData] = React.useState({
-    id: adminRow.id,
-    email: adminRow.email,
-  });
-
-  const handleRemoveOpen = () => setOpenRemove(true);
-  const handleRemoveClose = () => setOpenRemove(false);
-
-  return (
-    <div
-      style={{
-        margin: "10px",
-      }}
-    >
-      <FormControlLabel
-        control={
-          <>
-            <IconButton onClick={handleRemoveOpen}>
-              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-            </IconButton>
-            <Dialog
-              open={openRemove}
-              onClose={handleRemoveClose}
-              maxWidth="xs"
-              aria-labelledby="confirmation-dialog-title"
-            >
-              <EliminarAdministrador
-                administratorId={adminRow.id}
-                administratorName={adminRow.name}
-                administratorEmail={adminRow.email}
-                handleClose={handleRemoveClose}
-                setNotify={setNotify}
-              />
-            </Dialog>
-          </>
-        }
-      />
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </div>
-  );
+  setRows: PropTypes.func,
 };
 
 const columns = [
@@ -109,12 +44,8 @@ const columns = [
   },
 ];
 
-Acciones.propTypes = {
-  adminRow: PropTypes.any,
-};
-
-export default function Administrador({ rows }) {
-  const classes = useStyles();
+export default function Administrador({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
     isOpen: false,
@@ -125,51 +56,31 @@ export default function Administrador({ rows }) {
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
-      sort: "dsc",
+      sort: "desc",
     },
   ]);
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
 
-  return (
-    <div
-      style={{
-        margin: "1vw",
-      }}
-    >
-      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={handleNewOpen}>
-          Agregar Administrador
-        </Button>
-      </Box>
-      <Modal
-        open={openNew}
-        onClose={handleNewClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <IconButton
-            aria-label="Close"
-            onClick={handleNewClose}
-            className={classes.closeButton}
-          >
-            <CloseIcon />
-          </IconButton>
-          <CreateAdministrator setNotify={setNotify} />
-        </Box>
-      </Modal>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
+  const removeRow = (adminId) =>
+    setRows(rows.filter((row) => row.id != adminId));
+  setRemoveRow.current = (adminId) => removeRow(adminId);
 
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </div>
+  return (
+    <Listado
+      button={"Agregar Persona"}
+      buttonClick={handleNewOpen}
+      modalOpen={openNew}
+      modalOnClose={handleNewClose}
+      sortModel={sortModel}
+      setSortModel={setSortModel}
+      notify={notify}
+      setNotify={setNotify}
+      columns={columns}
+      rows={rows}
+      setRows={setRows}
+      type={2} //type=2 representa admin
+    />
   );
 }

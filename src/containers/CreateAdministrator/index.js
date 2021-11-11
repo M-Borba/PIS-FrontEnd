@@ -9,9 +9,11 @@ import propTypes from "prop-types";
 
 CreateAdministrator.propTypes = {
   setNotify: propTypes.func.isRequired,
+  addRow: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
 };
 
-export default function CreateAdministrator({ setNotify }) {
+export default function CreateAdministrator({ setNotify, addRow, onClose }) {
   const [administrator, setAdministrator] = useState({
     email: "",
     first_name: "",
@@ -30,13 +32,21 @@ export default function CreateAdministrator({ setNotify }) {
           ...administrator,
         },
       })
-      .then(() => {
+      .then((response) => {
+        let adminData = response.data.user;
+        let nuevoAdmin = {
+          id: adminData.id,
+          email: adminData.email,
+          fullName: adminData.name,
+        };
+        addRow(nuevoAdmin);
         setNotify({
           isOpen: true,
           message: `El administrador se creo con exito.`,
           type: "success",
-          reload: true,
+          reload: false,
         });
+        onClose();
       })
       .catch((error) => {
         setErrors(error.response.data?.errors);

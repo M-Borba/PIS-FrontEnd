@@ -12,8 +12,8 @@ import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
-import { Grid, Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
+import { Grid } from "@material-ui/core";
+import FilterForm from "../../components/FilterForm";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -23,6 +23,7 @@ PersonTimeline.propTypes = {
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
+  const [filteredData, setFilteredData] = useState([true]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -34,6 +35,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     message: "",
     type: "success",
     reload: false,
+  });
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+    organization: "",
   });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
@@ -74,52 +80,92 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     return moment(newDate).valueOf();
   };
 
-  const fetchData = () => {
-    axiosInstance.get("/person_project").then((response) => {
-      const rows = response.data.person_project;
-      rows.map((ppl) => {
-        var person = ppl.person;
+  const startValue = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(moment(newDate).add(3, "hours")).valueOf();
+  };
 
-        groupsToAdd.push({
-          id: person.id,
-          title: person.full_name,
-        });
-        person.projects.map((proj) => {
-          proj.dates.map((dt) => {
-            let color = "#B0CFCB";
-            var finasignacion = dateToMiliseconds(dt.end_date);
-            var hoy = new Date().getTime();
-            if (hoy < finasignacion) {
-              if (finasignacion - 864000000 < hoy) {
-                //10 dias = 864000000
-                color = "#C14B3A";
+  const endValue = (date) => {
+    if (date) {
+      let newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return moment(moment(newDate).add(3, "hours")).valueOf();
+    }
+    return moment(Date()).add(5, "years").add(9, "hours").valueOf();
+  };
+
+  const onFilterChange = (e) => {
+    setFilters((prevFilter) => ({
+      ...prevFilter,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const fetchData = (filterParams = {}) => {
+    // to avoid sending empty query params
+    for (let key in filterParams) {
+      if (filterParams[key] === "" || filterParams[key] === null) {
+        delete filterParams[key];
+      }
+    }
+
+    axiosInstance
+      .get("/person_project", { params: filterParams })
+      .then((response) => {
+        const rows = response.data.person_project;
+        if (rows.length == 0) {
+          setFilteredData(false);
+          setNotify({
+            ...notify,
+            isOpen: true,
+            message: "No existen datos para los filtros seleccionados",
+            type: "error",
+          });
+        }
+        rows.map((ppl) => {
+          setFilteredData(true);
+          const person = ppl.person;
+          groupsToAdd.push({
+            id: person.id,
+            title: person.full_name,
+          });
+          person.projects.map((proj) => {
+            proj.dates.map((dt) => {
+              let color = "#B0CFCB";
+              var finasignacion = dateToMiliseconds(dt.end_date);
+              var hoy = new Date().getTime();
+              if (hoy < finasignacion) {
+                if (finasignacion - 864000000 < hoy) {
+                  //10 dias = 864000000
+                  color = "#C14B3A";
+                }
               }
-            }
 
-            itemsToAdd.push({
-              id: dt.id,
-              group: person.id,
-              start: dateToMiliseconds(dt.start_date) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-              end: dateToMiliseconds(dt.end_date ?? "2050-01-01") + 97200000,
+              itemsToAdd.push({
+                id: dt.id,
+                group: person.id,
+                start: startValue(dt.start_date),
+                end: endValue(dt.end_date),
 
-              canResize: "both",
-              canMove: false,
-              itemProps: {
-                style: {
-                  borderRadius: 5,
-                  background: color,
+                canResize: "both",
+                canMove: false,
+                itemProps: {
+                  style: {
+                    borderRadius: 5,
+                    background: color,
+                  },
                 },
-              },
-              title: proj.name + " - " + rolesFormateados[dt.role],
+                title: proj.name + " - " + rolesFormateados[dt.role],
+              });
             });
           });
         });
-      });
 
-      setGroups(groupsToAdd);
-      setItems(itemsToAdd);
-    });
-  };
+        setGroups(groupsToAdd);
+        setItems(itemsToAdd);
+      });
+  }
 
   useEffect(() => {
     fetchData();
@@ -152,7 +198,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
+          : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
     axiosInstance
@@ -202,8 +248,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       {
         id: asignacionId,
         group: personId,
-        start: dateToMiliseconds(startDate) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-        end: dateToMiliseconds(endDate) + 97200000, // le sumo un dia y 3 horas
+        start: startValue(startDate),
+        end: endValue(endDate),
         canResize: "both",
         canMove: false,
         title: title,
@@ -235,11 +281,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: dateToMiliseconds(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
@@ -247,44 +293,62 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   if (groups.length > 0 && isProjectView) {
     return (
       <Fragment>
-        <Timeline
-          groups={groups}
-          items={items}
-          keys={keys}
-          fullUpdate
-          itemsSorted
-          itemTouchSendsClick={true}
-          dragSnap={60 * 60 * 24 * 1000} //dia
-          stackItems
-          timeSteps={customTimeSteps}
-          itemHeightRatio={0.75}
-          canMove={true}
-          canResize={"both"}
-          lineHeight={40}
-          defaultTimeStart={defaultTimeStart}
-          defaultTimeEnd={defaultTimeEnd}
-          onItemResize={handleItemResize}
-          onCanvasClick={handleCanvasClick}
-          onItemClick={handleItemClick}
-          sidebarWidth={200}
-        >
-          <TimelineHeaders className="sticky">
-            <SidebarHeader>
-              {({ getRootProps }) => {
-                return (
-                  <div {...getRootProps()}>
-                    <Switcher
-                      onSwitch={onSwitch}
-                      isProjectView={isProjectView}
-                    />
-                  </div>
-                );
-              }}
-            </SidebarHeader>
-            <DateHeader unit="primaryHeader" />
-            <DateHeader />
-          </TimelineHeaders>
-        </Timeline>
+        <FilterForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchData(filters);
+          }}
+          onClear={() => {
+            setFilters({});
+            fetchData();
+          }}
+          onInputChange={onFilterChange}
+          project_state={filters.project_state}
+          project_type={filters.project_type}
+          organization={filters.organization}
+        />
+        {filteredData ? (
+          <Timeline
+            groups={groups}
+            items={items}
+            keys={keys}
+            fullUpdate
+            itemsSorted
+            itemTouchSendsClick={true}
+            dragSnap={60 * 60 * 24 * 1000} //dia
+            stackItems
+            timeSteps={customTimeSteps}
+            itemHeightRatio={0.75}
+            canMove={true}
+            canResize={"both"}
+            lineHeight={40}
+            defaultTimeStart={defaultTimeStart}
+            defaultTimeEnd={defaultTimeEnd}
+            onItemResize={handleItemResize}
+            onCanvasClick={handleCanvasClick}
+            onItemClick={handleItemClick}
+            sidebarWidth={200}
+          >
+            <TimelineHeaders className="sticky">
+              <SidebarHeader>
+                {({ getRootProps }) => {
+                  return (
+                    <div {...getRootProps()}>
+                      <Switcher
+                        onSwitch={onSwitch}
+                        isProjectView={isProjectView}
+                      />
+                    </div>
+                  );
+                }}
+              </SidebarHeader>
+              <DateHeader unit="primaryHeader" />
+              <DateHeader />
+            </TimelineHeaders>
+          </Timeline>
+        ) : (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <AsignarProyectoPersona
           open={assignObject.open}
           personId={parseInt(assignObject.groupId)}
