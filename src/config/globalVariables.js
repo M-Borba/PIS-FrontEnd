@@ -15,6 +15,12 @@ export const rolesTraducidos = {
   Arquitecto: "architect",
   Analista: "analyst",
   Diseñador: "designer",
+  desarrollador: "developer",
+  pm: "pm",
+  tester: "tester",
+  arquitecto: "architect",
+  analista: "analyst",
+  diseñador: "designer",
 };
 export const rolesFormateados = {
   developer: "Desarrollador",
@@ -25,12 +31,12 @@ export const rolesFormateados = {
   designer: "Diseñador",
 };
 export const ROLES_CHECKBOX = [
-  ["Developer", false],
+  ["Desarrollador", false],
   ["PM", false],
   ["Tester", false],
-  ["Architect", false],
-  ["Analyst", false],
-  ["Designer", false],
+  ["Arquitecto", false],
+  ["Analista", false],
+  ["Diseñador", false],
 ];
 export const cargasHorarias_t = ["daily", "weekly"];
 export const cargasHorarias_tFormateadas = {
