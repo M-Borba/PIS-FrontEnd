@@ -120,12 +120,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.person_project;
         if (rows.length == 0) {
           setFilteredData(false);
-          setNotify({
-            ...notify,
-            isOpen: true,
-            message: "No existen datos para los filtros seleccionados",
-            type: "error",
-          });
         }
         rows.map((ppl) => {
           setFilteredData(true);

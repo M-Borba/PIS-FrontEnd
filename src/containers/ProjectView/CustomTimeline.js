@@ -78,12 +78,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.projects;
         if (rows.length == 0) {
           setFilteredData(false);
-          setNotify({
-            ...notify,
-            isOpen: true,
-            message: "No existen datos para los filtros seleccionados",
-            type: "error",
-          });
         }
         rows.map((proj) => {
           setFilteredData(true);
