@@ -9,7 +9,10 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados, customTimeSteps } from "../../config/globalVariables";
+import {
+  rolesFormateados,
+  customTimeSteps,
+} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import FilterForm from "../../components/FilterForm";
@@ -138,7 +141,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             });
           });
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         setNotify({
           ...notify,
           isOpen: true,
@@ -266,17 +270,17 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: ƒ(startDate) + 10800000,
-            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-            title: title,
-          }
+              ...item,
+              start: ƒ(startDate) + 10800000,
+              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+              title: title,
+            }
           : item
       )
     );
 
   if (isProjectView && !fetchingError) {
-    console.log(filteredData)
+    console.log(filteredData);
     return (
       <Fragment>
         <FilterForm
