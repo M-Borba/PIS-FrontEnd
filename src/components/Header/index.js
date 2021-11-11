@@ -145,9 +145,8 @@ export default function Header() {
             <Fragment>
               <ActionCableConsumer
                 channel={{ channel: 'WebChannel' }}
-                onReceived={() => {
-                  console.log('Recived')
-                  play();
+                onReceived={async () => {
+                  await play();
                   setHasNotification(true);
                 }}
               />
