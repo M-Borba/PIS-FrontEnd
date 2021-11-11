@@ -15,14 +15,14 @@ import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
 import Tooltip from "@mui/material/Tooltip";
-import {Box, IconButton} from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import InfoPersona from "../InfoPersona";
-import {useStyles} from "../../components/Personas/styles";
+import { useStyles } from "../../components/Personas/styles";
 import propTypes from "prop-types";
-import {FetchInfoPersona} from "./FetchInfoPersona";
+import { FetchInfoPersona } from "./FetchInfoPersona";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -61,10 +61,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     personName: "",
   });
 
-  const [idInfoPersona, setIdInfoPersona] = useState( 0);
+  const [idInfoPersona, setIdInfoPersona] = useState(0);
 
   const handleInfoOpen = (id) => {
-    console.log(id);
     setIdInfoPersona(id);
     setOpenInfo(true);
   }
@@ -189,7 +188,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(itemsToAdd);
       });
   }
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -299,7 +298,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const removeAsignacion = (asignacionId) =>
     setItems(items.filter((item) => item.id != asignacionId));
 
-  const handleGroupRenderer = ( {group} ) => {
+  const handleGroupRenderer = ({ group }) => {
     var uId = group.id;
     return (
       <div className="custom-group">
@@ -418,11 +417,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               >
                 <CloseIcon />
               </IconButton>
-              <FetchInfoPersona id={idInfoPersona}/>
+              <FetchInfoPersona id={idInfoPersona} />
             </Box>
           </Modal>
         </>
-        <Grid container columnSpacing={{ xs: 2 }} style={{ marginLeft: 10 }}>
+        <Grid container style={{ marginLeft: 10 }}>
           <Grid
             item
             style={{
