@@ -94,86 +94,84 @@ export default function PersonForm({
         {title}
       </Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
-        <Box mt={3}>
-          <Grid container mt={3} spacing={2}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                id="first_name"
-                name="first_name"
-                type="text"
-                label="Nombre"
-                name="first_name"
-                value={person.first_name}
-                onChange={onInputChange}
-                error={!!errors?.first_name}
-                helperText={errors?.first_name?.[0]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="outlined"
-                fullWidth
-                id="last_name"
-                name="last_name"
-                type="text"
-                label="Apellidos"
-                name="last_name"
-                value={person.last_name}
-                onChange={onInputChange}
-                error={!!errors?.last_name}
-                helperText={errors?.last_name?.[0]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="email"
-                type="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                value={person.email}
-                onChange={onInputChange}
-                error={!!errors?.email}
-                helperText={errors?.email?.[0]}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                inputProps={{ min: 0, max: 168 }}
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                name="working_hours"
-                label="Horas Semanales"
-                type="number"
-                id="working_hours"
-                value={person.working_hours}
-                onChange={onInputChange}
-                error={!!errors?.working_hours}
-                helperText={errors?.working_hours?.[0]}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TechnologyForm
-                defaultTechs={defaultTechs}
-                technologies={person.technologies}
-                addTechnology={handleAddTechnology}
-                removeTechnology={handleRemoveTechnology}
-                error={errors?.technologies}
-                setTechnologiesError={setTechnologiesError}
-                technologiesError={technologiesError}
-                setAllErrors={setErrors}
-                tech={tech}
-                setTech={setTech}
-              />
-            </Grid>
+        <Grid container mt={3} spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="first_name"
+              name="first_name"
+              type="text"
+              label="Nombre"
+              name="first_name"
+              value={person.first_name}
+              onChange={onInputChange}
+              error={!!errors?.first_name}
+              helperText={errors?.first_name?.[0]}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={12} md={6}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="last_name"
+              name="last_name"
+              type="text"
+              label="Apellidos"
+              name="last_name"
+              value={person.last_name}
+              onChange={onInputChange}
+              error={!!errors?.last_name}
+              helperText={errors?.last_name?.[0]}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="email"
+              type="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              value={person.email}
+              onChange={onInputChange}
+              error={!!errors?.email}
+              helperText={errors?.email?.[0]}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              inputProps={{ min: 0, max: 168 }}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              name="working_hours"
+              label="Horas Semanales"
+              type="number"
+              id="working_hours"
+              value={person.working_hours}
+              onChange={onInputChange}
+              error={!!errors?.working_hours}
+              helperText={errors?.working_hours?.[0]}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TechnologyForm
+              defaultTechs={defaultTechs}
+              technologies={person.technologies}
+              addTechnology={handleAddTechnology}
+              removeTechnology={handleRemoveTechnology}
+              error={errors?.technologies}
+              setTechnologiesError={setTechnologiesError}
+              technologiesError={technologiesError}
+              setAllErrors={setErrors}
+              tech={tech}
+              setTech={setTech}
+            />
+          </Grid>
+        </Grid>
         <Button
           role="submit"
           type="submit"

@@ -77,6 +77,16 @@ const columns = [
   },
 ];
 
+function formatType(projectType) {
+  return projectType
+    .replaceAll("_", " ")
+    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+}
+
+function formatState(projectState) {
+  return projectState.replace(/^\w/, (m) => m.toUpperCase());
+}
+
 export default function Proyecto({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
@@ -110,19 +120,14 @@ export default function Proyecto({ rows, setRows }) {
           ? {
               ...row,
               name: projectData.name,
-              project_type: projectData.project_type
-                .replaceAll("_", " ")
-                .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
-              project_state: projectData.project_state.replace(/^\w/, (m) =>
-                m.toUpperCase()
-              ),
+              project_type: formatType(projectData.project_type),
+              project_state: formatState(projectData.project_state),
               description: projectData.description,
               budget: projectData.budget,
               start_date: projectData.start_date.replaceAll("-", "/"),
-              end_date:
-                projectData.end_date != null
-                  ? projectData.end_date.replaceAll("-", "/")
-                  : null,
+              end_date: projectData.end_date
+                ? projectData.end_date.replaceAll("-", "/")
+                : null,
               people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,
