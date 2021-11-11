@@ -154,30 +154,31 @@ export default function InfoProyecto({ projectData, type, state }) {
       ) : (
         " "
       )}
-      {projectData.people.length != 0 ? (
-        <Box m="auto" mr={15} mt={2}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+
+      <Box m="auto" mr={15} mt={2}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Personas Asignadas</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                // bgcolor: "rgb(240,240,240)",
+                position: "relative",
+                // overflow: "auto",
+                maxHeight: 500,
+                "& ul": { padding: 0 },
+              }}
+              subheader={<li />}
             >
-              <Typography variant="h6">Personas Asignadas</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  // bgcolor: "rgb(240,240,240)",
-                  position: "relative",
-                  // overflow: "auto",
-                  maxHeight: 500,
-                  "& ul": { padding: 0 },
-                }}
-                subheader={<li />}
-              >
-                {projectData.people.map((person) => {
+              {projectData.people.length != 0 ? (
+                projectData.people.map((person) => {
                   return (
                     <>
                       <ListItem key={person.id} role="listitem">
@@ -185,18 +186,19 @@ export default function InfoProyecto({ projectData, type, state }) {
                       </ListItem>
                     </>
                   );
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-      ) : (
-        <Box style={{ paddingTop: 20 }}>
-          <Typography variant="button" display="block" gutterBottom>
-            Aún no hay nadie asignado
-          </Typography>
-        </Box>
-      )}
+                }))
+                :
+                (<Box style={{ paddingTop: 20 }}>
+                  <Typography variant="button" display="block" gutterBottom>
+                    Aún no hay nadie asignado
+                  </Typography>
+                </Box>)
+              }
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+
     </div>
   );
 }
