@@ -35,9 +35,6 @@ checks:
       threshold: 4
   similar-code:
     enabled: false
-  identical-code:
-    config:
-      threshold: 10
 
 exclude_patterns:
   - node_modules/
