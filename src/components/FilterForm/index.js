@@ -39,7 +39,6 @@ export default function FilterForm({
       <Typography variant="h6">Filtros</Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
-          required
           fullWidth
           id="project_type"
           type="text"
@@ -56,10 +55,9 @@ export default function FilterForm({
           <MenuItem value="tercerizado">Tercerizado</MenuItem>
         </TextField>
         <TextField
-          required
           fullWidth
           type="text"
-          label="Estado del projecto"
+          label="Estado del proyecto"
           onChange={onInputChange}
           id="project_state"
           name="project_state"
@@ -74,7 +72,6 @@ export default function FilterForm({
           <MenuItem value="upcomping">Upcomping</MenuItem>
         </TextField>
         <TextField
-          required
           fullWidth
           id="organization"
           type="text"
@@ -83,6 +80,7 @@ export default function FilterForm({
           autoComplete="organization"
           value={organization}
           onChange={onInputChange}
+          inputProps={{ maxLength: 50 }}
         />
 
         <Button

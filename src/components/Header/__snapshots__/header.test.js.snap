@@ -81,7 +81,7 @@ exports[`renders and redirects when loged 1`] = `
             >
               <a
                 class="makeStyles-link-11"
-                href="/administradores"
+                href="/"
               >
                 Administradores
               </a>
@@ -208,7 +208,7 @@ exports[`renders correctly unloged 1`] = `
             >
               <a
                 class="makeStyles-link-4"
-                href="/administradores"
+                href="/"
               >
                 Administradores
               </a>

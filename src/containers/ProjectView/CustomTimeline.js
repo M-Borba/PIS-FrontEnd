@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import moment from "moment";
 import Modal from "@material-ui/core/Modal";
-import { IconButton, Box } from "@material-ui/core";
+import { IconButton, Box, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
   TimelineHeaders,
@@ -14,7 +14,7 @@ import Switcher from "../../components/Switcher/";
 import PropTypes from "prop-types";
 import "./style.css";
 import { useStyles } from "./styles";
-
+import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import Notificacion from "../../components/Notificacion";
@@ -64,34 +64,20 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     type: "success",
     reload: false,
   });
-  const customTimeSteps = {
-    second: 0,
-    minute: 0,
-    hour: 0,
-    day: 1,
-    month: 1,
-    year: 1,
-  };
 
-  const fetchData = (filterParams = {}) => {
+  const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
         delete filterParams[key];
       }
     }
-    axiosInstance
+    await axiosInstance
       .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
         if (rows.length == 0) {
           setFilteredData(false);
-          setNotify({
-            ...notify,
-            isOpen: true,
-            message: "No existen datos para los filtros seleccionados",
-            type: "error",
-          });
         }
         rows.map((proj) => {
           setFilteredData(true);
@@ -102,7 +88,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             title: proj.name,
             bgColor: randomColor({ luminosity: "light" }),
           });
+
           setGroups(groupsToAdd);
+
           const startDate = new Date(proj.start_date);
           const startValue = moment(startDate).valueOf();
           const endDate = !proj.end_date
@@ -176,17 +164,18 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
+  console.log("groups:", groups);
   if (!isProjectView && !fetchingError) {
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            fetchData(filters);
+            await fetchData(filters);
           }}
-          onClear={() => {
+          onClear={async () => {
             setFilters({});
-            fetchData();
+            await fetchData();
           }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
@@ -230,6 +219,20 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         ) : (
           <Notificacion notify={notify} setNotify={setNotify} />
+        )}
+
+        {!filteredData && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              NO EXISTEN PROYECTOS PARA MOSTRAR
+            </Typography>
+          </div>
         )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>

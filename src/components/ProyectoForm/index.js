@@ -214,7 +214,7 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.organization}
               helperText={errors?.organization?.[0]}
-              inputProps={{ maxLength: 30 }}
+              inputProps={{ maxLength: 50 }}
             />
           </Grid>
 
