@@ -14,13 +14,26 @@ import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
+import Tooltip from "@mui/material/Tooltip";
+import {Box, IconButton} from "@material-ui/core";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Modal from "@material-ui/core/Modal";
+import CloseIcon from "@material-ui/icons/Close";
+import InfoPersona from "../InfoPersona";
+import {useStyles} from "../../components/Personas/styles";
+import propTypes from "prop-types";
+import {FetchInfoPersona} from "./FetchInfoPersona";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
   isProjectView: PropTypes.bool,
 };
 
+
+
 export default function PersonTimeline({ onSwitch, isProjectView }) {
+  const classes = useStyles();
+  const [openInfo, setOpenInfo] = React.useState(false);
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
@@ -47,6 +60,17 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     projectName: "",
     personName: "",
   });
+
+  const [idInfoPersona, setIdInfoPersona] = useState( 0);
+
+  const handleInfoOpen = (id) => {
+    console.log(id);
+    setIdInfoPersona(id);
+    setOpenInfo(true);
+  }
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -275,6 +299,19 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const removeAsignacion = (asignacionId) =>
     setItems(items.filter((item) => item.id != asignacionId));
 
+  const handleGroupRenderer = ( {group} ) => {
+    var uId = group.id;
+    return (
+      <div className="custom-group">
+        <a id={group.id}>{group.title}</a>
+        {/*<IconButton variant="outlined" onClick={this.handleInfoOpen.bind(this, id)}>*/}
+        <IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>
+          <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
+        </IconButton>
+      </div>
+    )
+  }
+
   const updateAsignacion = (asignacionId, title, startDate, endDate) =>
     setItems(
       items.map((item) =>
@@ -327,6 +364,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             onCanvasClick={handleCanvasClick}
             onItemClick={handleItemClick}
             sidebarWidth={200}
+            groupRenderer={handleGroupRenderer}
           >
             <TimelineHeaders className="sticky">
               <SidebarHeader>
@@ -366,6 +404,24 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           updateAsignacion={updateAsignacion}
         />
         <Notificacion notify={notify} setNotify={setNotify} />
+        <>
+          <Modal
+            open={openInfo}
+            onClose={handleInfoClose}
+            disableEnforceFocus
+          >
+            <Box className={classes.modalInfo}>
+              <IconButton
+                aria-label="Close"
+                onClick={handleInfoClose}
+                className={classes.closeButton}
+              >
+                <CloseIcon />
+              </IconButton>
+              <FetchInfoPersona id={idInfoPersona}/>
+            </Box>
+          </Modal>
+        </>
         <Grid container columnSpacing={{ xs: 2 }} style={{ marginLeft: 10 }}>
           <Grid
             item
@@ -381,6 +437,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           </Grid>
         </Grid>
       </Fragment>
+
     );
   }
   return null;

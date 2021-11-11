@@ -24,6 +24,8 @@ InfoPersona.propTypes = {
 };
 
 export default function InfoPersona({ personData }) {
+  var e;
+  console.log(personData);
   return (
     <div style={{ padding: 16 }}>
       <Typography variant="h3" paragraph style={{ overflowWrap: "break-word" }}>
@@ -49,7 +51,7 @@ export default function InfoPersona({ personData }) {
         </Typography>
       </Box>
 
-      {personData.technologies.length != 0 ? (
+      {personData.technologies?.length != 0 ? (
         <Box mt={2}>
           <Typography variant="h6" display="inline" gutterBottom>
             Tecnologías:
