@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import moment from "moment";
 import Modal from "@material-ui/core/Modal";
-import { IconButton, Box } from "@material-ui/core";
+import { IconButton, Box, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
   TimelineHeaders,
@@ -94,7 +94,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             title: proj.name,
             bgColor: randomColor({ luminosity: "light" }),
           });
+
           setGroups(groupsToAdd);
+
           const startDate = new Date(proj.start_date);
           const startValue = moment(startDate).valueOf();
           const endDate = !proj.end_date
@@ -168,6 +170,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
+  console.log("groups:", groups);
   if (!isProjectView && !fetchingError) {
     return (
       <Fragment>
@@ -222,6 +225,20 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         ) : (
           <Notificacion notify={notify} setNotify={setNotify} />
+        )}
+
+        {!filteredData && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              NO EXISTEN PROYECTOS PARA MOSTRAR
+            </Typography>
+          </div>
         )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>

@@ -17,6 +17,7 @@ import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
+import Typography from "@mui/material/Typography";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -360,6 +361,19 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         ) : (
           <Notificacion notify={notify} setNotify={setNotify} />
+        )}
+        {!filteredData && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              NO EXISTEN PERSONAS PARA MOSTRAR
+            </Typography>
+          </div>
         )}
         <AsignarProyectoPersona
           open={assignObject.open}

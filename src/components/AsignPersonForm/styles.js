@@ -16,4 +16,23 @@ export const useStyles = makeStyles((theme) => ({
   },
   errorMsg: { color: "red" },
   msg: { color: "green" },
+
+  cardHeader: {
+    padding: theme.spacing(1, 12),
+  },
+  list: {
+    height: 230,
+    backgroundColor: theme.palette.background.paper,
+    overflow: "auto",
+    marginTop: 4,
+  },
+  collapse: {
+    "& .MuiCollapse-wrapperInner": {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+  button: {
+    margin: theme.spacing(0.5, 0),
+  },
 }));
