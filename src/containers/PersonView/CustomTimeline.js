@@ -12,6 +12,8 @@ import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
+import { Grid, Typography } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -83,15 +85,14 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           title: person.full_name,
         });
         person.projects.map((proj) => {
-
-
           proj.dates.map((dt) => {
-            let color = '#9B9F84'
+            let color = "#B0CFCB";
             var finasignacion = dateToMiliseconds(dt.end_date);
             var hoy = new Date().getTime();
             if (hoy < finasignacion) {
-              if (finasignacion - 864000000 < hoy) {//10 dias = 864000000
-                color = '#C14B3A';
+              if (finasignacion - 864000000 < hoy) {
+                //10 dias = 864000000
+                color = "#C14B3A";
               }
             }
 
@@ -107,7 +108,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
                 style: {
                   borderRadius: 5,
                   background: color,
-                }
+                },
               },
               title: proj.name + " - " + rolesFormateados[dt.role],
             });
@@ -206,7 +207,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         canResize: "both",
         canMove: false,
         title: title,
-
       },
     ]);
 
@@ -235,11 +235,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: dateToMiliseconds(startDate) + 10800000,
-            end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-            title: title,
-          }
+              ...item,
+              start: dateToMiliseconds(startDate) + 10800000,
+              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
+              title: title,
+            }
           : item
       )
     );
@@ -303,6 +303,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           updateAsignacion={updateAsignacion}
         />
         <Notificacion notify={notify} setNotify={setNotify} />
+        <Grid container columnSpacing={{ xs: 2 }} style={{ marginLeft: 10 }}>
+          <Grid
+            item
+            style={{
+              height: 20,
+              width: 20,
+              backgroundColor: "#C14B3A",
+              border: "1px solid black",
+            }}
+          ></Grid>
+          <Grid item>
+            &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+          </Grid>
+        </Grid>
       </Fragment>
     );
   }
