@@ -9,7 +9,10 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados, customTimeSteps } from "../../config/globalVariables";
+import {
+  rolesFormateados,
+  customTimeSteps,
+} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
@@ -299,7 +302,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     );
 
   if (isProjectView && !fetchingError) {
-    console.log(filteredData)
+    console.log(filteredData);
     return (
       <Fragment>
         <FilterForm
