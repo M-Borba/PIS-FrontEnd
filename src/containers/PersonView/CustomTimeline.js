@@ -12,6 +12,7 @@ import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
+import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
 
 PersonTimeline.propTypes = {
@@ -78,6 +79,13 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
+  // Formato esperado de date : yyyy-MM-DD
+  const dateToMiliseconds = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(newDate).valueOf();
+  };
+
   const startValue = (date) => {
     let newDate = new Date(date);
     newDate.setDate(newDate.getDate());
@@ -128,27 +136,42 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             id: person.id,
             title: person.full_name,
           });
-
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
+              let color = "#B0CFCB";
+              var finasignacion = dateToMiliseconds(dt.end_date);
+              var hoy = new Date().getTime();
+              if (hoy < finasignacion) {
+                if (finasignacion - 864000000 < hoy) {
+                  //10 dias = 864000000
+                  color = "#C14B3A";
+                }
+              }
+
               itemsToAdd.push({
                 id: dt.id,
                 group: person.id,
                 start: startValue(dt.start_date),
                 end: endValue(dt.end_date),
+
                 canResize: "both",
                 canMove: false,
+                itemProps: {
+                  style: {
+                    borderRadius: 5,
+                    background: color,
+                  },
+                },
                 title: proj.name + " - " + rolesFormateados[dt.role],
               });
             });
           });
         });
+        setGroups(groupsToAdd);
+        setItems(itemsToAdd);
       });
-
-    setGroups(groupsToAdd);
-    setItems(itemsToAdd);
-  };
-
+  }
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -263,11 +286,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
@@ -349,6 +372,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           updateAsignacion={updateAsignacion}
         />
         <Notificacion notify={notify} setNotify={setNotify} />
+        <Grid container columnSpacing={{ xs: 2 }} style={{ marginLeft: 10 }}>
+          <Grid
+            item
+            style={{
+              height: 20,
+              width: 20,
+              backgroundColor: "#C14B3A",
+              border: "1px solid black",
+            }}
+          ></Grid>
+          <Grid item>
+            &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+          </Grid>
+        </Grid>
       </Fragment>
     );
   }

@@ -69,7 +69,7 @@ export default function Administrador({ rows, setRows }) {
 
   return (
     <Listado
-      button={"Agregar Persona"}
+      button={"Agregar Administrador"}
       buttonClick={handleNewOpen}
       modalOpen={openNew}
       modalOnClose={handleNewClose}

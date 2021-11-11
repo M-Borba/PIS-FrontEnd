@@ -39,7 +39,6 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
           lastName: personData.last_name,
           email: personData.email,
           cargaHoraria: personData.working_hours,
-          tag: ".",
           technologies: personData.technologies,
         };
         addRow(nuevaPersona);

@@ -119,7 +119,7 @@ export default function AdministratorForm({
           color="primary"
           className={classes.submit}
         >
-          Confirmar
+          Guardar
         </Button>
       </form>
     </div>

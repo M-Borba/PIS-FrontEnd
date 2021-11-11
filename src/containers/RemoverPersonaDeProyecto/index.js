@@ -37,6 +37,64 @@ function findDateInProject(id, array) {
   return foundDate;
 }
 
+function removePerson(
+  personId,
+  personProject,
+  projectData,
+  asignaciones,
+  setNotify
+) {
+  //buscar la persona en el arreglo
+  let person = findPersonInPersonProjects(personId, personProject);
+  if (person != undefined) {
+    //busco las asignaciones de la persona en el proyecto
+    let dates = findDateInProject(projectData.id, person.projects);
+    if (dates != undefined) {
+      //itero en la lista de dates
+      let nuevasAsignaciones = asignaciones;
+      dates.forEach((assingment) => {
+        axiosInstance
+          .delete("person_project/" + assingment.id)
+          .then(() => {
+            // Quito los roles de la persona.
+            nuevasAsignaciones.forEach((persona) => {
+              if (persona.id == personId)
+                persona.roles = persona.roles.filter(
+                  (asignacion) => asignacion.id != assingment.id
+                );
+            });
+            let message = "Se ha borrado la asignacion exitosamente";
+            setNotify({
+              isOpen: true,
+              message: message,
+              type: "success",
+              reload: false,
+            });
+          })
+          .catch((error) => {
+            let message = error?.response?.data.error;
+            setNotify({
+              isOpen: true,
+              message: message,
+              type: "error",
+              reload: true,
+            });
+          });
+      });
+      // Quito a la persona del modal de desasignacion.
+      nuevasAsignaciones = nuevasAsignaciones.filter(
+        (persona) => persona.id != personId
+      );
+      setAsignaciones(nuevasAsignaciones);
+      // Quito a la persona del modal de informacion del proyecto.
+      projectData.people = projectData.people.filter(
+        (persona) => persona.id != personId
+      );
+      editRow(projectData);
+    }
+  }
+}
+
 function RemoverPersona({
   personName,
   personId,
@@ -62,64 +120,16 @@ function RemoverPersona({
       axiosInstance
         .get(`/person_project`)
         .then((response) => {
-          //buscar la persona en el arreglo
-          let person = findPersonInPersonProjects(
+          removePerson(
             personId,
-            response.data.person_project
+            response.data.person_project,
+            projectData,
+            asignaciones,
+            setNotify
           );
-          if (person != undefined) {
-            //busco las asignaciones de la persona en el proyecto
-            let dates = findDateInProject(projectData.id, person.projects);
-            if (dates != undefined) {
-              //itero en la lista de dates
-              let nuevasAsignaciones = asignaciones;
-              dates.forEach((assingment) => {
-                axiosInstance
-                  .delete("person_project/" + assingment.id)
-                  .then(() => {
-                    // Quito los roles de la persona.
-                    nuevasAsignaciones.forEach((persona) => {
-                      if (persona.id == personId)
-                        persona.roles = persona.roles.filter(
-                          (asignacion) => asignacion.id != assingment.id
-                        );
-                    });
-
-                    let message = "Se ha borrado la asignacion exitosamente";
-                    setNotify({
-                      isOpen: true,
-                      message: message,
-                      type: "success",
-                      reload: false,
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(error.response);
-                    let message = error.response.data.error;
-                    setNotify({
-                      isOpen: true,
-                      message: message,
-                      type: "error",
-                      reload: true,
-                    });
-                  });
-              });
-              // Quito a la persona del modal de desasignacion.
-              nuevasAsignaciones = nuevasAsignaciones.filter(
-                (persona) => persona.id != personId
-              );
-              setAsignaciones(nuevasAsignaciones);
-              // Quito a la persona del modal de informacion del proyecto.
-              projectData.people = projectData.people.filter(
-                (persona) => persona.id != personId
-              );
-              editRow(projectData);
-            }
-          }
         })
         .catch((error) => {
-          console.error(error.response);
-          let message = error.response.data.error;
+          let message = error?.response?.data.error;
           setNotify({
             isOpen: true,
             message: message,
