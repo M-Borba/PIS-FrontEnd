@@ -24,6 +24,17 @@ export const useStyles = makeStyles((theme) => ({
   mt35: {
     marginTop: 35,
   },
+  notification: {
+    position: 'absolute',
+    width: 300,
+    maxHeight: 400,
+    overflow: 'auto',
+    backgroundColor: '#efefef',
+    zIndex: 2,
+  },
+  item: {
+    color: '#000'
+  }
 }));
 
 export const PaperProps = {
