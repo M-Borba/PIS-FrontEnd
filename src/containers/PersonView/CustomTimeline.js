@@ -161,12 +161,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             });
           });
         });
-
         setGroups(groupsToAdd);
         setItems(itemsToAdd);
       });
   }
-
+  
   useEffect(() => {
     fetchData();
   }, []);
