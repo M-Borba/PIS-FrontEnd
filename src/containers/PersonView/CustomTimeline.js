@@ -15,6 +15,7 @@ import {
 } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
+import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
 import Typography from "@mui/material/Typography";
 
@@ -51,12 +52,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     projectName: "",
     personName: "",
   });
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
-  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
@@ -72,6 +67,37 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     itemTimeStartKey: "start",
     itemTimeEndKey: "end",
     groupLabelKey: "title",
+  };
+
+  const customTimeSteps = {
+    second: 0,
+    minute: 0,
+    hour: 0,
+    day: 1,
+    month: 1,
+    year: 1,
+  };
+
+  // Formato esperado de date : yyyy-MM-DD
+  const dateToMiliseconds = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(newDate).valueOf();
+  };
+
+  const startValue = (date) => {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate());
+    return moment(moment(newDate).add(3, "hours")).valueOf();
+  };
+
+  const endValue = (date) => {
+    if (date) {
+      let newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return moment(moment(newDate).add(3, "hours")).valueOf();
+    }
+    return moment(Date()).add(5, "years").add(9, "hours").valueOf();
   };
 
   const onFilterChange = (e) => {
@@ -109,40 +135,40 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             id: person.id,
             title: person.full_name,
           });
-
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let startDate = new Date(dt.start_date);
-              startDate.setDate(startDate.getDate());
-
-              const startValue = moment(
-                moment(startDate).add(3, "hours")
-              ).valueOf();
-
-              let endDate = new Date(dt.end_date);
-              endDate.setDate(endDate.getDate() + 1);
-
-              let endValue = moment(endDate).valueOf();
-
-              if (!dt.end_date) {
-                endDate = moment(Date()).add(5, "years");
-                endValue = moment(moment(endDate).add(3, "hours")).valueOf(); // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
+              let color = "#B0CFCB";
+              var finasignacion = dateToMiliseconds(dt.end_date);
+              var hoy = new Date().getTime();
+              if (hoy < finasignacion) {
+                if (finasignacion - 864000000 < hoy) {
+                  //10 dias = 864000000
+                  color = "#C14B3A";
+                }
               }
 
               itemsToAdd.push({
                 id: dt.id,
                 group: person.id,
-                start: startValue,
-                end: endValue,
+                start: startValue(dt.start_date),
+                end: endValue(dt.end_date),
+
                 canResize: "both",
                 canMove: false,
+                itemProps: {
+                  style: {
+                    borderRadius: 5,
+                    background: color,
+                  },
+                },
                 title: proj.name + " - " + rolesFormateados[dt.role],
               });
             });
           });
         });
-      })
-      .catch((error) => {
+        setGroups(groupsToAdd);
+        setItems(itemsToAdd);
+      }).catch((error) => {
         setNotify({
           ...notify,
           isOpen: true,
@@ -151,10 +177,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setFetchingError(true);
       });
-
-    setGroups(groupsToAdd);
-    setItems(itemsToAdd);
-  };
+  }
 
   useEffect(() => {
     fetchData();
@@ -187,7 +210,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"), // Le resto 24 horas en milisegundos
+          : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
     axiosInstance
@@ -237,8 +260,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       {
         id: asignacionId,
         group: personId,
-        start: dateToMiliseconds(startDate) + 10800000, // le sumo 3 horas en milisegundos para que se ajuste a las lineas de los dias
-        end: dateToMiliseconds(endDate) + 97200000, // le sumo un dia y 3 horas
+        start: startValue(startDate),
+        end: endValue(endDate),
         canResize: "both",
         canMove: false,
         title: title,
@@ -270,11 +293,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: ƒ(startDate) + 10800000,
-              end: dateToMiliseconds(endDate ?? "2100-01-01") + 97200000,
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
@@ -370,6 +393,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           updateAsignacion={updateAsignacion}
         />
         <Notificacion notify={notify} setNotify={setNotify} />
+        <Grid container columnSpacing={{ xs: 2 }} style={{ marginLeft: 10 }}>
+          <Grid
+            item
+            style={{
+              height: 20,
+              width: 20,
+              backgroundColor: "#C14B3A",
+              border: "1px solid black",
+            }}
+          ></Grid>
+          <Grid item>
+            &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+          </Grid>
+        </Grid>
       </Fragment>
     );
   }

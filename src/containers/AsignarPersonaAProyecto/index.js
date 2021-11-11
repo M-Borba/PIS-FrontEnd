@@ -6,16 +6,12 @@ import { useStyles } from "./styles";
 import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
 
 AgregarPersona.propTypes = {
-  projectData: propTypes.shape({
-    id: propTypes.number,
-    name: propTypes.string,
-    startDate: propTypes.string,
-    endDate: propTypes.string,
-  }).isRequired,
+  projectData: propTypes.object.isRequired,
   setNotify: propTypes.func.isRequired,
   asignaciones: propTypes.array.isRequired,
   setAsignaciones: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
 export default function AgregarPersona({
@@ -23,16 +19,17 @@ export default function AgregarPersona({
   setNotify,
   asignaciones,
   setAsignaciones,
+  editRow,
   onClose,
 }) {
   const classes = useStyles();
   const [asignacion, setAsignacion] = useState({
     roles: ROLES_CHECKBOX,
     people: [],
-    startDate: projectData.startDate.replaceAll("/", "-"),
+    startDate: projectData.start_date.replaceAll("/", "-"),
     endDate:
-      projectData.endDate != null
-        ? projectData.endDate.replaceAll("/", "-")
+      projectData.end_Date != null
+        ? projectData.end_Date.replaceAll("/", "-")
         : "",
     hours: 30,
     hoursType: "weekly",
@@ -51,6 +48,7 @@ export default function AgregarPersona({
   };
 
   const handleSubmit = (e) => {
+    console.log(projectData.people);
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -76,8 +74,10 @@ export default function AgregarPersona({
               },
             })
             .then((response) => {
+              // Agrego a la persona con su rol al modal de desasignacion.
+              console.log(response.data);
               let asignacionData = response.data.person_project;
-              let index = nuevasAsignaciones.findIndex(
+              let indexAsignacion = nuevasAsignaciones.findIndex(
                 (asignacion) => asignacion.id == person
               );
               let asignacion = {
@@ -86,9 +86,9 @@ export default function AgregarPersona({
                 role: asignacionData.role,
                 start_date: asignacionData.start_date,
               };
-              if (index != -1)
-                nuevasAsignaciones[index].roles = [
-                  ...nuevasAsignaciones[index].roles,
+              if (indexAsignacion != -1)
+                nuevasAsignaciones[indexAsignacion].roles = [
+                  ...nuevasAsignaciones[indexAsignacion].roles,
                   asignacion,
                 ];
               else {
@@ -100,6 +100,21 @@ export default function AgregarPersona({
                 nuevasAsignaciones = [...nuevasAsignaciones, persona];
               }
               setAsignaciones(nuevasAsignaciones);
+
+              // Agrego a la perosna a el modal de informacion del proyecto si no estaba.
+              if (
+                projectData.people.find(
+                  (persona) => persona.id == asignacionData.person.id
+                ) == undefined
+              ) {
+                let personaNueva = {
+                  full_name: asignacionData.person.full_name,
+                  id: asignacionData.person.id,
+                };
+                projectData.people = [...projectData.people, personaNueva];
+                editRow(projectData);
+              }
+
               setNotify({
                 isOpen: true,
                 message: `Asignación creada exitosamente`,
@@ -156,7 +171,7 @@ export default function AgregarPersona({
       let i = 0;
       try {
         newRoles.forEach(([a, b]) => {
-          //find index of selected role
+          //find indexAsignacion of selected role
           if (a == value[0]) throw Found;
           if (i != newRoles.length - 1) i++;
         });

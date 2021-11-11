@@ -60,7 +60,6 @@ export default function EditPerson({
           lastName: personInfo.last_name,
           email: personInfo.email,
           cargaHoraria: personInfo.working_hours,
-          tag: ".",
           technologies: personInfo.technologies,
         };
         editRow(person);
@@ -79,7 +78,7 @@ export default function EditPerson({
 
   return (
     <PersonForm
-      title={"Modificacion de Persona"}
+      title={"Modificación de Persona"}
       onSubmit={handleSubmit}
       person={person}
       errors={errors}
