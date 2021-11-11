@@ -18,7 +18,7 @@ import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
-import { UpdateGridContext } from "../../containers/ListarProyectos/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
@@ -184,15 +184,11 @@ export default function Acciones({ projectRow }) {
                   <CloseIcon />
                 </IconButton>
                 <AgregarPersona
-                  projectData={{
-                    id: projectData.id,
-                    name: projectData.name,
-                    startDate: projectData.start_date,
-                    endDate: projectData.end_date,
-                  }}
+                  projectData={projectData}
                   setNotify={setNotify}
                   asignaciones={asignaciones}
                   setAsignaciones={setAsignaciones}
+                  editRow={editRow.current}
                   onClose={handleAddClose}
                 />
               </Box>
@@ -218,12 +214,12 @@ export default function Acciones({ projectRow }) {
                 asignId={personToRemove[2]}
                 asignRole={personToRemove[3]}
                 asignClose={handleAssignedClose}
-                projectId={projectRow.id}
-                projectName={projectRow.name}
+                projectData={projectData}
                 handleClose={handleRemovePersonClose}
                 setNotify={setNotify}
                 asignaciones={asignaciones}
                 setAsignaciones={setAsignaciones}
+                editRow={editRow.current}
               />
             </Dialog>
             <Modal

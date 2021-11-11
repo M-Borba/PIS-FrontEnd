@@ -4,12 +4,14 @@ import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Notificacion from "../../components/Notificacion";
 import EliminarAdministrador from "../../containers/EliminarAdministrador";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
 Acciones.propTypes = {
   adminRow: PropTypes.any,
 };
 
 export default function Acciones({ adminRow }) {
+  const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openRemove, setOpenRemove] = React.useState(false);
 
   const [notify, setNotify] = React.useState({
@@ -46,6 +48,7 @@ export default function Acciones({ adminRow }) {
                 administratorEmail={adminRow.email}
                 handleClose={handleRemoveClose}
                 setNotify={setNotify}
+                removeRow={removeRow.current}
               />
             </Dialog>
           </>

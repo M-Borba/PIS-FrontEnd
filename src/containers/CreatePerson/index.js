@@ -32,17 +32,16 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
       })
       .then((response) => {
         let personData = response.data.person;
-        let newRow = {
+        let nuevaPersona = {
           id: personData.id,
           fullName: personData.full_name,
           firstName: personData.first_name,
           lastName: personData.last_name,
           email: personData.email,
           cargaHoraria: personData.working_hours,
-          tag: ".",
           technologies: personData.technologies,
         };
-        addRow(newRow);
+        addRow(nuevaPersona);
         setNotify({
           isOpen: true,
           message: `La persona se creo con exito.`,

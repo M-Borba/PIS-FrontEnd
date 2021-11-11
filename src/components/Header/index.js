@@ -68,7 +68,7 @@ export default function Header() {
               </Link>
             </Button>
             <Button color="inherit">
-              <Link className={classes.link} to="/">
+              <Link className={classes.link} to="/administradores">
                 Administradores
               </Link>
             </Button>

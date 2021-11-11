@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
-import { UpdateGridContext } from "../../containers/ListarProyectos/index";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 
 Proyecto.propTypes = {
@@ -77,6 +77,16 @@ const columns = [
   },
 ];
 
+function formatType(projectType) {
+  return projectType
+    .replaceAll("_", " ")
+    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+}
+
+function formatState(projectState) {
+  return projectState.replace(/^\w/, (m) => m.toUpperCase());
+}
+
 export default function Proyecto({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
@@ -89,8 +99,8 @@ export default function Proyecto({ rows, setRows }) {
   });
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "name",
-      sort: "asc",
+      field: "id",
+      sort: "desc",
     },
   ]);
 
@@ -110,12 +120,15 @@ export default function Proyecto({ rows, setRows }) {
           ? {
               ...row,
               name: projectData.name,
-              project_type: projectData.project_type,
-              project_state: projectData.project_state,
+              project_type: formatType(projectData.project_type),
+              project_state: formatState(projectData.project_state),
               description: projectData.description,
               budget: projectData.budget,
-              start_date: projectData.start_date,
-              end_date: projectData.end_date,
+              start_date: projectData.start_date.replaceAll("-", "/"),
+              end_date: projectData.end_date
+                ? projectData.end_date.replaceAll("-", "/")
+                : null,
+              people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,
             }

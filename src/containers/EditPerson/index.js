@@ -60,7 +60,6 @@ export default function EditPerson({
           lastName: personInfo.last_name,
           email: personInfo.email,
           cargaHoraria: personInfo.working_hours,
-          tag: ".",
           technologies: personInfo.technologies,
         };
         editRow(person);

@@ -14,14 +14,15 @@ import Notificacion from "../../components/Notificacion";
 Listado.propTypes = {
   button: propTypes.string.isRequired,
   buttonClick: propTypes.func.isRequired,
-  modalOpen: propTypes.func.isRequired,
+  modalOpen: propTypes.bool.isRequired,
   modalOnClose: propTypes.func.isRequired,
-  sortModel: propTypes.func.isRequired,
+  sortModel: propTypes.array.isRequired,
   setSortModel: propTypes.func.isRequired,
-  notify: propTypes.func.isRequired,
+  notify: propTypes.object.isRequired,
   setNotify: propTypes.func.isRequired,
   columns: propTypes.array.isRequired,
   rows: propTypes.array.isRequired,
+  setRows: propTypes.func.isRequired,
   type: propTypes.number.isRequired,
 };
 
@@ -36,8 +37,11 @@ export default function Listado({
   setNotify,
   columns,
   rows,
+  setRows,
   type,
 }) {
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
   function renderCreate(type) {
     switch (type) {
       case 0: //PERSONA
@@ -45,7 +49,13 @@ export default function Listado({
       case 1: //PROYECTO
         return <CreateProject setNotify={setNotify} />;
       case 2: //ADMIN
-        return <CreateAdministrator setNotify={setNotify} />;
+        return (
+          <CreateAdministrator
+            setNotify={setNotify}
+            addRow={addRow}
+            onClose={modalOnClose}
+          />
+        );
     }
   }
 

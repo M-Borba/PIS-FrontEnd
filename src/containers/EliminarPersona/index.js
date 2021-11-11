@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
@@ -23,16 +23,14 @@ function EliminarPersona({
   const onConfirmation = () => {
     axiosInstance
       .delete(`/people/${personId}`)
-      .then((response) => {
-        if (response.status == 200) {
-          removeRow(personId);
-          setNotify({
-            isOpen: true,
-            message: `La persona ${personName} se elimino con exito.`,
-            type: "success",
-            reload: false,
-          });
-        }
+      .then(() => {
+        removeRow(personId);
+        setNotify({
+          isOpen: true,
+          message: `La persona ${personName} se elimino con exito.`,
+          type: "success",
+          reload: false,
+        });
         handleClose();
       })
       .catch((error) => {
@@ -58,13 +56,11 @@ function EliminarPersona({
   };
 
   return (
-    <Fragment>
-      <DeleteDialogContent
-        dialogContent={dialogContent}
-        onClose={handleClose}
-        onConfirmation={onConfirmation}
-      />
-    </Fragment>
+    <DeleteDialogContent
+      dialogContent={dialogContent}
+      onClose={handleClose}
+      onConfirmation={onConfirmation}
+    />
   );
 }
 
