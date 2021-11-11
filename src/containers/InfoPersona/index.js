@@ -27,6 +27,10 @@ InfoPersona.propTypes = {
   }).isRequired,
 };
 
+function formatTech(technology) {
+  return technology[0].replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()) + ", " + technology[1].replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
+}
+
 export default function InfoPersona({ personData }) {
   return (
     <div style={{ padding: 16 }}>
@@ -43,19 +47,6 @@ export default function InfoPersona({ personData }) {
           {personData.email}
         </Typography>
       </Box>
-
-      {personData.tag ? (
-        <Box mt={2}>
-          <Typography variant="h6" display="inline" gutterBottom>
-            Etiquetas:{" "}
-          </Typography>
-          <Typography display="inline" variant="h7">
-            {personData.tag}
-          </Typography>
-        </Box>
-      ) : (
-        " "
-      )}
 
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
@@ -91,7 +82,7 @@ export default function InfoPersona({ personData }) {
                   return (
                     <>
                       <ListItem key={technology} role="listitem">
-                        <ListItemText primary={technology} />
+                        <ListItemText primary={formatTech(technology)} />
                       </ListItem>
                     </>
                   );
