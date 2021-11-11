@@ -2,16 +2,12 @@
  * Create person
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import propTypes from "prop-types";
 import { Typography, Box } from "@material-ui/core";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Grid from "@material-ui/core/Grid";
+import MuiChip from "@material-ui/core/Chip";
+import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 
 InfoPersona.propTypes = {
@@ -26,10 +22,6 @@ InfoPersona.propTypes = {
     technologies: propTypes.array,
   }).isRequired,
 };
-
-function formatTech(technology) {
-  return technology[0].replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()) + ", " + technology[1].replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
-}
 
 export default function InfoPersona({ personData }) {
   return (
@@ -58,38 +50,17 @@ export default function InfoPersona({ personData }) {
       </Box>
 
       {personData.technologies.length != 0 ? (
-        <Box mr={15} mt={2}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography variant="h6">Tecnologías</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  position: "relative",
-                  overflow: "auto",
-                  "& ul": { padding: 0 },
-                }}
-                subheader={<li />}
-              >
-                {personData.technologies.map((technology) => {
-                  return (
-                    <>
-                      <ListItem key={technology} role="listitem">
-                        <ListItemText primary={formatTech(technology)} />
-                      </ListItem>
-                    </>
-                  );
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
+        <Box mt={2}>
+          <Typography variant="h6" display="inline" gutterBottom>
+            Tecnologías:
+          </Typography>
+          <Grid container spacing={2}>
+            {personData.technologies?.map((tech, index) => (
+              <Grid key={`tech-${index}`} item>
+                <Chip tech={tech} />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       ) : (
         " "
@@ -97,3 +68,24 @@ export default function InfoPersona({ personData }) {
     </div>
   );
 }
+
+const Chip = ({ tech }) => {
+  const color = useMemo(() => randomColor({ luminosity: "light" }), [tech]);
+  const capitalizeSeniority = {
+    senior: "Senior",
+    "semi-senior": "Semi Senior",
+    junior: "Junior",
+  };
+
+  return (
+    <MuiChip
+      style={{ backgroundColor: color }}
+      label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
+      variant="outlined"
+    />
+  );
+};
+
+Chip.propTypes = {
+  tech: propTypes.array,
+};
