@@ -109,8 +109,10 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             ? new Date(2050, 1, 1)
             : new Date(proj.end_date);
           const endValue = moment(endDate).valueOf();
-          let color = "";
+          let color = "#B0CFCB";
+          console.log(proj.project_state)
           switch (proj.project_state) {
+
             case "verde":
               color = "#7ede6d";
               break;
@@ -120,7 +122,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             case "amarillo":
               color = "#FAE269";
               break;
-            case "upcomping":
+            case "upcoming":
               color = "#B0CFCB";
               break;
           }

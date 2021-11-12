@@ -41,7 +41,7 @@ export default function InfoProyecto({ projectData, type, state }) {
 
       <Box mt={3}>
         <Typography variant="h6" gutterBottom>
-          Descripción
+          Descripción:
         </Typography>
         <Typography display="inline" variant="h6">
           {projectData.description}
