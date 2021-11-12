@@ -21,11 +21,11 @@ function formatDate(dateString) {
   let result;
   dateString != null
     ? (result =
-      dateString.substring(8) +
-      "-" +
-      dateString.substring(5, 7) +
-      "-" +
-      dateString.substring(0, 4))
+        dateString.substring(8) +
+        "-" +
+        dateString.substring(5, 7) +
+        "-" +
+        dateString.substring(0, 4))
     : (result = "Final indefinido");
 
   return result;
