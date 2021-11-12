@@ -117,6 +117,7 @@ export default function ProyectoForm({
                 </MenuItem>
                 <MenuItem value="end_to_end">End to End</MenuItem>
                 <MenuItem value="tercerizado">Tercerizado</MenuItem>
+                <MenuItem value="hibrido">Hibrido</MenuItem>
               </Select>
               <FormHelperText>{errors?.project_type?.[0]}</FormHelperText>
             </FormControl>
@@ -137,7 +138,7 @@ export default function ProyectoForm({
                 <MenuItem value="verde">Verde</MenuItem>
                 <MenuItem value="amarillo">Amarillo</MenuItem>
                 <MenuItem value="rojo">Rojo</MenuItem>
-                <MenuItem value="upcomping">Upcomping</MenuItem>
+                <MenuItem value="upcoming">Upcoming</MenuItem>
               </Select>
               <FormHelperText>{errors?.project_state?.[0]}</FormHelperText>
             </FormControl>

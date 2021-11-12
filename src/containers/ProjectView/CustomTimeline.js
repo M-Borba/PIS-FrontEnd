@@ -164,7 +164,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
-  console.log("groups:", groups);
   if (!isProjectView && !fetchingError) {
     return (
       <Fragment>

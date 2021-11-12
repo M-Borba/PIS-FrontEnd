@@ -11,16 +11,7 @@ import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 
 InfoPersona.propTypes = {
-  personData: propTypes.shape({
-    cargaHoraria: propTypes.number.isRequired,
-    email: propTypes.string.isRequired,
-    fullName: propTypes.string.isRequired,
-    firstName: propTypes.string.isRequired,
-    lastName: propTypes.string.isRequired,
-    id: propTypes.number.isRequired,
-    tag: propTypes.string,
-    technologies: propTypes.array,
-  }).isRequired,
+  personData: propTypes.object.isRequired,
 };
 
 export default function InfoPersona({ personData }) {
@@ -54,7 +45,7 @@ export default function InfoPersona({ personData }) {
           Tecnologías:
         </Typography>
         <Grid container spacing={2}>
-          {personData.technologies.length != 0 ? (
+          {personData.technologies?.length != 0 ? (
             personData.technologies?.map((tech, index) => (
               <Grid key={`tech-${index}`} item>
                 <Chip tech={tech} />
