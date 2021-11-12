@@ -72,12 +72,30 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         delete filterParams[key];
       }
     }
+
     await axiosInstance
       .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
         if (rows.length == 0) {
-          setFilteredData(false);
+          if (Object.keys(filterParams).length === 0) {
+            setNotify({
+              ...notify,
+              isOpen: true,
+              message: "No se pudieron cargar los datos de los proyectos",
+              type: "error",
+            });
+            setFetchingError(true);
+          } else {
+            setNotify({
+              ...notify,
+              isOpen: true,
+              message: "No se existen datos para los filtros seleccionados",
+              type: "error",
+            });
+            setFetchingError(false);
+            setFilteredData(false);
+          }
         }
         rows.map((proj) => {
           setFilteredData(true);
@@ -164,7 +182,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
-  if (!isProjectView && !fetchingError) {
+  if (groups.length > 0 && !isProjectView && !fetchingError) {
     return (
       <Fragment>
         <FilterForm
@@ -251,6 +269,11 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         </Modal>
       </Fragment>
     );
+  } else if (fetchingError) {
+    return <Notificacion notify={notify} setNotify={setNotify} />;
+  } else if (!filteredData) {
+    return <Notificacion notify={notify} setNotify={setNotify} />;
   }
-  return <Notificacion notify={notify} setNotify={setNotify} />;
+
+  return null;
 }
