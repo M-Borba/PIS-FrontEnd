@@ -324,17 +324,16 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
 
-  if (groups.length > 0 && !isProjectView && !fetchingError) {
-    console.log(filteredData);
+  if (isProjectView && !fetchingError) {
     return (
       <Fragment>
         <FilterForm
