@@ -84,11 +84,11 @@ export default function Header() {
   }
 
   const handleDelete = (n) => {
-    const { alert_type, id } = n;
+    const { alert_type, alert_id } = n;
     axiosInstance
-      .put(`/notifications/${id}`, { alert_type })
+      .put(`/notifications/${alert_id}`, { alert_type })
       .then(() => {
-        const noti = notifications.filter(n => n.id !== id);
+        const noti = notifications.filter(n => n.alert_id !== alert_id);
         setNotifications(noti);
         if (!noti.length) {
           setNotificationCenter(null);
@@ -174,13 +174,19 @@ export default function Header() {
                 id="notification-menu"
                 anchorEl={notificationCenter}
                 keepMounted
-                className={classes.notification}
                 open={Boolean(notificationCenter)}
                 onClose={() => setNotificationCenter(null)}
+                PaperProps={{
+                  style: {
+                    width: 400,
+                    flexWrap: 'wrap'
+                  }
+                }}
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'right',
                 }}
+
                 transformOrigin={{
                   vertical: 'top',
                   horizontal: 'left',
@@ -190,11 +196,16 @@ export default function Header() {
                 getContentAnchorEl={null}
               >
                 <MenuItem style={{ height: 40 }} disabled>
-                  <ListItemText style={{ marginRight: 20 }} className={classes.item} primary="Notificaciones" />
+                  <ListItemText className={classes.item} primary="Notificaciones" />
                 </MenuItem>
+                {notifications.length === 0 && (
+                  <MenuItem style={{ height: 40 }} disabled>
+                    <ListItemText className={classes.item} primary="No hay notificaciones" />
+                  </MenuItem>
+                )}
                 {notifications.map(n => (
-                  <MenuItem key={n.id} style={{ height: 70 }}>
-                    <ListItemText style={{ marginRight: 20 }} className={classes.item} primary={buildMessage(n)} />
+                  <MenuItem key={n.alert_id} style={{ height: 70 }}>
+                    <ListItemText primary={buildMessage(n)} />
                     <ListItemSecondaryAction onClick={() => handleDelete(n)}>
                       <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />

@@ -24,9 +24,6 @@ export const useStyles = makeStyles((theme) => ({
   mt35: {
     marginTop: 35,
   },
-  notification: {
-    border: '1px solid #d3d4d5',
-  },
   item: {
     color: '#000'
   },
