@@ -3,7 +3,7 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import { ROLES_CHECKBOX } from "../../config/globalVariables";
+import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -53,20 +53,19 @@ export default function AgregarPersona({
       setError("Completar todos los campos para completar la asignación");
     } else {
       var body = Object.assign({}, asignacion);
-      body.roles = body.roles
-        .filter((rol) => rol[1] == true)
-        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles
+      body.roles = body.roles.map((rol) => rol[0]); //conseguir la lista de roles
       body.people = body.people
         .filter((rol) => rol[1] == true)
-        .map((person) => person[0].slice(0, person[0].indexOf(" "))); //conseguir la lista de personas por id
+        .map((person) => person[0].id); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
       body.people.forEach((person) =>
-        body.roles.forEach((role) =>
+        body.roles.forEach((role) => {
+          console.log("r", role);
           axiosInstance
             .post("/people/" + person + "/person_project", {
               person_project: {
                 project_id: projectData.id,
-                role: role,
+                role: rolesTraducidos[role],
                 working_hours: asignacion.hours,
                 working_hours_type: asignacion.hoursType,
                 start_date: asignacion.startDate.replaceAll("-", "/"),
@@ -143,8 +142,8 @@ export default function AgregarPersona({
                   type: "error",
                   reload: false,
                 });
-            })
-        )
+            });
+        })
       );
     }
   };
@@ -155,11 +154,7 @@ export default function AgregarPersona({
       .then((response) => {
         setAsignacion({
           ...asignacion,
-
-          people: response.data.people.map((row) => [
-            row.id + " - " + row.full_name,
-            false,
-          ]),
+          people: response.data.people.map((row) => [row, false]),
         });
       })
       .catch((error) => {
@@ -186,8 +181,10 @@ export default function AgregarPersona({
         roles: newRoles,
       });
     } else if (type == "Personas") {
-      var newPeople = asignacion.people;
-      newPeople[newPeople.indexOf(value)] = [value[0], !value[1]];
+      console.log("value", value);
+      let newPeople = [...asignacion.people].map(([p, v]) =>
+        p.id == value[0].id ? [p, !v] : [p, v]
+      );
       setAsignacion({
         ...asignacion,
         people: newPeople,

@@ -9,7 +9,10 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados } from "../../config/globalVariables";
+import {
+  rolesFormateados,
+  customTimeSteps,
+} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
@@ -23,6 +26,7 @@ import InfoPersona from "../InfoPersona";
 import { useStyles } from "../../components/Personas/styles";
 import propTypes from "prop-types";
 import { FetchInfoPersona } from "./FetchInfoPersona";
+import Typography from "@mui/material/Typography";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -37,6 +41,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
+  const [fetchingError, setFetchingError] = useState([false]);
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -124,8 +129,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       [e.target.name]: e.target.value,
     }));
   };
-
-  const fetchData = (filterParams = {}) => {
+  const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -133,21 +137,16 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       }
     }
 
-    axiosInstance
+    await axiosInstance
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
         if (rows.length == 0) {
           setFilteredData(false);
-          setNotify({
-            ...notify,
-            isOpen: true,
-            message: "No existen datos para los filtros seleccionados",
-            type: "error",
-          });
         }
         rows.map((ppl) => {
           setFilteredData(true);
+          setFetchingError(false);
           const person = ppl.person;
           groupsToAdd.push({
             id: person.id,
@@ -186,8 +185,17 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setGroups(groupsToAdd);
         setItems(itemsToAdd);
+      })
+      .catch((error) => {
+        setNotify({
+          ...notify,
+          isOpen: true,
+          message: "No se pudieron cargar los datos de las personas",
+          type: "error",
+        });
+        setFetchingError(true);
       });
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -219,7 +227,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           : moment(items[itemIndex].start).format("yyyy-MM-DD"),
       end_date:
         edge === "left"
-          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
+          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
           : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
@@ -316,26 +324,27 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );
 
-  if (groups.length > 0 && isProjectView) {
+  if (groups.length > 0 && !isProjectView && !fetchingError) {
+    console.log(filteredData);
     return (
       <Fragment>
         <FilterForm
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            fetchData(filters);
+            await fetchData(filters);
           }}
-          onClear={() => {
+          onClear={async () => {
             setFilters({});
-            fetchData();
+            await fetchData();
           }}
           onInputChange={onFilterChange}
           project_state={filters.project_state}
@@ -384,6 +393,19 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         ) : (
           <Notificacion notify={notify} setNotify={setNotify} />
+        )}
+        {!filteredData && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              NO EXISTEN PERSONAS PARA MOSTRAR
+            </Typography>
+          </div>
         )}
         <AsignarProyectoPersona
           open={assignObject.open}
@@ -439,5 +461,5 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
     );
   }
-  return null;
+  return <Notificacion notify={notify} setNotify={setNotify} />;
 }

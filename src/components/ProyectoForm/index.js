@@ -53,6 +53,7 @@ export default function ProyectoForm({
       .get("/technologies")
       .then((response) => {
         setTechnologies(response.data.technologies);
+        console.log(response.data.technologies);
       })
       .catch((error) => {
         console.log(error);
@@ -85,6 +86,7 @@ export default function ProyectoForm({
             <TextField
               variant="outlined"
               fullWidth
+              required
               id="name"
               type="text"
               label="Nombre"
@@ -98,9 +100,10 @@ export default function ProyectoForm({
           </Grid>
           <Grid item xs={12} md={4}>
             <FormControl fullWidth error={!!errors?.project_type}>
-              <InputLabel id="tipo">Tipo</InputLabel>
+              <InputLabel id="tipo">Tipo *</InputLabel>
               <Select
                 fullWidth
+                required
                 label="Tipo"
                 id="project_type"
                 name="project_type"
@@ -120,9 +123,10 @@ export default function ProyectoForm({
           </Grid>
           <Grid item xs={12} md={4}>
             <FormControl fullWidth error={!!errors?.project_state}>
-              <InputLabel id="state-input">Estado</InputLabel>
+              <InputLabel id="state-input">Estado *</InputLabel>
               <Select
                 fullWidth
+                required
                 labelId="state-input"
                 label="Estado"
                 id="project_state"
@@ -142,6 +146,7 @@ export default function ProyectoForm({
             <TextField
               variant="outlined"
               fullWidth
+              required
               id="description"
               type="text"
               label="Descripción"
@@ -200,6 +205,7 @@ export default function ProyectoForm({
               decimalSeparator=","
               error={!!errors?.budget}
               helperText={errors?.budget?.[0]}
+              isAllowed={({ value }) => value <= 1000000 && value >= 0}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -214,13 +220,14 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.organization}
               helperText={errors?.organization?.[0]}
-              inputProps={{ maxLength: 30 }}
+              inputProps={{ maxLength: 50 }}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <DesktopDatePicker
-              label="Inicio"
+              required
+              label="Inicio *"
               inputFormat="MM-DD-YYYY"
               value={project.start_date}
               onChange={(e) => handleDatesChange("start_date", e)}

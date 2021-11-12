@@ -5,7 +5,6 @@ import { rolesFormateados } from "../../config/globalVariables";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import Notificacion from "../../components/Notificacion";
-import { rolesTraducidos } from "../../config/globalVariables";
 
 AsignarProyectoPersona.propTypes = {
   open: PropTypes.bool.isRequired,

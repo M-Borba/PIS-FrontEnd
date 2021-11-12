@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { axiosInstance } from "../../config/axios";
-import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
 
@@ -108,6 +107,7 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.first_name}
               helperText={errors?.first_name?.[0]}
+              inputProps={{ maxLength: 30 }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -123,6 +123,7 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.last_name}
               helperText={errors?.last_name?.[0]}
+              inputProps={{ maxLength: 30 }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -143,7 +144,7 @@ export default function PersonForm({
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              inputProps={{ min: 0, max: 168 }}
+              inputProps={{ min: 1, max: 168 }}
               variant="outlined"
               margin="normal"
               fullWidth
@@ -155,6 +156,10 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.working_hours}
               helperText={errors?.working_hours?.[0]}
+              inputProps={{
+                min: 1,
+                max: 168,
+              }}
             />
           </Grid>
           <Grid item xs={12}>

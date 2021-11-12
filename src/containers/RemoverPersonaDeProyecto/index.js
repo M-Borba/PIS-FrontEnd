@@ -42,6 +42,8 @@ function removePerson(
   personProject,
   projectData,
   asignaciones,
+  setAsignaciones,
+  editRow,
   setNotify
 ) {
   //buscar la persona en el arreglo
@@ -125,6 +127,8 @@ function RemoverPersona({
             response.data.person_project,
             projectData,
             asignaciones,
+            setAsignaciones,
+            editRow,
             setNotify
           );
         })

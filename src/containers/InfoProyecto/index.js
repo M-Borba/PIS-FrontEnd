@@ -31,32 +31,30 @@ export default function InfoProyecto({ projectData, type, state }) {
 
       <Box mt={3}>
         <Typography variant="h6" gutterBottom>
-          Descripción
+          Descripción:{" "}
         </Typography>
         <Typography display="inline" variant="h6">
           {projectData.description}
         </Typography>
       </Box>
 
-      {projectData.organization ? (
-        <Box mt={2}>
-          <Typography variant="h6" display="inline" gutterBottom>
-            Organización:{" "}
-          </Typography>
-          <Typography display="inline" variant="h6">
-            {projectData.organization}
-          </Typography>
-        </Box>
-      ) : (
-        " "
-      )}
+      <Box mt={2}>
+        <Typography variant="h6" display="inline" gutterBottom>
+          Organización:{" "}
+        </Typography>
+        <Typography display="inline" variant="h6">
+          {projectData.organization == ""
+            ? "-"
+            : projectData.organization ?? "-"}
+        </Typography>
+      </Box>
 
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
           Budget:{" "}
         </Typography>
         <Typography display="inline" variant="h6">
-          {projectData.budget}
+          {projectData.budget == 0 ? "-" : projectData.budget ?? "-"}
         </Typography>
       </Box>
 
@@ -107,28 +105,28 @@ export default function InfoProyecto({ projectData, type, state }) {
         </Grid>
       </Grid>
 
-      {projectData.technologies.length != 0 ? (
-        <Box mr={15} mt={2}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+      <Box mr={15} mt={2}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Tecnologías</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                position: "relative",
+                overflow: "auto",
+                "& ul": { padding: 0 },
+              }}
+              subheader={<li />}
             >
-              <Typography variant="h6">Tecnologías</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  position: "relative",
-                  overflow: "auto",
-                  "& ul": { padding: 0 },
-                }}
-                subheader={<li />}
-              >
-                {projectData.technologies.map((technology, index) => {
+              {projectData.technologies.length != 0 ? (
+                projectData.technologies.map((technology, index) => {
                   return (
                     <>
                       <ListItem key={technology + index} role="listitem">
@@ -136,38 +134,43 @@ export default function InfoProyecto({ projectData, type, state }) {
                       </ListItem>
                     </>
                   );
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-      ) : (
-        " "
-      )}
-      {projectData.people.length != 0 ? (
-        <Box m="auto" mr={15} mt={2}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+                })
+              ) : (
+                <Box style={{ paddingTop: 20 }}>
+                  <Typography variant="button" display="block" gutterBottom>
+                    Aún no hay tecnologias asociadas
+                  </Typography>
+                </Box>
+              )}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+
+      <Box m="auto" mr={15} mt={2}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h6">Personas Asignadas</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                // bgcolor: "rgb(240,240,240)",
+                position: "relative",
+                // overflow: "auto",
+                maxHeight: 500,
+                "& ul": { padding: 0 },
+              }}
+              subheader={<li />}
             >
-              <Typography variant="h6">Personas Asignadas</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  // bgcolor: "rgb(240,240,240)",
-                  position: "relative",
-                  // overflow: "auto",
-                  maxHeight: 500,
-                  "& ul": { padding: 0 },
-                }}
-                subheader={<li />}
-              >
-                {projectData.people.map((person) => {
+              {projectData.people.length != 0 ? (
+                projectData.people.map((person) => {
                   return (
                     <>
                       <ListItem key={person.id} role="listitem">
@@ -175,18 +178,18 @@ export default function InfoProyecto({ projectData, type, state }) {
                       </ListItem>
                     </>
                   );
-                })}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-      ) : (
-        <Box style={{ paddingTop: 20 }}>
-          <Typography variant="button" display="block" gutterBottom>
-            Aún no hay nadie asignado
-          </Typography>
-        </Box>
-      )}
+                })
+              ) : (
+                <Box style={{ paddingTop: 20 }}>
+                  <Typography variant="button" display="block" gutterBottom>
+                    Aún no hay nadie asignado
+                  </Typography>
+                </Box>
+              )}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
     </div>
   );
 }
