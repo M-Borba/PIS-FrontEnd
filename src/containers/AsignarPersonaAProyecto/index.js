@@ -53,14 +53,15 @@ export default function AgregarPersona({
       setError("Completar todos los campos para completar la asignación");
     } else {
       var body = Object.assign({}, asignacion);
-      body.roles = body.roles.map((rol) => rol[0]); //conseguir la lista de roles
+      body.roles = body.roles
+        .filter((rol) => rol[1] == true)
+        .map((rol) => rol[0].toLowerCase());//conseguir la lista de roles
       body.people = body.people
         .filter((rol) => rol[1] == true)
         .map((person) => person[0].id); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
       body.people.forEach((person) =>
         body.roles.forEach((role) => {
-          console.log("r", role);
           axiosInstance
             .post("/people/" + person + "/person_project", {
               person_project: {
