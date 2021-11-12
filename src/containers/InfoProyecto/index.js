@@ -16,19 +16,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Divider from "@mui/material/Divider";
 
 InfoProyecto.propTypes = {
-  projectData: propTypes.shape({
-    name: propTypes.string,
-    description: propTypes.string,
-    budget: propTypes.number,
-    id: propTypes.number,
-    start_date: propTypes.string,
-    end_date: propTypes.string,
-    technologies: propTypes.array,
-    people: propTypes.array,
-    organization: propTypes.string,
-  }).isRequired,
-  type: propTypes.string.isRequired,
-  state: propTypes.string.isRequired,
+  projectData: propTypes.array.isRequired,
+  type: propTypes.string,
+  state: propTypes.string,
 };
 
 export default function InfoProyecto({ projectData, type, state }) {
@@ -139,7 +129,7 @@ export default function InfoProyecto({ projectData, type, state }) {
                 projectData.technologies.map((technology, index) => {
                   return (
                     <>
-                      <ListItem key={index} role="listitem">
+                      <ListItem key={technology + index} role="listitem">
                         <ListItemText primary={technology} />
                       </ListItem>
                     </>

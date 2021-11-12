@@ -75,7 +75,6 @@ export default function AgregarPersona({
             })
             .then((response) => {
               // Agrego a la persona con su rol al modal de desasignacion.
-              console.log(response.data);
               let asignacionData = response.data.person_project;
               let indexAsignacion = nuevasAsignaciones.findIndex(
                 (asignacion) => asignacion.id == person
@@ -165,7 +164,6 @@ export default function AgregarPersona({
   }, []);
 
   const checkInput = (value, type) => {
-    console.log("value", value, type);
     if (type == "Rol") {
       let newRoles = asignacion.roles;
       let i = 0;

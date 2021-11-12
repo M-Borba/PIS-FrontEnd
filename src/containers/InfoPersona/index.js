@@ -15,9 +15,9 @@ InfoPersona.propTypes = {
     cargaHoraria: propTypes.number.isRequired,
     email: propTypes.string.isRequired,
     fullName: propTypes.string.isRequired,
-    firstName: propTypes.string.isRequired,
-    lastName: propTypes.string.isRequired,
-    id: propTypes.number.isRequired,
+    firstName: propTypes.string,
+    lastName: propTypes.string,
+    id: propTypes.number,
     tag: propTypes.string,
     technologies: propTypes.array,
   }).isRequired,
@@ -49,7 +49,7 @@ export default function InfoPersona({ personData }) {
         </Typography>
       </Box>
 
-      {personData.technologies.length != 0 ? (
+      {personData.technologies?.length != 0 ? (
         <Box mt={2}>
           <Typography variant="h6" display="inline" gutterBottom>
             Tecnologías:
