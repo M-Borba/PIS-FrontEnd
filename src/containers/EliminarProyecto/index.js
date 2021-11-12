@@ -8,43 +8,48 @@ EliminarProyecto.propTypes = {
   projectId: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
   setNotify: PropTypes.func.isRequired,
+  removeRow: PropTypes.func.isRequired,
 };
 
-function EliminarProyecto({ projectId, projectName, handleClose, setNotify }) {
+function EliminarProyecto({
+  projectId,
+  projectName,
+  handleClose,
+  setNotify,
+  removeRow,
+}) {
   const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
       .delete(`/projects/${projectId}`)
       .then((response) => {
-        if (response.status == 200)
+        if (response.status == 200) {
           setNotify({
             isOpen: true,
             message: `El proyecto ${projectName} se elimino con exito.`,
             type: "success",
-            reload: true,
+            reload: false,
           });
+          removeRow(projectId);
+        }
+        handleClose();
       })
       .catch((error) => {
         console.error(error);
-        if (
-          error.response != undefined &&
-          error.response.status != null &&
-          error.response.status == 404
-        )
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
           setNotify({
             isOpen: true,
-            message: `Error, el proyecto ${projectName} ya fue eliminado.`,
+            message: message,
             type: "error",
             reload: true,
           });
-        else {
-          let errors = error.response.data.errors;
+        } else {
+          let message = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: message[Object.keys(message)[0]],
             type: "error",
             reload: false,
           });

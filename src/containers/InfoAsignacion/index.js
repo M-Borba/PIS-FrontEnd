@@ -4,6 +4,8 @@ import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
 import { axiosInstance } from "../../config/axios";
 import Notificacion from "../../components/Notificacion";
+import DeleteDialogContent from "../../components/DeleteDialogContent";
+import { rolesFormateados } from "../../config/globalVariables";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -11,6 +13,16 @@ InfoAsignacion.propTypes = {
   personName: propTypes.string.isRequired,
   asignacionId: propTypes.number.isRequired,
   onClose: propTypes.func.isRequired,
+  removeAsignacion: propTypes.func.isRequired,
+  updateAsignacion: propTypes.func.isRequired,
+};
+
+const initialState = {
+  role: "",
+  working_hours: 0,
+  working_hours_type: "",
+  start_date: "",
+  end_date: "",
 };
 
 function InfoAsignacion({
@@ -19,6 +31,8 @@ function InfoAsignacion({
   personName,
   asignacionId,
   onClose,
+  removeAsignacion,
+  updateAsignacion,
 }) {
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -26,14 +40,11 @@ function InfoAsignacion({
     type: "success",
     reload: false,
   });
-  const [asignacionInfo, setAsignacionInfo] = useState({
-    role: "",
-    working_hours: 0,
-    working_hours_type: "",
-    start_date: "",
-    end_date: "",
-  });
-  const [roles, setRoles] = useState([]);
+  const [asignacionInfo, setAsignacionInfo] = useState(initialState);
+  const [openConfirmacion, setOpenConfirmacion] = useState(false);
+  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
+    projectName.split("-")[0]
+  } como ${projectName.split("-")[1]}?`;
 
   useEffect(() => {
     // Traigo asignacion
@@ -41,106 +52,110 @@ function InfoAsignacion({
       axiosInstance
         .get(`/person_project/${asignacionId}`)
         .then((response) => {
-          if (response.status == 200) {
-            let asignacionData = response.data.person_project;
-            setAsignacionInfo({
-              role: asignacionData.role,
-              working_hours: asignacionData.working_hours,
-              working_hours_type: asignacionData.working_hours_type,
-              start_date: asignacionData.start_date,
-              end_date: asignacionData.end_date,
-            });
-            setRoles(asignacionData.person.roles);
-          }
+          let asignacionData = response.data.person_project;
+          setAsignacionInfo({
+            role: asignacionData.role,
+            working_hours: asignacionData.working_hours,
+            working_hours_type: asignacionData.working_hours_type,
+            start_date: asignacionData.start_date,
+            end_date: asignacionData.end_date,
+          });
         })
         .catch((error) => {
           console.error(error);
-          if (error.response.status == 404)
+          if (error.response.status == 404) {
+            let message = error.response.data.error;
             setNotify({
               isOpen: true,
-              message: "Error, la asignacion no existe.",
-              type: "error",
-              reload: true,
-            });
-          else
-            setNotify({
-              isOpen: true,
-              message: "Error inesperado.",
+              message: message,
               type: "error",
               reload: false,
             });
+          } else {
+            let message = error.response.data.errors;
+            setNotify({
+              isOpen: true,
+              message: message[Object.keys(message)[0]],
+              type: "error",
+              reload: false,
+            });
+          }
           onClose();
         });
   }, [open]);
 
-  const handleAplicarCambios = () => {
+  const handleAplicarCambios = (e) => {
     // API call
+    e.preventDefault();
 
     axiosInstance
       .put(`/person_project/${asignacionId}`, {
         person_project: asignacionInfo,
       })
       .then((response) => {
-        console.log(response.data);
-        if (response.status == 200)
-          setNotify({
-            isOpen: true,
-            message: "Los cambios se aplicaron con exito.",
-            type: "success",
-            reload: true,
-          });
+        let asignacion = response.data.person_project;
+        updateAsignacion(
+          asignacionId,
+          `${asignacion.project.name} - ${rolesFormateados[asignacion.role]}`,
+          asignacion.start_date,
+          asignacion.end_date
+        );
+        setNotify({
+          isOpen: true,
+          message: "Los cambios se aplicaron con exito.",
+          type: "success",
+          reload: false,
+        });
+        onClose();
+        setAsignacionInfo(initialState);
       })
       .catch((error) => {
-        console.error(error);
-        let errors = error.response.data.errors;
+        console.error(error.response);
         if (error.response.status == 404) {
           setNotify({
             isOpen: true,
-            message: `Error, la asignacion no existe`,
+            message: error.response.data.error,
             type: "error",
             reload: true,
           });
-        } else if (error.response.status == 400)
+          onClose();
+          setAsignacionInfo(initialState);
+        } else {
+          let message = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error ${
-              Object.keys(errors)[0]
-            }, Error en los datos asignados - ${
-              errors[Object.keys(errors)[0]]
-            }`,
+            message: message[Object.keys(message)[0]],
             type: "error",
             reload: false,
           });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado`,
-            type: "error",
-            reload: false,
-          });
+        }
       });
   };
 
   const handleDesasignar = () => {
     // API call
 
+    handleConfirmacionClose();
+    onClose();
+    setAsignacionInfo(initialState);
+
     axiosInstance
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
-        console.log(response.data);
-        if (response.status == 200)
-          setNotify({
-            isOpen: true,
-            message: "Se elimino la asignacion con exito.",
-            type: "success",
-            reload: true,
-          });
-      })
-      .catch((error) => {
-        console.error(error);
+        removeAsignacion(asignacionId);
         setNotify({
           isOpen: true,
-          message: "Error al desasignar.",
+          message: response.data.message,
+          type: "success",
+          reload: false,
+        });
+      })
+      .catch((error) => {
+        console.error(error.response);
+        let message = error.response.data.error;
+        setNotify({
+          isOpen: true,
+          message: message,
           type: "error",
           reload: false,
         });
@@ -163,24 +178,38 @@ function InfoAsignacion({
       setAsignacionInfo({ ...asignacionInfo, end_date: e.target.value });
   };
 
+  const handleClose = () => {
+    onClose();
+    setAsignacionInfo(initialState);
+  };
+
+  const handleConfirmacionClose = () => setOpenConfirmacion(false);
+
+  const handleConfirmacionOpen = () => setOpenConfirmacion(true);
+
   return (
     <Fragment>
-      <Dialog
-        fullWidth
-        open={open}
-        onClose={onClose}
-        maxWidth={"xs"}
-        hideBackdrop={true}
-      >
+      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
         <InfoAsignacionDialog
           asignacionInfo={asignacionInfo}
-          roles={roles}
           projectName={projectName}
           personName={personName}
-          onClose={onClose}
+          onClose={handleClose}
           onChange={onInputChange}
           aplicarCambios={handleAplicarCambios}
-          desasignar={handleDesasignar}
+          desasignar={handleConfirmacionOpen}
+        />
+      </Dialog>
+      <Dialog
+        fullWidth
+        open={openConfirmacion}
+        onClose={handleConfirmacionClose}
+        maxWidth={"xs"}
+      >
+        <DeleteDialogContent
+          dialogContent={dialogContent}
+          onClose={handleConfirmacionClose}
+          onConfirmation={handleDesasignar}
         />
       </Dialog>
       <Notificacion notify={notify} setNotify={setNotify} />

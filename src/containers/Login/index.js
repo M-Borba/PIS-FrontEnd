@@ -9,83 +9,133 @@
 import React, { useState, useEffect } from "react";
 import { axiosInstance } from "../../config/axios";
 import Login from "../../components/Login";
-import Grid from "@material-ui/core/Grid";
+import ChangePassword from "../../components/LoginChangePassword";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import { useHistory } from "react-router-dom";
 import { NOT_LOGGED } from "../../config/globalVariables";
+import { useStyles } from "./styles";
 
 export default function LoginView() {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [password, setPassowrd] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [needsPasswordReset, setPasswordReset] = useState(false);
+  const classes = useStyles();
+  const [token, setToken] = useState("");
+  const [client, setClient] = useState("");
+  const [uid, setUid] = useState("");
 
   useEffect(() => {
     if (
       localStorage.getItem("uid") != null &&
-      localStorage.getItem("uid") != NOT_LOGGED
+      localStorage.getItem("uid") != undefined &&
+      localStorage.getItem("uid") != NOT_LOGGED &&
+      !needsPasswordReset
     ) {
-      history.push("/Inicio");
-      window.location.reload();
+      window.location = "/inicio";
     }
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email == "" || password == "") {
-      setLoginError("Completar todos los campos para iniciar sesión");
-    } else {
-      axiosInstance
-        .post("/users/sign_in", {
-          user: {
-            email: email,
-            password: password,
-          },
-        })
-        .then((response) => {
-          let headers = response.headers;
-          console.log(response);
-          localStorage.setItem("token", headers["access-token"]);
-          localStorage.setItem("client", headers.client);
-          localStorage.setItem("uid", headers.uid);
-          window.location.reload(); // header gets updated
-          history.push("/Inicio");
-          window.location.reload();
+  const signInAndSetHeaders = () =>
+    axiosInstance
+      .post("/users/sign_in", {
+        user: {
+          email: email,
+          password: password,
+        },
+      })
+      .then((response) => {
+        const headers = response.headers;
+        localStorage.setItem("token", headers["access-token"]);
+        localStorage.setItem("client", headers["client"]);
+        localStorage.setItem("uid", headers["uid"]);
+        history.push("/Inicio");
+      });
 
-          setLoginError("");
-        })
-        .catch((error) => {
-          setPassowrd("");
-          if (error.response != undefined && error.response.status == 401)
-            setLoginError("El usuario y/o contraseña ingresado no es correcto");
-          else setLoginError("Error inesperado al iniciar sesión");
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    signInAndSetHeaders().catch((error) => {
+      if (error.response?.data?.needs_password_reset == true) {
+        const headers = error.response.headers;
+        setToken(headers["access-token"]);
+        setUid(headers.uid);
+        setClient(headers.client);
+        setPassword("");
+        setPasswordReset(true);
+      } else {
+        setLoginError(error.response?.data?.error);
+      }
+    });
+  };
+
+  const handlePasswordChangeSubmit = (e) => {
+    e.preventDefault();
+    localStorage.setItem("token", token);
+    localStorage.setItem("client", client);
+    localStorage.setItem("uid", uid);
+    axiosInstance
+      .put(
+        "/users/password",
+        {
+          password: password,
+          password_confirmation: passwordConfirmation,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "access-token": token,
+            uid: uid,
+            client: client,
+            "Access-Control-Expose-Headers": "*",
+          },
+        }
+      )
+      .then((response) => {
+        signInAndSetHeaders().catch((error) => {
+          localStorage.clear();
+          setLoginError(error.response?.data?.error);
         });
-    }
+      });
   };
   const checkInput = (e) => {
-    e.preventDefault();
+    setLoginError("");
     if (e.target.name == "email") setEmail(e.target.value);
-    if (e.target.name == "password") setPassowrd(e.target.value);
+    if (e.target.name == "password") setPassword(e.target.value);
+    if (e.target.name == "passwordConfirmation")
+      setPasswordConfirmation(e.target.value);
   };
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item md={7} sm={12}>
-        <img
-          src={effectus_wallpaper}
-          className="logo"
-          alt="effectus wallpaper"
-          width="100%"
-        />
-      </Grid>
-      <Grid item md={5} sm={12}>
-        <Login
-          onSubmit={(e) => handleSubmit(e)}
-          onInputChange={(e) => checkInput(e)}
-          email={email}
-          password={password}
-          error={loginError}
-        />
-      </Grid>
-    </Grid>
+    <Box className={classes.container}>
+      <Paper variant="elevation" elevation={3} className={classes.paper}>
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <img
+            className={classes.imgcontainer}
+            src={effectus_wallpaper}
+            alt="Logo"
+          />
+          {!needsPasswordReset ? (
+            <Login
+              onSubmit={(e) => handleLoginSubmit(e)}
+              onInputChange={(e) => checkInput(e)}
+              email={email}
+              password={password}
+              error={loginError}
+            />
+          ) : (
+            <ChangePassword
+              onSubmit={(e) => handlePasswordChangeSubmit(e)}
+              onInputChange={(e) => checkInput(e)}
+              password={password}
+              passwordConfirmation={passwordConfirmation}
+              error={loginError}
+            />
+          )}
+        </Box>
+      </Paper>
+    </Box>
   );
 }

@@ -7,6 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
+import { Box } from "@mui/system";
 
 DeleteDialogContent.propTypes = {
   dialogContent: PropTypes.string.isRequired,
@@ -29,12 +30,17 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent className={Classes.content}>{dialogContent}</DialogContent>
-      <DialogActions className={Classes.actions}>
-        <Button onClick={onClose} color="primary">
+      <DialogContent className={Classes.content}>
+        <Box className={Classes.textClass}>{dialogContent}</Box>
+      </DialogContent>
+      <DialogActions
+        className={Classes.actions}
+        style={{ justifyContent: "space-between" }}
+      >
+        <Button onClick={onClose} color="primary" variant="contained">
           Cancelar
         </Button>
-        <Button onClick={onConfirmation} color="primary">
+        <Button onClick={onConfirmation} color="primary" variant="contained">
           Confirmar
         </Button>
       </DialogActions>

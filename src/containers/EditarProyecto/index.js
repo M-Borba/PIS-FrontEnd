@@ -12,101 +12,56 @@ EditarProjecto.propTypes = {
     budget: propTypes.number,
     start_date: propTypes.string,
     end_date: propTypes.string,
+    people: propTypes.array,
+    organization: propTypes.string,
+    technologies: propTypes.array,
   }).isRequired,
   id: propTypes.number,
   setNotify: propTypes.func.isRequired,
+  onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id, setNotify }) {
-  projectData.start_date = projectData.start_date.replaceAll("/", "-");
-  if (projectData.end_date != null)
-    projectData.end_date = projectData.end_date.replaceAll("/", "-");
-  const [proyecto, setProyecto] = useState(projectData);
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
-  const isValid = () => {
-    return (
-      //descripcion, budget y end date son opcionales y no se validan
-      proyecto.name != "" &&
-      proyecto.project_type != "" && //to do cambiar esto, verificar que es uno de los enumerados
-      proyecto.project_state != "" && //to do cambiar esto, verificar que es uno de los enumerados
-      proyecto.start_date != ""
-    );
-  };
+export default function EditarProjecto({
+  projectData,
+  id,
+  setNotify,
+  onClose,
+  editRow,
+}) {
+  const [errors, setErrors] = useState({});
+  const [project, setProject] = useState(projectData);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axiosInstance
-      .put("/projects/" + id, {
-        project: proyecto,
+      .put(`/projects/${id}`, {
+        project,
       })
       .then((response) => {
-        if (response.status == 200)
-          setNotify({
-            isOpen: true,
-            message: `El proyecto ${projectData.name} se modifico con exito.`,
-            type: "success",
-            reload: true,
-          });
+        editRow(response.data.project);
+        setNotify({
+          isOpen: true,
+          message: `El proyecto ${projectData.name} se modifico con exito.`,
+          type: "success",
+          reload: false,
+        });
+        onClose();
       })
       .catch((error) => {
-        console.log(error.response);
-        let errors = error.response.data.errors;
-        if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message: `Error, hay un problema con los datos ingresados - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
-            type: "error",
-            reload: false,
-          });
-        else if (error.response.status == 404)
-          setNotify({
-            isOpen: true,
-            message: `Error, el proyecto ${projectData.name} ya fue eliminado.`,
-            type: "error",
-            reload: true,
-          });
-        else
-          setNotify({
-            isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
-            type: "error",
-            reload: false,
-          });
+        setErrors(error.response.data?.errors);
       });
   };
 
-  const checkInput = (e) => {
-    if (e.target.id == "name")
-      setProyecto({ ...proyecto, name: e.target.value });
-    else if (e.target.name == "project_type")
-      setProyecto({ ...proyecto, project_type: e.target.value });
-    else if (e.target.name == "project_state")
-      setProyecto({ ...proyecto, project_state: e.target.value });
-    else if (e.target.id == "description")
-      setProyecto({ ...proyecto, description: e.target.value });
-    else if (e.target.id == "budget") {
-      let valorBudget = parseInt(e.target.value);
-      setProyecto({ ...proyecto, budget: valorBudget });
-    } else if (e.target.id == "start_date")
-      setProyecto({ ...proyecto, start_date: e.target.value });
-    else if (e.target.id == "end_date")
-      setProyecto({ ...proyecto, end_date: e.target.value });
-  };
-
   return (
-    <div>
-      <ProyectoForm
-        onSubmit={(e) => handleSubmit(e)}
-        onInputChange={(e) => checkInput(e)}
-        proyecto={proyecto}
-        title={"Modificacion de Proyecto"}
-      />
-    </div>
+    <ProyectoForm
+      onSubmit={handleSubmit}
+      project={project}
+      setProject={setProject}
+      title={"Modificación de Proyecto"}
+      errors={errors}
+      setErrors={setErrors}
+    />
   );
 }

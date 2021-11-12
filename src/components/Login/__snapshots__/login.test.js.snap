@@ -13,6 +13,7 @@ exports[`login component tests renders correctly 1`] = `
     </h1>
     <form
       class="makeStyles-form-2"
+      novalidate=""
     >
       <div
         class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
@@ -23,7 +24,7 @@ exports[`login component tests renders correctly 1`] = `
           for="email"
           id="email-label"
         >
-          Email Address
+          Email
           <span
             aria-hidden="true"
             class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
@@ -53,7 +54,7 @@ exports[`login component tests renders correctly 1`] = `
               class="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
             >
               <span>
-                Email Address
+                Email
                  *
               </span>
             </legend>
@@ -69,7 +70,7 @@ exports[`login component tests renders correctly 1`] = `
           for="password"
           id="password-label"
         >
-          Password
+          Contraseña
           <span
             aria-hidden="true"
             class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
@@ -99,7 +100,7 @@ exports[`login component tests renders correctly 1`] = `
               class="PrivateNotchedOutline-legendLabelled-7"
             >
               <span>
-                Password
+                Contraseña
                  *
               </span>
             </legend>
@@ -115,7 +116,7 @@ exports[`login component tests renders correctly 1`] = `
         <span
           class="MuiButton-label"
         >
-          Sign in
+          Iniciar sesión
         </span>
         <span
           class="MuiTouchRipple-root"
@@ -124,7 +125,7 @@ exports[`login component tests renders correctly 1`] = `
       <h2
         class="MuiTypography-root makeStyles-errorMsg-4 MuiTypography-body1"
       >
-        No se pudo iniciar sesión
+        Identidad o contraseña no válida.
       </h2>
       <div
         class="MuiBox-root MuiBox-root-9"

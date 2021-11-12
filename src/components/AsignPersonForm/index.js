@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -10,6 +11,13 @@ import CardSelector from "../CardSelector";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import CardHeader from "@material-ui/core/CardHeader";
+import ListItem from "@material-ui/core/ListItem";
+import Checkbox from "@material-ui/core/Checkbox";
+import List from "@material-ui/core/List";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Card from "@material-ui/core/Card";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -19,8 +27,9 @@ AsignPersonForm.propTypes = {
     people: propTypes.array.isRequired,
     startDate: propTypes.string.isRequired,
     endDate: propTypes.string,
+    hours: propTypes.number.isRequired,
+    hoursType: propTypes.string.isRequired,
   }).isRequired,
-  msg: propTypes.string,
   error: propTypes.string,
   title: propTypes.string,
 };
@@ -31,28 +40,47 @@ export default function AsignPersonForm({
   onInputChange,
   asign,
   error,
-  msg,
 }) {
   const classes = useStyles();
-
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
-      <Typography className={classes.msg} component="h2">
-        {msg}
-      </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <CardSelector
-              name={"people"}
-              id={"people"}
-              title={"Personas"}
-              list={asign.people}
-              onInputChange={onInputChange}
-            />
+            <Card
+              style={{ display: "flex", flexDirection: "column" }}
+              component={Paper}
+            >
+              <CardHeader className={classes.cardHeader} title={"Personas"} />
+              <List className={classes.list} dense component="div" role="list">
+                {asign.people.map(([p, value]) => {
+                  return (
+                    <ListItem
+                      key={p.id}
+                      role="listitem"
+                      button
+                      onClick={() => {
+                        onInputChange([p, value], "Personas");
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          id={p.id}
+                          checked={value}
+                          tabIndex={-1}
+                          disableRipple
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={p.full_name} />
+                    </ListItem>
+                  );
+                })}
+                <ListItem />
+              </List>
+            </Card>
           </Grid>
           <Grid item xs={6}>
             <CardSelector
@@ -97,12 +125,16 @@ export default function AsignPersonForm({
               style={{ marginTop: 23 }}
               variant="outlined"
               margin="normal"
+              required
               fullWidth
               name="workingHours"
               label="Horas"
               type="number"
               id="workingHours"
+              value={asign.hours}
               onChange={onInputChange}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: 1, max: 100 }}
             />
           </Grid>
           <Grid item xs={6}>
@@ -110,6 +142,7 @@ export default function AsignPersonForm({
             <Select
               fullWidth
               required
+              value={asign.hoursType}
               id="hoursType"
               labelId="tipo"
               onChange={onInputChange}

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
@@ -8,43 +8,46 @@ EliminarPersona.propTypes = {
   handleClose: PropTypes.func.isRequired,
   personId: PropTypes.number.isRequired,
   setNotify: PropTypes.func.isRequired,
+  removeRow: PropTypes.func.isRequired,
 };
 
-function EliminarPersona({ personName, personId, handleClose, setNotify }) {
+function EliminarPersona({
+  personName,
+  personId,
+  handleClose,
+  setNotify,
+  removeRow,
+}) {
   const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
       .delete(`/people/${personId}`)
-      .then((response) => {
-        if (response.status == 200)
-          setNotify({
-            isOpen: true,
-            message: `La persona ${personName} se elimino con exito.`,
-            type: "success",
-            reload: true,
-          });
+      .then(() => {
+        removeRow(personId);
+        setNotify({
+          isOpen: true,
+          message: `La persona ${personName} se elimino con exito.`,
+          type: "success",
+          reload: false,
+        });
+        handleClose();
       })
       .catch((error) => {
-        console.error(error);
-        if (
-          error.response != undefined &&
-          error.response.status != null &&
-          error.response.status == 404
-        )
+        console.error(error.response);
+        if (error.response.status == 404) {
+          let message = error.response.data.error;
           setNotify({
             isOpen: true,
-            message: `Error, la perosna ${personName} ya fue eliminada.`,
+            message: message,
             type: "error",
             reload: true,
           });
-        else {
-          let errors = error.response.data.errors;
+        } else {
+          let message = error.response.data.errors;
           setNotify({
             isOpen: true,
-            message: `Error inesperado al enviar formulario - ${
-              Object.keys(errors)[0]
-            } ${errors[Object.keys(errors)[0]]}.`,
+            message: message[Object.keys(message)[0]],
             type: "error",
             reload: false,
           });
@@ -53,13 +56,11 @@ function EliminarPersona({ personName, personId, handleClose, setNotify }) {
   };
 
   return (
-    <Fragment>
-      <DeleteDialogContent
-        dialogContent={dialogContent}
-        onClose={handleClose}
-        onConfirmation={onConfirmation}
-      />
-    </Fragment>
+    <DeleteDialogContent
+      dialogContent={dialogContent}
+      onClose={handleClose}
+      onConfirmation={onConfirmation}
+    />
   );
 }
 

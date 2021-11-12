@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PersonView from "./containers/PersonView";
 import ProjectView from "./containers/ProjectView";
 import { NOT_LOGGED } from "./config/globalVariables";
-
 import {
   BrowserRouter as Router,
   Switch as SwitchRouter,
@@ -11,10 +10,11 @@ import {
 } from "react-router-dom";
 import LoginView from "./containers/Login";
 import Header from "./components/Header";
+import ListarAdministradores from "./containers/ListarAdministradores";
 import ListarPersonas from "./containers/ListarPersonas";
-import Switch from "@material-ui/core/Switch";
-import Grid from "@material-ui/core/Grid";
 import ListarProyectos from "./containers/ListarProyectos";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DateAdapter from "@mui/lab/AdapterMoment";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
@@ -22,43 +22,37 @@ export default function App() {
     uid = NOT_LOGGED;
   }
   const [isProjectView, setIsProjectView] = useState(false);
+  const onSwitch = () => {
+    setIsProjectView(!isProjectView);
+  };
 
   return (
-    <Router>
-      <div>
-        <Route
-          render={({ location }) =>
-            !["/login", "/Login"].includes(location.pathname) && <Header />
-          }
-        />
-        <SwitchRouter>
-          <Route path="/login" component={LoginView} />
-          {uid == NOT_LOGGED && <Redirect to="/login" />}
-          <Route path="/personas" component={ListarPersonas} />
-          <Route path="/proyectos" component={ListarProyectos} />
-          <Route path={["/", "/inicio"]}>
-            <>
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="center"
-              >
-                Vista Personas
-                <Switch
-                  color="default"
-                  checked={isProjectView}
-                  onChange={() => {
-                    setIsProjectView(!isProjectView);
-                  }}
+    <LocalizationProvider dateAdapter={DateAdapter}>
+      <Router>
+        <div>
+          <Route
+            render={({ location }) =>
+              !["/login", "/Login"].includes(location.pathname) && <Header />
+            }
+          />
+          <SwitchRouter>
+            <Route path="/login" component={LoginView} />
+            {uid == NOT_LOGGED && <Redirect to="/login" />}
+            <Route path="/personas" component={ListarPersonas} />
+            <Route path="/proyectos" component={ListarProyectos} />
+            <Route path="/administradores" component={ListarAdministradores} />
+            <Route path={["/", "/inicio"]}>
+              <>
+                <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
+                <ProjectView
+                  onSwitch={onSwitch}
+                  isProjectView={isProjectView}
                 />
-                Vista Proyectos
-              </Grid>
-              {isProjectView ? <ProjectView /> : <PersonView />}
-            </>
-          </Route>
-        </SwitchRouter>
-      </div>
-    </Router>
+              </>
+            </Route>
+          </SwitchRouter>
+        </div>
+      </Router>
+    </LocalizationProvider>
   );
 }

@@ -1,7 +1,9 @@
 import {
+  roles,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
   rolesFormateados,
+  rolesTraducidos,
 } from "../../config/globalVariables";
 import React, { Fragment } from "react";
 import { useStyles } from "./styles";
@@ -20,7 +22,6 @@ import MenuItem from "@mui/material/MenuItem";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
-  roles: propTypes.array.isRequired,
   projectName: propTypes.string.isRequired,
   personName: propTypes.string.isRequired,
   onClose: propTypes.func.isRequired,
@@ -31,7 +32,6 @@ InfoAsignacionDialog.propTypes = {
 
 function InfoAsignacionDialog({
   asignacionInfo,
-  roles,
   projectName,
   personName,
   onClose,
@@ -51,8 +51,8 @@ function InfoAsignacionDialog({
 
   const rolItems = roles.map((rol, id) => {
     return (
-      <MenuItem key={id} value={rol}>
-        {rolesFormateados[rol]}
+      <MenuItem key={id} value={rolesTraducidos[rol]}>
+        {rol}
       </MenuItem>
     );
   });
@@ -63,7 +63,7 @@ function InfoAsignacionDialog({
         <Stack direction="row" className={Classes.jC_sb}>
           <Typography variant="h6">
             {personName} en {projectName.split("-")[0]} como{" "}
-            {rolesFormateados[projectName.split("-")[1].trim()]}
+            {projectName.split("-")[1]}
           </Typography>
           <IconButton
             aria-label="Close"
@@ -74,81 +74,92 @@ function InfoAsignacionDialog({
           </IconButton>
         </Stack>
       </DialogTitle>
-      <DialogContent className={Classes.content}>
-        <Stack
-          spacing={1}
-          divider={<Divider flexItem style={{ margin: 10 }} />}
-        >
-          <TextField
-            fullWidth
-            required
-            select
-            label="Rol"
-            name="rol"
-            value={asignacionInfo.role}
-            onChange={onChange}
-            sx={{ marginTop: 1 }}
+      <form onSubmit={aplicarCambios}>
+        <DialogContent className={Classes.content}>
+          <Stack
+            spacing={1}
+            divider={<Divider flexItem style={{ margin: 10 }} />}
           >
-            {rolItems}
-          </TextField>
-          <Stack spacing={1} direction="row">
-            <TextField
-              fullWidth
-              required
-              id="working_hours"
-              label="Carga horaria"
-              variant="standard"
-              type="number"
-              required={true}
-              value={asignacionInfo.working_hours}
-              onChange={onChange}
-            />
             <TextField
               fullWidth
               required
               select
-              name="working_hours_type"
-              label="Tipo de carga horaria"
-              name="working_hours_type"
-              value={asignacionInfo.working_hours_type}
+              label="Rol"
+              name="rol"
+              value={asignacionInfo.role}
               onChange={onChange}
+              sx={{ marginTop: 1 }}
             >
-              {cargasHorariasItems}
+              {rolItems}
             </TextField>
+            <Stack spacing={1} direction="row">
+              <TextField
+                fullWidth
+                required
+                id="working_hours"
+                label="Carga horaria"
+                variant="standard"
+                type="number"
+                required={true}
+                value={asignacionInfo.working_hours}
+                onChange={onChange}
+                inputProps={{
+                  min: 1,
+                  max: asignacionInfo.working_hours_type == "daily" ? 24 : 100,
+                }}
+              />
+              <TextField
+                fullWidth
+                required
+                select
+                name="working_hours_type"
+                label="Tipo de carga horaria"
+                name="working_hours_type"
+                value={asignacionInfo.working_hours_type}
+                onChange={onChange}
+              >
+                {cargasHorariasItems}
+              </TextField>
+            </Stack>
+            <Stack spacing={1} direction="row">
+              <TextField
+                fullWidth
+                required
+                InputLabelProps={{ shrink: true }}
+                id="start_date"
+                label="Fecha Inicio"
+                variant="standard"
+                type="date"
+                value={asignacionInfo.start_date}
+                onChange={onChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+              <TextField
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                id="end_date"
+                label="Fecha Fin"
+                variant="standard"
+                type="date"
+                value={asignacionInfo.end_date}
+                onChange={onChange}
+                InputProps={{ inputProps: { max: "9999-12-31" } }}
+              />
+            </Stack>
           </Stack>
-          <Stack spacing={1} direction="row">
-            <TextField
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              id="start_date"
-              label="Fecha Inicio"
-              variant="standard"
-              type="date"
-              value={asignacionInfo.start_date}
-              onChange={onChange}
-            />
-            <TextField
-              fullWidth
-              required
-              InputLabelProps={{ shrink: true }}
-              id="end_date"
-              label="Fecha Fin"
-              variant="standard"
-              type="date"
-              value={asignacionInfo.end_date}
-              onChange={onChange}
-            />
-          </Stack>
-        </Stack>
-      </DialogContent>
-      <DialogActions
-        className={Classes.actions}
-        style={{ justifyContent: "space-between" }}
-      >
-        <Button onClick={desasignar}>desasignar</Button>
-        <Button onClick={aplicarCambios}>Aplicar Cambios</Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions
+          className={Classes.actions}
+          style={{ justifyContent: "space-between" }}
+        >
+          <Button onClick={desasignar} variant="contained">
+            Desasignar
+          </Button>
+          <Button role="submit" type="submit" variant="contained">
+            Aplicar Cambios
+          </Button>
+        </DialogActions>
+      </form>
     </Fragment>
   );
 }

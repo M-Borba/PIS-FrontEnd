@@ -1,184 +1,38 @@
-import * as React from "react";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import { IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import PersonAdd from "@material-ui/icons/PersonAdd";
-import Dialog from "@material-ui/core/Dialog";
-import EliminarProyecto from "../../containers/EliminarProyecto";
-import EditarProyecto from "../../containers/EditarProyecto";
-import InfoProyecto from "../../containers/InfoProyecto";
-import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import CreateProject from "../../containers/CreateProject";
 import Notificacion from "../../components/Notificacion";
+import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
+import Acciones from "./acciones";
 
 Proyecto.propTypes = {
-  rows: PropTypes.array,
-};
-
-const Acciones = ({ projectRow }) => {
-  const [openEdit, setOpenEdit] = React.useState(false);
-  const [openRemove, setOpenRemove] = React.useState(false);
-  const [openInfo, setOpenInfo] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
-
-  const classes = useStyles();
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
-  const [projectData] = React.useState({
-    id: projectRow.id,
-    name: projectRow.name,
-    project_type: projectRow.project_type.toLowerCase().replaceAll(" ", "_"),
-    project_state: projectRow.project_state.toLowerCase(),
-    description: projectRow.description,
-    budget: projectRow.budget,
-    start_date: projectRow.start_date,
-    end_date: projectRow.end_date,
-  });
-
-  const handleInfoClick = () => {
-    setOpenInfo(true);
-  };
-  const handleInfoClose = () => {
-    setOpenInfo(false);
-    window.location.reload(); //este reload esta bien?
-  };
-
-  const handleEditOpen = () => setOpenEdit(true);
-  const handleEditClose = () => setOpenEdit(false);
-
-  const handleAddOpen = () => setOpenAdd(true);
-
-  const handleAddClose = () => setOpenAdd(false);
-
-  const handleRemoveOpen = () => setOpenRemove(true);
-  const handleRemoveClose = () => setOpenRemove(false);
-
-  return (
-    <div
-      style={{
-        margin: 10,
-      }}
-    >
-      <FormControlLabel
-        control={
-          <>
-            <Button variant="outlined" onClick={handleInfoClick}>
-              Ver Info Completa
-            </Button>
-            <Modal
-              open={openInfo}
-              onClose={handleInfoClose}
-              disableEnforceFocus
-            >
-              <Box className={classes.modalInfo}>
-                <InfoProyecto projectData={projectData} />
-              </Box>
-            </Modal>
-          </>
-        }
-      />
-      <FormControlLabel
-        control={
-          <>
-            <IconButton onClick={handleEditOpen}>
-              <EditIcon style={{ color: "rgb(30, 30, 30)" }} />
-            </IconButton>
-            <Modal
-              open={openEdit}
-              onClose={handleEditClose}
-              disableEnforceFocus
-            >
-              <Box className={classes.modal}>
-                <IconButton
-                  aria-label="Close"
-                  onClick={handleEditClose}
-                  className={classes.closeButton}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <EditarProyecto
-                  projectData={projectData}
-                  id={projectData.id}
-                  setNotify={setNotify}
-                />
-              </Box>
-            </Modal>
-          </>
-        }
-      />
-      <FormControlLabel
-        control={
-          <>
-            <IconButton onClick={handleAddOpen}>
-              <PersonAdd style={{ color: "rgb(30, 30, 30)" }} />
-            </IconButton>
-            <Modal
-              open={openAdd}
-              onClose={handleAddClose}
-              aria-labelledby="confirmation-dialog-title"
-            >
-              <Box className={classes.modal}>
-                <AgregarPersona
-                  projectData={{
-                    id: projectData.id,
-                    name: projectData.name,
-                    startDate: projectData.start_date,
-                    endDate: projectData.end_date,
-                  }}
-                />
-              </Box>
-            </Modal>
-          </>
-        }
-      />
-      <FormControlLabel
-        control={
-          <>
-            <IconButton onClick={handleRemoveOpen}>
-              <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
-            </IconButton>
-            <Dialog
-              open={openRemove}
-              onClose={handleRemoveClose}
-              maxWidth="xs"
-              aria-labelledby="confirmation-dialog-title"
-            >
-              <EliminarProyecto
-                projectId={projectRow.id}
-                projectName={projectRow.name}
-                handleClose={handleRemoveClose}
-                setNotify={setNotify}
-              />
-            </Dialog>
-          </>
-        }
-      />
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </div>
-  );
+  rows: propTypes.array,
+  setRows: propTypes.func,
 };
 
 const columns = [
   {
     field: "id",
     headerName: "ID",
-    //id
+    hide: true,
   },
   {
     field: "name",
     headerName: "Nombre",
     sortable: true,
     flex: 1, //tamaño
+  },
+  {
+    field: "organization",
+    headerName: "Organización",
+    sortable: true,
+    flex: 0.6,
   },
   {
     field: "project_type",
@@ -204,6 +58,11 @@ const columns = [
     type: "date",
   },
   {
+    field: "technologies",
+    headerName: "tecnologías",
+    hide: true,
+  },
+  {
     field: "actions",
     type: "actions",
     headerName: "Acciones",
@@ -218,11 +77,18 @@ const columns = [
   },
 ];
 
-Acciones.propTypes = {
-  projectRow: PropTypes.any,
-};
+function formatType(projectType) {
+  return projectType
+    .replaceAll("_", " ")
+    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
+}
 
-export default function Proyecto({ rows }) {
+function formatState(projectState) {
+  return projectState.replace(/^\w/, (m) => m.toUpperCase());
+}
+
+export default function Proyecto({ rows, setRows }) {
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
   const [notify, setNotify] = React.useState({
@@ -231,42 +97,57 @@ export default function Proyecto({ rows }) {
     type: "success",
     reload: false,
   });
+  const [sortModel, setSortModel] = React.useState([
+    {
+      field: "id",
+      sort: "desc",
+    },
+  ]);
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
 
-  const [sortModel, setSortModel] = React.useState([
-    {
-      field: "name",
-      sort: "asc",
-    },
-  ]);
+  const addRow = (newRow) => setRows([...rows, newRow]);
+
+  const removeRow = (projectId) =>
+    setRows(rows.filter((row) => row.id != projectId));
+  setRemoveRow.current = (projectId) => removeRow(projectId);
+
+  const editRow = (projectData) =>
+    setRows(
+      rows.map((row) =>
+        row.id == projectData.id
+          ? {
+              ...row,
+              name: projectData.name,
+              project_type: formatType(projectData.project_type),
+              project_state: formatState(projectData.project_state),
+              description: projectData.description,
+              budget: projectData.budget,
+              start_date: projectData.start_date.replaceAll("-", "/"),
+              end_date: projectData.end_date
+                ? projectData.end_date.replaceAll("-", "/")
+                : null,
+              people: projectData.people,
+              organization: projectData.organization,
+              technologies: projectData.technologies,
+            }
+          : row
+      )
+    );
+  setEditRow.current = (projectData) => editRow(projectData);
 
   return (
     <div
       style={{
-        position: "fixed",
-        top: "15%",
-        left: "5%",
-        height: "75%",
-        width: "90%",
+        margin: "1vw",
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-      />
-      <div
-        style={{
-          margin: 10,
-        }} /* relleno, si alguien sabe hacer esto mejor que lo cambie*/
-      ></div>
-      <Button color="primary" variant="contained" onClick={handleNewOpen}>
-        Agregar Proyecto
-      </Button>
+      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+        <Button color="primary" variant="contained" onClick={handleNewOpen}>
+          Agregar Proyecto
+        </Button>
+      </Box>
       <Modal
         open={openNew}
         onClose={handleNewClose}
@@ -281,9 +162,22 @@ export default function Proyecto({ rows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreateProject setNotify={setNotify} />
+          <CreateProject
+            setNotify={setNotify}
+            addRow={addRow}
+            onClose={handleNewClose}
+          />
         </Box>
       </Modal>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        disableSelectionOnClick
+        sortModel={sortModel}
+        onSortModelChange={(model) => setSortModel(model)}
+        style={{ height: "70vh" }}
+      />
+
       <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );

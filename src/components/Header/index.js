@@ -68,7 +68,7 @@ export default function Header() {
               </Link>
             </Button>
             <Button color="inherit">
-              <Link className={classes.link} to="/">
+              <Link className={classes.link} to="/administradores">
                 Administradores
               </Link>
             </Button>
@@ -98,10 +98,6 @@ export default function Header() {
               transformOrigin={anchorElPoint}
               anchorOrigin={anchorElPoint}
             >
-              <MenuItem>
-                <AccountCircleIcon className={classes.mr5} /> Mi Perfil
-              </MenuItem>
-              <Divider />
               <MenuItem>
                 <LogoutIcon fontSize="small" className={classes.mr5} />
                 <Link
