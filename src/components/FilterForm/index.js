@@ -53,6 +53,7 @@ export default function FilterForm({
           <MenuItem value="staff_augmentation">Staff Augmentation</MenuItem>
           <MenuItem value="end_to_end">End to End</MenuItem>
           <MenuItem value="tercerizado">Tercerizado</MenuItem>
+          <MenuItem value="hibrido">Hibrido</MenuItem>
         </TextField>
         <TextField
           fullWidth

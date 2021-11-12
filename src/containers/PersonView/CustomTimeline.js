@@ -140,7 +140,24 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .then((response) => {
         const rows = response.data.person_project;
         if (rows.length == 0) {
-          setFilteredData(false);
+          if (Object.keys(filterParams).length === 0) {
+            setNotify({
+              ...notify,
+              isOpen: true,
+              message: "No se pudieron cargar los datos de las personas",
+              type: "error",
+            });
+            setFetchingError(true);
+          } else {
+            setNotify({
+              ...notify,
+              isOpen: true,
+              message: "No se existen datos para los filtros seleccionados",
+              type: "error",
+            });
+            setFetchingError(false);
+            setFilteredData(false);
+          }
         }
         rows.map((ppl) => {
           setFilteredData(true);
@@ -322,16 +339,16 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
 
-  if (isProjectView && !fetchingError) {
+  if (isProjectView) {
     return (
       <Fragment>
         <FilterForm
@@ -436,22 +453,29 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             </Box>
           </Modal>
         </>
-        <Grid container style={{ marginLeft: 10 }}>
-          <Grid
-            item
-            style={{
-              height: 20,
-              width: 20,
-              backgroundColor: "#C14B3A",
-              border: "1px solid black",
-            }}
-          ></Grid>
-          <Grid item>
-            &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+        {filteredData && (
+          <Grid container style={{ marginLeft: 10 }}>
+            <Grid
+              item
+              style={{
+                height: 20,
+                width: 20,
+                backgroundColor: "#C14B3A",
+                border: "1px solid black",
+              }}
+            ></Grid>
+            <Grid item>
+              &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </Fragment>
     );
+  } else if (fetchingError && isProjectView) {
+    return <Notificacion notify={notify} setNotify={setNotify} />;
+  } else if (!filteredData && isProjectView) {
+    return <Notificacion notify={notify} setNotify={setNotify} />;
   }
-  return <Notificacion notify={notify} setNotify={setNotify} />;
+
+  return null;
 }
