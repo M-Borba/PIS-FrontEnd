@@ -8,6 +8,10 @@ import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
 
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+
+
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
   setErrors: propTypes.func,
@@ -138,28 +142,23 @@ export default function PersonForm({
               autoComplete="email"
               value={person.email}
               onChange={onInputChange}
-              error={!!errors?.email}
-              helperText={errors?.email?.[0]}
+
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              inputProps={{ min: 1, max: 168 }}
               variant="outlined"
-              margin="normal"
               fullWidth
-              name="working_hours"
-              label="Horas Semanales"
-              type="number"
               id="working_hours"
+              name="working_hours"
+              type="number"
+              label="Horas Semanales"
+              name="working_hours"
               value={person.working_hours}
               onChange={onInputChange}
               error={!!errors?.working_hours}
               helperText={errors?.working_hours?.[0]}
-              inputProps={{
-                min: 1,
-                max: 168,
-              }}
+              inputProps={{ min: 1, max: 168, }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -177,16 +176,24 @@ export default function PersonForm({
             />
           </Grid>
         </Grid>
-        <Button
-          role="submit"
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
+        <DialogActions
+
         >
-          Guardar
-        </Button>
+          <Button
+            role="submit"
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Guardar
+          </Button>
+        </DialogActions>
+
+
+
+
       </form>
     </div>
   );

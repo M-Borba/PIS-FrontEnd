@@ -39,7 +39,7 @@ function AsignacionDialog({
 
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
     return (
-      <MenuItem key={id} value={cargaHoraria}>
+      <MenuItem key={id} min={1} value={cargaHoraria}>
         {cargasHorarias_tFormateadas[cargaHoraria]}
       </MenuItem>
     );
@@ -121,11 +121,14 @@ function AsignacionDialog({
                 label="Carga horaria"
                 variant="standard"
                 type="number"
+                initialValue={1}
+                defaultValue={1}
                 value={datos.working_hours}
                 onChange={onInputChange}
                 inputProps={{
                   min: 1,
                   max: datos.working_hours_type == "daily" ? 24 : 100,
+
                 }}
               />
             </Stack>
