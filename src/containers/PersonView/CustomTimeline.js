@@ -33,8 +33,6 @@ PersonTimeline.propTypes = {
   isProjectView: PropTypes.bool,
 };
 
-
-
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const classes = useStyles();
   const [openInfo, setOpenInfo] = React.useState(false);
@@ -71,7 +69,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const handleInfoOpen = (id) => {
     setIdInfoPersona(id);
     setOpenInfo(true);
-  }
+  };
   const handleInfoClose = () => {
     setOpenInfo(false);
   };
@@ -316,19 +314,19 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
         </IconButton>
       </div>
-    )
-  }
+    );
+  };
 
   const updateAsignacion = (asignacionId, title, startDate, endDate) =>
     setItems(
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );
@@ -425,11 +423,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         />
         <Notificacion notify={notify} setNotify={setNotify} />
         <>
-          <Modal
-            open={openInfo}
-            onClose={handleInfoClose}
-            disableEnforceFocus
-          >
+          <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
             <Box className={classes.modalInfo}>
               <IconButton
                 aria-label="Close"
@@ -457,7 +451,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           </Grid>
         </Grid>
       </Fragment>
-
     );
   }
   return <Notificacion notify={notify} setNotify={setNotify} />;

@@ -55,7 +55,7 @@ export default function AgregarPersona({
       var body = Object.assign({}, asignacion);
       body.roles = body.roles
         .filter((rol) => rol[1] == true)
-        .map((rol) => rol[0].toLowerCase());//conseguir la lista de roles
+        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles
       body.people = body.people
         .filter((rol) => rol[1] == true)
         .map((person) => person[0].id); //conseguir la lista de personas por id

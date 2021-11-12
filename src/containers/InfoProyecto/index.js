@@ -33,7 +33,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" gutterBottom>
           Descripción:{" "}
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography display="inline" variant="body1">
           {projectData.description}
         </Typography>
       </Box>
@@ -42,7 +42,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Organización:{" "}
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography display="inline" variant="body1">
           {projectData.organization == ""
             ? "-"
             : projectData.organization ?? "-"}
@@ -53,7 +53,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Budget:{" "}
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography display="inline" variant="body1">
           {projectData.budget == 0 ? "-" : projectData.budget ?? "-"}
         </Typography>
       </Box>
@@ -62,7 +62,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Tipo proyecto:{" "}
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography display="inline" variant="body1">
           {type}
         </Typography>
       </Box>
@@ -71,7 +71,7 @@ export default function InfoProyecto({ projectData, type, state }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Estado:{" "}
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography display="inline" variant="body1">
           {state}
         </Typography>
       </Box>
@@ -82,7 +82,7 @@ export default function InfoProyecto({ projectData, type, state }) {
             <Typography variant="h6" display="inline" gutterBottom>
               Fecha Inicio:{" "}
             </Typography>
-            <Typography display="inline" variant="h6">
+            <Typography display="inline" variant="body1">
               {projectData.start_date}
             </Typography>
           </Box>
@@ -93,11 +93,11 @@ export default function InfoProyecto({ projectData, type, state }) {
               Fecha Fin:{" "}
             </Typography>
             {projectData.end_date ? (
-              <Typography display="inline" variant="h6">
+              <Typography display="inline" variant="body1">
                 {projectData.end_date}
               </Typography>
             ) : (
-              <Typography display="inline" variant="h6">
+              <Typography display="inline" variant="body1">
                 Indefinida
               </Typography>
             )}

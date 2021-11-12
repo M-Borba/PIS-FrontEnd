@@ -11,16 +11,7 @@ import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 
 InfoPersona.propTypes = {
-  personData: propTypes.shape({
-    cargaHoraria: propTypes.number.isRequired,
-    email: propTypes.string.isRequired,
-    fullName: propTypes.string.isRequired,
-    firstName: propTypes.string,
-    lastName: propTypes.string,
-    id: propTypes.number,
-    tag: propTypes.string,
-    technologies: propTypes.array,
-  }).isRequired,
+  personData: propTypes.object.isRequired,
 };
 
 export default function InfoPersona({ personData }) {
@@ -32,10 +23,10 @@ export default function InfoPersona({ personData }) {
       <Divider />
 
       <Box mt={3}>
-        <Typography variant="h6" gutterBottom>
-          Email
+        <Typography variant="h6" display="inline" gutterBottom>
+          Email:{" "}
         </Typography>
-        <Typography display="" variant="h7">
+        <Typography display="inline" variant="body1">
           {personData.email}
         </Typography>
       </Box>
@@ -44,27 +35,31 @@ export default function InfoPersona({ personData }) {
         <Typography variant="h6" display="inline" gutterBottom>
           Carga Horaria:{" "}
         </Typography>
-        <Typography display="inline" variant="h7">
+        <Typography display="inline" variant="body1">
           {personData.cargaHoraria}
         </Typography>
       </Box>
 
-      {personData.technologies?.length != 0 ? (
-        <Box mt={2}>
-          <Typography variant="h6" display="inline" gutterBottom>
-            Tecnologías:
-          </Typography>
-          <Grid container spacing={2}>
-            {personData.technologies?.map((tech, index) => (
+      <Box mt={2}>
+        <Typography variant="h6" display="inline" gutterBottom>
+          Tecnologías:
+        </Typography>
+        <Grid container spacing={2}>
+          {personData.technologies?.length != 0 ? (
+            personData.technologies?.map((tech, index) => (
               <Grid key={`tech-${index}`} item>
                 <Chip tech={tech} />
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-      ) : (
-        " "
-      )}
+            ))
+          ) : (
+            <Box style={{ margin: 20 }}>
+              <Typography variant="body1" display="inline">
+                Aún no hay tecnologias asociadas
+              </Typography>
+            </Box>
+          )}
+        </Grid>
+      </Box>
     </div>
   );
 }
