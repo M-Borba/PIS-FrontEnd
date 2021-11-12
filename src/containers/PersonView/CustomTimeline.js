@@ -162,7 +162,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setGroups(groupsToAdd);
         setItems(itemsToAdd);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         setNotify({
           ...notify,
           isOpen: true,
@@ -171,7 +172,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setFetchingError(true);
       });
-  }
+  };
 
   useEffect(() => {
     fetchData();
@@ -203,7 +204,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           : moment(items[itemIndex].start).format("yyyy-MM-DD"),
       end_date:
         edge === "left"
-          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en la linea 88 al traer de backend
+          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
           : moment(time - 86400000).format("yyyy-MM-DD"),
     };
 
@@ -287,11 +288,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );

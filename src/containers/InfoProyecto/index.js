@@ -41,32 +41,30 @@ export default function InfoProyecto({ projectData, type, state }) {
 
       <Box mt={3}>
         <Typography variant="h6" gutterBottom>
-          Descripción
+          Descripción:{" "}
         </Typography>
         <Typography display="inline" variant="h6">
           {projectData.description}
         </Typography>
       </Box>
 
-      {projectData.organization ? (
-        <Box mt={2}>
-          <Typography variant="h6" display="inline" gutterBottom>
-            Organización:{" "}
-          </Typography>
-          <Typography display="inline" variant="h6">
-            {projectData.organization}
-          </Typography>
-        </Box>
-      ) : (
-        " "
-      )}
+      <Box mt={2}>
+        <Typography variant="h6" display="inline" gutterBottom>
+          Organización:{" "}
+        </Typography>
+        <Typography display="inline" variant="h6">
+          {projectData.organization == ""
+            ? "-"
+            : projectData.organization ?? "-"}
+        </Typography>
+      </Box>
 
       <Box mt={2}>
         <Typography variant="h6" display="inline" gutterBottom>
           Budget:{" "}
         </Typography>
         <Typography display="inline" variant="h6">
-          {projectData.budget}
+          {projectData.budget == 0 ? "-" : projectData.budget ?? "-"}
         </Typography>
       </Box>
 
@@ -152,7 +150,11 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Accordion>
         </Box>
       ) : (
-        " "
+        <Box style={{ paddingTop: 20 }}>
+          <Typography variant="button" display="block" gutterBottom>
+            Aún no hay tecnologias asociadas
+          </Typography>
+        </Box>
       )}
       {projectData.people.length != 0 ? (
         <Box m="auto" mr={15} mt={2}>
@@ -193,7 +195,7 @@ export default function InfoProyecto({ projectData, type, state }) {
       ) : (
         <Box style={{ paddingTop: 20 }}>
           <Typography variant="button" display="block" gutterBottom>
-            Aún no hay nadie asignado
+            Aún no hay personas asignadas
           </Typography>
         </Box>
       )}
