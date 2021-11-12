@@ -98,9 +98,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             : new Date(proj.end_date);
           const endValue = moment(endDate).valueOf();
           let color = "#B0CFCB";
-          console.log(proj.project_state)
           switch (proj.project_state) {
-
             case "verde":
               color = "#7ede6d";
               break;

@@ -43,7 +43,7 @@ function InfoAsignacionDialog({
 
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
     return (
-      <MenuItem key={id} value={cargaHoraria}>
+      <MenuItem key={id} min={1} value={cargaHoraria}>
         {cargasHorarias_tFormateadas[cargaHoraria]}
       </MenuItem>
     );

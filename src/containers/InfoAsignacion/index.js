@@ -42,9 +42,8 @@ function InfoAsignacion({
   });
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
-  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
-    projectName.split("-")[0]
-  } como ${projectName.split("-")[1]}?`;
+  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${projectName.split("-")[0]
+    } como ${projectName.split("-")[1]}?`;
 
   useEffect(() => {
     // Traigo asignacion
