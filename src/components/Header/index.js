@@ -104,12 +104,26 @@ export default function Header() {
 
   const buildMessage = (n) => {
     const m = moment(n.end_date);
+    console.log(n)
     const today = moment().startOf('day');
-    const days = Math.round(moment.duration(today - m).asDays());
-    if (n.alert_type === "project") {
-      return `El proyecto ${n.name} finalizara el ${Math.abs(days)} dias`
+    const days = Math.round(moment.duration(m - today).asDays());
+    let daysFormatted = '';
+    if (days > 0) {
+      const type = n.alert_type === "project" ? 'finaliza dentro' : 'quedara libre en';
+      daysFormatted = `${type} ${Math.abs(days)} dias`;
     }
-    return `La persona ${n.name} quedara libre el ${Math.abs(days)} dias`
+    if (days < 0) {
+      const type = n.alert_type === "project" ? 'finalizó hace' : 'quedó libre hace';
+      daysFormatted = `${type} ${Math.abs(days)} dias`;
+    }
+    if (days === 0) {
+      const type = n.alert_type === "project" ? 'finaliza' : 'queda libre';
+      daysFormatted = `${type} ${Math.abs(days)} Hoy!`;
+    }
+    if (n.alert_type === "project") {
+      return `El proyecto ${n.name} ${daysFormatted}`
+    }
+    return `La persona ${n.name} ${daysFormatted}`
   }
 
   return (
@@ -165,15 +179,19 @@ export default function Header() {
                 onClose={() => setNotificationCenter(null)}
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'center',
+                  horizontal: 'right',
                 }}
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'center',
+                  horizontal: 'left',
                 }}
+
                 elevation={0}
                 getContentAnchorEl={null}
               >
+                <MenuItem style={{ height: 40 }} disabled>
+                  <ListItemText style={{ marginRight: 20 }} className={classes.item} primary="Notificaciones" />
+                </MenuItem>
                 {notifications.map(n => (
                   <MenuItem key={n.id} style={{ height: 70 }}>
                     <ListItemText style={{ marginRight: 20 }} className={classes.item} primary={buildMessage(n)} />
