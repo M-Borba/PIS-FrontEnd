@@ -25,15 +25,13 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 35,
   },
   notification: {
-    position: 'absolute',
-    width: 300,
-    maxHeight: 400,
-    overflow: 'auto',
-    backgroundColor: '#efefef',
-    zIndex: 2,
+    border: '1px solid #d3d4d5',
   },
   item: {
     color: '#000'
+  },
+  btn: {
+    marginLeft: 20
   }
 }));
 

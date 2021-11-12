@@ -17,10 +17,9 @@ import {
 } from 'react-actioncable-provider';
 import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Toolbar from "@material-ui/core/Toolbar";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
@@ -29,7 +28,7 @@ export default function Header() {
   const wrapperRef = useRef(null);
   const [play] = useSound(boopSfx);
   const [hasNotification, setHasNotification] = useState(false);
-  const [showNotificationCenter, setShowNotificationCenter] = useState(false)
+  const [notificationCenter, setNotificationCenter] = useState(null)
   const [notifications, setNotifications] = useState([]);
   let uid = localStorage.getItem('uid');
   if (uid == null) {
@@ -48,18 +47,6 @@ export default function Header() {
       }, 3000);
     }
   }, [hasNotification]);
-
-  const handleClickOutside = () => {
-    setShowNotificationCenter(false);
-  }
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [])
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -84,12 +71,28 @@ export default function Header() {
     localStorage.removeItem("uid");
   };
 
-  const fetchNotifications = () => {
+  const handleOpenNotification = (e) => {
+    setNotificationCenter(e.currentTarget)
     axiosInstance
       .get("/notifications")
       .then((response) => {
-        setNotifications(response.data?.notifications || [])
-        setShowNotificationCenter(true);
+        setNotifications(response.data?.notifications || []);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleDelete = (n) => {
+    const { alert_type, id } = n;
+    axiosInstance
+      .put(`/notifications/${id}`, { alert_type })
+      .then(() => {
+        const noti = notifications.filter(n => n.id !== id);
+        setNotifications(noti);
+        if (!noti.length) {
+          setNotificationCenter(null);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -150,23 +153,38 @@ export default function Header() {
                   setHasNotification(true);
                 }}
               />
-              <div style={{ marginRight: 10 }} onClick={fetchNotifications}>
+              <div style={{ marginRight: 10 }} onClick={handleOpenNotification} aria-controls="notification-menu" aria-haspopup="true">
                 <BellIcon style={{ cursor: 'pointer' }} width='20' color="#fff" active={hasNotification} animate={hasNotification} />
-                {showNotificationCenter && (<List
-                  className={classes.notification}
-                  subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                      Notificaciones
-                    </ListSubheader>
-                  }
-                >
-                  {notifications.map(n => (
-                    <ListItem key={n.id} button>
-                      <ListItemText className={classes.item} primary={buildMessage(n)} />
-                    </ListItem>
-                  ))}
-                </List>)}
               </div>
+              <Menu
+                id="notification-menu"
+                anchorEl={notificationCenter}
+                keepMounted
+                className={classes.notification}
+                open={Boolean(notificationCenter)}
+                onClose={() => setNotificationCenter(null)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+                elevation={0}
+                getContentAnchorEl={null}
+              >
+                {notifications.map(n => (
+                  <MenuItem key={n.id} style={{ height: 70 }}>
+                    <ListItemText style={{ marginRight: 20 }} className={classes.item} primary={buildMessage(n)} />
+                    <ListItemSecondaryAction onClick={() => handleDelete(n)}>
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </MenuItem>
+                ))}
+              </Menu>
               <Tooltip title="Configuración de la cuenta">
                 <IconButton
                   aria-label="account of current user"
