@@ -12,6 +12,8 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   submit: {
+    color: "#ffffff",
+    background: "#1c1c1c",
     margin: theme.spacing(3, 0, 2),
   },
   menuPaper: {

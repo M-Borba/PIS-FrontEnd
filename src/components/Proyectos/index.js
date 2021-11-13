@@ -118,20 +118,20 @@ export default function Proyecto({ rows, setRows }) {
       rows.map((row) =>
         row.id == projectData.id
           ? {
-              ...row,
-              name: projectData.name,
-              project_type: formatType(projectData.project_type),
-              project_state: formatState(projectData.project_state),
-              description: projectData.description,
-              budget: projectData.budget,
-              start_date: projectData.start_date.replaceAll("-", "/"),
-              end_date: projectData.end_date
-                ? projectData.end_date.replaceAll("-", "/")
-                : null,
-              people: projectData.people,
-              organization: projectData.organization,
-              technologies: projectData.technologies,
-            }
+            ...row,
+            name: projectData.name,
+            project_type: formatType(projectData.project_type),
+            project_state: formatState(projectData.project_state),
+            description: projectData.description,
+            budget: projectData.budget,
+            start_date: projectData.start_date.replaceAll("-", "/"),
+            end_date: projectData.end_date
+              ? projectData.end_date.replaceAll("-", "/")
+              : null,
+            people: projectData.people,
+            organization: projectData.organization,
+            technologies: projectData.technologies,
+          }
           : row
       )
     );
@@ -144,7 +144,13 @@ export default function Proyecto({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={handleNewOpen}>
+        <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c"
+          }}
+          variant="contained"
+          onClick={handleNewOpen}>
           Agregar Proyecto
         </Button>
       </Box>

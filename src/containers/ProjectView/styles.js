@@ -38,4 +38,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     padding: 8,
   },
+  dateHeader: {
+    backgroundColor: "#242424",
+  }
 }));

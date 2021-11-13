@@ -98,7 +98,11 @@ export default function TechnologyForm({
         </Grid>
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center" mt={1}>
-            <IconButton color="primary" onClick={addTechnology}>
+            <IconButton
+              style={{
+                color: "#1c1c1c",
+              }}
+              onClick={addTechnology}>
               <AddIcon />
             </IconButton>
           </Box>

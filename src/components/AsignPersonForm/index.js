@@ -68,6 +68,7 @@ export default function AsignPersonForm({
                     >
                       <ListItemIcon>
                         <Checkbox
+                          style={{ color: 'black' }}
                           id={p.id}
                           checked={value}
                           tabIndex={-1}

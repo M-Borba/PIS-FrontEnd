@@ -57,11 +57,14 @@ export default function Login({
           autoComplete="current-password"
         />
         <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c"
+          }}
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Iniciar sesión

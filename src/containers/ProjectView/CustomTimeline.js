@@ -217,8 +217,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             onItemClick={handleItemClick}
             sidebarWidth={200}
           >
-            <TimelineHeaders className="sticky">
-              <SidebarHeader style={{}}>
+            <TimelineHeaders style={{ background: "#242424" }} className="sticky">
+              <SidebarHeader>
                 {({ getRootProps }) => {
                   return (
                     <div {...getRootProps()}>
@@ -230,7 +230,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
                   );
                 }}
               </SidebarHeader>
-              <DateHeader unit="primaryHeader" />
+              <DateHeader style={{ backgroundColor: "#242424" }} unit="primaryHeader" />
               <DateHeader />
             </TimelineHeaders>
           </Timeline>

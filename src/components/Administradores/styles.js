@@ -29,6 +29,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    color: theme.palette.getContrastText(theme.palette.error.main),
+    background: "#1c1c1c"
   },
   box: {
     display: "flex",

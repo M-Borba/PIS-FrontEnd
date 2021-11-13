@@ -178,11 +178,11 @@ export default function PersonForm({
           </Grid>
         </Grid>
         <Button
+
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Guardar
