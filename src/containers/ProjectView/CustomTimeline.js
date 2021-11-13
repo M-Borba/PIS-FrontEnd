@@ -126,7 +126,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             case "amarillo":
               color = "#FAE269";
               break;
-            case "upcomping":
+            case "upcoming":
               color = "#B0CFCB";
               break;
           }
@@ -262,8 +262,12 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             </IconButton>
             <InfoProyecto
               projectData={projectData}
-              type={projectData.project_type}
-              state={projectData.project_state}
+              type={projectData.project_type
+                ?.replaceAll("_", " ")
+                .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}
+              state={projectData.project_state?.replace(/^\w/, (m) =>
+                m.toUpperCase()
+              )}
             />
           </Box>
         </Modal>

@@ -70,7 +70,7 @@ export default function FilterForm({
           <MenuItem value="verde">Verde</MenuItem>
           <MenuItem value="amarillo">Amarillo</MenuItem>
           <MenuItem value="rojo">Rojo</MenuItem>
-          <MenuItem value="upcomping">Upcomping</MenuItem>
+          <MenuItem value="upcoming">Upcoming</MenuItem>
         </TextField>
         <TextField
           fullWidth
