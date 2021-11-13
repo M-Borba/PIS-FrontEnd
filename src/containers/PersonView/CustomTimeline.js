@@ -1,19 +1,15 @@
 import React, { useState, useEffect, Fragment } from "react";
 import moment from "moment";
-import Timeline, {
-  TimelineHeaders,
-  SidebarHeader,
-  DateHeader,
-} from "react-calendar-timeline";
+import Timeline, { TimelineHeaders, SidebarHeader, DateHeader } from "react-calendar-timeline";
 import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
+import CircularProgress from "@mui/material/CircularProgress";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
-import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
-import { Box, IconButton } from "@material-ui/core";
+import { Box, IconButton, Grid } from "@material-ui/core";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
@@ -50,7 +46,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const { enqueueSnackbar } = useSnackbar();
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
-  const [filteredData, setFilteredData] = useState([true]);
+  const [loading, setLoading] = useState(true);
+  const [filteredData, setFilteredData] = useState(false);
   const [fetchingError, setFetchingError] = useState([false]);
   const [assignationError, setAssignationError] = useState(false);
 
@@ -114,6 +111,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     }));
   };
   const fetchData = async (filterParams = {}) => {
+    setLoading(true);
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -124,6 +122,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     await axiosInstance
       .get("/person_project", { params: filterParams })
       .then((response) => {
+        setLoading(false);
         const rows = response.data.person_project;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
@@ -177,6 +176,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       })
       .catch((error) => {
         console.error(error.response);
+        setLoading(false);
         enqueueSnackbar("No se pudieron cargar los datos de las personas.", {
           variant: "error",
           persist: true,
@@ -207,10 +207,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       itemProps: {
         style: {
           borderRadius: 5,
-          background:
-            endDate - 864000000 < todayDate && endDate >= todayDate
-              ? "#C14B3A"
-              : "#B0CFCB",
+          background: endDate - 864000000 < todayDate && endDate >= todayDate ? "#C14B3A" : "#B0CFCB",
         },
       },
     };
@@ -222,9 +219,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       working_hours: undefined,
       working_hours_type: undefined,
       start_date:
-        edge === "left"
-          ? moment(time).format("yyyy-MM-DD")
-          : moment(items[itemIndex].start).format("yyyy-MM-DD"),
+        edge === "left" ? moment(time).format("yyyy-MM-DD") : moment(items[itemIndex].start).format("yyyy-MM-DD"),
       end_date:
         edge === "left"
           ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
@@ -238,11 +233,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
         setAssignationError(true);
         if (error.response.status == 400)
-          enqueueSnackbar(
-            error.response.data.errors.start_date ??
-            error.response.data.errors.end_date,
-            { variant: "error" }
-          );
+          enqueueSnackbar(error.response.data.errors.start_date ?? error.response.data.errors.end_date, {
+            variant: "error",
+          });
         else enqueueSnackbar(error.response.data.error, { variant: "error" });
       });
   };
@@ -259,8 +252,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     });
   };
 
-  const handleAsignacionClose = () =>
-    setAssignObject({ ...assignObject, open: false });
+  const handleAsignacionClose = () => setAssignObject({ ...assignObject, open: false });
 
   // Formato esperado de startDate y endDate : yyyy-MM-DD
   const addAsignacion = (asignacionId, personId, title, startDate, endDate) => {
@@ -278,10 +270,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           style: {
             borderRadius: 5,
             background:
-              endValue(endDate) - 864000000 < todayDate &&
-                endValue(endDate) >= todayDate
-                ? "#C14B3A"
-                : "#B0CFCB",
+              endValue(endDate) - 864000000 < todayDate && endValue(endDate) >= todayDate ? "#C14B3A" : "#B0CFCB",
           },
         },
         title: title,
@@ -303,11 +292,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     });
   };
 
-  const handleInfoAsignacionClose = () =>
-    setInfoAssignObject({ ...infoAssignObject, open: false });
+  const handleInfoAsignacionClose = () => setInfoAssignObject({ ...infoAssignObject, open: false });
 
-  const removeAsignacion = (asignacionId) =>
-    setItems(items.filter((item) => item.id != asignacionId));
+  const removeAsignacion = (asignacionId) => setItems(items.filter((item) => item.id != asignacionId));
 
   const handleGroupRenderer = ({ group }) => {
     var uId = group.id;
@@ -326,16 +313,16 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );
 
-  if (isProjectView) {
+  if (isProjectView && !fetchingError) {
     return (
       <Fragment>
         <FilterForm
@@ -352,7 +339,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           project_type={filters.project_type}
           organization={filters.organization}
         />
-        {filteredData && (
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+          </Box>
+        )}
+        {filteredData && !loading && (
           <Timeline
             groups={groups}
             items={items}
@@ -382,10 +374,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
                 {({ getRootProps }) => {
                   return (
                     <div {...getRootProps()}>
-                      <Switcher
-                        onSwitch={onSwitch}
-                        isProjectView={isProjectView}
-                      />
+                      <Switcher onSwitch={onSwitch} isProjectView={isProjectView} />
                     </div>
                   );
                 }}
@@ -397,15 +386,24 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         )}
         {!filteredData && (
           <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              style={{ marginTop: "30px" }}
-              className={classes.imgcontainer}
-              src={not_found}
-            />
+            <img style={{ marginTop: "30px" }} className={classes.imgcontainer} src={not_found} />
             <Typography variant="h4" style={{ marginTop: "30px" }}>
               NO EXISTEN PERSONAS PARA MOSTRAR
             </Typography>
           </Box>
+        )}
+        {!filteredData && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "2vh",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              NO EXISTEN PERSONAS PARA MOSTRAR
+            </Typography>
+          </div>
         )}
         <AsignarProyectoPersona
           open={assignObject.open}
@@ -427,11 +425,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         <>
           <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
             <Box className={classes.modalInfo}>
-              <IconButton
-                aria-label="Close"
-                onClick={handleInfoClose}
-                className={classes.closeButton}
-              >
+              <IconButton aria-label="Close" onClick={handleInfoClose} className={classes.closeButton}>
                 <CloseIcon />
               </IconButton>
               <FetchInfoPersona id={idInfoPersona} />
@@ -449,9 +443,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
                 border: "1px solid black",
               }}
             ></Grid>
-            <Grid item>
-              &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
-            </Grid>
+            <Grid item>&nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.</Grid>
           </Grid>
         )}
       </Fragment>
