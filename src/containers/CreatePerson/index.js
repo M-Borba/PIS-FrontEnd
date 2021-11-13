@@ -44,7 +44,7 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
         addRow(nuevaPersona);
         setNotify({
           isOpen: true,
-          message: `La persona se creo con exito.`,
+          message: `La persona se creó con éxito.`,
           type: "success",
           reload: false,
         });

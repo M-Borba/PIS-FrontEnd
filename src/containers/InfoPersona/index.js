@@ -54,7 +54,7 @@ export default function InfoPersona({ personData }) {
           ) : (
             <Box style={{ margin: 20 }}>
               <Typography variant="body1" display="inline">
-                Aún no hay tecnologias asociadas
+                Aún no hay tecnologías asociadas
               </Typography>
             </Box>
           )}

@@ -65,7 +65,7 @@ export default function EditPerson({
         editRow(person);
         setNotify({
           isOpen: true,
-          message: `La persona ${personInfo.full_name} se modifico con exito.`,
+          message: `La persona ${personInfo.full_name} se modificó con éxito.`,
           type: "success",
           reload: false,
         });

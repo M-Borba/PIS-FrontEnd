@@ -20,7 +20,7 @@ function EliminarAdministrador({
   setNotify,
   removeRow,
 }) {
-  const dialogContent = `Esta seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
@@ -29,7 +29,7 @@ function EliminarAdministrador({
         removeRow(administratorId);
         setNotify({
           isOpen: true,
-          message: `El administrador con email: \"${administratorEmail}\" se elimino con exito.`,
+          message: `El administrador con email: \"${administratorEmail}\" se eliminó con éxito.`,
           type: "success",
           reload: true,
         });

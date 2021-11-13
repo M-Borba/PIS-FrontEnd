@@ -18,7 +18,7 @@ function EliminarPersona({
   setNotify,
   removeRow,
 }) {
-  const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar a ${personName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
@@ -27,7 +27,7 @@ function EliminarPersona({
         removeRow(personId);
         setNotify({
           isOpen: true,
-          message: `La persona ${personName} se elimino con exito.`,
+          message: `La persona ${personName} se eliminó con éxito.`,
           type: "success",
           reload: false,
         });

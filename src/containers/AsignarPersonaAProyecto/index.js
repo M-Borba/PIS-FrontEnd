@@ -100,7 +100,7 @@ export default function AgregarPersona({
               }
               setAsignaciones(nuevasAsignaciones);
 
-              // Agrego a la perosna a el modal de informacion del proyecto si no estaba.
+              // Agrego a la persona a el modal de informacion del proyecto si no estaba.
               if (
                 projectData.people.find(
                   (persona) => persona.id == asignacionData.person.id

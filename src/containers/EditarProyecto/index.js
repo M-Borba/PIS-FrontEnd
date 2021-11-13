@@ -43,7 +43,7 @@ export default function EditarProjecto({
         editRow(response.data.project);
         setNotify({
           isOpen: true,
-          message: `El proyecto ${projectData.name} se modifico con exito.`,
+          message: `El proyecto ${projectData.name} se modificó con éxito.`,
           type: "success",
           reload: false,
         });
