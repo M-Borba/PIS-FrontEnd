@@ -123,8 +123,9 @@ exports[`renders learn react link 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-12 MuiButton-containedPrimary MuiButton-fullWidth"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-12 MuiButton-fullWidth"
                 role="submit"
+                style="color: rgb(255, 255, 255); background: rgb(28, 28, 28);"
                 tabindex="0"
                 type="submit"
               >
