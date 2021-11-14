@@ -2,7 +2,6 @@ import * as React from "react";
 import { FormControlLabel, IconButton, Dialog } from "@material-ui/core";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
-import Notificacion from "../../components/Notificacion";
 import EliminarAdministrador from "../../containers/EliminarAdministrador";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 
@@ -13,13 +12,6 @@ Acciones.propTypes = {
 export default function Acciones({ adminRow }) {
   const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openRemove, setOpenRemove] = React.useState(false);
-
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
 
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
@@ -44,17 +36,14 @@ export default function Acciones({ adminRow }) {
             >
               <EliminarAdministrador
                 administratorId={adminRow.id}
-                administratorName={adminRow.name}
                 administratorEmail={adminRow.email}
                 handleClose={handleRemoveClose}
-                setNotify={setNotify}
                 removeRow={removeRow.current}
               />
             </Dialog>
           </>
         }
       />
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

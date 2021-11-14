@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Divider from "@mui/material/Divider";
 
 InfoProyecto.propTypes = {
-  projectData: propTypes.array.isRequired,
+  projectData: propTypes.object.isRequired,
   type: propTypes.string,
   state: propTypes.string,
 };

@@ -15,7 +15,6 @@ import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
 import InfoProyecto from "../../containers/InfoProyecto";
 import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
-import Notificacion from "../../components/Notificacion";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
@@ -34,12 +33,6 @@ export default function Acciones({ projectRow }) {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
   const [asignaciones, setAsignaciones] = useState([]);
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
   const projectData = {
     id: projectRow.id,
     name: projectRow.name,
@@ -155,7 +148,6 @@ export default function Acciones({ projectRow }) {
                 <EditarProyecto
                   projectData={projectData}
                   id={projectData.id}
-                  setNotify={setNotify}
                   editRow={editRow.current}
                   onClose={handleEditClose}
                 />
@@ -185,7 +177,6 @@ export default function Acciones({ projectRow }) {
                 </IconButton>
                 <AgregarPersona
                   projectData={projectData}
-                  setNotify={setNotify}
                   asignaciones={asignaciones}
                   setAsignaciones={setAsignaciones}
                   editRow={editRow.current}
@@ -216,7 +207,6 @@ export default function Acciones({ projectRow }) {
                 asignClose={handleAssignedClose}
                 projectData={projectData}
                 handleClose={handleRemovePersonClose}
-                setNotify={setNotify}
                 asignaciones={asignaciones}
                 setAsignaciones={setAsignaciones}
                 editRow={editRow.current}
@@ -260,14 +250,12 @@ export default function Acciones({ projectRow }) {
                 projectId={projectRow.id}
                 projectName={projectRow.name}
                 handleClose={handleRemoveClose}
-                setNotify={setNotify}
                 removeRow={removeRow.current}
               />
             </Dialog>
           </>
         }
       />
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }
