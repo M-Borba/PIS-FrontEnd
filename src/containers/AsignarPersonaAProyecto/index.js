@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
@@ -22,6 +22,7 @@ export default function AgregarPersona({
   onClose,
 }) {
   const classes = useStyles();
+  const closeModal = useRef(true);
   const [error, setError] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const [asignacion, setAsignacion] = useState({
@@ -46,7 +47,7 @@ export default function AgregarPersona({
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -64,9 +65,9 @@ export default function AgregarPersona({
           })
         ); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
-      peopleIds.forEach((person) =>
-        roles.forEach((role) => {
-          axiosInstance
+      for (const person of peopleIds) {
+        for (const role of roles) {
+          await axiosInstance
             .post("/people/" + person.id + "/person_project", {
               person_project: {
                 project_id: projectData.id,
@@ -122,22 +123,21 @@ export default function AgregarPersona({
                 `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
                 { variant: "success" }
               );
-              onClose();
             })
             .catch((error) => {
-              if (error.response.status == 400)
-                enqueueSnackbar(
-                  `El rol ${role} en esas fechas ya está asignado a: ${person.name} en ${projectData.name}.`,
-                  { variant: "error" }
-                );
-              else
-                enqueueSnackbar(error.response.data.error, {
-                  variant: "error",
-                  persist: true,
-                });
+              let message = error.response.data;
+              console.log(message);
+              enqueueSnackbar(
+                message.error
+                  ? message.error
+                  : message.errors[Object.keys(message.errors)[0]],
+                { variant: "error" }
+              );
+              closeModal.current = false;
             });
-        })
-      );
+        }
+      }
+      closeModal.current && onClose();
     }
   };
 

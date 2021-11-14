@@ -88,7 +88,7 @@ function AsignarProyectoPersona({
           message.error
             ? message.error
             : message.errors[Object.keys(message.errors)[0]],
-          { variant: "error", persist: true }
+          { variant: "error" }
         );
         setRequestBody(initialState);
       });
