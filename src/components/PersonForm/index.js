@@ -149,7 +149,6 @@ export default function PersonForm({
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              inputProps={{ min: 1, max: 168 }}
               variant="outlined"
               margin="normal"
               fullWidth
@@ -161,6 +160,7 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.working_hours}
               helperText={errors?.working_hours?.[0]}
+              inputProps={{ min: 1, max: 168 }}
             />
           </Grid>
           <Grid item xs={12}>

@@ -136,7 +136,7 @@ export default function AsignPersonForm({
               value={asign.hours}
               onChange={onInputChange}
               InputLabelProps={{ shrink: true }}
-              inputProps={{ min: 1, max: 100 }}
+              inputProps={{ min: 1, max: 168 }}
             />
           </Grid>
           <Grid item xs={6}>
