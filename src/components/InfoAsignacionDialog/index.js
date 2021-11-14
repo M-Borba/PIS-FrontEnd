@@ -152,10 +152,17 @@ function InfoAsignacionDialog({
           className={Classes.actions}
           style={{ justifyContent: "space-between" }}
         >
-          <Button onClick={desasignar} variant="contained">
+          <Button className={Classes.submit}
+            onClick={desasignar}
+            variant="contained"
+            color="primary">
             Desasignar
           </Button>
-          <Button role="submit" type="submit" variant="contained">
+          <Button className={Classes.submit}
+            role="submit"
+            type="submit"
+            variant="contained"
+            color="primary">
             Aplicar Cambios
           </Button>
         </DialogActions>

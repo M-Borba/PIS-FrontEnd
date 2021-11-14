@@ -14,7 +14,8 @@ import ListItemText from "@mui/material/ListItemText";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import NumberFormat from "react-number-format";
-
+import Divider from "@mui/material/Divider";
+import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 
 ProyectoForm.propTypes = {
@@ -77,11 +78,14 @@ export default function ProyectoForm({
 
   return (
     <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        {title}
-      </Typography>
+      <Box style={{ width: '100%', textAlign: 'center' }}>
+        <Typography component="h1" variant="h5">
+          {title}
+        </Typography>
+        <Divider style={{ marginBottom: 15, marginTop: 15 }} />
+      </Box>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
-        <Grid container mt={3} spacing={2}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <TextField
               variant="outlined"
@@ -204,7 +208,6 @@ export default function ProyectoForm({
               thousandSeparator="."
               onValueChange={handleBugdetChange}
               decimalSeparator=","
-              error={!!errors?.budget}
               helperText={errors?.budget?.[0]}
               isAllowed={({ value }) => value <= 1000000 && value >= 0}
             />

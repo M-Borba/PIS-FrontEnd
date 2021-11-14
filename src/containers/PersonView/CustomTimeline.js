@@ -27,6 +27,7 @@ import { useStyles } from "../../components/Personas/styles";
 import propTypes from "prop-types";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import Typography from "@mui/material/Typography";
+import not_found from "../../resources/not_found.png"
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -40,6 +41,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
   const [fetchingError, setFetchingError] = useState([false]);
+  const [assignationError, setAssignationError] = useState(false);
+
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -152,7 +155,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             setNotify({
               ...notify,
               isOpen: true,
-              message: "No se existen datos para los filtros seleccionados",
+              message: "No existen datos para los filtros seleccionados",
               type: "error",
             });
             setFetchingError(false);
@@ -250,8 +253,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .put(`/person_project/${itemId}`, { person_project: requestBody })
       .then()
       .catch((error) => {
-        console.error(error.response);
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+        setAssignationError(true);
         if (error.response.status == 400)
           setNotify({
             isOpen: true,
@@ -339,11 +342,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
@@ -365,7 +368,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           project_type={filters.project_type}
           organization={filters.organization}
         />
-        {filteredData ? (
+        {filteredData && (
           <Timeline
             groups={groups}
             items={items}
@@ -405,21 +408,18 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               <DateHeader />
             </TimelineHeaders>
           </Timeline>
-        ) : (
-          <Notificacion notify={notify} setNotify={setNotify} />
         )}
         {!filteredData && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "2vh",
-            }}
-          >
-            <Typography component="h1" variant="h5">
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img
+              style={{ marginTop: '30px' }}
+              className={classes.imgcontainer}
+              src={not_found}
+            />
+            <Typography variant="h4" style={{ marginTop: '30px' }}>
               NO EXISTEN PERSONAS PARA MOSTRAR
             </Typography>
-          </div>
+          </Box>
         )}
         <AsignarProyectoPersona
           open={assignObject.open}
@@ -438,7 +438,9 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           removeAsignacion={removeAsignacion}
           updateAsignacion={updateAsignacion}
         />
-        <Notificacion notify={notify} setNotify={setNotify} />
+        {assignationError && (
+          <Notificacion notify={notify} setNotify={setNotify} />
+        )}
         <>
           <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
             <Box className={classes.modalInfo}>
@@ -471,11 +473,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         )}
       </Fragment>
     );
-  } else if (fetchingError && isProjectView) {
+  }
+  else if (fetchingError && isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;
   } else if (!filteredData && isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;
   }
-
   return null;
 }

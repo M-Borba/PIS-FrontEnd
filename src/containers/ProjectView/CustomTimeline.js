@@ -18,6 +18,7 @@ import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import Notificacion from "../../components/Notificacion";
+import not_found from "../../resources/not_found.png"
 
 var keys = {
   groupIdKey: "id",
@@ -199,7 +200,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           project_type={filters.project_type}
           organization={filters.organization}
         />
-        {filteredData ? (
+        {filteredData && (
           <Timeline
             groups={groups}
             items={items}
@@ -217,7 +218,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             onItemClick={handleItemClick}
             sidebarWidth={200}
           >
-            <TimelineHeaders style={{ background: "#242424" }} className="sticky">
+            <TimelineHeaders className="sticky">
               <SidebarHeader>
                 {({ getRootProps }) => {
                   return (
@@ -230,26 +231,23 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
                   );
                 }}
               </SidebarHeader>
-              <DateHeader style={{ backgroundColor: "#242424" }} unit="primaryHeader" />
+              <DateHeader unit="primaryHeader" />
               <DateHeader />
             </TimelineHeaders>
-          </Timeline>
-        ) : (
-          <Notificacion notify={notify} setNotify={setNotify} />
-        )}
+          </Timeline>)}
+
 
         {!filteredData && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "2vh",
-            }}
-          >
-            <Typography component="h1" variant="h5">
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img
+              style={{ marginTop: '30px' }}
+              className={classes.imgcontainer}
+              src={not_found}
+            />
+            <Typography variant="h4" style={{ marginTop: '30px' }}>
               NO EXISTEN PROYECTOS PARA MOSTRAR
             </Typography>
-          </div>
+          </Box>
         )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>
@@ -271,11 +269,21 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             />
           </Box>
         </Modal>
-      </Fragment>
+      </Fragment >
     );
-  } else if (fetchingError) {
-    return <Notificacion notify={notify} setNotify={setNotify} />;
-  } else if (!filteredData) {
+  } else if (fetchingError && !isProjectView) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <img
+          style={{ marginTop: '15%' }}
+          className={classes.imgcontainer}
+          src={not_found}
+        />
+        <Typography variant="h4" style={{ marginTop: '30px' }}>
+          AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
+        </Typography>
+      </Box>);
+  } else if (!filteredData && !isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;
   }
 

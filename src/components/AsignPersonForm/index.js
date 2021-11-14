@@ -18,6 +18,7 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
+import Divider from "@mui/material/Divider";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -44,6 +45,7 @@ export default function AsignPersonForm({
   const classes = useStyles();
   return (
     <div className={classes.paper}>
+
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
@@ -83,7 +85,7 @@ export default function AsignPersonForm({
               </List>
             </Card>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
             <CardSelector
               name={"roles"}
               id={"roles"}

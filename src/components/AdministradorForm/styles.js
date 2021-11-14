@@ -12,9 +12,13 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-    color: theme.palette.getContrastText(theme.palette.error.main),
+    color: "#ffffff",
     background: "#1c1c1c",
+    margin: theme.spacing(3, 0, 2),
+    '&:hover': {
+      backgroundColor: '#404040',
+      color: '#fff',
+    }
   },
   errorMsg: { color: "red" },
 }));
