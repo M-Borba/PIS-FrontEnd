@@ -84,11 +84,14 @@ export default function FilterForm({
         />
 
         <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c",
+          }}
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Filtrar &ensp;
@@ -96,9 +99,12 @@ export default function FilterForm({
         </Button>
         <Tooltip title="Limpiar filtros">
           <Button
+            style={{
+              color: "#ffffff",
+              background: "#1c1c1c",
+            }}
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.clear}
             onClick={onClear}
           >

@@ -7,6 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
+import Divider from "@mui/material/Divider";
+import Box from "@material-ui/core/Box";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -89,9 +91,12 @@ export default function PersonForm({
 
   return (
     <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        {title}
-      </Typography>
+      <Box style={{ width: "100%", textAlign: "center" }}>
+        <Typography component="h1" variant="h5">
+          {title}
+        </Typography>
+        <Divider style={{ marginBottom: 15, marginTop: 15 }} />
+      </Box>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Grid container mt={3} spacing={2}>
           <Grid item xs={12} md={6}>
@@ -156,10 +161,6 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.working_hours}
               helperText={errors?.working_hours?.[0]}
-              inputProps={{
-                min: 1,
-                max: 168,
-              }}
             />
           </Grid>
           <Grid item xs={12}>
@@ -182,7 +183,6 @@ export default function PersonForm({
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Guardar

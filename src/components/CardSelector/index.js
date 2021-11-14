@@ -40,6 +40,7 @@ export default function CardSelector({ title, list, onInputChange }) {
               >
                 <ListItemIcon>
                   <Checkbox
+                    style={{ color: "black" }}
                     id={value[0]}
                     checked={value[1]}
                     tabIndex={-1}

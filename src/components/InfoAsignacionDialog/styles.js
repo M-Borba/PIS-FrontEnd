@@ -26,4 +26,13 @@ export const useStyles = makeStyles((theme) => ({
   textClass: {
     wordWrap: "break-word",
   },
+  submit: {
+    color: "#ffffff",
+    background: "#1c1c1c",
+    margin: theme.spacing(3, 0, 2),
+    "&:hover": {
+      backgroundColor: "#404040",
+      color: "#fff",
+    },
+  },
 }));

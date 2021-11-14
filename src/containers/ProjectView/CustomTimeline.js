@@ -17,6 +17,7 @@ import { useStyles } from "./styles";
 import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
+import not_found from "../../resources/not_found.png";
 import { useSnackbar } from "notistack";
 import { startValue, endValue } from "../PersonView/CustomTimeline";
 
@@ -208,7 +209,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             sidebarWidth={210}
           >
             <TimelineHeaders className="sticky">
-              <SidebarHeader style={{}}>
+              <SidebarHeader>
                 {({ getRootProps }) => {
                   return (
                     <div {...getRootProps()}>
@@ -226,17 +227,16 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         )}
         {!filteredData && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "2vh",
-            }}
-          >
-            <Typography component="h1" variant="h5">
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img
+              style={{ marginTop: "30px" }}
+              className={classes.imgcontainer}
+              src={not_found}
+            />
+            <Typography variant="h4" style={{ marginTop: "30px" }}>
               NO EXISTEN PROYECTOS PARA MOSTRAR
             </Typography>
-          </div>
+          </Box>
         )}
         <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
           <Box className={classes.modalInfo}>

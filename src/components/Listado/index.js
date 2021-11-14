@@ -57,7 +57,14 @@ export default function Listado({
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={buttonClick}>
+        <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c",
+          }}
+          variant="contained"
+          onClick={buttonClick}
+        >
           {button}
         </Button>
       </Box>

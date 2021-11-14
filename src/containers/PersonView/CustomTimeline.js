@@ -20,6 +20,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import Typography from "@mui/material/Typography";
+import not_found from "../../resources/not_found.png";
 import { useSnackbar } from "notistack";
 
 PersonTimeline.propTypes = {
@@ -51,6 +52,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
   const [fetchingError, setFetchingError] = useState([false]);
+  const [assignationError, setAssignationError] = useState(false);
+
   const [assignObject, setAssignObject] = useState({
     open: false,
     groupId: -1,
@@ -245,8 +248,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       .put(`/person_project/${itemId}`, { person_project: requestBody })
       .then()
       .catch((error) => {
-        console.error(error.response);
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+        setAssignationError(true);
         if (error.response.status == 400)
           enqueueSnackbar(
             error.response.data.errors.start_date ??
@@ -406,17 +409,16 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           </Timeline>
         )}
         {!filteredData && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "2vh",
-            }}
-          >
-            <Typography component="h1" variant="h5">
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <img
+              style={{ marginTop: "30px" }}
+              className={classes.imgcontainer}
+              src={not_found}
+            />
+            <Typography variant="h4" style={{ marginTop: "30px" }}>
               NO EXISTEN PERSONAS PARA MOSTRAR
             </Typography>
-          </div>
+          </Box>
         )}
         <AsignarProyectoPersona
           open={assignObject.open}
@@ -468,6 +470,5 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       </Fragment>
     );
   }
-
   return null;
 }

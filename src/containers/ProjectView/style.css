@@ -3,5 +3,16 @@
     margin-left: 1%;
     margin-right: 1%;
     margin-bottom: 1%;
+}
 
+.react-calendar-timeline .rct-dateHeader-primary {
+    background-color: initial;
+    border-left: 1px solid #bbb;
+    border-right: 1px solid #bbb;
+    color: #fff;
+}
+
+.react-calendar-timeline .rct-header-root {
+    background: #242424;
+    border-bottom: 1px solid #bbb;
 }

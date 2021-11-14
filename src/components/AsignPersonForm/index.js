@@ -18,6 +18,7 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Card from "@material-ui/core/Card";
+import Divider from "@mui/material/Divider";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -68,6 +69,7 @@ export default function AsignPersonForm({
                     >
                       <ListItemIcon>
                         <Checkbox
+                          style={{ color: "black" }}
                           id={p.id}
                           checked={value}
                           tabIndex={-1}
@@ -82,7 +84,7 @@ export default function AsignPersonForm({
               </List>
             </Card>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
             <CardSelector
               name={"roles"}
               id={"roles"}
