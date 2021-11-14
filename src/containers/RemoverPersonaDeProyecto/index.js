@@ -65,7 +65,7 @@ function removePerson(
                   (asignacion) => asignacion.id != assingment.id
                 );
             });
-            let message = "Se ha borrado la asignacion exitosamente";
+            let message = "Se ha borrado la asignación exitosamente";
             setNotify({
               isOpen: true,
               message: message,
@@ -112,9 +112,9 @@ function RemoverPersona({
 }) {
   var dialogContent;
   if (asignId == undefined)
-    dialogContent = `Esta seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
+    dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
-    dialogContent = `Esta seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
+    dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
     if (asignId == undefined) {
@@ -169,7 +169,7 @@ function RemoverPersona({
           }
           setAsignaciones(nuevasAsignaciones);
 
-          let message = "Se ha borrado la asignacion exitosamente";
+          let message = "Se ha borrado la asignación exitosamente";
           setNotify({
             isOpen: true,
             message: message,

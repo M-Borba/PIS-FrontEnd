@@ -82,7 +82,7 @@ function AsignarProyectoPersona({
         );
         setNotify({
           isOpen: true,
-          message: "Asignacion creada con exito.",
+          message: "Asignación creada con éxito.",
           type: "success",
           reload: false,
         });

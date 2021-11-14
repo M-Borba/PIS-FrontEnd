@@ -55,7 +55,7 @@ export default function CreateProject({ setNotify, addRow, onClose }) {
         addRow(newRow);
         setNotify({
           isOpen: true,
-          message: `El proyecto se creo con exito.`,
+          message: `El proyecto se creó con éxito.`,
           type: "success",
           reload: false,
         });

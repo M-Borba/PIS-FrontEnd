@@ -18,7 +18,7 @@ function EliminarProyecto({
   setNotify,
   removeRow,
 }) {
-  const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar el proyecto ${projectName} del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
@@ -27,7 +27,7 @@ function EliminarProyecto({
         if (response.status == 200) {
           setNotify({
             isOpen: true,
-            message: `El proyecto ${projectName} se elimino con exito.`,
+            message: `El proyecto ${projectName} se eliminó con éxito.`,
             type: "success",
             reload: false,
           });

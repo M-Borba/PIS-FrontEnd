@@ -42,7 +42,7 @@ export default function CreateAdministrator({ setNotify, addRow, onClose }) {
         addRow(nuevoAdmin);
         setNotify({
           isOpen: true,
-          message: `El administrador se creo con exito.`,
+          message: `El administrador se creó con éxito.`,
           type: "success",
           reload: false,
         });

@@ -20,7 +20,6 @@ FilterForm.propTypes = {
 FilterForm.defaultProps = {
   project_state: "",
   project_type: "",
-  project_state: "",
   organization: "",
 };
 
@@ -53,7 +52,7 @@ export default function FilterForm({
           <MenuItem value="staff_augmentation">Staff Augmentation</MenuItem>
           <MenuItem value="end_to_end">End to End</MenuItem>
           <MenuItem value="tercerizado">Tercerizado</MenuItem>
-          <MenuItem value="hibrido">Hibrido</MenuItem>
+          <MenuItem value="hibrido">Híbrido</MenuItem>
         </TextField>
         <TextField
           fullWidth
