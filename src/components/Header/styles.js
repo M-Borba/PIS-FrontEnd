@@ -24,6 +24,12 @@ export const useStyles = makeStyles((theme) => ({
   mt35: {
     marginTop: 35,
   },
+  item: {
+    color: '#000'
+  },
+  btn: {
+    marginLeft: 20
+  }
 }));
 
 export const PaperProps = {
