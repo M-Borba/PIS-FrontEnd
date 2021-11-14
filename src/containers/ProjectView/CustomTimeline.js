@@ -76,14 +76,17 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
             enqueueSnackbar(
-              "No se pudieron cargar los datos de los proyectos",
+              "No se pudieron cargar los datos de los proyectos.",
               { variant: "error", persist: true }
             );
             setFetchingError(true);
           } else {
-            enqueueSnackbar("No existen datos para los filtros seleccionados", {
-              variant: "error",
-            });
+            enqueueSnackbar(
+              "No existen datos para los filtros seleccionados.",
+              {
+                variant: "error",
+              }
+            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -139,7 +142,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
       })
       .catch((error) => {
         console.error(error.response);
-        enqueueSnackbar("No se pudieron cargar los datos de los proyectos", {
+        enqueueSnackbar("No se pudieron cargar los datos de los proyectos.", {
           variant: "error",
           persist: true,
         });

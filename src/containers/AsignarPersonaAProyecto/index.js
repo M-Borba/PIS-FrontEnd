@@ -119,16 +119,15 @@ export default function AgregarPersona({
               }
 
               enqueueSnackbar(
-                `Se asigno el rol ${role} a ${person.name} en ${projectData.name} exitosamente`,
+                `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
                 { variant: "success" }
               );
               onClose();
             })
             .catch((error) => {
-              closeModal = false;
               if (error.response.status == 400)
                 enqueueSnackbar(
-                  `El rol ${role} en esas fechas ya esta asignado a ${person.name} en ${projectData.name}`,
+                  `El rol ${role} en esas fechas ya está asignado a: ${person.name} en ${projectData.name}.`,
                   { variant: "error" }
                 );
               else

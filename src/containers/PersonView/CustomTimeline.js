@@ -124,16 +124,21 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.person_project;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
-            enqueueSnackbar("No se pudieron cargar los datos de las personas", {
-              variant: "error",
-              persist: true,
-            });
+            enqueueSnackbar(
+              "No se pudieron cargar los datos de las personas.",
+              {
+                variant: "error",
+                persist: true,
+              }
+            );
             setFetchingError(true);
           } else {
-            enqueueSnackbar("No existen datos para los filtros seleccionados", {
-              variant: "error",
-              persist: true,
-            });
+            enqueueSnackbar(
+              "No existen datos para los filtros seleccionados.",
+              {
+                variant: "error",
+              }
+            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -182,7 +187,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       })
       .catch((error) => {
         console.error(error.response);
-        enqueueSnackbar("No se pudieron cargar los datos de las personas", {
+        enqueueSnackbar("No se pudieron cargar los datos de las personas.", {
           variant: "error",
           persist: true,
         });

@@ -75,7 +75,7 @@ function AsignarProyectoPersona({
         enqueueSnackbar(
           `Se asignó el rol ${
             rolesFormateados[asignacionData.role]
-          } a ${personName} en ${asignacionData.project.name} exitosamente.`,
+          } a: ${personName} en ${asignacionData.project.name} con éxito.`,
           { variant: "success" }
         );
         onClose();
