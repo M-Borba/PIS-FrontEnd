@@ -14,7 +14,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Divider from "@mui/material/Divider";
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.array.isRequired,
@@ -25,16 +25,23 @@ InfoProyecto.propTypes = {
 export default function InfoProyecto({ projectData, type, state }) {
   return (
     <div style={{ padding: 16 }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap'
-      }}>
-        <AssignmentIcon style={{
-          width: 50,
-          height: 50
-        }} />
-        <Typography variant="h4" style={{ marginLeft: 10, overflowWrap: "break-word" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <AssignmentIcon
+          style={{
+            width: 50,
+            height: 50,
+          }}
+        />
+        <Typography
+          variant="h4"
+          style={{ marginLeft: 10, overflowWrap: "break-word" }}
+        >
           {projectData.name}
         </Typography>
       </div>
@@ -43,7 +50,11 @@ export default function InfoProyecto({ projectData, type, state }) {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
           <Box>
-            <Typography style={{ fontWeight: 600 }} variant="body1" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              gutterBottom
+            >
               Descripción:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -52,7 +63,12 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
 
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Organización:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -63,7 +79,12 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
 
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Budget:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -72,7 +93,12 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
 
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Tipo proyecto:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -81,7 +107,12 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
 
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Estado:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -90,7 +121,12 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
 
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Fecha Inicio:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
@@ -98,7 +134,12 @@ export default function InfoProyecto({ projectData, type, state }) {
             </Typography>
           </Box>
           <Box mt={2}>
-            <Typography style={{ fontWeight: 600 }} variant="body1" display="inline" gutterBottom>
+            <Typography
+              style={{ fontWeight: 600 }}
+              variant="body1"
+              display="inline"
+              gutterBottom
+            >
               Fecha Fin:{" "}
             </Typography>
             {projectData.end_date ? (
@@ -114,7 +155,6 @@ export default function InfoProyecto({ projectData, type, state }) {
         </Grid>
 
         <Grid item xs={6}>
-
           <Box>
             <Accordion>
               <AccordionSummary
@@ -122,7 +162,9 @@ export default function InfoProyecto({ projectData, type, state }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography style={{ fontWeight: 600 }} variant="body1">Tecnologías</Typography>
+                <Typography style={{ fontWeight: 600 }} variant="body1">
+                  Tecnologías
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <List
@@ -159,14 +201,16 @@ export default function InfoProyecto({ projectData, type, state }) {
           </Box>
           <Divider style={{ marginBottom: 15, marginTop: 15 }} />
 
-          <Box >
+          <Box>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography style={{ fontWeight: 600 }} variant="body1">Personas Asignadas</Typography>
+                <Typography style={{ fontWeight: 600 }} variant="body1">
+                  Personas Asignadas
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <List
@@ -203,7 +247,6 @@ export default function InfoProyecto({ projectData, type, state }) {
             </Accordion>
           </Box>
         </Grid>
-
       </Grid>
     </div>
   );

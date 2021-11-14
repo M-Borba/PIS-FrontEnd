@@ -78,7 +78,7 @@ export default function ProyectoForm({
 
   return (
     <div className={classes.paper}>
-      <Box style={{ width: '100%', textAlign: 'center' }}>
+      <Box style={{ width: "100%", textAlign: "center" }}>
         <Typography component="h1" variant="h5">
           {title}
         </Typography>

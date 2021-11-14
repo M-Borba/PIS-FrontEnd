@@ -91,7 +91,7 @@ export default function PersonForm({
 
   return (
     <div className={classes.paper}>
-      <Box style={{ width: '100%', textAlign: 'center' }}>
+      <Box style={{ width: "100%", textAlign: "center" }}>
         <Typography component="h1" variant="h5">
           {title}
         </Typography>
@@ -179,7 +179,6 @@ export default function PersonForm({
           </Grid>
         </Grid>
         <Button
-
           role="submit"
           type="submit"
           fullWidth

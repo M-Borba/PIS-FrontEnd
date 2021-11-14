@@ -87,7 +87,7 @@ export default function FilterForm({
         <Button
           style={{
             color: "#ffffff",
-            background: "#1c1c1c"
+            background: "#1c1c1c",
           }}
           role="submit"
           type="submit"
@@ -102,7 +102,7 @@ export default function FilterForm({
           <Button
             style={{
               color: "#ffffff",
-              background: "#1c1c1c"
+              background: "#1c1c1c",
             }}
             fullWidth
             variant="contained"

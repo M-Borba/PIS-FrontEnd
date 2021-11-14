@@ -18,7 +18,7 @@ import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import Notificacion from "../../components/Notificacion";
-import not_found from "../../resources/not_found.png"
+import not_found from "../../resources/not_found.png";
 
 var keys = {
   groupIdKey: "id",
@@ -136,8 +136,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             group: proj.id,
             start: startValue,
             end: endValue,
-            canMove: startValue > new Date().getTime(),
-            canResize: "both",
+            canMove: false,
+            canResize: false,
             itemProps: {
               style: {
                 borderRadius: 5,
@@ -234,17 +234,17 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
               <DateHeader unit="primaryHeader" />
               <DateHeader />
             </TimelineHeaders>
-          </Timeline>)}
-
+          </Timeline>
+        )}
 
         {!filteredData && (
           <Box display="flex" flexDirection="column" alignItems="center">
             <img
-              style={{ marginTop: '30px' }}
+              style={{ marginTop: "30px" }}
               className={classes.imgcontainer}
               src={not_found}
             />
-            <Typography variant="h4" style={{ marginTop: '30px' }}>
+            <Typography variant="h4" style={{ marginTop: "30px" }}>
               NO EXISTEN PROYECTOS PARA MOSTRAR
             </Typography>
           </Box>
@@ -269,20 +269,21 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             />
           </Box>
         </Modal>
-      </Fragment >
+      </Fragment>
     );
   } else if (fetchingError && !isProjectView) {
     return (
       <Box display="flex" flexDirection="column" alignItems="center">
         <img
-          style={{ marginTop: '15%' }}
+          style={{ marginTop: "15%" }}
           className={classes.imgcontainer}
           src={not_found}
         />
-        <Typography variant="h4" style={{ marginTop: '30px' }}>
+        <Typography variant="h4" style={{ marginTop: "30px" }}>
           AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
         </Typography>
-      </Box>);
+      </Box>
+    );
   } else if (!filteredData && !isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;
   }

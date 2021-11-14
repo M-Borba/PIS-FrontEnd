@@ -45,7 +45,6 @@ export default function AsignPersonForm({
   const classes = useStyles();
   return (
     <div className={classes.paper}>
-
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
@@ -70,7 +69,7 @@ export default function AsignPersonForm({
                     >
                       <ListItemIcon>
                         <Checkbox
-                          style={{ color: 'black' }}
+                          style={{ color: "black" }}
                           id={p.id}
                           checked={value}
                           tabIndex={-1}

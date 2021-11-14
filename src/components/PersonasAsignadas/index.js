@@ -8,7 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Divider from "@mui/material/Divider";
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 import { rolesFormateados } from "../../config/globalVariables";
 
@@ -22,11 +22,11 @@ function formatDate(dateString) {
   let result;
   dateString != null
     ? (result =
-      dateString.substring(8) +
-      "-" +
-      dateString.substring(5, 7) +
-      "-" +
-      dateString.substring(0, 4))
+        dateString.substring(8) +
+        "-" +
+        dateString.substring(5, 7) +
+        "-" +
+        dateString.substring(0, 4))
     : (result = "Final indefinido");
 
   return result;
@@ -50,7 +50,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
       <Grid item key={"people"}>
         {people.length != 0 ? (
           <>
-            <Typography variant="h5" >Personas Asignadas</Typography>
+            <Typography variant="h5">Personas Asignadas</Typography>
             <Box m={2} />
             <Divider />
             <List className={classes.list}>
@@ -103,11 +103,9 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
             </List>
           </>
         ) : (
-          <Box m={2}>
-            Aún no hay personas asociadas
-          </Box>
+          <Box m={2}>Aún no hay personas asociadas</Box>
         )}
       </Grid>
-    </div >
+    </div>
   );
 }

@@ -71,9 +71,11 @@ export default function Listado({
         <Button
           style={{
             color: "#ffffff",
-            background: "#1c1c1c"
+            background: "#1c1c1c",
           }}
-          variant="contained" onClick={buttonClick}>
+          variant="contained"
+          onClick={buttonClick}
+        >
           {button}
         </Button>
       </Box>

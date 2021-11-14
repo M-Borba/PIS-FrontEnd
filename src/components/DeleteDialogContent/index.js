@@ -40,19 +40,21 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
         <Button
           style={{
             color: "#ffffff",
-            background: "#1c1c1c"
+            background: "#1c1c1c",
           }}
           onClick={onClose}
-          variant="contained">
+          variant="contained"
+        >
           Cancelar
         </Button>
         <Button
           style={{
             color: "#ffffff",
-            background: "#1c1c1c"
+            background: "#1c1c1c",
           }}
           onClick={onConfirmation}
-          variant="contained">
+          variant="contained"
+        >
           Confirmar
         </Button>
       </DialogActions>

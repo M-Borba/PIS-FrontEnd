@@ -62,7 +62,10 @@ export default function Acciones({ personRow }) {
               onClose={handleInfoClose}
               disableEnforceFocus
             >
-              <Box sx={{ flexDirection: 'column' }} className={classes.modalInfo}>
+              <Box
+                sx={{ flexDirection: "column" }}
+                className={classes.modalInfo}
+              >
                 <IconButton
                   aria-label="Close"
                   onClick={handleInfoClose}

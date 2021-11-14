@@ -91,14 +91,14 @@ export default function Personas({ rows, setRows }) {
       rows.map((row) =>
         row.id == personData.id
           ? {
-            ...row,
-            fullName: personData.fullName,
-            firstName: personData.firstName,
-            lastName: personData.lastName,
-            email: personData.email,
-            cargaHoraria: personData.cargaHoraria,
-            technologies: personData.technologies,
-          }
+              ...row,
+              fullName: personData.fullName,
+              firstName: personData.firstName,
+              lastName: personData.lastName,
+              email: personData.email,
+              cargaHoraria: personData.cargaHoraria,
+              technologies: personData.technologies,
+            }
           : row
       )
     );
@@ -114,10 +114,11 @@ export default function Personas({ rows, setRows }) {
         <Button
           style={{
             color: "#ffffff",
-            background: "#1c1c1c"
+            background: "#1c1c1c",
           }}
           variant="contained"
-          onClick={handleNewOpen}>
+          onClick={handleNewOpen}
+        >
           Agregar Persona
         </Button>
       </Box>

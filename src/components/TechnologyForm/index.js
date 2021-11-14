@@ -102,7 +102,8 @@ export default function TechnologyForm({
               style={{
                 color: "#1c1c1c",
               }}
-              onClick={addTechnology}>
+              onClick={addTechnology}
+            >
               <AddIcon />
             </IconButton>
           </Box>

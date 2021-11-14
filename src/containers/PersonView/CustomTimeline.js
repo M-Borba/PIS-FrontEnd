@@ -27,7 +27,7 @@ import { useStyles } from "../../components/Personas/styles";
 import propTypes from "prop-types";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import Typography from "@mui/material/Typography";
-import not_found from "../../resources/not_found.png"
+import not_found from "../../resources/not_found.png";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
@@ -342,11 +342,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );
@@ -412,11 +412,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         {!filteredData && (
           <Box display="flex" flexDirection="column" alignItems="center">
             <img
-              style={{ marginTop: '30px' }}
+              style={{ marginTop: "30px" }}
               className={classes.imgcontainer}
               src={not_found}
             />
-            <Typography variant="h4" style={{ marginTop: '30px' }}>
+            <Typography variant="h4" style={{ marginTop: "30px" }}>
               NO EXISTEN PERSONAS PARA MOSTRAR
             </Typography>
           </Box>
@@ -473,8 +473,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         )}
       </Fragment>
     );
-  }
-  else if (fetchingError && isProjectView) {
+  } else if (fetchingError && isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;
   } else if (!filteredData && isProjectView) {
     return <Notificacion notify={notify} setNotify={setNotify} />;

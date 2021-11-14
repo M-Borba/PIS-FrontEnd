@@ -15,17 +15,17 @@ export const useStyles = makeStyles((theme) => ({
     color: "#ffffff",
     background: "#1c1c1c",
     margin: theme.spacing(3, 0, 2),
-    '&:hover': {
-      backgroundColor: '#404040',
-      color: '#fff',
-    }
+    "&:hover": {
+      backgroundColor: "#404040",
+      color: "#fff",
+    },
   },
   errorMsg: { color: "red" },
   msg: { color: "green" },
 
   cardHeader: {
     padding: theme.spacing(1, 12),
-    textAlign: "center"
+    textAlign: "center",
   },
   list: {
     height: 230,
