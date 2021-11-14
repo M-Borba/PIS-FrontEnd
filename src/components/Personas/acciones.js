@@ -10,7 +10,6 @@ import { useStyles } from "./styles";
 import EditPerson from "../../containers/EditPerson";
 import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
-import Notificacion from "../../components/Notificacion";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import InfoPersona from "../../containers/InfoPersona";
 
@@ -23,13 +22,6 @@ export default function Acciones({ personRow }) {
   const [openInfo, setOpenInfo] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
-
   const classes = useStyles();
   const personData = {
     id: personRow.id,
@@ -99,7 +91,6 @@ export default function Acciones({ personRow }) {
                 <EditPerson
                   personData={personData}
                   id={personData.id}
-                  setNotify={setNotify}
                   onClose={handleEditClose}
                   editRow={editRow.current}
                 />
@@ -125,14 +116,12 @@ export default function Acciones({ personRow }) {
                 personName={personRow.fullName}
                 personId={personRow.id}
                 handleClose={handleRemoveClose}
-                setNotify={setNotify}
                 removeRow={removeRow.current}
               />
             </Dialog>
           </React.Fragment>
         }
       />
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

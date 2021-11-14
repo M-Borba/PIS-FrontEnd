@@ -6,14 +6,15 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import AdministratorForm from "../../components/AdministradorForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 CreateAdministrator.propTypes = {
-  setNotify: propTypes.func.isRequired,
   addRow: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
 };
 
-export default function CreateAdministrator({ setNotify, addRow, onClose }) {
+export default function CreateAdministrator({ addRow, onClose }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [administrator, setAdministrator] = useState({
     email: "",
     first_name: "",
@@ -40,12 +41,12 @@ export default function CreateAdministrator({ setNotify, addRow, onClose }) {
           fullName: adminData.name,
         };
         addRow(nuevoAdmin);
-        setNotify({
-          isOpen: true,
-          message: `El administrador se creó con éxito.`,
-          type: "success",
-          reload: false,
-        });
+        enqueueSnackbar(
+          `El administrador ${adminData.name} se creo con éxito.`,
+          {
+            variant: "success",
+          }
+        );
         onClose();
       })
       .catch((error) => {

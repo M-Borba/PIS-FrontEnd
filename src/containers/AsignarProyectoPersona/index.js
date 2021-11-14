@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AsignacionForm from "../../components/AsignacionDialog";
 import { axiosInstance } from "../../config/axios";
 import { rolesFormateados } from "../../config/globalVariables";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
-import Notificacion from "../../components/Notificacion";
+import { useSnackbar } from "notistack";
 
 AsignarProyectoPersona.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -33,12 +33,7 @@ function AsignarProyectoPersona({
   addAsignacion,
 }) {
   const [proyectos, setProyectos] = useState([]);
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
+  const { enqueueSnackbar } = useSnackbar();
   initialState.start_date = fechaInicio;
   const [requestBody, setRequestBody] = useState(initialState);
 
@@ -51,13 +46,10 @@ function AsignarProyectoPersona({
           setProyectos(response.data.projects);
         })
         .catch((error) => {
-          console.log("e", error.response);
-          let message = error.response.data.errors;
-          setNotify({
-            isOpen: true,
-            message: message[Object.keys(message)[0]],
-            type: "error",
-            reload: false,
+          console.error(error.response);
+          enqueueSnackbar(error.response.data?.error, {
+            variant: "error",
+            persist: true,
           });
         });
   }, [open]);
@@ -80,35 +72,25 @@ function AsignarProyectoPersona({
           asignacionData.start_date,
           asignacionData.end_date
         );
-        setNotify({
-          isOpen: true,
-          message: "Asignación creada con éxito.",
-          type: "success",
-          reload: false,
-        });
+        enqueueSnackbar(
+          `Se asignó el rol ${
+            rolesFormateados[asignacionData.role]
+          } a: ${personName} en ${asignacionData.project.name} con éxito.`,
+          { variant: "success" }
+        );
         onClose();
         setRequestBody(initialState);
       })
       .catch((error) => {
-        console.error(error);
-        if (error.response?.status == 404) {
-          setNotify({
-            isOpen: true,
-            message: error.response.data.error,
-            type: "error",
-            reload: true,
-          });
-          onClose();
-          setRequestBody(initialState);
-        } else {
-          let message = error.response.data.errors;
-          setNotify({
-            isOpen: true,
-            message: message[Object.keys(message)[0]],
-            type: "error",
-            reload: false,
-          });
-        }
+        let message = error.response.data;
+        console.error(message);
+        enqueueSnackbar(
+          message.error
+            ? message.error
+            : message.errors[Object.keys(message.errors)[0]],
+          { variant: "error", persist: true }
+        );
+        setRequestBody(initialState);
       });
   };
 
@@ -133,19 +115,16 @@ function AsignarProyectoPersona({
   };
 
   return (
-    <Fragment>
-      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
-        <AsignacionForm
-          proyectos={proyectos}
-          datos={requestBody}
-          personName={personName}
-          onClose={handleClose}
-          onSubmit={onSubmit}
-          onInputChange={onInputChange}
-        />
-      </Dialog>
-      <Notificacion notify={notify} setNotify={setNotify} />
-    </Fragment>
+    <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
+      <AsignacionForm
+        proyectos={proyectos}
+        datos={requestBody}
+        personName={personName}
+        onClose={handleClose}
+        onSubmit={onSubmit}
+        onInputChange={onInputChange}
+      />
+    </Dialog>
   );
 }
 

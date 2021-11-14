@@ -6,14 +6,15 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 CreatePerson.propTypes = {
-  setNotify: propTypes.func.isRequired,
   addRow: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
 };
 
-export default function CreatePerson({ setNotify, addRow, onClose }) {
+export default function CreatePerson({ addRow, onClose }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [person, setPerson] = useState({
     first_name: "",
     last_name: "",
@@ -42,12 +43,12 @@ export default function CreatePerson({ setNotify, addRow, onClose }) {
           technologies: personData.technologies,
         };
         addRow(nuevaPersona);
-        setNotify({
-          isOpen: true,
-          message: `La persona se creó con éxito.`,
-          type: "success",
-          reload: false,
-        });
+        enqueueSnackbar(
+          `La persona ${personData.full_name} se creó con éxito.`,
+          {
+            variant: "success",
+          }
+        );
         onClose();
       })
       .catch((error) => {
