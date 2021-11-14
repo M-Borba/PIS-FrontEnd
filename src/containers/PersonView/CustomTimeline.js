@@ -127,21 +127,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.person_project;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
-            enqueueSnackbar(
-              "No se pudieron cargar los datos de las personas.",
-              {
-                variant: "error",
-                persist: true,
-              }
-            );
             setFetchingError(true);
           } else {
-            enqueueSnackbar(
-              "No existen datos para los filtros seleccionados.",
-              {
-                variant: "error",
-              }
-            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -253,7 +240,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         if (error.response.status == 400)
           enqueueSnackbar(
             error.response.data.errors.start_date ??
-              error.response.data.errors.end_date,
+            error.response.data.errors.end_date,
             { variant: "error" }
           );
         else enqueueSnackbar(error.response.data.error, { variant: "error" });
@@ -292,7 +279,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             borderRadius: 5,
             background:
               endValue(endDate) - 864000000 < todayDate &&
-              endValue(endDate) >= todayDate
+                endValue(endDate) >= todayDate
                 ? "#C14B3A"
                 : "#B0CFCB",
           },
@@ -339,11 +326,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );

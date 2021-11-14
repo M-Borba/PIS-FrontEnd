@@ -76,18 +76,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.projects;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
-            enqueueSnackbar(
-              "No se pudieron cargar los datos de los proyectos.",
-              { variant: "error", persist: true }
-            );
             setFetchingError(true);
           } else {
-            enqueueSnackbar(
-              "No existen datos para los filtros seleccionados.",
-              {
-                variant: "error",
-              }
-            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -134,7 +124,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             },
             className:
               moment(proj.start_date).day() === 6 ||
-              moment(proj.start_date).day() === 0
+                moment(proj.start_date).day() === 0
                 ? "item-weekend"
                 : "",
           });
@@ -258,9 +248,20 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             />
           </Box>
         </Modal>
-      </Fragment>
+      </Fragment >
     );
+  } else if (fetchingError && !isProjectView) {
+    return (
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <img
+          style={{ marginTop: '15%' }}
+          className={classes.imgcontainer}
+          src={not_found}
+        />
+        <Typography variant="h4" style={{ marginTop: '30px' }}>
+          AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
+        </Typography>
+      </Box>);
   }
-
   return null;
 }
