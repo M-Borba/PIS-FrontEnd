@@ -134,7 +134,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             },
             className:
               moment(proj.start_date).day() === 6 ||
-                moment(proj.start_date).day() === 0
+              moment(proj.start_date).day() === 0
                 ? "item-weekend"
                 : "",
           });
