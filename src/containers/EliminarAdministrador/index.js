@@ -18,7 +18,7 @@ function EliminarAdministrador({
   removeRow,
 }) {
   const { enqueueSnackbar } = useSnackbar();
-  const dialogContent = `Esta seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar al administrator con email: \"${administratorEmail}\" del sistema?`;
 
   const onConfirmation = () => {
     axiosInstance
@@ -26,7 +26,7 @@ function EliminarAdministrador({
       .then(() => {
         removeRow(administratorId);
         enqueueSnackbar(
-          `El administrador con email: \"${administratorEmail}\" se elimino con exito`,
+          `El administrador con email: \"${administratorEmail}\" se eliminó con éxito.`,
           { variant: "success" }
         );
         handleClose();

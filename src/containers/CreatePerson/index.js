@@ -43,9 +43,12 @@ export default function CreatePerson({ addRow, onClose }) {
           technologies: personData.technologies,
         };
         addRow(nuevaPersona);
-        enqueueSnackbar(`${personData.full_name} se ha creado exitosamente`, {
-          variant: "success",
-        });
+        enqueueSnackbar(
+          `La persona ${personData.full_name} se creó con éxito.`,
+          {
+            variant: "success",
+          }
+        );
         onClose();
       })
       .catch((error) => {

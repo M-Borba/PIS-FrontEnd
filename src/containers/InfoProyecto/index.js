@@ -138,7 +138,7 @@ export default function InfoProyecto({ projectData, type, state }) {
               ) : (
                 <Box style={{ paddingTop: 20 }}>
                   <Typography variant="button" display="block" gutterBottom>
-                    Aún no hay tecnologias asociadas
+                    Aún no hay tecnologías asociadas
                   </Typography>
                 </Box>
               )}

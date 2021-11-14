@@ -41,9 +41,12 @@ export default function CreateAdministrator({ addRow, onClose }) {
           fullName: adminData.name,
         };
         addRow(nuevoAdmin);
-        enqueueSnackbar(`${adminData.name} se creo con exito`, {
-          variant: "success",
-        });
+        enqueueSnackbar(
+          `El administrador ${adminData.name} se creo con éxito.`,
+          {
+            variant: "success",
+          }
+        );
         onClose();
       })
       .catch((error) => {

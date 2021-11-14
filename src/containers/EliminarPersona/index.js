@@ -12,7 +12,7 @@ EliminarPersona.propTypes = {
 };
 
 function EliminarPersona({ personName, personId, handleClose, removeRow }) {
-  const dialogContent = `Esta seguro que desea eliminar a ${personName} del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar a ${personName} del sistema?`;
   const { enqueueSnackbar } = useSnackbar();
 
   const onConfirmation = () => {
@@ -20,10 +20,9 @@ function EliminarPersona({ personName, personId, handleClose, removeRow }) {
       .delete(`/people/${personId}`)
       .then(() => {
         removeRow(personId);
-        enqueueSnackbar(
-          `Se elimino a ${personName} exitosamente del sistema.`,
-          { variant: "success" }
-        );
+        enqueueSnackbar(`La persona ${personName} se eliminó con éxito.`, {
+          variant: "success",
+        });
         handleClose();
       })
       .catch((error) => {

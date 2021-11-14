@@ -58,9 +58,12 @@ export default function EditPerson({ personData, id, onClose, editRow }) {
           technologies: personInfo.technologies,
         };
         editRow(person);
-        enqueueSnackbar(`${personInfo.full_name} se modifico con exito`, {
-          variant: "success",
-        });
+        enqueueSnackbar(
+          `La persona ${personInfo.full_name} se modificó con éxito.`,
+          {
+            variant: "success",
+          }
+        );
         onClose();
       })
       .catch((error) => {

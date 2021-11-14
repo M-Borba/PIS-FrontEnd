@@ -73,9 +73,9 @@ function AsignarProyectoPersona({
           asignacionData.end_date
         );
         enqueueSnackbar(
-          `Se asigno el rol ${
+          `Se asignó el rol ${
             rolesFormateados[asignacionData.role]
-          } a ${personName} en ${asignacionData.project.name} exitosamente`,
+          } a ${personName} en ${asignacionData.project.name} exitosamente.`,
           { variant: "success" }
         );
         onClose();

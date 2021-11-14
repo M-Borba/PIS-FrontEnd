@@ -456,7 +456,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               }}
             ></Grid>
             <Grid item>
-              &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+              &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
             </Grid>
           </Grid>
         )}

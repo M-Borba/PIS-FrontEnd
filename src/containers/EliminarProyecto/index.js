@@ -12,7 +12,7 @@ EliminarProyecto.propTypes = {
 };
 
 function EliminarProyecto({ projectId, projectName, handleClose, removeRow }) {
-  const dialogContent = `Esta seguro que desea eliminar el proyecto ${projectName} del sistema?`;
+  const dialogContent = `¿Está seguro que desea eliminar el proyecto ${projectName} del sistema?`;
   const { enqueueSnackbar } = useSnackbar();
 
   const onConfirmation = () => {
@@ -20,7 +20,7 @@ function EliminarProyecto({ projectId, projectName, handleClose, removeRow }) {
       .delete(`/projects/${projectId}`)
       .then(() => {
         removeRow(projectId);
-        enqueueSnackbar(`El proyecto ${projectName} se elimino con exito`, {
+        enqueueSnackbar(`El proyecto ${projectName} se eliminó con éxito.`, {
           variant: "success",
         });
         handleClose();

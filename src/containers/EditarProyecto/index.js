@@ -37,7 +37,7 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
       .then((response) => {
         editRow(response.data.project);
         enqueueSnackbar(
-          `El proyecto ${projectData.name} se modifico con exito`,
+          `El proyecto ${projectData.name} se modificó con éxito.`,
           { variant: "success" }
         );
         onClose();

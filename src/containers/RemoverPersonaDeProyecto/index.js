@@ -101,9 +101,9 @@ function RemoverPersona({
   const { enqueueSnackbar } = useSnackbar();
   let dialogContent;
   if (asignId == undefined)
-    dialogContent = `Esta seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
+    dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
-    dialogContent = `Esta seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
+    dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
     if (asignId == undefined) {

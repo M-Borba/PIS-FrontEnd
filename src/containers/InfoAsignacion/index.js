@@ -37,7 +37,7 @@ function InfoAsignacion({
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const { enqueueSnackbar } = useSnackbar();
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
-  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
+  const dialogContent = `¿Está seguro que desea eliminar la asignación de ${personName} en ${
     projectName.split("-")[0]
   } como ${projectName.split("-")[1]}?`;
 
@@ -85,7 +85,7 @@ function InfoAsignacion({
           asignacion.start_date,
           asignacion.end_date
         );
-        enqueueSnackbar(`Los cambios se aplicaron con exito`, {
+        enqueueSnackbar(`Los cambios se aplicaron con éxito.`, {
           variant: "success",
         });
         onClose();

@@ -54,7 +54,7 @@ export default function CreateProject({ addRow, onClose }) {
           technologies: projectData.technologies || [],
         };
         addRow(newRow);
-        enqueueSnackbar(`El proyecto ${projectData.name} se creo con exito`, {
+        enqueueSnackbar(`El proyecto ${projectData.name} se creó con éxito.`, {
           variant: "success",
         });
         onClose();
