@@ -7,7 +7,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
-import Notificacion from "../../components/Notificacion";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 
@@ -62,12 +61,6 @@ const columns = [
 export default function Personas({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
@@ -137,11 +130,7 @@ export default function Personas({ rows, setRows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreatePerson
-            setNotify={setNotify}
-            addRow={addRow}
-            onClose={handleNewClose}
-          />
+          <CreatePerson addRow={addRow} onClose={handleNewClose} />
         </Box>
       </Modal>
       <DataGrid
@@ -152,8 +141,6 @@ export default function Personas({ rows, setRows }) {
         onSortModelChange={(model) => setSortModel(model)}
         style={{ height: "70vh" }}
       />
-
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

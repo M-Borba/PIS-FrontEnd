@@ -65,7 +65,7 @@ function AsignacionDialog({
     <Fragment>
       <DialogTitle>
         <Stack direction="row" className={Classes.jC_sb}>
-          Asignacion de proyecto a {personName}
+          Asignación de proyecto a {personName}
           <IconButton
             aria-label="Close"
             className={Classes.closeButton}

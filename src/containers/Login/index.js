@@ -95,10 +95,12 @@ export default function LoginView() {
         }
       )
       .then((response) => {
-        signInAndSetHeaders().catch((error) => {
-          localStorage.clear();
-          setLoginError(error.response?.data?.error);
-        });
+        signInAndSetHeaders();
+      })
+      .catch((error) => {
+        console.error(error.response);
+        localStorage.clear();
+        setLoginError(error.response?.data?.error);
       });
   };
   const checkInput = (e) => {

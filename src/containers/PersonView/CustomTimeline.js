@@ -9,34 +9,45 @@ import PropTypes from "prop-types";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import {
-  rolesFormateados,
-  customTimeSteps,
-} from "../../config/globalVariables";
+import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
-import Notificacion from "../../components/Notificacion";
 import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
-import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton } from "@material-ui/core";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
-import InfoPersona from "../InfoPersona";
 import { useStyles } from "../../components/Personas/styles";
-import propTypes from "prop-types";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import Typography from "@mui/material/Typography";
 import not_found from "../../resources/not_found.png";
+import { useSnackbar } from "notistack";
 
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
   isProjectView: PropTypes.bool,
 };
 
+// Formato esperado de date : yyyy-MM-DD
+export const startValue = (date) => {
+  let newDate = new Date(date);
+  return moment(moment(newDate).add(3, "hours")).valueOf();
+};
+
+// Formato esperado de date : yyyy-MM-DD
+export const endValue = (date) => {
+  if (date) {
+    let newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return moment(moment(newDate).add(3, "hours")).valueOf();
+  }
+  return moment(Date()).add(5, "years").add(9, "hours").valueOf();
+};
+
 export default function PersonTimeline({ onSwitch, isProjectView }) {
   const classes = useStyles();
   const [openInfo, setOpenInfo] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
@@ -48,12 +59,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     groupId: -1,
     personName: "",
     time: 0,
-  });
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
   });
   const [filters, setFilters] = useState({
     project_type: "",
@@ -102,28 +107,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     year: 1,
   };
 
-  // Formato esperado de date : yyyy-MM-DD
-  const dateToMiliseconds = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(newDate).valueOf();
-  };
-
-  const startValue = (date) => {
-    let newDate = new Date(date);
-    newDate.setDate(newDate.getDate());
-    return moment(moment(newDate).add(3, "hours")).valueOf();
-  };
-
-  const endValue = (date) => {
-    if (date) {
-      let newDate = new Date(date);
-      newDate.setDate(newDate.getDate() + 1);
-      return moment(moment(newDate).add(3, "hours")).valueOf();
-    }
-    return moment(Date()).add(5, "years").add(9, "hours").valueOf();
-  };
-
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
@@ -144,20 +127,21 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.person_project;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
-            setNotify({
-              ...notify,
-              isOpen: true,
-              message: "No se pudieron cargar los datos de las personas",
-              type: "error",
-            });
+            enqueueSnackbar(
+              "No se pudieron cargar los datos de las personas.",
+              {
+                variant: "error",
+                persist: true,
+              }
+            );
             setFetchingError(true);
           } else {
-            setNotify({
-              ...notify,
-              isOpen: true,
-              message: "No existen datos para los filtros seleccionados",
-              type: "error",
-            });
+            enqueueSnackbar(
+              "No existen datos para los filtros seleccionados.",
+              {
+                variant: "error",
+              }
+            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -173,8 +157,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
               let color = "#B0CFCB";
-              var finasignacion = dateToMiliseconds(dt.end_date);
-              var hoy = new Date().getTime();
+              let finasignacion = endValue(dt.end_date);
+              let hoy = new Date().getTime();
               if (hoy < finasignacion) {
                 if (finasignacion - 864000000 < hoy) {
                   //10 dias = 864000000
@@ -205,11 +189,10 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(itemsToAdd);
       })
       .catch((error) => {
-        setNotify({
-          ...notify,
-          isOpen: true,
-          message: "No se pudieron cargar los datos de las personas",
-          type: "error",
+        console.error(error.response);
+        enqueueSnackbar("No se pudieron cargar los datos de las personas.", {
+          variant: "error",
+          persist: true,
         });
         setFetchingError(true);
       });
@@ -224,13 +207,25 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
 
   const handleItemResize = (itemId, time, edge) => {
     let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
+    let todayDate = new Date().getTime();
 
     // Cambio en item en la timeline
+    let startDate = edge === "left" ? time : items[itemIndex].start;
+    let endDate = edge === "left" ? items[itemIndex].end : time;
     let currentItem = items[itemIndex];
     let newItem = {
       ...items[itemIndex],
-      start: edge === "left" ? time : items[itemIndex].start,
-      end: edge === "left" ? items[itemIndex].end : time,
+      start: startDate,
+      end: endDate,
+      itemProps: {
+        style: {
+          borderRadius: 5,
+          background:
+            endDate - 864000000 < todayDate && endDate >= todayDate
+              ? "#C14B3A"
+              : "#B0CFCB",
+        },
+      },
     };
     setItems(items.map((item) => (item.id == itemId ? newItem : item)));
 
@@ -256,21 +251,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
         setAssignationError(true);
         if (error.response.status == 400)
-          setNotify({
-            isOpen: true,
-            message:
-              error.response.data.errors.start_date ??
-              error.response.data.errors.end_date,
-            type: "error",
-            reload: false,
-          });
-        else if (error.response.status == 404)
-          setNotify({
-            isOpen: true,
-            message: error.response.data.error,
-            type: "error",
-            reload: true,
-          });
+          enqueueSnackbar(
+            error.response.data.errors.start_date ??
+            error.response.data.errors.end_date,
+            { variant: "error" }
+          );
+        else enqueueSnackbar(error.response.data.error, { variant: "error" });
       });
   };
 
@@ -290,7 +276,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     setAssignObject({ ...assignObject, open: false });
 
   // Formato esperado de startDate y endDate : yyyy-MM-DD
-  const addAsignacion = (asignacionId, personId, title, startDate, endDate) =>
+  const addAsignacion = (asignacionId, personId, title, startDate, endDate) => {
+    let todayDate = new Date().getTime();
     setItems([
       ...items,
       {
@@ -300,9 +287,20 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         end: endValue(endDate),
         canResize: "both",
         canMove: false,
+        itemProps: {
+          style: {
+            borderRadius: 5,
+            background:
+              endValue(endDate) - 864000000 < todayDate &&
+                endValue(endDate) >= todayDate
+                ? "#C14B3A"
+                : "#B0CFCB",
+          },
+        },
         title: title,
       },
     ]);
+  };
 
   // Info Asignacion
 
@@ -329,7 +327,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     return (
       <div className="custom-group">
         <a id={group.id}>{group.title}</a>
-        {/*<IconButton variant="outlined" onClick={this.handleInfoOpen.bind(this, id)}>*/}
         <IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>
           <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
         </IconButton>
@@ -342,11 +339,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-              ...item,
-              start: startValue(startDate),
-              end: endValue(endDate),
-              title: title,
-            }
+            ...item,
+            start: startValue(startDate),
+            end: endValue(endDate),
+            title: title,
+          }
           : item
       )
     );
@@ -376,6 +373,8 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             fullUpdate
             itemsSorted
             itemTouchSendsClick={true}
+            minZoom={30.4368498333 * 86400 * 1000} // mes
+            maxZoom={365.242198 * 86400 * 1000} // año
             dragSnap={60 * 60 * 24 * 1000} //dia
             stackItems
             timeSteps={customTimeSteps}
@@ -388,7 +387,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             onItemResize={handleItemResize}
             onCanvasClick={handleCanvasClick}
             onItemClick={handleItemClick}
-            sidebarWidth={200}
+            sidebarWidth={210}
             groupRenderer={handleGroupRenderer}
           >
             <TimelineHeaders className="sticky">
@@ -438,9 +437,6 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           removeAsignacion={removeAsignacion}
           updateAsignacion={updateAsignacion}
         />
-        {assignationError && (
-          <Notificacion notify={notify} setNotify={setNotify} />
-        )}
         <>
           <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
             <Box className={classes.modalInfo}>
@@ -467,16 +463,12 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
               }}
             ></Grid>
             <Grid item>
-              &nbsp;&nbsp;= Asignacion a finalizar en menos de 10 dias.
+              &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
             </Grid>
           </Grid>
         )}
       </Fragment>
     );
-  } else if (fetchingError && isProjectView) {
-    return <Notificacion notify={notify} setNotify={setNotify} />;
-  } else if (!filteredData && isProjectView) {
-    return <Notificacion notify={notify} setNotify={setNotify} />;
   }
   return null;
 }

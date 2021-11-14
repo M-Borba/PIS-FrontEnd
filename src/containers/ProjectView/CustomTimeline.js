@@ -17,8 +17,9 @@ import { useStyles } from "./styles";
 import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
-import Notificacion from "../../components/Notificacion";
 import not_found from "../../resources/not_found.png";
+import { useSnackbar } from "notistack";
+import { startValue, endValue } from "../PersonView/CustomTimeline";
 
 var keys = {
   groupIdKey: "id",
@@ -42,6 +43,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
+  const { enqueueSnackbar } = useSnackbar();
   const [openInfo, setOpenInfo] = React.useState(false);
   const [filteredData, setFilteredData] = useState([true]);
   const [fetchingError, setFetchingError] = useState([false]);
@@ -59,12 +61,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
 
   var groupsToAdd = [];
   var itemsToAdd = [];
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
 
   const fetchData = async (filterParams = {}) => {
     // to avoid sending empty query params
@@ -80,20 +76,18 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         const rows = response.data.projects;
         if (rows.length == 0) {
           if (Object.keys(filterParams).length === 0) {
-            setNotify({
-              ...notify,
-              isOpen: true,
-              message: "No se pudieron cargar los datos de los proyectos",
-              type: "error",
-            });
+            enqueueSnackbar(
+              "No se pudieron cargar los datos de los proyectos.",
+              { variant: "error", persist: true }
+            );
             setFetchingError(true);
           } else {
-            setNotify({
-              ...notify,
-              isOpen: true,
-              message: "No se existen datos para los filtros seleccionados",
-              type: "error",
-            });
+            enqueueSnackbar(
+              "No existen datos para los filtros seleccionados.",
+              {
+                variant: "error",
+              }
+            );
             setFetchingError(false);
             setFilteredData(false);
           }
@@ -110,13 +104,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
 
           setGroups(groupsToAdd);
 
-          const startDate = new Date(proj.start_date);
-          const startValue = moment(startDate).valueOf();
-          const endDate = !proj.end_date
-            ? new Date(2050, 1, 1)
-            : new Date(proj.end_date);
-          const endValue = moment(endDate).valueOf();
-          let color = "#B0CFCB";
+          let color = "";
           switch (proj.project_state) {
             case "verde":
               color = "#7ede6d";
@@ -134,9 +122,9 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
           itemsToAdd.push({
             id: proj.id,
             group: proj.id,
-            start: startValue,
-            end: endValue,
-            canMove: false,
+            start: startValue(proj.start_date),
+            end: endValue(proj.end_date),
+            canMove: startValue(proj.start_date) > new Date().getTime(),
             canResize: false,
             itemProps: {
               style: {
@@ -145,7 +133,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
               },
             },
             className:
-              moment(startDate).day() === 6 || moment(startDate).day() === 0
+              moment(proj.start_date).day() === 6 ||
+                moment(proj.start_date).day() === 0
                 ? "item-weekend"
                 : "",
           });
@@ -153,11 +142,10 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         setItems(itemsToAdd);
       })
       .catch((error) => {
-        setNotify({
-          ...notify,
-          isOpen: true,
-          message: "No se pudieron cargar los datos de los proyectos",
-          type: "error",
+        console.error(error.response);
+        enqueueSnackbar("No se pudieron cargar los datos de los proyectos.", {
+          variant: "error",
+          persist: true,
         });
         setFetchingError(true);
       });
@@ -207,6 +195,8 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             keys={keys}
             fullUpdate
             itemTouchSendsClick={true}
+            minZoom={30.4368498333 * 86400 * 1000} // mes
+            maxZoom={365.242198 * 86400 * 1000} // año
             dragSnap={60 * 60 * 24 * 1000} //dia
             itemHeightRatio={0.75}
             canMove={true} //se pueden mover
@@ -216,7 +206,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             defaultTimeEnd={defaultTimeEnd}
             timeSteps={customTimeSteps}
             onItemClick={handleItemClick}
-            sidebarWidth={200}
+            sidebarWidth={210}
           >
             <TimelineHeaders className="sticky">
               <SidebarHeader>
@@ -236,7 +226,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
             </TimelineHeaders>
           </Timeline>
         )}
-
         {!filteredData && (
           <Box display="flex" flexDirection="column" alignItems="center">
             <img
@@ -271,21 +260,6 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         </Modal>
       </Fragment>
     );
-  } else if (fetchingError && !isProjectView) {
-    return (
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <img
-          style={{ marginTop: "15%" }}
-          className={classes.imgcontainer}
-          src={not_found}
-        />
-        <Typography variant="h4" style={{ marginTop: "30px" }}>
-          AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
-        </Typography>
-      </Box>
-    );
-  } else if (!filteredData && !isProjectView) {
-    return <Notificacion notify={notify} setNotify={setNotify} />;
   }
 
   return null;

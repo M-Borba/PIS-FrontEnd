@@ -17,7 +17,7 @@ import Divider from "@mui/material/Divider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 
 InfoProyecto.propTypes = {
-  projectData: propTypes.array.isRequired,
+  projectData: propTypes.object.isRequired,
   type: propTypes.string,
   state: propTypes.string,
 };

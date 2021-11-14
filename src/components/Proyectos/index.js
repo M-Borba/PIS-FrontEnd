@@ -7,7 +7,6 @@ import { useStyles } from "./styles";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import CreateProject from "../../containers/CreateProject";
-import Notificacion from "../../components/Notificacion";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 
@@ -91,12 +90,6 @@ export default function Proyecto({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
   const [openNew, setOpenNew] = React.useState(false);
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
@@ -169,11 +162,7 @@ export default function Proyecto({ rows, setRows }) {
           >
             <CloseIcon />
           </IconButton>
-          <CreateProject
-            setNotify={setNotify}
-            addRow={addRow}
-            onClose={handleNewClose}
-          />
+          <CreateProject addRow={addRow} onClose={handleNewClose} />
         </Box>
       </Modal>
       <DataGrid
@@ -184,8 +173,6 @@ export default function Proyecto({ rows, setRows }) {
         onSortModelChange={(model) => setSortModel(model)}
         style={{ height: "70vh" }}
       />
-
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
+import { useSnackbar } from "notistack";
 
 RemoverPersona.propTypes = {
   personName: PropTypes.string.isRequired,
@@ -11,7 +12,6 @@ RemoverPersona.propTypes = {
   asignClose: PropTypes.func.isRequired,
   projectData: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
-  setNotify: PropTypes.func.isRequired,
   asignaciones: PropTypes.array.isRequired,
   setAsignaciones: PropTypes.func.isRequired,
   editRow: PropTypes.func.isRequired,
@@ -44,7 +44,7 @@ function removePerson(
   asignaciones,
   setAsignaciones,
   editRow,
-  setNotify
+  enqueueSnackbar
 ) {
   //buscar la persona en el arreglo
   let person = findPersonInPersonProjects(personId, personProject);
@@ -57,7 +57,7 @@ function removePerson(
       dates.forEach((assingment) => {
         axiosInstance
           .delete("person_project/" + assingment.id)
-          .then(() => {
+          .then((response) => {
             // Quito los roles de la persona.
             nuevasAsignaciones.forEach((persona) => {
               if (persona.id == personId)
@@ -65,22 +65,11 @@ function removePerson(
                   (asignacion) => asignacion.id != assingment.id
                 );
             });
-            let message = "Se ha borrado la asignacion exitosamente";
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "success",
-              reload: false,
-            });
+            enqueueSnackbar(response.data.message, { variant: "success" });
           })
           .catch((error) => {
-            let message = error?.response?.data.error;
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "error",
-              reload: true,
-            });
+            console.error(error.response);
+            enqueueSnackbar(error.response.data?.error, { variant: "error" });
           });
       });
       // Quito a la persona del modal de desasignacion.
@@ -105,20 +94,20 @@ function RemoverPersona({
   asignClose,
   projectData,
   handleClose,
-  setNotify,
   asignaciones,
   setAsignaciones,
   editRow,
 }) {
-  var dialogContent;
+  const { enqueueSnackbar } = useSnackbar();
+  let dialogContent;
   if (asignId == undefined)
-    dialogContent = `Esta seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
+    dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
-    dialogContent = `Esta seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
+    dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
     if (asignId == undefined) {
-      //si se quiere borrar a todas las asignaciones de una persona personas del proyecto
+      //si se quiere borrar a todas las asignaciones de una persona del proyecto
       axiosInstance
         .get(`/person_project`)
         .then((response) => {
@@ -129,23 +118,20 @@ function RemoverPersona({
             asignaciones,
             setAsignaciones,
             editRow,
-            setNotify
+            enqueueSnackbar
           );
+          asignClose();
+          handleClose();
         })
         .catch((error) => {
-          let message = error?.response?.data.error;
-          setNotify({
-            isOpen: true,
-            message: message,
-            type: "error",
-            reload: true,
-          });
+          console.error(error.response);
+          enqueueSnackbar(error.response.data?.error, { variant: "error" });
         });
     } else {
       //se especifico la asignacion que se quiere borrar
       axiosInstance
         .delete("person_project/" + asignId)
-        .then(() => {
+        .then((response) => {
           // Quito el rol especificado.
           let nuevasAsignaciones = asignaciones;
           let personIndex;
@@ -169,37 +155,23 @@ function RemoverPersona({
           }
           setAsignaciones(nuevasAsignaciones);
 
-          let message = "Se ha borrado la asignacion exitosamente";
-          setNotify({
-            isOpen: true,
-            message: message,
-            type: "success",
-            reload: false,
-          });
+          enqueueSnackbar(response.data.message, { variant: "success" });
+          asignClose();
+          handleClose();
         })
         .catch((error) => {
           console.error(error.response);
-          let message = error.response.data.error;
-          setNotify({
-            isOpen: true,
-            message: message,
-            type: "error",
-            reload: true,
-          });
+          enqueueSnackbar(error.response.data?.error, { variant: "error" });
         });
     }
-    asignClose();
-    handleClose();
   };
 
   return (
-    <Fragment>
-      <DeleteDialogContent
-        dialogContent={dialogContent}
-        onClose={handleClose}
-        onConfirmation={onConfirmation}
-      />
-    </Fragment>
+    <DeleteDialogContent
+      dialogContent={dialogContent}
+      onClose={handleClose}
+      onConfirmation={onConfirmation}
+    />
   );
 }
 
