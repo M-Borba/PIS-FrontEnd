@@ -25,9 +25,6 @@ export default function LoginView() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [needsPasswordReset, setPasswordReset] = useState(false);
   const classes = useStyles();
-  const [token, setToken] = useState("");
-  const [client, setClient] = useState("");
-  const [uid, setUid] = useState("");
 
   useEffect(() => {
     if (
@@ -61,9 +58,10 @@ export default function LoginView() {
     signInAndSetHeaders().catch((error) => {
       if (error.response?.data?.needs_password_reset == true) {
         const headers = error.response.headers;
-        setToken(headers["access-token"]);
-        setUid(headers.uid);
-        setClient(headers.client);
+        console.log(headers);
+        localStorage.setItem("token", headers["access-token"]);
+        localStorage.setItem("uid", headers.uid);
+        localStorage.setItem("client", headers.client);
         setPassword("");
         setPasswordReset(true);
       } else {
@@ -74,9 +72,6 @@ export default function LoginView() {
 
   const handlePasswordChangeSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("token", token);
-    localStorage.setItem("client", client);
-    localStorage.setItem("uid", uid);
     axiosInstance
       .put(
         "/users/password",
@@ -86,16 +81,14 @@ export default function LoginView() {
         },
         {
           headers: {
-            accept: "application/json",
-            "access-token": token,
-            uid: uid,
-            client: client,
-            "Access-Control-Expose-Headers": "*",
+            "access-token": localStorage.getItem("token"),
+            client: localStorage.getItem("client"),
+            uid: localStorage.getItem("uid"),
           },
         }
       )
       .then((response) => {
-        signInAndSetHeaders();
+        history.push("/Inicio");
       })
       .catch((error) => {
         console.error(error.response);
