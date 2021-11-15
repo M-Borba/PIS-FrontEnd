@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
@@ -22,7 +22,6 @@ export default function AgregarPersona({
   onClose,
 }) {
   const classes = useStyles();
-  const closeModal = useRef(true);
   const [error, setError] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const [asignacion, setAsignacion] = useState({
@@ -65,6 +64,7 @@ export default function AgregarPersona({
           })
         ); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
+      let closeModal = true;
       for (const person of peopleIds) {
         for (const role of roles) {
           await axiosInstance
@@ -133,11 +133,11 @@ export default function AgregarPersona({
                   : message.errors[Object.keys(message.errors)[0]],
                 { variant: "error" }
               );
-              closeModal.current = false;
+              closeModal = false;
             });
         }
       }
-      closeModal.current && onClose();
+      closeModal && onClose();
     }
   };
 
