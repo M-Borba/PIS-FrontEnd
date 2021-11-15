@@ -30,7 +30,7 @@ export function FetchInfoPersona({ id }) {
 
   useEffect(() => {
     fetchInfoPersona(id);
-  });
+  }, []);
 
   return <InfoPersona personData={personData} />;
 }
