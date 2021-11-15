@@ -135,7 +135,7 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         console.error(error.response);
         enqueueSnackbar("No se pudieron cargar los datos de los proyectos.", {
           variant: "error",
-          persist: true,
+          autoHideDuration: 8000,
         });
         setFetchingError(true);
       });

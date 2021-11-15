@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import propTypes from "prop-types";
+import moment from "moment";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
 import { axiosInstance } from "../../config/axios";
@@ -63,7 +64,7 @@ function InfoAsignacion({
             message.error
               ? message.error
               : message.errors[Object.keys(message.errors)[0]],
-            { variant: "error", persist: true }
+            { variant: "error", autoHideDuration: 8000 }
           );
           onClose();
         });
@@ -87,6 +88,7 @@ function InfoAsignacion({
         );
         enqueueSnackbar(`Los cambios se aplicaron con éxito.`, {
           variant: "success",
+          autoHideDuration: 4000,
         });
         onClose();
         setAsignacionInfo(initialState);
@@ -98,7 +100,7 @@ function InfoAsignacion({
           message.error
             ? message.error
             : message.errors[Object.keys(message.errors)[0]],
-          { variant: "error", persist: true }
+          { variant: "error", autoHideDuration: 8000 }
         );
       });
   };
@@ -114,12 +116,15 @@ function InfoAsignacion({
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
         removeAsignacion(asignacionId);
-        enqueueSnackbar(response.data.message, { variant: "success" });
+        enqueueSnackbar(response.data.message, {
+          variant: "success",
+          autoHideDuration: 4000,
+        });
       })
       .catch((error) => {
         console.error(error.response);
         let message = error.response.data.error;
-        enqueueSnackbar(message, { variant: "error", persist: true });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 8000 });
       });
   };
 

@@ -27,13 +27,16 @@ function EliminarAdministrador({
         removeRow(administratorId);
         enqueueSnackbar(
           `El administrador con email: \"${administratorEmail}\" se eliminó con éxito.`,
-          { variant: "success" }
+          { variant: "success", autoHideDuration: 4000 }
         );
         handleClose();
       })
       .catch((error) => {
         console.error(error.response);
-        enqueueSnackbar(error.response.data?.error, { variant: "error" });
+        enqueueSnackbar(error.response.data?.error, {
+          variant: "error",
+          autoHideDuration: 8000,
+        });
       });
   };
 

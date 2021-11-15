@@ -121,7 +121,7 @@ export default function AgregarPersona({
 
               enqueueSnackbar(
                 `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
-                { variant: "success" }
+                { variant: "success", autoHideDuration: 4000 }
               );
             })
             .catch((error) => {
@@ -131,7 +131,7 @@ export default function AgregarPersona({
                 message.error
                   ? message.error
                   : message.errors[Object.keys(message.errors)[0]],
-                { variant: "error" }
+                { variant: "error", autoHideDuration: 8000 }
               );
               closeModal = false;
             });

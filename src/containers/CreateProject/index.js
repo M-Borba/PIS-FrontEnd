@@ -56,6 +56,7 @@ export default function CreateProject({ addRow, onClose }) {
         addRow(newRow);
         enqueueSnackbar(`El proyecto ${projectData.name} se creó con éxito.`, {
           variant: "success",
+          autoHideDuration: 4000,
         });
         onClose();
       })

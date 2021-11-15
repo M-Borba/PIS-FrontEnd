@@ -22,12 +22,16 @@ function EliminarProyecto({ projectId, projectName, handleClose, removeRow }) {
         removeRow(projectId);
         enqueueSnackbar(`El proyecto ${projectName} se eliminó con éxito.`, {
           variant: "success",
+          autoHideDuration: 4000,
         });
         handleClose();
       })
       .catch((error) => {
         console.error(error.response);
-        enqueueSnackbar(error.response.data?.error, { variant: "error" });
+        enqueueSnackbar(error.response.data?.error, {
+          variant: "error",
+          autoHideDuration: 8000,
+        });
       });
   };
 

@@ -38,7 +38,7 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
         editRow(response.data.project);
         enqueueSnackbar(
           `El proyecto ${projectData.name} se modificó con éxito.`,
-          { variant: "success" }
+          { variant: "success", autoHideDuration: 4000 }
         );
         onClose();
       })
@@ -48,7 +48,7 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
           ? setErrors(error.response.data?.errors)
           : enqueueSnackbar(error.response.data.error, {
               variant: "error",
-              persist: true,
+              autoHideDuration: 8000,
             });
       });
   };

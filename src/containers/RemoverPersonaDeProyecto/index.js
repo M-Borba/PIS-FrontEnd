@@ -65,11 +65,17 @@ function removePerson(
                   (asignacion) => asignacion.id != assingment.id
                 );
             });
-            enqueueSnackbar(response.data.message, { variant: "success" });
+            enqueueSnackbar(response.data.message, {
+              variant: "success",
+              autoHideDuration: 4000,
+            });
           })
           .catch((error) => {
             console.error(error.response);
-            enqueueSnackbar(error.response.data?.error, { variant: "error" });
+            enqueueSnackbar(error.response.data?.error, {
+              variant: "error",
+              autoHideDuration: 8000,
+            });
           });
       });
       // Quito a la persona del modal de desasignacion.
@@ -125,7 +131,10 @@ function RemoverPersona({
         })
         .catch((error) => {
           console.error(error.response);
-          enqueueSnackbar(error.response.data?.error, { variant: "error" });
+          enqueueSnackbar(error.response.data?.error, {
+            variant: "error",
+            autoHideDuration: 8000,
+          });
         });
     } else {
       //se especifico la asignacion que se quiere borrar
@@ -155,13 +164,19 @@ function RemoverPersona({
           }
           setAsignaciones(nuevasAsignaciones);
 
-          enqueueSnackbar(response.data.message, { variant: "success" });
+          enqueueSnackbar(response.data.message, {
+            variant: "success",
+            autoHideDuration: 4000,
+          });
           asignClose();
           handleClose();
         })
         .catch((error) => {
           console.error(error.response);
-          enqueueSnackbar(error.response.data?.error, { variant: "error" });
+          enqueueSnackbar(error.response.data?.error, {
+            variant: "error",
+            autoHideDuration: 8000,
+          });
         });
     }
   };
