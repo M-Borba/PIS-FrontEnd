@@ -20,7 +20,6 @@ FilterForm.propTypes = {
 FilterForm.defaultProps = {
   project_state: "",
   project_type: "",
-  project_state: "",
   organization: "",
 };
 
@@ -39,7 +38,6 @@ export default function FilterForm({
       <Typography variant="h6">Filtros</Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
-          required
           fullWidth
           id="project_type"
           type="text"
@@ -54,12 +52,12 @@ export default function FilterForm({
           <MenuItem value="staff_augmentation">Staff Augmentation</MenuItem>
           <MenuItem value="end_to_end">End to End</MenuItem>
           <MenuItem value="tercerizado">Tercerizado</MenuItem>
+          <MenuItem value="hibrido">Híbrido</MenuItem>
         </TextField>
         <TextField
-          required
           fullWidth
           type="text"
-          label="Estado del projecto"
+          label="Estado del proyecto"
           onChange={onInputChange}
           id="project_state"
           name="project_state"
@@ -71,10 +69,9 @@ export default function FilterForm({
           <MenuItem value="verde">Verde</MenuItem>
           <MenuItem value="amarillo">Amarillo</MenuItem>
           <MenuItem value="rojo">Rojo</MenuItem>
-          <MenuItem value="upcomping">Upcomping</MenuItem>
+          <MenuItem value="upcoming">Upcoming</MenuItem>
         </TextField>
         <TextField
-          required
           fullWidth
           id="organization"
           type="text"
@@ -83,14 +80,18 @@ export default function FilterForm({
           autoComplete="organization"
           value={organization}
           onChange={onInputChange}
+          inputProps={{ maxLength: 50 }}
         />
 
         <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c",
+          }}
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Filtrar &ensp;
@@ -98,9 +99,12 @@ export default function FilterForm({
         </Button>
         <Tooltip title="Limpiar filtros">
           <Button
+            style={{
+              color: "#ffffff",
+              background: "#1c1c1c",
+            }}
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.clear}
             onClick={onClear}
           >

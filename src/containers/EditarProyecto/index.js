@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -17,18 +18,12 @@ EditarProjecto.propTypes = {
     technologies: propTypes.array,
   }).isRequired,
   id: propTypes.number,
-  setNotify: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
   editRow: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({
-  projectData,
-  id,
-  setNotify,
-  onClose,
-  editRow,
-}) {
+export default function EditarProjecto({ projectData, id, onClose, editRow }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [errors, setErrors] = useState({});
   const [project, setProject] = useState(projectData);
 
@@ -41,16 +36,20 @@ export default function EditarProjecto({
       })
       .then((response) => {
         editRow(response.data.project);
-        setNotify({
-          isOpen: true,
-          message: `El proyecto ${projectData.name} se modifico con exito.`,
-          type: "success",
-          reload: false,
-        });
+        enqueueSnackbar(
+          `El proyecto ${projectData.name} se modificó con éxito.`,
+          { variant: "success", autoHideDuration: 4000 }
+        );
         onClose();
       })
       .catch((error) => {
-        setErrors(error.response.data?.errors);
+        console.error(error.response);
+        error.response.status == 400
+          ? setErrors(error.response.data?.errors)
+          : enqueueSnackbar(error.response.data.error, {
+              variant: "error",
+              autoHideDuration: 8000,
+            });
       });
   };
 

@@ -31,7 +31,7 @@ export default function ListarAdministradores() {
     <div>
       <Typography
         style={{ marginTop: 20 }}
-        color="primary"
+        color="#1c1c1c"
         variant="h4"
         align="center"
       >

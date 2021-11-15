@@ -53,7 +53,6 @@ export default function LoginView() {
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("client", headers["client"]);
         localStorage.setItem("uid", headers["uid"]);
-        console.log(localStorage, "seteado ls");
         history.push("/Inicio");
       });
 
@@ -96,11 +95,12 @@ export default function LoginView() {
         }
       )
       .then((response) => {
-        signInAndSetHeaders().catch((error) => {
-          localStorage.clear();
-          console.log("error, clean local storage", error);
-          setLoginError(error.response?.data?.error);
-        });
+        signInAndSetHeaders();
+      })
+      .catch((error) => {
+        console.error(error.response);
+        localStorage.clear();
+        setLoginError(error.response?.data?.error);
       });
   };
   const checkInput = (e) => {

@@ -5,13 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { axiosInstance } from "../../config/axios";
-import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
-
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-
+import Divider from "@mui/material/Divider";
+import Box from "@material-ui/core/Box";
+import NumberFormat from "react-number-format";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -92,11 +90,19 @@ export default function PersonForm({
     setDefaultTechs(defaultTechs);
   };
 
+  const handleWorkingHoursChange = (e) => {
+    setErrors({});
+    setPerson((prev) => ({ ...prev, working_hours: e.floatValue }));
+  };
+
   return (
     <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        {title}
-      </Typography>
+      <Box style={{ width: "100%", textAlign: "center" }}>
+        <Typography component="h1" variant="h5">
+          {title}
+        </Typography>
+        <Divider style={{ marginBottom: 15, marginTop: 15 }} />
+      </Box>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Grid container mt={3} spacing={2}>
           <Grid item xs={12} md={6}>
@@ -112,6 +118,7 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.first_name}
               helperText={errors?.first_name?.[0]}
+              inputProps={{ maxLength: 30 }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -127,6 +134,7 @@ export default function PersonForm({
               onChange={onInputChange}
               error={!!errors?.last_name}
               helperText={errors?.last_name?.[0]}
+              inputProps={{ maxLength: 30 }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -141,38 +149,28 @@ export default function PersonForm({
               autoComplete="email"
               value={person.email}
               onChange={onInputChange}
-
+              error={!!errors?.email}
+              helperText={errors?.email?.[0]}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextField
+            <NumberFormat
               variant="outlined"
+              label="Horas Semanales"
               fullWidth
+              value={person.working_hours}
               id="working_hours"
               name="working_hours"
-              type="number"
-              label="Horas Semanales"
-              name="working_hours"
-              value={person.working_hours}
-              onChange={onInputChange}
               error={!!errors?.working_hours}
               helperText={errors?.working_hours?.[0]}
-
-
-
-            /* InputProps={{ inputProps: { min: 1, max: 168 } }}
-             variant="outlined"
-             margin="normal"
-             fullWidth
-             required={true}
-             name="working_hours"
-             label="Horas Semanales"
-             type="number"
-             id="working_hours"
-             value={person.working_hours}
-             onChange={onInputChange}
-             error={!!errors?.working_hours}
-             helperText={errors?.working_hours?.[0]}*/
+              type="text"
+              customInput={TextField}
+              thousandSeparator="."
+              onValueChange={handleWorkingHoursChange}
+              decimalSeparator=","
+              isAllowed={({ value }) => value <= 168 && value > 0}
+              margin="normal"
+              onChange={onInputChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -190,24 +188,15 @@ export default function PersonForm({
             />
           </Grid>
         </Grid>
-        <DialogActions
-
+        <Button
+          role="submit"
+          type="submit"
+          fullWidth
+          variant="contained"
+          className={classes.submit}
         >
-          <Button
-            role="submit"
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Guardar
-          </Button>
-        </DialogActions>
-
-
-
-
+          Guardar
+        </Button>
       </form>
     </div>
   );

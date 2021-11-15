@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 EditPerson.propTypes = {
   personData: propTypes.shape({
@@ -17,18 +18,12 @@ EditPerson.propTypes = {
     roles: propTypes.array,
   }).isRequired,
   id: propTypes.number,
-  setNotify: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
   editRow: propTypes.func.isRequired,
 };
 
-export default function EditPerson({
-  personData,
-  id,
-  setNotify,
-  onClose,
-  editRow,
-}) {
+export default function EditPerson({ personData, id, onClose, editRow }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [person, setPerson] = useState({
     first_name: personData.first_name,
     last_name: personData.last_name,
@@ -63,16 +58,23 @@ export default function EditPerson({
           technologies: personInfo.technologies,
         };
         editRow(person);
-        setNotify({
-          isOpen: true,
-          message: `La persona ${personInfo.full_name} se modifico con exito.`,
-          type: "success",
-          reload: false,
-        });
+        enqueueSnackbar(
+          `La persona ${personInfo.full_name} se modificó con éxito.`,
+          {
+            variant: "success",
+            autoHideDuration: 4000,
+          }
+        );
         onClose();
       })
       .catch((error) => {
-        setErrors(error.response.data?.errors);
+        console.error(error.response);
+        error.response.status == 400
+          ? setErrors(error.response.data?.errors)
+          : enqueueSnackbar(error.response.data.error, {
+              variant: "error",
+              autoHideDuration: 8000,
+            });
       });
   };
 

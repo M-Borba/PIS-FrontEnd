@@ -9,7 +9,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import CreatePerson from "../../containers/CreatePerson";
 import CreateProject from "../../containers/CreateProject";
 import CreateAdministrator from "../../containers/CreateAdministrator";
-import Notificacion from "../../components/Notificacion";
 
 Listado.propTypes = {
   button: propTypes.string.isRequired,
@@ -18,8 +17,6 @@ Listado.propTypes = {
   modalOnClose: propTypes.func.isRequired,
   sortModel: propTypes.array.isRequired,
   setSortModel: propTypes.func.isRequired,
-  notify: propTypes.object.isRequired,
-  setNotify: propTypes.func.isRequired,
   columns: propTypes.array.isRequired,
   rows: propTypes.array.isRequired,
   setRows: propTypes.func.isRequired,
@@ -33,8 +30,6 @@ export default function Listado({
   modalOnClose,
   sortModel,
   setSortModel,
-  notify,
-  setNotify,
   columns,
   rows,
   setRows,
@@ -45,17 +40,11 @@ export default function Listado({
   function renderCreate(type) {
     switch (type) {
       case 0: //PERSONA
-        return <CreatePerson setNotify={setNotify} />;
+        return <CreatePerson />;
       case 1: //PROYECTO
-        return <CreateProject setNotify={setNotify} />;
+        return <CreateProject />;
       case 2: //ADMIN
-        return (
-          <CreateAdministrator
-            setNotify={setNotify}
-            addRow={addRow}
-            onClose={modalOnClose}
-          />
-        );
+        return <CreateAdministrator addRow={addRow} onClose={modalOnClose} />;
     }
   }
 
@@ -68,7 +57,14 @@ export default function Listado({
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button color="primary" variant="contained" onClick={buttonClick}>
+        <Button
+          style={{
+            color: "#ffffff",
+            background: "#1c1c1c",
+          }}
+          variant="contained"
+          onClick={buttonClick}
+        >
           {button}
         </Button>
       </Box>
@@ -98,8 +94,6 @@ export default function Listado({
         onSortModelChange={(model) => setSortModel(model)}
         style={{ height: "70vh" }}
       />
-
-      <Notificacion notify={notify} setNotify={setNotify} />
     </div>
   );
 }

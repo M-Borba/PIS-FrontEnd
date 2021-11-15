@@ -7,6 +7,7 @@ exports[`renders and redirects when loged 1`] = `
   >
     <header
       class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
+      style="background: rgb(28, 28, 28);"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
@@ -134,6 +135,7 @@ exports[`renders correctly unloged 1`] = `
   >
     <header
       class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
+      style="background: rgb(28, 28, 28);"
     >
       <div
         class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"

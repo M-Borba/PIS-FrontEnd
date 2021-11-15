@@ -47,12 +47,6 @@ const columns = [
 export default function Administrador({ rows, setRows }) {
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
-  const [notify, setNotify] = React.useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
   const [sortModel, setSortModel] = React.useState([
     {
       field: "id",
@@ -75,8 +69,6 @@ export default function Administrador({ rows, setRows }) {
       modalOnClose={handleNewClose}
       sortModel={sortModel}
       setSortModel={setSortModel}
-      notify={notify}
-      setNotify={setNotify}
       columns={columns}
       rows={rows}
       setRows={setRows}

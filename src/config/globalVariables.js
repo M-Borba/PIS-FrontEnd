@@ -1,4 +1,4 @@
-export const BACKEND_HOST = "https://pis-es-backend-staging.herokuapp.com";
+export const BACKEND_HOST = "https://pis-es-backend-test.herokuapp.com";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
@@ -15,6 +15,12 @@ export const rolesTraducidos = {
   Arquitecto: "architect",
   Analista: "analyst",
   Diseñador: "designer",
+  desarrollador: "developer",
+  pm: "pm",
+  tester: "tester",
+  arquitecto: "architect",
+  analista: "analyst",
+  diseñador: "designer",
 };
 export const rolesFormateados = {
   developer: "Desarrollador",
@@ -25,15 +31,24 @@ export const rolesFormateados = {
   designer: "Diseñador",
 };
 export const ROLES_CHECKBOX = [
-  ["Developer", false],
+  ["Desarrollador", false],
   ["PM", false],
   ["Tester", false],
-  ["Architect", false],
-  ["Analyst", false],
-  ["Designer", false],
+  ["Arquitecto", false],
+  ["Analista", false],
+  ["Diseñador", false],
 ];
 export const cargasHorarias_t = ["daily", "weekly"];
 export const cargasHorarias_tFormateadas = {
   daily: "Diarias",
   weekly: "Semanales",
+};
+
+export const customTimeSteps = {
+  second: 0,
+  minute: 0,
+  hour: 0,
+  day: 1,
+  month: 1,
+  year: 1,
 };

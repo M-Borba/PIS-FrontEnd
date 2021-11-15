@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import propTypes from "prop-types";
-import { Button, TextField, Box, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import Grid from "@mui/material/Grid";
 
@@ -26,7 +26,6 @@ export default function AdministratorForm({
   errors,
 }) {
   const classes = useStyles();
-
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -116,7 +115,6 @@ export default function AdministratorForm({
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
           className={classes.submit}
         >
           Guardar
