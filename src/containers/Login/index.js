@@ -58,7 +58,6 @@ export default function LoginView() {
     signInAndSetHeaders().catch((error) => {
       if (error.response?.data?.needs_password_reset == true) {
         const headers = error.response.headers;
-        console.log(headers);
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("uid", headers.uid);
         localStorage.setItem("client", headers.client);
@@ -87,8 +86,8 @@ export default function LoginView() {
           },
         }
       )
-      .then((response) => {
-        history.push("/Inicio");
+      .then(() => {
+        window.location = "/Inicio";
       })
       .catch((error) => {
         console.error(error.response);
