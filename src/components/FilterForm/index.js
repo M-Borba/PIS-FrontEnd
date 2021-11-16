@@ -1,9 +1,8 @@
 import React from "react";
 import propTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 import { useStyles } from "./styles";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -35,7 +34,6 @@ export default function FilterForm({
 
   return (
     <div className={classes.container}>
-      <Typography variant="h6">Filtros</Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
           fullWidth

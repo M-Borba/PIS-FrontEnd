@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useStyles } from "./styles";
 
 Login.propTypes = {
@@ -58,8 +58,7 @@ export default function Login({
         />
         <Button
           style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
+            marginTop: 20,
           }}
           role="submit"
           type="submit"
@@ -69,12 +68,9 @@ export default function Login({
         >
           Iniciar sesión
         </Button>
-
         <Typography className={classes.errorMsg} component="h2">
           {error}
         </Typography>
-
-        <Box mt={5}></Box>
       </form>
     </div>
   );
