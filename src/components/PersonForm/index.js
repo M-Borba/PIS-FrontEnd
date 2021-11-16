@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import propTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
 import Divider from "@mui/material/Divider";
-import Box from "@material-ui/core/Box";
+import Box from "@mui/material/Box";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -179,7 +179,6 @@ export default function PersonForm({
           </Grid>
         </Grid>
         <Button
-
           role="submit"
           type="submit"
           fullWidth

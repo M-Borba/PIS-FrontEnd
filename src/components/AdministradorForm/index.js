@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import Grid from "@mui/material/Grid";
 

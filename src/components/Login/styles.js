@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    marginTop: 20,
   },
   errorMsg: { position: "fixed", color: "red" },
 }));
