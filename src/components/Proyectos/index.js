@@ -111,20 +111,20 @@ export default function Proyecto({ rows, setRows }) {
       rows.map((row) =>
         row.id == projectData.id
           ? {
-            ...row,
-            name: projectData.name,
-            project_type: formatType(projectData.project_type),
-            project_state: formatState(projectData.project_state),
-            description: projectData.description,
-            budget: projectData.budget,
-            start_date: projectData.start_date.replaceAll("-", "/"),
-            end_date: projectData.end_date
-              ? projectData.end_date.replaceAll("-", "/")
-              : null,
-            people: projectData.people,
-            organization: projectData.organization,
-            technologies: projectData.technologies,
-          }
+              ...row,
+              name: projectData.name,
+              project_type: formatType(projectData.project_type),
+              project_state: formatState(projectData.project_state),
+              description: projectData.description,
+              budget: projectData.budget,
+              start_date: projectData.start_date.replaceAll("-", "/"),
+              end_date: projectData.end_date
+                ? projectData.end_date.replaceAll("-", "/")
+                : null,
+              people: projectData.people,
+              organization: projectData.organization,
+              technologies: projectData.technologies,
+            }
           : row
       )
     );

@@ -240,7 +240,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         if (error.response.status == 400)
           enqueueSnackbar(
             error.response.data.errors.start_date ??
-            error.response.data.errors.end_date,
+              error.response.data.errors.end_date,
             { variant: "error" }
           );
         else enqueueSnackbar(error.response.data.error, { variant: "error" });
@@ -279,7 +279,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
             borderRadius: 5,
             background:
               endValue(endDate) - 864000000 < todayDate &&
-                endValue(endDate) >= todayDate
+              endValue(endDate) >= todayDate
                 ? "#C14B3A"
                 : "#B0CFCB",
           },
@@ -326,11 +326,11 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       items.map((item) =>
         item.id == asignacionId
           ? {
-            ...item,
-            start: startValue(startDate),
-            end: endValue(endDate),
-            title: title,
-          }
+              ...item,
+              start: startValue(startDate),
+              end: endValue(endDate),
+              title: title,
+            }
           : item
       )
     );

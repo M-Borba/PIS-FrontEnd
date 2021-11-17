@@ -23,18 +23,18 @@ function EliminarAdministrador({
   const onConfirmation = () => {
     axiosInstance
       .delete(`/users/${administratorId}`)
-      .then(() => {
+      .then((response) => {
         removeRow(administratorId);
-        enqueueSnackbar(
-          `El administrador con email: \"${administratorEmail}\" se eliminó con éxito.`,
-          { variant: "success" }
-        );
-        handleClose();
+        enqueueSnackbar(response.data.message, { variant: "success" });
       })
       .catch((error) => {
         console.error(error.response);
-        enqueueSnackbar(error.response.data?.error, { variant: "error" });
+        enqueueSnackbar(
+          error.response.data.error ?? error.response.data.message,
+          { variant: "error" }
+        );
       });
+    handleClose();
   };
 
   return (

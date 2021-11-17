@@ -22,11 +22,11 @@ function formatDate(dateString) {
   let result;
   dateString != null
     ? (result =
-      dateString.substring(8) +
-      "-" +
-      dateString.substring(5, 7) +
-      "-" +
-      dateString.substring(0, 4))
+        dateString.substring(8) +
+        "-" +
+        dateString.substring(5, 7) +
+        "-" +
+        dateString.substring(0, 4))
     : (result = "Final indefinido");
 
   return result;
@@ -106,6 +106,6 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
           <Box m={2}>Aún no hay personas asociadas</Box>
         )}
       </Grid>
-    </div >
+    </div>
   );
 }

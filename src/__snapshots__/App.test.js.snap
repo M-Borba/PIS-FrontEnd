@@ -22,7 +22,7 @@ exports[`renders learn react link 1`] = `
             data-testid="login"
           >
             <h1
-              class="MuiTypography-root MuiTypography-h5"
+              class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
             >
               Iniciar sesión
             </h1>
@@ -31,10 +31,10 @@ exports[`renders learn react link 1`] = `
               novalidate=""
             >
               <div
-                class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+                class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-focused Mui-focused Mui-required Mui-required"
+                  class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused Mui-required css-nedht0-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="true"
                   for="email"
                   id="email-label"
@@ -42,19 +42,19 @@ exports[`renders learn react link 1`] = `
                   Email
                   <span
                     aria-hidden="true"
-                    class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+                    class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
                   >
                      
                     *
                   </span>
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth Mui-focused Mui-focused MuiInputBase-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl css-17ohlwh-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
                     aria-invalid="false"
                     autocomplete="email"
-                    class="MuiInputBase-input MuiOutlinedInput-input"
+                    class="MuiOutlinedInput-input MuiInputBase-input css-24rejj-MuiInputBase-input-MuiOutlinedInput-input"
                     id="email"
                     name="email"
                     required=""
@@ -63,10 +63,10 @@ exports[`renders learn react link 1`] = `
                   />
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
+                    class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-16 PrivateNotchedOutline-legendNotched-17"
+                      class="css-186xcr5"
                     >
                       <span>
                         Email
@@ -77,10 +77,10 @@ exports[`renders learn react link 1`] = `
                 </div>
               </div>
               <div
-                class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+                class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
               >
                 <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+                  class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required css-w5nie7-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="false"
                   for="password"
                   id="password-label"
@@ -88,19 +88,19 @@ exports[`renders learn react link 1`] = `
                   Contraseña
                   <span
                     aria-hidden="true"
-                    class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+                    class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
                   >
                      
                     *
                   </span>
                 </label>
                 <div
-                  class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+                  class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-17ohlwh-MuiInputBase-root-MuiOutlinedInput-root"
                 >
                   <input
                     aria-invalid="false"
                     autocomplete="current-password"
-                    class="MuiInputBase-input MuiOutlinedInput-input"
+                    class="MuiOutlinedInput-input MuiInputBase-input css-24rejj-MuiInputBase-input-MuiOutlinedInput-input"
                     id="password"
                     name="password"
                     required=""
@@ -109,10 +109,10 @@ exports[`renders learn react link 1`] = `
                   />
                   <fieldset
                     aria-hidden="true"
-                    class="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
+                    class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      class="PrivateNotchedOutline-legendLabelled-16"
+                      class="css-dhh0px"
                     >
                       <span>
                         Contraseña
@@ -123,26 +123,19 @@ exports[`renders learn react link 1`] = `
                 </div>
               </div>
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-12 MuiButton-fullWidth"
+                class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-12 css-1v2ereb-MuiButtonBase-root-MuiButton-root"
                 role="submit"
-                style="color: rgb(255, 255, 255); background: rgb(28, 28, 28);"
+                style="margin-top: 20px;"
                 tabindex="0"
                 type="submit"
               >
+                Iniciar sesión
                 <span
-                  class="MuiButton-label"
-                >
-                  Iniciar sesión
-                </span>
-                <span
-                  class="MuiTouchRipple-root"
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
               <h2
-                class="MuiTypography-root makeStyles-errorMsg-13 MuiTypography-body1"
-              />
-              <div
-                class="MuiBox-root MuiBox-root-18"
+                class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-13 css-ahj2mt-MuiTypography-root"
               />
             </form>
           </div>
