@@ -46,7 +46,7 @@ export default function AgregarPersona({
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
@@ -64,9 +64,10 @@ export default function AgregarPersona({
           })
         ); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
-      peopleIds.forEach((person) =>
-        roles.forEach((role) => {
-          axiosInstance
+      let closeModal = true;
+      for (const person of peopleIds) {
+        for (const role of roles) {
+          await axiosInstance
             .post("/people/" + person.id + "/person_project", {
               person_project: {
                 project_id: projectData.id,
@@ -120,24 +121,23 @@ export default function AgregarPersona({
 
               enqueueSnackbar(
                 `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
-                { variant: "success" }
+                { variant: "success", autoHideDuration: 4000 }
               );
-              onClose();
             })
             .catch((error) => {
-              if (error.response.status == 400)
-                enqueueSnackbar(
-                  `El rol ${role} en esas fechas ya está asignado a: ${person.name} en ${projectData.name}.`,
-                  { variant: "error" }
-                );
-              else
-                enqueueSnackbar(error.response.data.error, {
-                  variant: "error",
-                  persist: true,
-                });
+              let message = error.response.data;
+              console.log(message);
+              enqueueSnackbar(
+                message.error
+                  ? message.error
+                  : message.errors[Object.keys(message.errors)[0]],
+                { variant: "error", autoHideDuration: 8000 }
+              );
+              closeModal = false;
             });
-        })
-      );
+        }
+      }
+      closeModal && onClose();
     }
   };
 

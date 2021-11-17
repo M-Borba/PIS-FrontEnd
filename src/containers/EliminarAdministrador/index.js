@@ -25,13 +25,16 @@ function EliminarAdministrador({
       .delete(`/users/${administratorId}`)
       .then((response) => {
         removeRow(administratorId);
-        enqueueSnackbar(response.data.message, { variant: "success" });
+        enqueueSnackbar(response.data.message, {
+          variant: "success",
+          autoHideDuration: 4000,
+        });
       })
       .catch((error) => {
         console.error(error.response);
         enqueueSnackbar(
           error.response.data.error ?? error.response.data.message,
-          { variant: "error" }
+          { variant: "error", autoHideDuration: 8000 }
         );
       });
     handleClose();

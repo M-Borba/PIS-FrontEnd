@@ -49,7 +49,7 @@ function AsignarProyectoPersona({
           console.error(error.response);
           enqueueSnackbar(error.response.data?.error, {
             variant: "error",
-            persist: true,
+            autoHideDuration: 8000,
           });
         });
   }, [open]);
@@ -76,7 +76,7 @@ function AsignarProyectoPersona({
           `Se asignó el rol ${
             rolesFormateados[asignacionData.role]
           } a: ${personName} en ${asignacionData.project.name} con éxito.`,
-          { variant: "success" }
+          { variant: "success", autoHideDuration: 4000 }
         );
         onClose();
         setRequestBody(initialState);
@@ -88,7 +88,7 @@ function AsignarProyectoPersona({
           message.error
             ? message.error
             : message.errors[Object.keys(message.errors)[0]],
-          { variant: "error", persist: true }
+          { variant: "error", autoHideDuration: 8000 }
         );
         setRequestBody(initialState);
       });

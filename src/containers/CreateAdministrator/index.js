@@ -45,6 +45,7 @@ export default function CreateAdministrator({ addRow, onClose }) {
           `El administrador ${adminData.name} se creo con éxito.`,
           {
             variant: "success",
+            autoHideDuration: 4000,
           }
         );
         onClose();

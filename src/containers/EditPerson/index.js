@@ -62,6 +62,7 @@ export default function EditPerson({ personData, id, onClose, editRow }) {
           `La persona ${personInfo.full_name} se modificó con éxito.`,
           {
             variant: "success",
+            autoHideDuration: 4000,
           }
         );
         onClose();
@@ -72,7 +73,7 @@ export default function EditPerson({ personData, id, onClose, editRow }) {
           ? setErrors(error.response.data?.errors)
           : enqueueSnackbar(error.response.data.error, {
               variant: "error",
-              persist: true,
+              autoHideDuration: 8000,
             });
       });
   };

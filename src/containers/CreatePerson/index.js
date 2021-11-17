@@ -47,6 +47,7 @@ export default function CreatePerson({ addRow, onClose }) {
           `La persona ${personData.full_name} se creó con éxito.`,
           {
             variant: "success",
+            autoHideDuration: 4000,
           }
         );
         onClose();

@@ -179,7 +179,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         console.error(error.response);
         enqueueSnackbar("No se pudieron cargar los datos de las personas.", {
           variant: "error",
-          persist: true,
+          autoHideDuration: 8000,
         });
         setFetchingError(true);
       });
@@ -241,9 +241,13 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
           enqueueSnackbar(
             error.response.data.errors.start_date ??
               error.response.data.errors.end_date,
-            { variant: "error" }
+            { variant: "error", autoHideDuration: 8000 }
           );
-        else enqueueSnackbar(error.response.data.error, { variant: "error" });
+        else
+          enqueueSnackbar(error.response.data.error, {
+            variant: "error",
+            autoHideDuration: 8000,
+          });
       });
   };
 
