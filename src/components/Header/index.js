@@ -49,7 +49,7 @@ export default function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar style={{ background: "#1c1c1c" }} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Button color="inherit">

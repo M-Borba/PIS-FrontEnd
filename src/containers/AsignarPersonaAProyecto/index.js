@@ -3,42 +3,38 @@ import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import { ROLES_CHECKBOX } from "../../config/globalVariables";
+import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
+import { useSnackbar } from "notistack";
 
 AgregarPersona.propTypes = {
-  projectData: propTypes.shape({
-    id: propTypes.number,
-    name: propTypes.string,
-    startDate: propTypes.string,
-    endDate: propTypes.string,
-  }).isRequired,
-  setNotify: propTypes.func.isRequired,
+  projectData: propTypes.object.isRequired,
   asignaciones: propTypes.array.isRequired,
   setAsignaciones: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
+  editRow: propTypes.func.isRequired,
 };
 
 export default function AgregarPersona({
   projectData,
-  setNotify,
   asignaciones,
   setAsignaciones,
+  editRow,
   onClose,
 }) {
   const classes = useStyles();
+  const [error, setError] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
   const [asignacion, setAsignacion] = useState({
     roles: ROLES_CHECKBOX,
     people: [],
-    startDate: projectData.startDate.replaceAll("/", "-"),
+    startDate: projectData.start_date.replaceAll("/", "-"),
     endDate:
-      projectData.endDate != null
-        ? projectData.endDate.replaceAll("/", "-")
+      projectData.end_Date != null
+        ? projectData.end_Date.replaceAll("/", "-")
         : "",
     hours: 30,
     hoursType: "weekly",
   });
-
-  const [error, setError] = useState("");
 
   const isValid = () => {
     return (
@@ -50,26 +46,32 @@ export default function AgregarPersona({
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValid(asignacion)) {
       setError("Completar todos los campos para completar la asignación");
     } else {
       var body = Object.assign({}, asignacion);
-      body.roles = body.roles
+      let roles = body.roles
         .filter((rol) => rol[1] == true)
-        .map((rol) => rol[0].toLowerCase()); //conseguir la lista de roles
-      body.people = body.people
+        .map((rol) => rol[0]); //conseguir la lista de roles
+      let peopleIds = body.people
         .filter((rol) => rol[1] == true)
-        .map((person) => person[0].slice(0, person[0].indexOf(" "))); //conseguir la lista de personas por id
+        .map((person) =>
+          Object({
+            id: person[0].id,
+            name: person[0].full_name,
+          })
+        ); //conseguir la lista de personas por id
       let nuevasAsignaciones = asignaciones;
-      body.people.forEach((person) =>
-        body.roles.forEach((role) =>
-          axiosInstance
-            .post("/people/" + person + "/person_project", {
+      let closeModal = true;
+      for (const person of peopleIds) {
+        for (const role of roles) {
+          await axiosInstance
+            .post("/people/" + person.id + "/person_project", {
               person_project: {
                 project_id: projectData.id,
-                role: role,
+                role: rolesTraducidos[role],
                 working_hours: asignacion.hours,
                 working_hours_type: asignacion.hoursType,
                 start_date: asignacion.startDate.replaceAll("-", "/"),
@@ -77,9 +79,10 @@ export default function AgregarPersona({
               },
             })
             .then((response) => {
+              // Agrego a la persona con su rol al modal de desasignacion.
               let asignacionData = response.data.person_project;
-              let index = nuevasAsignaciones.findIndex(
-                (asignacion) => asignacion.id == person
+              let indexAsignacion = nuevasAsignaciones.findIndex(
+                (asignacion) => asignacion.id == person.id
               );
               let asignacion = {
                 end_date: asignacionData.end_date,
@@ -87,9 +90,9 @@ export default function AgregarPersona({
                 role: asignacionData.role,
                 start_date: asignacionData.start_date,
               };
-              if (index != -1)
-                nuevasAsignaciones[index].roles = [
-                  ...nuevasAsignaciones[index].roles,
+              if (indexAsignacion != -1)
+                nuevasAsignaciones[indexAsignacion].roles = [
+                  ...nuevasAsignaciones[indexAsignacion].roles,
                   asignacion,
                 ];
               else {
@@ -101,38 +104,40 @@ export default function AgregarPersona({
                 nuevasAsignaciones = [...nuevasAsignaciones, persona];
               }
               setAsignaciones(nuevasAsignaciones);
-              setNotify({
-                isOpen: true,
-                message: `Asignación creada exitosamente`,
-                type: "success",
-                reload: false,
-              });
-              onClose();
+
+              // Agrego a la persona a el modal de informacion del proyecto si no estaba.
+              if (
+                projectData.people.find(
+                  (persona) => persona.id == asignacionData.person.id
+                ) == undefined
+              ) {
+                let personaNueva = {
+                  full_name: asignacionData.person.full_name,
+                  id: asignacionData.person.id,
+                };
+                projectData.people = [...projectData.people, personaNueva];
+                editRow(projectData);
+              }
+
+              enqueueSnackbar(
+                `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
+                { variant: "success", autoHideDuration: 4000 }
+              );
             })
             .catch((error) => {
-              console.log(error.response.status);
-              if (error.response.status == 400) {
-                let errors = error.response.data.errors;
-                setNotify({
-                  isOpen: true,
-                  message:
-                    "Error, hay un problema con los datos ingresados - " +
-                    Object.keys(errors)[0] +
-                    " " +
-                    errors[Object.keys(errors)[0]],
-                  type: "error",
-                  reload: false,
-                });
-              } else
-                setNotify({
-                  isOpen: true,
-                  message: error.response.data.error,
-                  type: "error",
-                  reload: false,
-                });
-            })
-        )
-      );
+              let message = error.response.data;
+              console.log(message);
+              enqueueSnackbar(
+                message.error
+                  ? message.error
+                  : message.errors[Object.keys(message.errors)[0]],
+                { variant: "error", autoHideDuration: 8000 }
+              );
+              closeModal = false;
+            });
+        }
+      }
+      closeModal && onClose();
     }
   };
 
@@ -142,11 +147,7 @@ export default function AgregarPersona({
       .then((response) => {
         setAsignacion({
           ...asignacion,
-
-          people: response.data.people.map((row) => [
-            row.id + " - " + row.full_name,
-            false,
-          ]),
+          people: response.data.people.map((row) => [row, false]),
         });
       })
       .catch((error) => {
@@ -155,13 +156,12 @@ export default function AgregarPersona({
   }, []);
 
   const checkInput = (value, type) => {
-    console.log("value", value, type);
     if (type == "Rol") {
       let newRoles = asignacion.roles;
       let i = 0;
       try {
         newRoles.forEach(([a, b]) => {
-          //find index of selected role
+          //find indexAsignacion of selected role
           if (a == value[0]) throw Found;
           if (i != newRoles.length - 1) i++;
         });
@@ -174,8 +174,9 @@ export default function AgregarPersona({
         roles: newRoles,
       });
     } else if (type == "Personas") {
-      var newPeople = asignacion.people;
-      newPeople[newPeople.indexOf(value)] = [value[0], !value[1]];
+      let newPeople = [...asignacion.people].map(([p, v]) =>
+        p.id == value[0].id ? [p, !v] : [p, v]
+      );
       setAsignacion({
         ...asignacion,
         people: newPeople,

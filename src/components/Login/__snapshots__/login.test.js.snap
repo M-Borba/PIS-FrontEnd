@@ -7,7 +7,7 @@ exports[`login component tests renders correctly 1`] = `
     data-testid="login"
   >
     <h1
-      class="MuiTypography-root MuiTypography-h5"
+      class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
     >
       Iniciar sesión
     </h1>
@@ -16,10 +16,10 @@ exports[`login component tests renders correctly 1`] = `
       novalidate=""
     >
       <div
-        class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined Mui-focused Mui-focused Mui-required Mui-required"
+          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-focused Mui-required css-1kty9di-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="true"
           for="email"
           id="email-label"
@@ -27,19 +27,19 @@ exports[`login component tests renders correctly 1`] = `
           Email
           <span
             aria-hidden="true"
-            class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+            class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
           >
              
             *
           </span>
         </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth Mui-focused Mui-focused MuiInputBase-formControl"
+          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
         >
           <input
             aria-invalid="false"
             autocomplete="email"
-            class="MuiInputBase-input MuiOutlinedInput-input"
+            class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             id="email"
             name="email"
             required=""
@@ -48,10 +48,10 @@ exports[`login component tests renders correctly 1`] = `
           />
           <fieldset
             aria-hidden="true"
-            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              class="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
+              class="css-186xcr5"
             >
               <span>
                 Email
@@ -62,10 +62,10 @@ exports[`login component tests renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth"
+        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined Mui-required Mui-required"
+          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary Mui-required css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="false"
           for="password"
           id="password-label"
@@ -73,19 +73,19 @@ exports[`login component tests renders correctly 1`] = `
           Contraseña
           <span
             aria-hidden="true"
-            class="MuiFormLabel-asterisk MuiInputLabel-asterisk"
+            class="MuiInputLabel-asterisk MuiFormLabel-asterisk css-wgai2y-MuiFormLabel-asterisk"
           >
              
             *
           </span>
         </label>
         <div
-          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-fullWidth MuiInputBase-formControl"
+          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
         >
           <input
             aria-invalid="false"
             autocomplete="current-password"
-            class="MuiInputBase-input MuiOutlinedInput-input"
+            class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
             id="password"
             name="password"
             required=""
@@ -94,10 +94,10 @@ exports[`login component tests renders correctly 1`] = `
           />
           <fieldset
             aria-hidden="true"
-            class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              class="PrivateNotchedOutline-legendLabelled-7"
+              class="css-dhh0px"
             >
               <span>
                 Contraseña
@@ -108,28 +108,22 @@ exports[`login component tests renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-submit-3 MuiButton-containedPrimary MuiButton-fullWidth"
+        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-3 css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
         role="submit"
+        style="margin-top: 20px;"
         tabindex="0"
         type="submit"
       >
+        Iniciar sesión
         <span
-          class="MuiButton-label"
-        >
-          Iniciar sesión
-        </span>
-        <span
-          class="MuiTouchRipple-root"
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
         />
       </button>
       <h2
-        class="MuiTypography-root makeStyles-errorMsg-4 MuiTypography-body1"
+        class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-4 css-ahj2mt-MuiTypography-root"
       >
         Identidad o contraseña no válida.
       </h2>
-      <div
-        class="MuiBox-root MuiBox-root-9"
-      />
     </form>
   </div>
 </div>

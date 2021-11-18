@@ -1,31 +1,15 @@
-import React, { useEffect, useState, useRef, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
-import propTypes from "prop-types";
 import { Typography } from "@material-ui/core";
-
-export const UpdateGridContext = createContext();
-
-const UpdateGridProvider = (props) => {
-  const removeRow = useRef(null);
-  const editRow = useRef(null);
-  return (
-    <UpdateGridContext.Provider value={[removeRow, editRow]}>
-      {props.children}
-    </UpdateGridContext.Provider>
-  );
-};
-
-UpdateGridProvider.propTypes = {
-  children: propTypes.any,
-};
+import UpdateGridProvider from "../UpdateGridProvider";
 
 export default function ListarProyectos() {
   var rawRows;
   const [rows, setRows] = useState([]);
 
   const fetchData = () => {
-    return axiosInstance.get("/projects").then((response) => {
+    axiosInstance.get("/projects").then((response) => {
       rawRows = response.data.projects;
       let rowsNuevas = rawRows.map((row) => {
         return {
@@ -59,7 +43,7 @@ export default function ListarProyectos() {
     <div>
       <Typography
         style={{ marginTop: 20 }}
-        color="primary"
+        color="#1c1c1c"
         variant="h4"
         align="center"
       >

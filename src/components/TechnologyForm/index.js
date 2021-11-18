@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
-import Typography from "@material-ui/core/Typography";
-import MuiChip from "@material-ui/core/Chip";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import Typography from "@mui/material/Typography";
+import MuiChip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import { useStyles } from "./styles";
 import randomColor from "randomcolor";
 
@@ -56,9 +56,9 @@ export default function TechnologyForm({
             fullWidth
             error={!!technologiesError?.technology}
           >
-            <InputLabel id="technology-select">Tecnologia</InputLabel>
+            <InputLabel id="technology-select">Tecnología</InputLabel>
             <Select
-              label="Tecnologia"
+              label="Tecnología"
               id="technology"
               labelId="technology-select"
               name="technology"
@@ -98,7 +98,12 @@ export default function TechnologyForm({
         </Grid>
         <Grid item xs={2}>
           <Box display="flex" justifyContent="center" mt={1}>
-            <IconButton color="primary" onClick={addTechnology}>
+            <IconButton
+              style={{
+                color: "#1c1c1c",
+              }}
+              onClick={addTechnology}
+            >
               <AddIcon />
             </IconButton>
           </Box>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { axiosInstance } from "../../config/axios";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -14,7 +14,8 @@ import ListItemText from "@mui/material/ListItemText";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import NumberFormat from "react-number-format";
-
+import Divider from "@mui/material/Divider";
+import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 
 ProyectoForm.propTypes = {
@@ -53,6 +54,7 @@ export default function ProyectoForm({
       .get("/technologies")
       .then((response) => {
         setTechnologies(response.data.technologies);
+        console.log(response.data.technologies);
       })
       .catch((error) => {
         console.log(error);
@@ -76,15 +78,19 @@ export default function ProyectoForm({
 
   return (
     <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        {title}
-      </Typography>
+      <Box style={{ width: "100%", textAlign: "center" }}>
+        <Typography component="h1" variant="h5">
+          {title}
+        </Typography>
+        <Divider style={{ marginBottom: 15, marginTop: 15 }} />
+      </Box>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
-        <Grid container mt={3} spacing={2}>
+        <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
             <TextField
               variant="outlined"
               fullWidth
+              required
               id="name"
               type="text"
               label="Nombre"
@@ -98,9 +104,10 @@ export default function ProyectoForm({
           </Grid>
           <Grid item xs={12} md={4}>
             <FormControl fullWidth error={!!errors?.project_type}>
-              <InputLabel id="tipo">Tipo</InputLabel>
+              <InputLabel id="tipo">Tipo *</InputLabel>
               <Select
                 fullWidth
+                required
                 label="Tipo"
                 id="project_type"
                 name="project_type"
@@ -114,15 +121,17 @@ export default function ProyectoForm({
                 </MenuItem>
                 <MenuItem value="end_to_end">End to End</MenuItem>
                 <MenuItem value="tercerizado">Tercerizado</MenuItem>
+                <MenuItem value="hibrido">Híbrido</MenuItem>
               </Select>
               <FormHelperText>{errors?.project_type?.[0]}</FormHelperText>
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4}>
             <FormControl fullWidth error={!!errors?.project_state}>
-              <InputLabel id="state-input">Estado</InputLabel>
+              <InputLabel id="state-input">Estado *</InputLabel>
               <Select
                 fullWidth
+                required
                 labelId="state-input"
                 label="Estado"
                 id="project_state"
@@ -133,7 +142,7 @@ export default function ProyectoForm({
                 <MenuItem value="verde">Verde</MenuItem>
                 <MenuItem value="amarillo">Amarillo</MenuItem>
                 <MenuItem value="rojo">Rojo</MenuItem>
-                <MenuItem value="upcomping">Upcomping</MenuItem>
+                <MenuItem value="upcoming">Upcoming</MenuItem>
               </Select>
               <FormHelperText>{errors?.project_state?.[0]}</FormHelperText>
             </FormControl>
@@ -142,6 +151,7 @@ export default function ProyectoForm({
             <TextField
               variant="outlined"
               fullWidth
+              required
               id="description"
               type="text"
               label="Descripción"
@@ -198,8 +208,8 @@ export default function ProyectoForm({
               thousandSeparator="."
               onValueChange={handleBugdetChange}
               decimalSeparator=","
-              error={!!errors?.budget}
               helperText={errors?.budget?.[0]}
+              isAllowed={({ value }) => value <= 1000000 && value >= 0}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -214,13 +224,14 @@ export default function ProyectoForm({
               onChange={handleChange}
               error={!!errors?.organization}
               helperText={errors?.organization?.[0]}
-              inputProps={{ maxLength: 30 }}
+              inputProps={{ maxLength: 50 }}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <DesktopDatePicker
-              label="Inicio"
+              required
+              label="Inicio *"
               inputFormat="MM-DD-YYYY"
               value={project.start_date}
               onChange={(e) => handleDatesChange("start_date", e)}

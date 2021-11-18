@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 CreateProject.propTypes = {
-  setNotify: propTypes.func.isRequired,
   addRow: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
 };
 
-export default function CreateProject({ setNotify, addRow, onClose }) {
+export default function CreateProject({ addRow, onClose }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -53,11 +54,9 @@ export default function CreateProject({ setNotify, addRow, onClose }) {
           technologies: projectData.technologies || [],
         };
         addRow(newRow);
-        setNotify({
-          isOpen: true,
-          message: `El proyecto se creo con exito.`,
-          type: "success",
-          reload: false,
+        enqueueSnackbar(`El proyecto ${projectData.name} se creó con éxito.`, {
+          variant: "success",
+          autoHideDuration: 4000,
         });
         onClose();
       })
@@ -71,7 +70,7 @@ export default function CreateProject({ setNotify, addRow, onClose }) {
       onSubmit={(e) => handleSubmit(e)}
       setProject={setProject}
       project={project}
-      title={"Creacion de proyecto"}
+      title={"Creación de proyecto"}
       errors={errors}
       setErrors={setErrors}
     />

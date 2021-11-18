@@ -28,10 +28,10 @@ export default function CardSelector({ title, list, onInputChange }) {
       <CardHeader className={classes.cardHeader} title={title} />
       <Collapse in={true} className={classes.collapse}>
         <List className={classes.list} dense component="div" role="list">
-          {list.map((value) => {
+          {list.map((value, index) => {
             return (
               <ListItem
-                key={value}
+                key={value + index}
                 role="listitem"
                 button
                 onClick={() => {
@@ -40,6 +40,7 @@ export default function CardSelector({ title, list, onInputChange }) {
               >
                 <ListItemIcon>
                   <Checkbox
+                    style={{ color: "black" }}
                     id={value[0]}
                     checked={value[1]}
                     tabIndex={-1}

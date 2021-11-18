@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useStyles } from "./styles";
 
 ChangePassword.propTypes = {
@@ -61,12 +60,11 @@ export default function ChangePassword({
           autoComplete="current-password"
         />
         <Button
+          style={{ marginTop: 20 }}
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
-          className={classes.submit}
         >
           Establecer nueva contraseña e iniciar sesión
         </Button>

@@ -20,7 +20,7 @@ export default function Switcher({ onSwitch, isProjectView }) {
         spacing={0}
       >
         <Typography variant="body2" color="common.white">
-          Proyecto
+          Proyectos
         </Typography>
         <Switch color="default" checked={isProjectView} onChange={onSwitch} />
         <Typography variant="body2" color="common.white">

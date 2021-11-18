@@ -8,6 +8,7 @@ import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Divider from "@mui/material/Divider";
+import Box from "@material-ui/core/Box";
 import { useStyles } from "./styles";
 import { rolesFormateados } from "../../config/globalVariables";
 
@@ -18,12 +19,27 @@ ListadoPersonasAsignadas.propTypes = {
 
 function formatDate(dateString) {
   //formato actual: aaaa-MM-dd
+  let result;
+  dateString != null
+    ? (result =
+        dateString.substring(8) +
+        "-" +
+        dateString.substring(5, 7) +
+        "-" +
+        dateString.substring(0, 4))
+    : (result = "Final indefinido");
+
+  return result;
+}
+
+function asignationText(asignation) {
   return (
-    dateString.substring(8) +
-    "-" +
-    dateString.substring(5, 7) +
-    "-" +
-    dateString.substring(0, 4)
+    rolesFormateados[asignation.role] +
+    " (" +
+    formatDate(asignation.start_date) +
+    " / " +
+    formatDate(asignation.end_date) +
+    ")"
   );
 }
 
@@ -34,7 +50,9 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
       <Grid item key={"people"}>
         {people.length != 0 ? (
           <>
-            <Typography>Personas Asignadas</Typography>
+            <Typography variant="h5">Personas Asignadas</Typography>
+            <Box m={2} />
+            <Divider />
             <List className={classes.list}>
               {people.map((person) => {
                 return (
@@ -59,15 +77,8 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
                         <>
                           <ListItem key={asignation.id} role="listitem">
                             <ListItemText
-                              primary={
-                                "  ↳" +
-                                rolesFormateados[asignation.role] +
-                                " (" +
-                                formatDate(asignation.start_date) +
-                                " / " +
-                                formatDate(asignation.end_date) +
-                                ")"
-                              }
+                              classes={{ primary: classes.subtext }}
+                              primary={asignationText(asignation)}
                             />
                             <IconButton
                               onClick={() =>
@@ -92,7 +103,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
             </List>
           </>
         ) : (
-          "Aun no hay nadie asignado"
+          <Box m={2}>Aún no hay personas asociadas</Box>
         )}
       </Grid>
     </div>

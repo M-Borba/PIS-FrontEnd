@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment } from "react";
 import propTypes from "prop-types";
+import moment from "moment";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
 import { axiosInstance } from "../../config/axios";
-import Notificacion from "../../components/Notificacion";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { rolesFormateados } from "../../config/globalVariables";
+import { useSnackbar } from "notistack";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -34,15 +35,10 @@ function InfoAsignacion({
   removeAsignacion,
   updateAsignacion,
 }) {
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "success",
-    reload: false,
-  });
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
+  const { enqueueSnackbar } = useSnackbar();
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
-  const dialogContent = `Esta seguro que desea eliminar la asignacion de ${personName} en ${
+  const dialogContent = `¿Está seguro que desea eliminar la asignación de ${personName} en ${
     projectName.split("-")[0]
   } como ${projectName.split("-")[1]}?`;
 
@@ -62,24 +58,14 @@ function InfoAsignacion({
           });
         })
         .catch((error) => {
-          console.error(error);
-          if (error.response.status == 404) {
-            let message = error.response.data.error;
-            setNotify({
-              isOpen: true,
-              message: message,
-              type: "error",
-              reload: false,
-            });
-          } else {
-            let message = error.response.data.errors;
-            setNotify({
-              isOpen: true,
-              message: message[Object.keys(message)[0]],
-              type: "error",
-              reload: false,
-            });
-          }
+          let message = error.response.data;
+          console.error(message);
+          enqueueSnackbar(
+            message.error
+              ? message.error
+              : message.errors[Object.keys(message.errors)[0]],
+            { variant: "error", autoHideDuration: 8000 }
+          );
           onClose();
         });
   }, [open]);
@@ -100,35 +86,22 @@ function InfoAsignacion({
           asignacion.start_date,
           asignacion.end_date
         );
-        setNotify({
-          isOpen: true,
-          message: "Los cambios se aplicaron con exito.",
-          type: "success",
-          reload: false,
+        enqueueSnackbar(`Los cambios se aplicaron con éxito.`, {
+          variant: "success",
+          autoHideDuration: 4000,
         });
         onClose();
         setAsignacionInfo(initialState);
       })
       .catch((error) => {
-        console.error(error.response);
-        if (error.response.status == 404) {
-          setNotify({
-            isOpen: true,
-            message: error.response.data.error,
-            type: "error",
-            reload: true,
-          });
-          onClose();
-          setAsignacionInfo(initialState);
-        } else {
-          let message = error.response.data.errors;
-          setNotify({
-            isOpen: true,
-            message: message[Object.keys(message)[0]],
-            type: "error",
-            reload: false,
-          });
-        }
+        let message = error.response.data;
+        console.error(message);
+        enqueueSnackbar(
+          message.error
+            ? message.error
+            : message.errors[Object.keys(message.errors)[0]],
+          { variant: "error", autoHideDuration: 8000 }
+        );
       });
   };
 
@@ -143,22 +116,15 @@ function InfoAsignacion({
       .delete(`/person_project/${asignacionId}`)
       .then((response) => {
         removeAsignacion(asignacionId);
-        setNotify({
-          isOpen: true,
-          message: response.data.message,
-          type: "success",
-          reload: false,
+        enqueueSnackbar(response.data.message, {
+          variant: "success",
+          autoHideDuration: 4000,
         });
       })
       .catch((error) => {
         console.error(error.response);
         let message = error.response.data.error;
-        setNotify({
-          isOpen: true,
-          message: message,
-          type: "error",
-          reload: false,
-        });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 8000 });
       });
   };
 
@@ -212,7 +178,6 @@ function InfoAsignacion({
           onConfirmation={handleDesasignar}
         />
       </Dialog>
-      <Notificacion notify={notify} setNotify={setNotify} />
     </Fragment>
   );
 }

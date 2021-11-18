@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import Administradores from "../../components/Administradores";
 import { Typography } from "@material-ui/core";
+import UpdateGridProvider from "../UpdateGridProvider";
 
 export default function ListarAdministradores() {
-  let rows;
-  const [rowsFormateadas, setRows] = useState([]);
+  let rawRows;
+  const [rows, setRows] = useState([]);
 
   const fetchData = () => {
     axiosInstance.get("/users").then((response) => {
-      rows = response.data.administrators;
+      rawRows = response.data.administrators;
 
-      const rowsNuevas = rows.map((row) => {
+      const rowsNuevas = rawRows.map((row) => {
         return {
           id: row.id,
           email: row.email,
@@ -30,13 +31,15 @@ export default function ListarAdministradores() {
     <div>
       <Typography
         style={{ marginTop: 20 }}
-        color="primary"
+        color="#1c1c1c"
         variant="h4"
         align="center"
       >
         LISTADO DE ADMINISTRADORES
       </Typography>
-      <Administradores rows={rowsFormateadas} />
+      <UpdateGridProvider>
+        <Administradores rows={rows} setRows={setRows} />
+      </UpdateGridProvider>
     </div>
   );
 }

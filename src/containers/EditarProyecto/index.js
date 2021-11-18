@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -17,18 +18,12 @@ EditarProjecto.propTypes = {
     technologies: propTypes.array,
   }).isRequired,
   id: propTypes.number,
-  setNotify: propTypes.func.isRequired,
   onClose: propTypes.func.isRequired,
   editRow: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({
-  projectData,
-  id,
-  setNotify,
-  onClose,
-  editRow,
-}) {
+export default function EditarProjecto({ projectData, id, onClose, editRow }) {
+  const { enqueueSnackbar } = useSnackbar();
   const [errors, setErrors] = useState({});
   const [project, setProject] = useState(projectData);
 
@@ -40,37 +35,21 @@ export default function EditarProjecto({
         project,
       })
       .then((response) => {
-        let projectInfo = response.data.project;
-        let project = {
-          id: projectInfo.id,
-          name: projectInfo.name,
-          project_type: projectInfo.project_type
-            .replaceAll("_", " ")
-            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
-          project_state: projectInfo.project_state.replace(/^\w/, (m) =>
-            m.toUpperCase()
-          ),
-          description: projectInfo.description,
-          budget: projectInfo.budget,
-          start_date: projectInfo.start_date.replaceAll("-", "/"),
-          end_date:
-            projectInfo.end_date != null
-              ? projectInfo.end_date.replaceAll("-", "/")
-              : null,
-          organization: projectInfo.organization,
-          technologies: projectInfo.technologies || [],
-        };
-        editRow(project);
-        setNotify({
-          isOpen: true,
-          message: `El proyecto ${projectData.name} se modifico con exito.`,
-          type: "success",
-          reload: false,
-        });
+        editRow(response.data.project);
+        enqueueSnackbar(
+          `El proyecto ${projectData.name} se modificó con éxito.`,
+          { variant: "success", autoHideDuration: 4000 }
+        );
         onClose();
       })
       .catch((error) => {
-        setErrors(error.response.data?.errors);
+        console.error(error.response);
+        error.response.status == 400
+          ? setErrors(error.response.data?.errors)
+          : enqueueSnackbar(error.response.data.error, {
+              variant: "error",
+              autoHideDuration: 8000,
+            });
       });
   };
 
@@ -79,7 +58,7 @@ export default function EditarProjecto({
       onSubmit={handleSubmit}
       project={project}
       setProject={setProject}
-      title={"Modificacion de Proyecto"}
+      title={"Modificación de Proyecto"}
       errors={errors}
       setErrors={setErrors}
     />

@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import propTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@material-ui/core/Typography";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import CardHeader from "@mui/material/CardHeader";
+import ListItem from "@mui/material/ListItem";
+import Checkbox from "@mui/material/Checkbox";
+import List from "@mui/material/List";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Card from "@mui/material/Card";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -34,24 +43,48 @@ export default function AsignPersonForm({
   error,
 }) {
   const classes = useStyles();
-
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={6}>
-            <CardSelector
-              name={"people"}
-              id={"people"}
-              title={"Personas"}
-              list={asign.people}
-              onInputChange={onInputChange}
-            />
+            <Card
+              style={{ display: "flex", flexDirection: "column" }}
+              component={Paper}
+            >
+              <CardHeader className={classes.cardHeader} title={"Personas"} />
+              <List className={classes.list} dense component="div" role="list">
+                {asign.people.map(([p, value]) => {
+                  return (
+                    <ListItem
+                      key={p.id}
+                      role="listitem"
+                      button
+                      onClick={() => {
+                        onInputChange([p, value], "Personas");
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Checkbox
+                          style={{ color: "black" }}
+                          id={p.id}
+                          checked={value}
+                          tabIndex={-1}
+                          disableRipple
+                        />
+                      </ListItemIcon>
+                      <ListItemText primary={p.full_name} />
+                    </ListItem>
+                  );
+                })}
+                <ListItem />
+              </List>
+            </Card>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
             <CardSelector
               name={"roles"}
               id={"roles"}
@@ -60,10 +93,11 @@ export default function AsignPersonForm({
               onInputChange={onInputChange}
             />
           </Grid>
+        </Grid>
+        <Grid container my={5} spacing={2}>
           <Grid item xs={6}>
             <TextField
               variant="outlined"
-              margin="normal"
               required
               fullWidth
               name="startDate"
@@ -78,7 +112,6 @@ export default function AsignPersonForm({
           <Grid item xs={6}>
             <TextField
               variant="outlined"
-              margin="normal"
               fullWidth
               name="endDate"
               label="Fin"
@@ -91,9 +124,7 @@ export default function AsignPersonForm({
           </Grid>
           <Grid item xs={6}>
             <TextField
-              style={{ marginTop: 23 }}
               variant="outlined"
-              margin="normal"
               required
               fullWidth
               name="workingHours"
@@ -103,24 +134,27 @@ export default function AsignPersonForm({
               value={asign.hours}
               onChange={onInputChange}
               InputLabelProps={{ shrink: true }}
-              inputProps={{ min: 1, max: 100 }}
+              inputProps={{ min: 1, max: 168 }}
             />
           </Grid>
           <Grid item xs={6}>
-            <InputLabel id="tipo">Tipo de Horas</InputLabel>
-            <Select
-              fullWidth
-              required
-              value={asign.hoursType}
-              id="hoursType"
-              labelId="tipo"
-              onChange={onInputChange}
-              name="hoursType"
-            >
-              <MenuItem value={"daily"}>Diarias</MenuItem>
-              <MenuItem value={"weekly"}>Semanales</MenuItem>
-              <MenuItem value={"monthly"}>Mensuales</MenuItem>
-            </Select>
+            <FormControl fullWidth>
+              <InputLabel id="hours-type">Tipo de Horas</InputLabel>
+              <Select
+                fullWidth
+                required
+                value={asign.hoursType}
+                label="Tipo de Horas"
+                id="hoursType"
+                labelId="hours-type"
+                onChange={onInputChange}
+                name="hoursType"
+              >
+                <MenuItem value="daily">Diarias</MenuItem>
+                <MenuItem value="weekly">Semanales</MenuItem>
+                <MenuItem value="monthly">Mensuales</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
         <Button

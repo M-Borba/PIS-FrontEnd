@@ -10,6 +10,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     gap: "1vw",
+    marginTop: 20,
   },
   submit: {
     width: "50%",

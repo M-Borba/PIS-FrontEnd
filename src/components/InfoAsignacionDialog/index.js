@@ -10,7 +10,7 @@ import { useStyles } from "./styles";
 import { Typography } from "@material-ui/core";
 import { TextField } from "@mui/material";
 import propTypes from "prop-types";
-import Button from "@mui/material/Button";
+import Button from "@material-ui/core/Button";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -39,7 +39,7 @@ function InfoAsignacionDialog({
   aplicarCambios,
   desasignar,
 }) {
-  const Classes = useStyles();
+  const classes = useStyles();
 
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
     return (
@@ -59,15 +59,15 @@ function InfoAsignacionDialog({
 
   return (
     <Fragment>
-      <DialogTitle className={Classes.dialogTitle}>
-        <Stack direction="row" className={Classes.jC_sb}>
+      <DialogTitle className={classes.dialogTitle}>
+        <Stack direction="row" className={classes.jC_sb}>
           <Typography variant="h6">
             {personName} en {projectName.split("-")[0]} como{" "}
             {projectName.split("-")[1]}
           </Typography>
           <IconButton
             aria-label="Close"
-            className={Classes.closeButton}
+            className={classes.closeButton}
             onClick={onClose}
           >
             <CloseIcon />
@@ -75,7 +75,7 @@ function InfoAsignacionDialog({
         </Stack>
       </DialogTitle>
       <form onSubmit={aplicarCambios}>
-        <DialogContent className={Classes.content}>
+        <DialogContent className={classes.content}>
           <Stack
             spacing={1}
             divider={<Divider flexItem style={{ margin: 10 }} />}
@@ -149,13 +149,24 @@ function InfoAsignacionDialog({
           </Stack>
         </DialogContent>
         <DialogActions
-          className={Classes.actions}
+          className={classes.actions}
           style={{ justifyContent: "space-between" }}
         >
-          <Button onClick={desasignar} variant="contained">
+          <Button
+            className={classes.submit}
+            onClick={desasignar}
+            variant="contained"
+            color="primary"
+          >
             Desasignar
           </Button>
-          <Button role="submit" type="submit" variant="contained">
+          <Button
+            className={classes.submit}
+            role="submit"
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
             Aplicar Cambios
           </Button>
         </DialogActions>
