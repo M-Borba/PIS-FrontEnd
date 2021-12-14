@@ -1,32 +1,28 @@
 import React, { useState, useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
+import Modal from "@material-ui/core/Modal";
+import { Box, IconButton, Grid } from "@material-ui/core";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Typography from "@mui/material/Typography";
+import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
 } from "react-calendar-timeline";
-import PropTypes from "prop-types";
+import { useSnackbar } from "notistack";
+
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
 import { rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
-import { Grid } from "@material-ui/core";
 import FilterForm from "../../components/FilterForm";
-import { Box, IconButton } from "@material-ui/core";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import Modal from "@material-ui/core/Modal";
-import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
-import Typography from "@mui/material/Typography";
 import not_found from "../../resources/not_found.png";
-import { useSnackbar } from "notistack";
-
-PersonTimeline.propTypes = {
-  onSwitch: PropTypes.func,
-  isProjectView: PropTypes.bool,
-};
+import Loading from "../../components/Loading";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -44,7 +40,7 @@ export const endValue = (date) => {
   return moment(Date()).add(5, "years").add(9, "hours").valueOf();
 };
 
-export default function PersonTimeline({ onSwitch, isProjectView }) {
+const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const classes = useStyles();
   const [openInfo, setOpenInfo] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -53,6 +49,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
   const [filteredData, setFilteredData] = useState([true]);
   const [fetchingError, setFetchingError] = useState([false]);
   const [assignationError, setAssignationError] = useState(false);
+  const [isLoading, setIsLoading] = useState();
 
   const [assignObject, setAssignObject] = useState({
     open: false,
@@ -114,6 +111,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
     }));
   };
   const fetchData = async (filterParams = {}) => {
+    setIsLoading(true);
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -183,6 +181,7 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
         });
         setFetchingError(true);
       });
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -339,127 +338,143 @@ export default function PersonTimeline({ onSwitch, isProjectView }) {
       )
     );
 
-  if (isProjectView) {
-    return (
-      <Fragment>
-        <FilterForm
-          onSubmit={async (e) => {
-            e.preventDefault();
-            await fetchData(filters);
-          }}
-          onClear={async () => {
-            setFilters({});
-            await fetchData();
-          }}
-          onInputChange={onFilterChange}
-          project_state={filters.project_state}
-          project_type={filters.project_type}
-          organization={filters.organization}
-        />
-        {filteredData && (
-          <Timeline
-            groups={groups}
-            items={items}
-            keys={keys}
-            fullUpdate
-            itemsSorted
-            itemTouchSendsClick={true}
-            minZoom={30.4368498333 * 86400 * 1000} // mes
-            maxZoom={365.242198 * 86400 * 1000} // año
-            dragSnap={60 * 60 * 24 * 1000} //dia
-            stackItems
-            timeSteps={customTimeSteps}
-            itemHeightRatio={0.75}
-            canMove={true}
-            canResize={"both"}
-            lineHeight={40}
-            defaultTimeStart={defaultTimeStart}
-            defaultTimeEnd={defaultTimeEnd}
-            onItemResize={handleItemResize}
-            onCanvasClick={handleCanvasClick}
-            onItemClick={handleItemClick}
-            sidebarWidth={210}
-            groupRenderer={handleGroupRenderer}
-          >
-            <TimelineHeaders className="sticky">
-              <SidebarHeader>
-                {({ getRootProps }) => {
-                  return (
-                    <div {...getRootProps()}>
-                      <Switcher
-                        onSwitch={onSwitch}
-                        isProjectView={isProjectView}
-                      />
-                    </div>
-                  );
-                }}
-              </SidebarHeader>
-              <DateHeader unit="primaryHeader" />
-              <DateHeader />
-            </TimelineHeaders>
-          </Timeline>
-        )}
-        {!filteredData && (
-          <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              style={{ marginTop: "30px" }}
-              className={classes.imgcontainer}
-              src={not_found}
-            />
-            <Typography variant="h4" style={{ marginTop: "30px" }}>
-              NO EXISTEN PERSONAS PARA MOSTRAR
-            </Typography>
-          </Box>
-        )}
-        <AsignarProyectoPersona
-          open={assignObject.open}
-          personId={parseInt(assignObject.groupId)}
-          personName={assignObject.personName}
-          onClose={handleAsignacionClose}
-          fechaInicio={String(assignObject.time)}
-          addAsignacion={addAsignacion}
-        />
-        <InfoAsignacion
-          open={infoAssignObject.open}
-          projectName={infoAssignObject.projectName}
-          personName={infoAssignObject.personName}
-          asignacionId={parseInt(infoAssignObject.asignacionId)}
-          onClose={handleInfoAsignacionClose}
-          removeAsignacion={removeAsignacion}
-          updateAsignacion={updateAsignacion}
-        />
-        <>
-          <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
-            <Box className={classes.modalInfo}>
-              <IconButton
-                aria-label="Close"
-                onClick={handleInfoClose}
-                className={classes.closeButton}
-              >
-                <CloseIcon />
-              </IconButton>
-              <FetchInfoPersona id={idInfoPersona} />
-            </Box>
-          </Modal>
-        </>
-        {filteredData && (
-          <Grid container style={{ marginLeft: 10 }}>
-            <Grid
-              item
-              style={{
-                height: 20,
-                width: 20,
-                backgroundColor: "#C14B3A",
-                border: "1px solid black",
+  return (
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        isProjectView && (
+          <Fragment>
+            <FilterForm
+              onSubmit={async (e) => {
+                e.preventDefault();
+                await fetchData(filters);
               }}
-            ></Grid>
-            <Grid item>
-              &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
-            </Grid>
-          </Grid>
-        )}
-      </Fragment>
-    );
-  }
-  return null;
-}
+              onClear={async () => {
+                setFilters({});
+                await fetchData();
+              }}
+              onInputChange={onFilterChange}
+              project_state={filters.project_state}
+              project_type={filters.project_type}
+              organization={filters.organization}
+            />
+            {filteredData && (
+              <Timeline
+                groups={groups}
+                items={items}
+                keys={keys}
+                fullUpdate
+                itemsSorted
+                itemTouchSendsClick={true}
+                minZoom={30.4368498333 * 86400 * 1000} // mes
+                maxZoom={365.242198 * 86400 * 1000} // año
+                dragSnap={60 * 60 * 24 * 1000} //dia
+                stackItems
+                timeSteps={customTimeSteps}
+                itemHeightRatio={0.75}
+                canMove={true}
+                canResize={"both"}
+                lineHeight={40}
+                defaultTimeStart={defaultTimeStart}
+                defaultTimeEnd={defaultTimeEnd}
+                onItemResize={handleItemResize}
+                onCanvasClick={handleCanvasClick}
+                onItemClick={handleItemClick}
+                sidebarWidth={210}
+                groupRenderer={handleGroupRenderer}
+              >
+                <TimelineHeaders className="sticky">
+                  <SidebarHeader>
+                    {({ getRootProps }) => {
+                      return (
+                        <div {...getRootProps()}>
+                          <Switcher
+                            onSwitch={onSwitch}
+                            isProjectView={isProjectView}
+                          />
+                        </div>
+                      );
+                    }}
+                  </SidebarHeader>
+                  <DateHeader unit="primaryHeader" />
+                  <DateHeader />
+                </TimelineHeaders>
+              </Timeline>
+            )}
+            {!filteredData && (
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <img
+                  style={{ marginTop: "30px" }}
+                  className={classes.imgcontainer}
+                  src={not_found}
+                />
+                <Typography variant="h4" style={{ marginTop: "30px" }}>
+                  NO EXISTEN PERSONAS PARA MOSTRAR
+                </Typography>
+              </Box>
+            )}
+            <AsignarProyectoPersona
+              open={assignObject.open}
+              personId={parseInt(assignObject.groupId)}
+              personName={assignObject.personName}
+              onClose={handleAsignacionClose}
+              fechaInicio={String(assignObject.time)}
+              addAsignacion={addAsignacion}
+            />
+            <InfoAsignacion
+              open={infoAssignObject.open}
+              projectName={infoAssignObject.projectName}
+              personName={infoAssignObject.personName}
+              asignacionId={parseInt(infoAssignObject.asignacionId)}
+              onClose={handleInfoAsignacionClose}
+              removeAsignacion={removeAsignacion}
+              updateAsignacion={updateAsignacion}
+            />
+            <>
+              <Modal
+                open={openInfo}
+                onClose={handleInfoClose}
+                disableEnforceFocus
+              >
+                <Box className={classes.modalInfo}>
+                  <IconButton
+                    aria-label="Close"
+                    onClick={handleInfoClose}
+                    className={classes.closeButton}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <FetchInfoPersona id={idInfoPersona} />
+                </Box>
+              </Modal>
+            </>
+            {filteredData && (
+              <Grid container style={{ marginLeft: 10 }}>
+                <Grid
+                  item
+                  style={{
+                    height: 20,
+                    width: 20,
+                    backgroundColor: "#C14B3A",
+                    border: "1px solid black",
+                  }}
+                ></Grid>
+                <Grid item>
+                  &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
+                </Grid>
+              </Grid>
+            )}
+          </Fragment>
+        )
+      )}
+    </>
+  );
+};
+
+PersonTimeline.propTypes = {
+  onSwitch: PropTypes.func,
+  isProjectView: PropTypes.bool,
+};
+
+export default PersonTimeline;

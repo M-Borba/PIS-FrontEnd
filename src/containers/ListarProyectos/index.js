@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
+
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
-import { Typography } from "@material-ui/core";
 import UpdateGridProvider from "../UpdateGridProvider";
+import Loading from "../../components/Loading";
 
 export default function ListarProyectos() {
   var rawRows;
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState();
 
-  const fetchData = () => {
-    axiosInstance.get("/projects").then((response) => {
+  const fetchData = async () => {
+    setIsLoading(true);
+    await axiosInstance.get("/projects").then((response) => {
       rawRows = response.data.projects;
       let rowsNuevas = rawRows.map((row) => {
         return {
@@ -32,6 +36,7 @@ export default function ListarProyectos() {
         };
       });
       setRows(rowsNuevas);
+      setIsLoading(false);
     });
   };
 
@@ -41,17 +46,23 @@ export default function ListarProyectos() {
 
   return (
     <div>
-      <Typography
-        style={{ marginTop: 20 }}
-        color="#1c1c1c"
-        variant="h4"
-        align="center"
-      >
-        LISTADO DE PROYECTOS
-      </Typography>
-      <UpdateGridProvider>
-        <Proyectos rows={rows} setRows={setRows} />
-      </UpdateGridProvider>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Typography
+            style={{ marginTop: 20 }}
+            color="#1c1c1c"
+            variant="h4"
+            align="center"
+          >
+            LISTADO DE PROYECTOS
+          </Typography>
+          <UpdateGridProvider>
+            <Proyectos rows={rows} setRows={setRows} />
+          </UpdateGridProvider>
+        </>
+      )}
     </div>
   );
 }

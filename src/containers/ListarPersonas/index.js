@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
+
 import { axiosInstance } from "../../config/axios";
 import Personas from "../../components/Personas";
-import { Typography } from "@material-ui/core";
 import UpdateGridProvider from "../UpdateGridProvider";
+import Loading from "../../components/Loading";
 
 export default function ListarPersonas() {
   let rawRows;
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState();
 
-  const fetchData = () => {
-    axiosInstance.get("/people").then((response) => {
+  const fetchData = async () => {
+    setIsLoading(true);
+    await axiosInstance.get("/people").then((response) => {
       rawRows = response.data.people;
 
       let rowsNuevas = rawRows.map((row) => {
@@ -25,6 +29,7 @@ export default function ListarPersonas() {
       });
       setRows(rowsNuevas);
     });
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -33,17 +38,23 @@ export default function ListarPersonas() {
 
   return (
     <div>
-      <Typography
-        style={{ marginTop: 20 }}
-        color="#1c1c1c"
-        variant="h4"
-        align="center"
-      >
-        LISTADO DE PERSONAS
-      </Typography>
-      <UpdateGridProvider>
-        <Personas rows={rows} setRows={setRows} />
-      </UpdateGridProvider>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Typography
+            style={{ marginTop: 20 }}
+            color="#1c1c1c"
+            variant="h4"
+            align="center"
+          >
+            LISTADO DE PERSONAS
+          </Typography>
+          <UpdateGridProvider>
+            <Personas rows={rows} setRows={setRows} />
+          </UpdateGridProvider>
+        </>
+      )}
     </div>
   );
 }
