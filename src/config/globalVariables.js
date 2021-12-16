@@ -1,5 +1,5 @@
 export const BACKEND_HOST =
-  process.env.BACKEND_HOST || "https://operations-development.herokuapp.com/";
+  process.env.REACT_APP_BACKEND_HOST || "https://operations-development.herokuapp.com/";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
