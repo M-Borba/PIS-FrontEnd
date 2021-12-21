@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
 import moment from "moment";
 import Modal from "@material-ui/core/Modal";
 import { IconButton, Box, Typography } from "@material-ui/core";
@@ -9,17 +10,18 @@ import Timeline, {
   DateHeader,
 } from "react-calendar-timeline";
 import randomColor from "randomcolor";
-import { axiosInstance } from "../../config/axios";
-import Switcher from "../../components/Switcher/";
-import PropTypes from "prop-types";
+import { useSnackbar } from "notistack";
+
 import "./style.css";
 import { useStyles } from "./styles";
+import { axiosInstance } from "../../config/axios";
+import Switcher from "../../components/Switcher/";
 import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import not_found from "../../resources/not_found.png";
-import { useSnackbar } from "notistack";
 import { startValue, endValue } from "../PersonView/CustomTimeline";
+import Loading from "../../components/Loading";
 
 var keys = {
   groupIdKey: "id",
@@ -34,12 +36,7 @@ var keys = {
   groupLabelKey: "title",
 };
 
-ProjectTimeline.propTypes = {
-  onSwitch: PropTypes.func,
-  isProjectView: PropTypes.bool,
-};
-
-export default function ProjectTimeline({ onSwitch, isProjectView }) {
+const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
@@ -52,17 +49,18 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     project_state: "",
     organization: "",
   });
+  const [isLoading, setIsLoading] = useState();
+
+  const defaultTimeStart = moment().startOf("day").toDate();
+  const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
   const classes = useStyles();
-
-  const handleInfoClose = () => {
-    setOpenInfo(false);
-  };
 
   var groupsToAdd = [];
   var itemsToAdd = [];
 
   const fetchData = async (filterParams = {}) => {
+    setIsLoading(true);
     // to avoid sending empty query params
     for (let key in filterParams) {
       if (filterParams[key] === "" || filterParams[key] === null) {
@@ -139,10 +137,12 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
         });
         setFetchingError(true);
       });
+    setIsLoading(false);
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
+
+  const handleInfoClose = () => {
+    setOpenInfo(false);
+  };
 
   const handleItemClick = async (itemId) => {
     axiosInstance.get("/projects/" + itemId).then((response) => {
@@ -152,117 +152,130 @@ export default function ProjectTimeline({ onSwitch, isProjectView }) {
     });
   };
 
-  const defaultTimeStart = moment().startOf("day").toDate();
-  const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
-
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
       [e.target.name]: e.target.value,
     }));
   };
-  if (groups.length > 0 && !isProjectView && !fetchingError) {
-    return (
-      <Fragment>
-        <FilterForm
-          onSubmit={async (e) => {
-            e.preventDefault();
-            await fetchData(filters);
-          }}
-          onClear={async () => {
-            setFilters({});
-            await fetchData();
-          }}
-          onInputChange={onFilterChange}
-          project_state={filters.project_state}
-          project_type={filters.project_type}
-          organization={filters.organization}
-        />
-        {filteredData && (
-          <Timeline
-            groups={groups}
-            items={items}
-            keys={keys}
-            fullUpdate
-            itemTouchSendsClick={true}
-            minZoom={30.4368498333 * 86400 * 1000} // mes
-            maxZoom={365.242198 * 86400 * 1000} // año
-            dragSnap={60 * 60 * 24 * 1000} //dia
-            itemHeightRatio={0.75}
-            canMove={true} //se pueden mover
-            canChangeGroup={false} //no se pueden "cambiar de renglon"
-            canResize={"both"}
-            defaultTimeStart={defaultTimeStart}
-            defaultTimeEnd={defaultTimeEnd}
-            timeSteps={customTimeSteps}
-            onItemClick={handleItemClick}
-            sidebarWidth={210}
-          >
-            <TimelineHeaders className="sticky">
-              <SidebarHeader>
-                {({ getRootProps }) => {
-                  return (
-                    <div {...getRootProps()}>
-                      <Switcher
-                        onSwitch={onSwitch}
-                        isProjectView={isProjectView}
-                      />
-                    </div>
-                  );
-                }}
-              </SidebarHeader>
-              <DateHeader unit="primaryHeader" />
-              <DateHeader />
-            </TimelineHeaders>
-          </Timeline>
-        )}
-        {!filteredData && (
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : groups.length > 0 && !isProjectView && !fetchingError ? (
+        <Fragment>
+          <FilterForm
+            onSubmit={async (e) => {
+              e.preventDefault();
+              await fetchData(filters);
+            }}
+            onClear={async () => {
+              setFilters({});
+              await fetchData();
+            }}
+            onInputChange={onFilterChange}
+            project_state={filters.project_state}
+            project_type={filters.project_type}
+            organization={filters.organization}
+          />
+          {filteredData && (
+            <Timeline
+              groups={groups}
+              items={items}
+              keys={keys}
+              fullUpdate
+              itemTouchSendsClick={true}
+              minZoom={30.4368498333 * 86400 * 1000} // mes
+              maxZoom={365.242198 * 86400 * 1000} // año
+              dragSnap={60 * 60 * 24 * 1000} //dia
+              itemHeightRatio={0.75}
+              canMove={true} //se pueden mover
+              canChangeGroup={false} //no se pueden "cambiar de renglon"
+              canResize={"both"}
+              defaultTimeStart={defaultTimeStart}
+              defaultTimeEnd={defaultTimeEnd}
+              timeSteps={customTimeSteps}
+              onItemClick={handleItemClick}
+              sidebarWidth={210}
+            >
+              <TimelineHeaders className="sticky">
+                <SidebarHeader>
+                  {({ getRootProps }) => {
+                    return (
+                      <div {...getRootProps()}>
+                        <Switcher
+                          onSwitch={onSwitch}
+                          isProjectView={isProjectView}
+                        />
+                      </div>
+                    );
+                  }}
+                </SidebarHeader>
+                <DateHeader unit="primaryHeader" />
+                <DateHeader />
+              </TimelineHeaders>
+            </Timeline>
+          )}
+          {!filteredData && (
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <img
+                style={{ marginTop: "30px" }}
+                className={classes.imgcontainer}
+                src={not_found}
+              />
+              <Typography variant="h4" style={{ marginTop: "30px" }}>
+                NO EXISTEN PROYECTOS PARA MOSTRAR
+              </Typography>
+            </Box>
+          )}
+          <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
+            <Box className={classes.modalInfo}>
+              <IconButton
+                aria-label="Close"
+                onClick={handleInfoClose}
+                className={classes.closeButton}
+              >
+                <CloseIcon />
+              </IconButton>
+              <InfoProyecto
+                projectData={projectData}
+                type={projectData.project_type
+                  ?.replaceAll("_", " ")
+                  .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}
+                state={projectData.project_state?.replace(/^\w/, (m) =>
+                  m.toUpperCase()
+                )}
+              />
+            </Box>
+          </Modal>
+        </Fragment>
+      ) : (
+        fetchingError &&
+        !isProjectView && (
           <Box display="flex" flexDirection="column" alignItems="center">
             <img
-              style={{ marginTop: "30px" }}
+              style={{ marginTop: "15%" }}
               className={classes.imgcontainer}
               src={not_found}
             />
             <Typography variant="h4" style={{ marginTop: "30px" }}>
-              NO EXISTEN PROYECTOS PARA MOSTRAR
+              AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
             </Typography>
           </Box>
-        )}
-        <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
-          <Box className={classes.modalInfo}>
-            <IconButton
-              aria-label="Close"
-              onClick={handleInfoClose}
-              className={classes.closeButton}
-            >
-              <CloseIcon />
-            </IconButton>
-            <InfoProyecto
-              projectData={projectData}
-              type={projectData.project_type
-                ?.replaceAll("_", " ")
-                .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}
-              state={projectData.project_state?.replace(/^\w/, (m) =>
-                m.toUpperCase()
-              )}
-            />
-          </Box>
-        </Modal>
-      </Fragment>
-    );
-  } else if (fetchingError && !isProjectView) {
-    return (
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <img
-          style={{ marginTop: "15%" }}
-          className={classes.imgcontainer}
-          src={not_found}
-        />
-        <Typography variant="h4" style={{ marginTop: "30px" }}>
-          AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
-        </Typography>
-      </Box>
-    );
-  }
-  return null;
-}
+        )
+      )}
+    </>
+  );
+};
+
+ProjectTimeline.propTypes = {
+  onSwitch: PropTypes.func,
+  isProjectView: PropTypes.bool,
+};
+
+export default ProjectTimeline;

@@ -33,35 +33,27 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={DateAdapter}>
         <Router>
-          <div>
-            <Route
-              render={({ location }) =>
-                !["/login", "/Login"].includes(location.pathname) && <Header />
-              }
-            />
-            <SwitchRouter>
-              <Route path="/login" component={LoginView} />
-              {uid == NOT_LOGGED && <Redirect to="/login" />}
-              <Route path="/personas" component={ListarPersonas} />
-              <Route path="/proyectos" component={ListarProyectos} />
-              <Route
-                path="/administradores"
-                component={ListarAdministradores}
-              />
-              <Route path={["/", "/inicio"]}>
-                <>
-                  <PersonView
-                    onSwitch={onSwitch}
-                    isProjectView={isProjectView}
-                  />
-                  <ProjectView
-                    onSwitch={onSwitch}
-                    isProjectView={isProjectView}
-                  />
-                </>
-              </Route>
-            </SwitchRouter>
-          </div>
+          <Route
+            render={({ location }) =>
+              !["/login", "/Login"].includes(location.pathname) && <Header />
+            }
+          />
+          <SwitchRouter>
+            <Route path="/login" component={LoginView} />
+            {uid == NOT_LOGGED && <Redirect to="/login" />}
+            <Route path="/personas" component={ListarPersonas} />
+            <Route path="/proyectos" component={ListarProyectos} />
+            <Route path="/administradores" component={ListarAdministradores} />
+            <Route path={["/", "/inicio"]}>
+              <>
+                <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
+                <ProjectView
+                  onSwitch={onSwitch}
+                  isProjectView={isProjectView}
+                />
+              </>
+            </Route>
+          </SwitchRouter>
         </Router>
       </LocalizationProvider>
     </ThemeProvider>
