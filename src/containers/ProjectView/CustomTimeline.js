@@ -11,6 +11,7 @@ import Timeline, {
 } from "react-calendar-timeline";
 import randomColor from "randomcolor";
 import { useSnackbar } from "notistack";
+import { Paper } from "@mui/material";
 
 import "./style.css";
 import { useStyles } from "./styles";
@@ -22,7 +23,6 @@ import FilterForm from "../../components/FilterForm";
 import not_found from "../../resources/not_found.png";
 import { startValue, endValue } from "../PersonView/CustomTimeline";
 import Loading from "../../components/Loading";
-import { Paper } from "@mui/material";
 
 var keys = {
   groupIdKey: "id",

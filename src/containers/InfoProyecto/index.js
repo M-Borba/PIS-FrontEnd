@@ -20,7 +20,7 @@ export default function InfoProyecto({ projectData, type, state }) {
     let color = "";
     switch (state) {
       case "Verde":
-        color = "#7ede6d";
+        color = "#7EDE6D";
         break;
       case "Rojo":
         color = "#E87272";
@@ -43,6 +43,41 @@ export default function InfoProyecto({ projectData, type, state }) {
       />
     );
   };
+
+  const renderList = (title, type, data) => (
+    <>
+      <Typography style={{ fontWeight: 600 }} variant="body1">
+        {title}
+      </Typography>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          position: "relative",
+          overflow: "auto",
+          maxHeight: `${type === "personas" ? 370 : 145}`,
+          "& ul": { padding: 0 },
+        }}
+        subheader={<li />}
+      >
+        {data.length != 0 ? (
+          data.map((item) => {
+            return (
+              <ListItem key={item.id} role="listitem">
+                <ListItemText primary={item.full_name} />
+              </ListItem>
+            );
+          })
+        ) : (
+          <Box style={{ paddingTop: 20 }}>
+            <Typography variant="button" display="block" gutterBottom>
+              Aún no hay {type} asociadas
+            </Typography>
+          </Box>
+        )}
+      </List>
+    </>
+  );
 
   return (
     <div style={{ padding: 30 }}>
@@ -179,74 +214,11 @@ export default function InfoProyecto({ projectData, type, state }) {
 
         <Grid item xs={6}>
           <Box>
-            <Typography style={{ fontWeight: 600 }} variant="body1">
-              Tecnologías
-            </Typography>
-            <List
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                position: "relative",
-                overflow: "auto",
-                maxHeight: 145,
-                "& ul": { padding: 0 },
-              }}
-              subheader={<li />}
-            >
-              {projectData.technologies.length != 0 ? (
-                projectData.technologies.map((technology, index) => {
-                  return (
-                    <>
-                      <ListItem key={technology + index} role="listitem">
-                        <ListItemText primary={technology} />
-                      </ListItem>
-                    </>
-                  );
-                })
-              ) : (
-                <Box style={{ paddingTop: 20 }}>
-                  <Typography variant="button" display="block" gutterBottom>
-                    Aún no hay tecnologías asociadas
-                  </Typography>
-                </Box>
-              )}
-            </List>
+            {renderList("Tecnologías", "tecnologías", projectData.technologies)}
           </Box>
           <Divider style={{ marginBottom: 15, marginTop: 15 }} />
-
           <Box>
-            <Typography style={{ fontWeight: 600 }} variant="body1">
-              Personas Asignadas
-            </Typography>
-            <List
-              sx={{
-                width: "100%",
-                maxWidth: 360,
-                position: "relative",
-                overflow: "auto",
-                maxHeight: 370,
-                "& ul": { padding: 0 },
-              }}
-              subheader={<li />}
-            >
-              {projectData.people.length != 0 ? (
-                projectData.people.map((person) => {
-                  return (
-                    <>
-                      <ListItem key={person.id} role="listitem">
-                        <ListItemText primary={person.full_name} />
-                      </ListItem>
-                    </>
-                  );
-                })
-              ) : (
-                <Box style={{ paddingTop: 20 }}>
-                  <Typography variant="button" display="block" gutterBottom>
-                    Aún no hay personas asociadas
-                  </Typography>
-                </Box>
-              )}
-            </List>
+            {renderList("Personas Asignadas", "personas", projectData.people)}
           </Box>
         </Grid>
       </Grid>
