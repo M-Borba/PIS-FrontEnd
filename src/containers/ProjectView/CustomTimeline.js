@@ -22,6 +22,7 @@ import FilterForm from "../../components/FilterForm";
 import not_found from "../../resources/not_found.png";
 import { startValue, endValue } from "../PersonView/CustomTimeline";
 import Loading from "../../components/Loading";
+import { Paper } from "@mui/material";
 
 var keys = {
   groupIdKey: "id",
@@ -230,7 +231,11 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
             </Box>
           )}
           <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
-            <Box className={classes.modalInfo}>
+            <Paper
+              className={classes.modalInfo}
+              variant="elevation"
+              elevation={3}
+            >
               <IconButton
                 aria-label="Close"
                 onClick={handleInfoClose}
@@ -247,7 +252,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                   m.toUpperCase()
                 )}
               />
-            </Box>
+            </Paper>
           </Modal>
         </Fragment>
       ) : (
