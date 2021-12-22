@@ -184,10 +184,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
 
@@ -338,6 +334,10 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       )
     );
 
+  useEffect(() => {
+    filters ? fetchData(filters) : fetchData();
+  }, [filters]);
+
   return (
     <>
       {isLoading ? (
@@ -346,10 +346,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
         isProjectView && (
           <Fragment>
             <FilterForm
-              onSubmit={async (e) => {
-                e.preventDefault();
-                await fetchData(filters);
-              }}
               onClear={async () => {
                 setFilters({});
                 await fetchData();

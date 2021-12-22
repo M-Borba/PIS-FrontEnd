@@ -160,8 +160,8 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    filters ? fetchData(filters) : fetchData();
+  }, [filters]);
 
   return (
     <>
@@ -170,10 +170,6 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
       ) : groups.length > 0 && !isProjectView && !fetchingError ? (
         <Fragment>
           <FilterForm
-            onSubmit={async (e) => {
-              e.preventDefault();
-              await fetchData(filters);
-            }}
             onClear={async () => {
               setFilters({});
               await fetchData();

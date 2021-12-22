@@ -3,13 +3,12 @@ import propTypes from "prop-types";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import { useStyles } from "./styles";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Tooltip from "@mui/material/Tooltip";
 
+import { useStyles } from "./styles";
+
 FilterForm.propTypes = {
-  onSubmit: propTypes.func.isRequired,
   onClear: propTypes.func.isRequired,
   onInputChange: propTypes.func.isRequired,
   project_type: propTypes.string,
@@ -23,7 +22,6 @@ FilterForm.defaultProps = {
 };
 
 export default function FilterForm({
-  onSubmit,
   onClear,
   onInputChange,
   project_type,
@@ -34,7 +32,7 @@ export default function FilterForm({
 
   return (
     <div className={classes.container}>
-      <form className={classes.form} noValidate onSubmit={onSubmit}>
+      <form className={classes.form} noValidate>
         <TextField
           fullWidth
           id="project_type"
@@ -80,28 +78,12 @@ export default function FilterForm({
           onChange={onInputChange}
           inputProps={{ maxLength: 50 }}
         />
-
-        <Button
-          style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
-          }}
-          role="submit"
-          type="submit"
-          fullWidth
-          variant="contained"
-          className={classes.submit}
-        >
-          Filtrar &ensp;
-          <FilterAltIcon />
-        </Button>
         <Tooltip title="Limpiar filtros">
           <Button
             style={{
               color: "#ffffff",
               background: "#1c1c1c",
             }}
-            fullWidth
             variant="contained"
             className={classes.clear}
             onClick={onClear}
