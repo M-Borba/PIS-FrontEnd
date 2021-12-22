@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
+    maxWidth: "1000px",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
