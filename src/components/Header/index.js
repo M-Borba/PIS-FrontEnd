@@ -52,26 +52,18 @@ export default function Header() {
       <AppBar style={{ background: "#1c1c1c" }} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Button color="inherit">
-              <Link className={classes.link} to="/inicio">
-                Inicio
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className={classes.link} to="/proyectos">
-                Proyectos
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className={classes.link} to="/personas">
-                Personas
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className={classes.link} to="/administradores">
-                Administradores
-              </Link>
-            </Button>
+            <Link className={classes.link} to="/inicio">
+              <Button color="inherit">Inicio</Button>
+            </Link>
+            <Link className={classes.link} to="/proyectos">
+              <Button color="inherit">Proyectos</Button>
+            </Link>
+            <Link className={classes.link} to="/personas">
+              <Button color="inherit">Personas</Button>
+            </Link>
+            <Link className={classes.link} to="/administradores">
+              <Button color="inherit">Administradores</Button>
+            </Link>
           </Typography>
           <Fragment>
             <Tooltip title="Configuración de la cuenta">
