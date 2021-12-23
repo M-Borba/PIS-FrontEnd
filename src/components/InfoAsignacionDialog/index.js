@@ -41,24 +41,20 @@ function InfoAsignacionDialog({
 }) {
   const classes = useStyles();
 
-  const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
-    return (
-      <MenuItem key={id} value={cargaHoraria}>
-        {cargasHorarias_tFormateadas[cargaHoraria]}
-      </MenuItem>
-    );
-  });
+  const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => (
+    <MenuItem key={id} value={cargaHoraria}>
+      {cargasHorarias_tFormateadas[cargaHoraria]}
+    </MenuItem>
+  ));
 
-  const rolItems = roles.map((rol, id) => {
-    return (
-      <MenuItem key={id} value={rolesTraducidos[rol]}>
-        {rol}
-      </MenuItem>
-    );
-  });
+  const rolItems = roles.map((rol, id) => (
+    <MenuItem key={id} value={rolesTraducidos[rol]}>
+      {rol}
+    </MenuItem>
+  ));
 
   return (
-    <Fragment>
+    <div style={{ padding: "16px" }}>
       <DialogTitle className={classes.dialogTitle}>
         <Stack direction="row" className={classes.jC_sb}>
           <Typography variant="h6">
@@ -105,7 +101,7 @@ function InfoAsignacionDialog({
                 onChange={onChange}
                 inputProps={{
                   min: 1,
-                  max: asignacionInfo.working_hours_type == "daily" ? 24 : 100,
+                  max: 100,
                 }}
               />
               <TextField
@@ -150,13 +146,12 @@ function InfoAsignacionDialog({
         </DialogContent>
         <DialogActions
           className={classes.actions}
-          style={{ justifyContent: "space-between" }}
+          style={{ justifyContent: "space-between", margin: "0 16px" }}
         >
           <Button
-            className={classes.submit}
+            className={classes.secondary}
             onClick={desasignar}
             variant="contained"
-            color="primary"
           >
             Desasignar
           </Button>
@@ -165,13 +160,12 @@ function InfoAsignacionDialog({
             role="submit"
             type="submit"
             variant="contained"
-            color="primary"
           >
             Aplicar Cambios
           </Button>
         </DialogActions>
       </form>
-    </Fragment>
+    </div>
   );
 }
 

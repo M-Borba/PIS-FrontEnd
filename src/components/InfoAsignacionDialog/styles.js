@@ -28,11 +28,22 @@ export const useStyles = makeStyles((theme) => ({
   },
   submit: {
     color: "#ffffff",
-    backgroundColor: "#1c1c1c !important",
+    backgroundColor: "#1C1C1C",
     margin: theme.spacing(3, 0, 2),
     "&:hover": {
       backgroundColor: "#404040",
       color: "#fff",
+    },
+  },
+  secondary: {
+    color: "#1C1C1C",
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    margin: theme.spacing(3, 0, 2),
+    "&:hover": {
+      backgroundColor: "transparent",
+      boxShadow: "none",
+      color: "#404040",
     },
   },
 }));
