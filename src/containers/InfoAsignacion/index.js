@@ -1,12 +1,14 @@
 import React, { useEffect, useState, Fragment } from "react";
 import propTypes from "prop-types";
-import moment from "moment";
-import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import Dialog from "@mui/material/Dialog";
+import { useSnackbar } from "notistack";
+import { Modal, Paper } from "@material-ui/core";
+
+import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { rolesFormateados } from "../../config/globalVariables";
-import { useSnackbar } from "notistack";
+import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -24,6 +26,7 @@ const initialState = {
   working_hours_type: "",
   start_date: "",
   end_date: "",
+  project: {},
 };
 
 function InfoAsignacion({
@@ -35,6 +38,7 @@ function InfoAsignacion({
   removeAsignacion,
   updateAsignacion,
 }) {
+  const classes = useStyles();
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const { enqueueSnackbar } = useSnackbar();
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
@@ -55,6 +59,7 @@ function InfoAsignacion({
             working_hours_type: asignacionData.working_hours_type,
             start_date: asignacionData.start_date,
             end_date: asignacionData.end_date,
+            project: asignacionData.project,
           });
         })
         .catch((error) => {
@@ -155,17 +160,20 @@ function InfoAsignacion({
 
   return (
     <Fragment>
-      <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
-        <InfoAsignacionDialog
-          asignacionInfo={asignacionInfo}
-          projectName={projectName}
-          personName={personName}
-          onClose={handleClose}
-          onChange={onInputChange}
-          aplicarCambios={handleAplicarCambios}
-          desasignar={handleConfirmacionOpen}
-        />
-      </Dialog>
+      <Modal open={open} onClose={handleClose} disableEnforceFocus>
+        <Paper className={classes.modalInfo} variant="elevation" elevation={3}>
+          <InfoAsignacionDialog
+            asignacionInfo={asignacionInfo}
+            projectName={projectName}
+            personName={personName}
+            onClose={handleClose}
+            onChange={onInputChange}
+            aplicarCambios={handleAplicarCambios}
+            desasignar={handleConfirmacionOpen}
+            project={asignacionInfo.project}
+          />
+        </Paper>
+      </Modal>
       <Dialog
         fullWidth
         open={openConfirmacion}

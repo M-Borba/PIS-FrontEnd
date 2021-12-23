@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   content: {
+    width: "50%",
     margin: 0,
     padding: theme.spacing(2),
   },
