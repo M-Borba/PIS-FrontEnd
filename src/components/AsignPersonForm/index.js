@@ -150,7 +150,6 @@ export default function AsignPersonForm({
                 onChange={onInputChange}
                 name="hoursType"
               >
-                <MenuItem value="daily">Diarias</MenuItem>
                 <MenuItem value="weekly">Semanales</MenuItem>
                 <MenuItem value="monthly">Mensuales</MenuItem>
               </Select>

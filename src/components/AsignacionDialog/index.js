@@ -125,7 +125,7 @@ function AsignacionDialog({
                 onChange={onInputChange}
                 inputProps={{
                   min: 1,
-                  max: datos.working_hours_type == "daily" ? 24 : 100,
+                  max: 100,
                 }}
               />
             </Stack>
