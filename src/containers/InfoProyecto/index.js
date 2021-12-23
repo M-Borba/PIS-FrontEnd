@@ -7,6 +7,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import moment from "moment";
 
 import ListData from "./List";
+import { renderColor } from "../../utils/utils.js";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -15,34 +16,6 @@ InfoProyecto.propTypes = {
 };
 
 export default function InfoProyecto({ projectData, type, state }) {
-  const renderColor = () => {
-    let color = "";
-    switch (state) {
-      case "Verde":
-        color = "#7EDE6D";
-        break;
-      case "Rojo":
-        color = "#E87272";
-        break;
-      case "Amarillo":
-        color = "#FAE269";
-        break;
-      case "Upcoming":
-        color = "#B0CFCB";
-        break;
-    }
-    return (
-      <section
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          backgroundColor: `${color}`,
-        }}
-      />
-    );
-  };
-
   return (
     <div style={{ padding: 30 }}>
       <div
@@ -108,7 +81,7 @@ export default function InfoProyecto({ projectData, type, state }) {
             >
               Estado:{" "}
             </Typography>
-            {renderColor()}
+            {renderColor(state)}
           </Box>
 
           <Box mt={2}>

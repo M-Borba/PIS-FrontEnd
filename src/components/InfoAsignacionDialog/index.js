@@ -20,6 +20,7 @@ import {
   rolesTraducidos,
 } from "../../config/globalVariables";
 import { useStyles } from "./styles";
+import { renderColor } from "../../utils/utils.js";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
@@ -43,34 +44,6 @@ function InfoAsignacionDialog({
   desasignar,
 }) {
   const classes = useStyles();
-
-  const renderColor = (state) => {
-    let color = "";
-    switch (state) {
-      case "verde":
-        color = "#7EDE6D";
-        break;
-      case "rojo":
-        color = "#E87272";
-        break;
-      case "amarillo":
-        color = "#FAE269";
-        break;
-      case "upcoming":
-        color = "#B0CFCB";
-        break;
-    }
-    return (
-      <section
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          backgroundColor: `${color}`,
-        }}
-      />
-    );
-  };
 
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => (
     <MenuItem key={id} value={cargaHoraria}>
