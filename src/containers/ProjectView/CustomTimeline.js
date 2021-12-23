@@ -11,6 +11,7 @@ import Timeline, {
 } from "react-calendar-timeline";
 import randomColor from "randomcolor";
 import { useSnackbar } from "notistack";
+import { Paper } from "@mui/material";
 
 import "./style.css";
 import { useStyles } from "./styles";
@@ -230,7 +231,11 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
             </Box>
           )}
           <Modal open={openInfo} onClose={handleInfoClose} disableEnforceFocus>
-            <Box className={classes.modalInfo}>
+            <Paper
+              className={classes.modalInfo}
+              variant="elevation"
+              elevation={3}
+            >
               <IconButton
                 aria-label="Close"
                 onClick={handleInfoClose}
@@ -247,7 +252,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                   m.toUpperCase()
                 )}
               />
-            </Box>
+            </Paper>
           </Modal>
         </Fragment>
       ) : (
