@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../config/axios";
-import AsignPersonForm from "../../components/AsignPersonForm";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
+import moment from "moment";
+
 import { useStyles } from "./styles";
 import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
-import { useSnackbar } from "notistack";
+import { axiosInstance } from "../../config/axios";
+import AsignPersonForm from "../../components/AsignPersonForm";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -29,8 +31,8 @@ export default function AgregarPersona({
     people: [],
     startDate: projectData.start_date.replaceAll("/", "-"),
     endDate:
-      projectData.end_Date != null
-        ? projectData.end_Date.replaceAll("/", "-")
+      projectData.end_date != null
+        ? projectData.end_date.replaceAll("/", "-")
         : "",
     hours: 30,
     hoursType: "weekly",
@@ -202,6 +204,12 @@ export default function AgregarPersona({
         asign={asignacion}
         error={error}
         title={"Asignando Persona a " + projectData.name}
+        startDate={moment(projectData.start_date).format("DD/MM/YYYY")}
+        endDate={
+          projectData.end_date
+            ? moment(projectData.end_date).format("DD/MM/YYYY")
+            : "Indefinido"
+        }
       />
     </div>
   );

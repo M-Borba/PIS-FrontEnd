@@ -9,7 +9,6 @@ export const useStyles = makeStyles((theme) => ({
     background: "white",
     border: "2px solid #000",
     boxShadow: 24,
-    maxHeight: "85vh",
     overflow: "auto",
     p: 4,
   },

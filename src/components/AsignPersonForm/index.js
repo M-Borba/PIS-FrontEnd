@@ -33,6 +33,8 @@ AsignPersonForm.propTypes = {
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
+  startDate: propTypes.string,
+  endDate: propTypes.string,
 };
 
 export default function AsignPersonForm({
@@ -41,12 +43,17 @@ export default function AsignPersonForm({
   onInputChange,
   asign,
   error,
+  startDate,
+  endDate,
 }) {
   const classes = useStyles();
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
+      </Typography>
+      <Typography component="p">
+        {startDate} - {endDate}
       </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={2}>
