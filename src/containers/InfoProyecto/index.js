@@ -2,12 +2,11 @@ import React from "react";
 import propTypes from "prop-types";
 import { Typography, Box } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import moment from "moment";
+
+import ListData from "./List";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -43,41 +42,6 @@ export default function InfoProyecto({ projectData, type, state }) {
       />
     );
   };
-
-  const renderList = (title, type, data) => (
-    <>
-      <Typography style={{ fontWeight: 600 }} variant="body1">
-        {title}
-      </Typography>
-      <List
-        sx={{
-          width: "100%",
-          maxWidth: 360,
-          position: "relative",
-          overflow: "auto",
-          maxHeight: `${type === "personas" ? 370 : 145}`,
-          "& ul": { padding: 0 },
-        }}
-        subheader={<li />}
-      >
-        {data.length != 0 ? (
-          data.map((item) => {
-            return (
-              <ListItem key={item.id} role="listitem">
-                <ListItemText primary={item.full_name} />
-              </ListItem>
-            );
-          })
-        ) : (
-          <Box style={{ paddingTop: 20 }}>
-            <Typography variant="button" display="block" gutterBottom>
-              Aún no hay {type} asociadas
-            </Typography>
-          </Box>
-        )}
-      </List>
-    </>
-  );
 
   return (
     <div style={{ padding: 30 }}>
@@ -214,11 +178,19 @@ export default function InfoProyecto({ projectData, type, state }) {
 
         <Grid item xs={6}>
           <Box>
-            {renderList("Tecnologías", "tecnologías", projectData.technologies)}
+            <ListData
+              title="Tecnologías"
+              type="tecnologías"
+              data={projectData.technologies}
+            />
           </Box>
           <Divider style={{ marginBottom: 15, marginTop: 15 }} />
           <Box>
-            {renderList("Personas Asignadas", "personas", projectData.people)}
+            <ListData
+              title="Personas Asignadas"
+              type="personas"
+              data={projectData.people}
+            />
           </Box>
         </Grid>
       </Grid>
