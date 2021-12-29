@@ -1,13 +1,5 @@
-import {
-  roles,
-  cargasHorarias_t,
-  cargasHorarias_tFormateadas,
-  rolesFormateados,
-  rolesTraducidos,
-} from "../../config/globalVariables";
-import React, { Fragment } from "react";
-import { useStyles } from "./styles";
-import { Typography } from "@material-ui/core";
+import React from "react";
+import { Box, Typography } from "@material-ui/core";
 import { TextField } from "@mui/material";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
@@ -19,6 +11,16 @@ import CloseIcon from "@material-ui/icons/Close";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
+import moment from "moment";
+
+import {
+  roles,
+  cargasHorarias_t,
+  cargasHorarias_tFormateadas,
+  rolesTraducidos,
+} from "../../config/globalVariables";
+import { useStyles } from "./styles";
+import { renderColor } from "../../utils/utils.js";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
@@ -28,12 +30,14 @@ InfoAsignacionDialog.propTypes = {
   onChange: propTypes.func.isRequired,
   aplicarCambios: propTypes.func.isRequired,
   desasignar: propTypes.func.isRequired,
+  project: propTypes.object.isRequired,
 };
 
 function InfoAsignacionDialog({
   asignacionInfo,
   projectName,
   personName,
+  project,
   onClose,
   onChange,
   aplicarCambios,
@@ -41,24 +45,39 @@ function InfoAsignacionDialog({
 }) {
   const classes = useStyles();
 
-  const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
-    return (
-      <MenuItem key={id} value={cargaHoraria}>
-        {cargasHorarias_tFormateadas[cargaHoraria]}
-      </MenuItem>
-    );
-  });
+  const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => (
+    <MenuItem key={id} value={cargaHoraria}>
+      {cargasHorarias_tFormateadas[cargaHoraria]}
+    </MenuItem>
+  ));
 
-  const rolItems = roles.map((rol, id) => {
-    return (
-      <MenuItem key={id} value={rolesTraducidos[rol]}>
-        {rol}
-      </MenuItem>
-    );
-  });
+  const rolItems = roles.map((rol, id) => (
+    <MenuItem key={id} value={rolesTraducidos[rol]}>
+      {rol}
+    </MenuItem>
+  ));
+
+  const renderInformation = (title, info) => (
+    <Box
+      mt={2}
+      style={title === "Estado" ? { display: "flex", gap: "0.5rem" } : {}}
+    >
+      <Typography
+        style={{ fontWeight: 600 }}
+        variant="body1"
+        display="inline"
+        gutterBottom
+      >
+        {title}:{" "}
+      </Typography>
+      <Typography display="inline" variant="body1">
+        {info}
+      </Typography>
+    </Box>
+  );
 
   return (
-    <Fragment>
+    <div style={{ padding: "16px" }}>
       <DialogTitle className={classes.dialogTitle}>
         <Stack direction="row" className={classes.jC_sb}>
           <Typography variant="h6">
@@ -75,88 +94,115 @@ function InfoAsignacionDialog({
         </Stack>
       </DialogTitle>
       <form onSubmit={aplicarCambios}>
-        <DialogContent className={classes.content}>
-          <Stack
-            spacing={1}
-            divider={<Divider flexItem style={{ margin: 10 }} />}
-          >
-            <TextField
-              fullWidth
-              required
-              select
-              label="Rol"
-              name="rol"
-              value={asignacionInfo.role}
-              onChange={onChange}
-              sx={{ marginTop: 1 }}
+        <div style={{ display: "flex" }}>
+          <DialogContent className={classes.content}>
+            <Stack
+              spacing={1}
+              divider={<Divider flexItem style={{ margin: 10 }} />}
             >
-              {rolItems}
-            </TextField>
-            <Stack spacing={1} direction="row">
-              <TextField
-                fullWidth
-                required
-                id="working_hours"
-                label="Carga horaria"
-                variant="standard"
-                type="number"
-                required={true}
-                value={asignacionInfo.working_hours}
-                onChange={onChange}
-                inputProps={{
-                  min: 1,
-                  max: asignacionInfo.working_hours_type == "daily" ? 24 : 100,
-                }}
-              />
               <TextField
                 fullWidth
                 required
                 select
-                name="working_hours_type"
-                label="Tipo de carga horaria"
-                name="working_hours_type"
-                value={asignacionInfo.working_hours_type}
+                label="Rol"
+                name="rol"
+                value={asignacionInfo.role}
                 onChange={onChange}
+                sx={{ marginTop: 1 }}
               >
-                {cargasHorariasItems}
+                {rolItems}
               </TextField>
+              <Stack spacing={1} direction="row">
+                <TextField
+                  fullWidth
+                  required
+                  id="working_hours"
+                  label="Carga horaria"
+                  variant="standard"
+                  type="number"
+                  required={true}
+                  value={asignacionInfo.working_hours}
+                  onChange={onChange}
+                  inputProps={{
+                    min: 1,
+                    max: 100,
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  required
+                  select
+                  name="working_hours_type"
+                  label="Tipo de carga horaria"
+                  name="working_hours_type"
+                  value={asignacionInfo.working_hours_type}
+                  onChange={onChange}
+                >
+                  {cargasHorariasItems}
+                </TextField>
+              </Stack>
+              <Stack spacing={1} direction="row">
+                <TextField
+                  fullWidth
+                  required
+                  InputLabelProps={{ shrink: true }}
+                  id="start_date"
+                  label="Fecha Inicio"
+                  variant="standard"
+                  type="date"
+                  value={asignacionInfo.start_date}
+                  onChange={onChange}
+                  InputProps={{ inputProps: { max: "9999-12-31" } }}
+                />
+                <TextField
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  id="end_date"
+                  label="Fecha Fin"
+                  variant="standard"
+                  type="date"
+                  value={asignacionInfo.end_date}
+                  onChange={onChange}
+                  InputProps={{ inputProps: { max: "9999-12-31" } }}
+                />
+              </Stack>
             </Stack>
-            <Stack spacing={1} direction="row">
-              <TextField
-                fullWidth
-                required
-                InputLabelProps={{ shrink: true }}
-                id="start_date"
-                label="Fecha Inicio"
-                variant="standard"
-                type="date"
-                value={asignacionInfo.start_date}
-                onChange={onChange}
-                InputProps={{ inputProps: { max: "9999-12-31" } }}
-              />
-              <TextField
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-                id="end_date"
-                label="Fecha Fin"
-                variant="standard"
-                type="date"
-                value={asignacionInfo.end_date}
-                onChange={onChange}
-                InputProps={{ inputProps: { max: "9999-12-31" } }}
-              />
-            </Stack>
-          </Stack>
-        </DialogContent>
+          </DialogContent>
+          <DialogContent className={classes.content}>
+            <Typography variant="h6">
+              Información de {projectName.split("-")[0]}
+            </Typography>
+            {renderInformation(
+              "Organización",
+              project.organization == "" ? "-" : project.organization ?? "-"
+            )}
+            {renderInformation(
+              "Tipo proyecto",
+              project.project_type
+                ?.replaceAll("_", " ")
+                .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
+            )}
+            {renderInformation("Estado", renderColor(project.project_state))}
+            {renderInformation(
+              "Fecha Inicio",
+              moment(project.start_date).format("DD/MM/YYYY")
+            )}
+            {renderInformation(
+              "Fecha Fin",
+              project.end_date
+                ? moment(project.end_date).format("DD/MM/YYYY")
+                : "Imdefinida"
+            )}
+          </DialogContent>
+        </div>
         <DialogActions
           className={classes.actions}
-          style={{ justifyContent: "space-between" }}
+          style={{ justifyContent: "space-between", margin: "0 16px" }}
         >
           <Button
-            className={classes.submit}
+            className={classes.secondary}
             onClick={desasignar}
             variant="contained"
-            color="primary"
           >
             Desasignar
           </Button>
@@ -165,13 +211,12 @@ function InfoAsignacionDialog({
             role="submit"
             type="submit"
             variant="contained"
-            color="primary"
           >
             Aplicar Cambios
           </Button>
         </DialogActions>
       </form>
-    </Fragment>
+    </div>
   );
 }
 

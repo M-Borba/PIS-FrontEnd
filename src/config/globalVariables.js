@@ -1,5 +1,6 @@
 export const BACKEND_HOST =
-  process.env.REACT_APP_BACKEND_HOST || "https://operations-development.herokuapp.com/";
+  process.env.REACT_APP_BACKEND_HOST ||
+  "https://operations-development.herokuapp.com/";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
@@ -39,9 +40,9 @@ export const ROLES_CHECKBOX = [
   ["Analista", false],
   ["Diseñador", false],
 ];
-export const cargasHorarias_t = ["daily", "weekly"];
+export const cargasHorarias_t = ["monthly", "weekly"];
 export const cargasHorarias_tFormateadas = {
-  daily: "Diarias",
+  monthly: "Mensuales",
   weekly: "Semanales",
 };
 
