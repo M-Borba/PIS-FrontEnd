@@ -32,7 +32,7 @@ export default function Project() {
           state={project.project_state?.replace(/^\w/, (m) => m.toUpperCase())}
         />
       )}
-      {true && (
+      {project && (
         <CommentsSection
           notes={[
             //TODO: delete hardcoded notes
