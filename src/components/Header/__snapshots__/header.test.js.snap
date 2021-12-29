@@ -15,82 +15,82 @@ exports[`renders and redirects when loged 1`] = `
         <h6
           class="MuiTypography-root makeStyles-title-10 MuiTypography-h6"
         >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+          <a
+            class="makeStyles-link-11"
+            href="/inicio"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-11"
-                href="/inicio"
+              <span
+                class="MuiButton-label"
               >
                 Inicio
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-11"
+            href="/proyectos"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-11"
-                href="/proyectos"
+              <span
+                class="MuiButton-label"
               >
                 Proyectos
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-11"
+            href="/personas"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-11"
-                href="/personas"
+              <span
+                class="MuiButton-label"
               >
                 Personas
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-11"
+            href="/administradores"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-11"
-                href="/administradores"
+              <span
+                class="MuiButton-label"
               >
                 Administradores
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
         </h6>
         <button
           aria-controls="menu-appbar"
@@ -143,82 +143,82 @@ exports[`renders correctly unloged 1`] = `
         <h6
           class="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
         >
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+          <a
+            class="makeStyles-link-4"
+            href="/inicio"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-4"
-                href="/inicio"
+              <span
+                class="MuiButton-label"
               >
                 Inicio
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-4"
+            href="/proyectos"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-4"
-                href="/proyectos"
+              <span
+                class="MuiButton-label"
               >
                 Proyectos
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-4"
+            href="/personas"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-4"
-                href="/personas"
+              <span
+                class="MuiButton-label"
               >
                 Personas
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-          <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-            tabindex="0"
-            type="button"
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
+          <a
+            class="makeStyles-link-4"
+            href="/administradores"
           >
-            <span
-              class="MuiButton-label"
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+              tabindex="0"
+              type="button"
             >
-              <a
-                class="makeStyles-link-4"
-                href="/administradores"
+              <span
+                class="MuiButton-label"
               >
                 Administradores
-              </a>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </a>
         </h6>
         <button
           aria-controls="menu-appbar"
