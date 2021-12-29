@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { axiosInstance } from "../../config/axios";
+import propTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import { FormControlLabel, IconButton, Box } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import propTypes from "prop-types";
-import { useStyles } from "./styles";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -11,9 +10,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Dialog from "@material-ui/core/Dialog";
+
+import { axiosInstance } from "../../config/axios";
+import { useStyles } from "./styles";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
-import InfoProyecto from "../../containers/InfoProyecto";
 import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
@@ -24,12 +25,12 @@ Acciones.propTypes = {
 };
 
 export default function Acciones({ projectRow }) {
+  const history = useHistory();
   const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openAssigned, setOpenAssigned] = React.useState(false);
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
-  const [openInfo, setOpenInfo] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
   const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
   const [asignaciones, setAsignaciones] = useState([]);
@@ -47,9 +48,6 @@ export default function Acciones({ projectRow }) {
     technologies: projectRow.technologies || [],
   };
   const classes = useStyles();
-
-  const handleInfoOpen = () => setOpenInfo(true);
-  const handleInfoClose = () => setOpenInfo(false);
 
   const handleEditOpen = () => setOpenEdit(true);
   const handleEditClose = () => setOpenEdit(false);
@@ -100,29 +98,12 @@ export default function Acciones({ projectRow }) {
       <FormControlLabel
         control={
           <>
-            <IconButton variant="outlined" onClick={handleInfoOpen}>
+            <IconButton
+              variant="outlined"
+              onClick={() => history.push(`/proyecto/${projectData.id}`)}
+            >
               <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
-            <Modal
-              open={openInfo}
-              onClose={handleInfoClose}
-              disableEnforceFocus
-            >
-              <Box className={classes.modalInfo}>
-                <IconButton
-                  aria-label="Close"
-                  onClick={handleInfoClose}
-                  className={classes.closeButton}
-                >
-                  <CloseIcon />
-                </IconButton>
-                <InfoProyecto
-                  projectData={projectData}
-                  type={projectRow.project_type}
-                  state={projectRow.project_state}
-                />
-              </Box>
-            </Modal>
           </>
         }
       />

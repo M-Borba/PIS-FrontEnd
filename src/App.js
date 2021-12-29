@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PersonView from "./containers/PersonView";
 import ProjectView from "./containers/ProjectView";
+import Project from "./containers/Project";
 import { NOT_LOGGED } from "./config/globalVariables";
 import {
   BrowserRouter as Router,
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/login" component={LoginView} />
             {uid == NOT_LOGGED && <Redirect to="/login" />}
             <Route path="/personas" component={ListarPersonas} />
+            <Route path="/proyecto/:id" component={Project} />
             <Route path="/proyectos" component={ListarProyectos} />
             <Route path="/administradores" component={ListarAdministradores} />
             <Route path={["/", "/inicio"]}>
