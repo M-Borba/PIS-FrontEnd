@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Tooltip from "@mui/material/Tooltip";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { useStyles } from "./styles";
 
@@ -14,6 +15,8 @@ FilterForm.propTypes = {
   project_type: propTypes.string,
   project_state: propTypes.string,
   organization: propTypes.string,
+  onOrganizationChange: propTypes.func,
+  onSearch: propTypes.func,
 };
 FilterForm.defaultProps = {
   project_state: "",
@@ -27,6 +30,8 @@ export default function FilterForm({
   project_type,
   project_state,
   organization,
+  onOrganizationChange,
+  onSearch,
 }) {
   const classes = useStyles();
 
@@ -75,9 +80,22 @@ export default function FilterForm({
           name="organization"
           autoComplete="organization"
           value={organization}
-          onChange={onInputChange}
+          onChange={onOrganizationChange}
           inputProps={{ maxLength: 50 }}
         />
+        <Tooltip title="Buscar">
+          <Button
+            style={{
+              color: "#ffffff",
+              background: "#1c1c1c",
+            }}
+            variant="contained"
+            className={classes.clear}
+            onClick={onSearch}
+          >
+            <SearchIcon />
+          </Button>
+        </Tooltip>
         <Tooltip title="Limpiar filtros">
           <Button
             style={{

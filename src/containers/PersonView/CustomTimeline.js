@@ -60,7 +60,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const [filters, setFilters] = useState({
     project_type: "",
     project_state: "",
-    organization: "",
   });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
@@ -68,6 +67,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     projectName: "",
     personName: "",
   });
+  const [organization, setOrganization] = useState("");
 
   const [idInfoPersona, setIdInfoPersona] = useState(0);
 
@@ -335,7 +335,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     );
 
   useEffect(() => {
-    filters ? fetchData(filters) : fetchData();
+    filters ? fetchData({ ...filters, organization }) : fetchData();
   }, [filters]);
 
   return (
@@ -348,12 +348,15 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             <FilterForm
               onClear={async () => {
                 setFilters({});
+                setOrganization("");
                 await fetchData();
               }}
               onInputChange={onFilterChange}
               project_state={filters.project_state}
               project_type={filters.project_type}
-              organization={filters.organization}
+              organization={organization}
+              onOrganizationChange={(e) => setOrganization(e.target.value)}
+              onSearch={() => fetchData({ ...filters, organization })}
             />
             {filteredData && (
               <Timeline

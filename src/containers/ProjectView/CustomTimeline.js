@@ -48,9 +48,9 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const [filters, setFilters] = useState({
     project_type: "",
     project_state: "",
-    organization: "",
   });
   const [isLoading, setIsLoading] = useState();
+  const [organization, setOrganization] = useState("");
 
   const defaultTimeStart = moment().startOf("day").toDate();
   const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
@@ -161,7 +161,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   };
 
   useEffect(() => {
-    filters ? fetchData(filters) : fetchData();
+    filters ? fetchData({ ...filters, organization }) : fetchData();
   }, [filters]);
 
   return (
@@ -173,12 +173,15 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
           <FilterForm
             onClear={async () => {
               setFilters({});
+              setOrganization("");
               await fetchData();
             }}
             onInputChange={onFilterChange}
             project_state={filters.project_state}
             project_type={filters.project_type}
-            organization={filters.organization}
+            organization={organization}
+            onOrganizationChange={(e) => setOrganization(e.target.value)}
+            onSearch={() => fetchData({ ...filters, organization })}
           />
           {filteredData && (
             <Timeline
