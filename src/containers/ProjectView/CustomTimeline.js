@@ -45,6 +45,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [openInfo, setOpenInfo] = React.useState(false);
   const [filteredData, setFilteredData] = useState([true]);
+  const [displayToday, setDisplayToday] = useState(false);
   const [fetchingError, setFetchingError] = useState([false]);
   const [filters, setFilters] = useState({
     project_type: "",
@@ -184,6 +185,10 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
             organization={organization}
             onOrganizationChange={(e) => setOrganization(e.target.value)}
             onSearch={() => fetchData({ ...filters, organization })}
+            setToday={() => {
+              setDisplayToday(true);
+              setTimeout(() => setDisplayToday(false), [100]);
+            }}
           />
           {filteredData && (
             <Timeline
@@ -203,6 +208,8 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               onItemClick={handleItemClick}
               onItemSelect={handleItemClick}
               sidebarWidth={210}
+              visibleTimeStart={displayToday && defaultTimeStart}
+              visibleTimeEnd={displayToday && defaultTimeEnd}
             >
               <TodayMarker />
               <TimelineHeaders className="sticky">
