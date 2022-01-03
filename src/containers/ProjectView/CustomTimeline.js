@@ -8,6 +8,7 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
+  TodayMarker,
 } from "react-calendar-timeline";
 import randomColor from "randomcolor";
 import { useSnackbar } from "notistack";
@@ -119,6 +120,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               style: {
                 borderRadius: 5,
                 background: color,
+                border: "none",
               },
             },
             className:
@@ -190,8 +192,6 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               keys={keys}
               fullUpdate
               itemTouchSendsClick={true}
-              minZoom={30.4368498333 * 86400 * 1000} // mes
-              maxZoom={365.242198 * 86400 * 1000} // año
               dragSnap={60 * 60 * 24 * 1000} //dia
               itemHeightRatio={0.75}
               canMove={true} //se pueden mover
@@ -201,8 +201,10 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               defaultTimeEnd={defaultTimeEnd}
               timeSteps={customTimeSteps}
               onItemClick={handleItemClick}
+              onItemSelect={handleItemClick}
               sidebarWidth={210}
             >
+              <TodayMarker />
               <TimelineHeaders className="sticky">
                 <SidebarHeader>
                   {({ getRootProps }) => {
