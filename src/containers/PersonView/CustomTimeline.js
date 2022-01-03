@@ -10,6 +10,7 @@ import Timeline, {
   TimelineHeaders,
   SidebarHeader,
   DateHeader,
+  TodayMarker,
 } from "react-calendar-timeline";
 import { useSnackbar } from "notistack";
 
@@ -163,6 +164,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                   style: {
                     borderRadius: 5,
                     background: color,
+                    border: "none",
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -380,9 +382,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 onItemResize={handleItemResize}
                 onCanvasClick={handleCanvasClick}
                 onItemClick={handleItemClick}
+                onItemSelect={handleItemClick}
                 sidebarWidth={210}
                 groupRenderer={handleGroupRenderer}
               >
+                <TodayMarker />
                 <TimelineHeaders className="sticky">
                   <SidebarHeader>
                     {({ getRootProps }) => {
