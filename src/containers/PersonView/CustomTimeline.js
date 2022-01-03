@@ -48,6 +48,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [filteredData, setFilteredData] = useState([true]);
+  const [displayToday, setDisplayToday] = useState(false);
   const [fetchingError, setFetchingError] = useState([false]);
   const [assignationError, setAssignationError] = useState(false);
   const [isLoading, setIsLoading] = useState();
@@ -359,6 +360,10 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               organization={organization}
               onOrganizationChange={(e) => setOrganization(e.target.value)}
               onSearch={() => fetchData({ ...filters, organization })}
+              setToday={() => {
+                setDisplayToday(true);
+                setTimeout(() => setDisplayToday(false), [100]);
+              }}
             />
             {filteredData && (
               <Timeline
@@ -385,6 +390,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 onItemSelect={handleItemClick}
                 sidebarWidth={210}
                 groupRenderer={handleGroupRenderer}
+                visibleTimeStart={displayToday && defaultTimeStart}
+                visibleTimeEnd={displayToday && defaultTimeEnd}
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">

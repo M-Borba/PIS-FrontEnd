@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
+import TodayIcon from "@mui/icons-material/Today";
 
 import { useStyles } from "./styles";
 
@@ -17,6 +18,7 @@ FilterForm.propTypes = {
   organization: propTypes.string,
   onOrganizationChange: propTypes.func,
   onSearch: propTypes.func,
+  setToday: propTypes.func,
 };
 FilterForm.defaultProps = {
   project_state: "",
@@ -32,8 +34,25 @@ export default function FilterForm({
   organization,
   onOrganizationChange,
   onSearch,
+  setToday,
 }) {
   const classes = useStyles();
+
+  const renderButton = (tooltip, onClick, iconComponent) => (
+    <Tooltip title={tooltip} className={classes.form}>
+      <Button
+        style={{
+          color: "#ffffff",
+          background: "#1c1c1c",
+        }}
+        variant="contained"
+        className={classes.clear}
+        onClick={onClick}
+      >
+        {iconComponent}
+      </Button>
+    </Tooltip>
+  );
 
   return (
     <div className={classes.container}>
@@ -83,33 +102,10 @@ export default function FilterForm({
           onChange={onOrganizationChange}
           inputProps={{ maxLength: 50 }}
         />
-        <Tooltip title="Buscar">
-          <Button
-            style={{
-              color: "#ffffff",
-              background: "#1c1c1c",
-            }}
-            variant="contained"
-            className={classes.clear}
-            onClick={onSearch}
-          >
-            <SearchIcon />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Limpiar filtros">
-          <Button
-            style={{
-              color: "#ffffff",
-              background: "#1c1c1c",
-            }}
-            variant="contained"
-            className={classes.clear}
-            onClick={onClear}
-          >
-            <HighlightOffIcon />
-          </Button>
-        </Tooltip>
+        {renderButton("Buscar", onSearch, <SearchIcon />)}
+        {renderButton("Limpiar", onClear, <HighlightOffIcon />)}
       </form>
+      {renderButton("Hoy", setToday, <TodayIcon />)}
     </div>
   );
 }
