@@ -1,10 +1,5 @@
 import React, { useState, Fragment } from "react";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Divider from "@material-ui/core/Divider";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import {
@@ -13,10 +8,9 @@ import {
   anchorElPoint,
   Navbar,
   UserName,
+  Button,
 } from "./styles";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
 
@@ -36,12 +30,6 @@ export default function Header() {
   const [username] = useState(uid);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [onHover, setOnHover] = useState({
-    home: false,
-    projects: false,
-    people: false,
-    administrators: false,
-  });
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -70,25 +58,7 @@ export default function Header() {
     <Navbar>
       <div className={classes.title}>
         <Link className={classes.link} to="/inicio">
-          <Button
-            className={classes.button}
-            style={{
-              borderBottom: onHover.home ? "4px #6B5ECD solid" : "none",
-            }}
-            onMouseOver={() =>
-              setOnHover({
-                ...onHover,
-                home: true,
-              })
-            }
-            onMouseLeave={() =>
-              setOnHover({
-                ...onHover,
-                home: false,
-              })
-            }
-            color="inherit"
-          >
+          <Button>
             <img
               style={{ width: 13, marginRight: 9 }}
               src={HomeIcon}
@@ -98,25 +68,7 @@ export default function Header() {
           </Button>
         </Link>
         <Link className={classes.link} to="/proyectos">
-          <Button
-            className={classes.button}
-            style={{
-              borderBottom: onHover.projects ? "4px #6B5ECD solid" : "none",
-            }}
-            color="inherit"
-            onMouseOver={() =>
-              setOnHover({
-                ...onHover,
-                projects: true,
-              })
-            }
-            onMouseLeave={() =>
-              setOnHover({
-                ...onHover,
-                projects: false,
-              })
-            }
-          >
+          <Button>
             <img
               style={{ width: 13, marginRight: 9 }}
               src={ProjectsIcon}
@@ -126,25 +78,7 @@ export default function Header() {
           </Button>
         </Link>
         <Link className={classes.link} to="/personas">
-          <Button
-            className={classes.button}
-            style={{
-              borderBottom: onHover.people ? "4px #6B5ECD solid" : "none",
-            }}
-            color="inherit"
-            onMouseOver={() =>
-              setOnHover({
-                ...onHover,
-                people: true,
-              })
-            }
-            onMouseLeave={() =>
-              setOnHover({
-                ...onHover,
-                people: false,
-              })
-            }
-          >
+          <Button>
             <img
               style={{ width: 13, marginRight: 9 }}
               src={PersonsIcon}
@@ -154,27 +88,7 @@ export default function Header() {
           </Button>
         </Link>
         <Link className={classes.link} to="/administradores">
-          <Button
-            className={classes.button}
-            style={{
-              borderBottom: onHover.administrators
-                ? "4px #6B5ECD solid"
-                : "none",
-            }}
-            color="inherit"
-            onMouseOver={() =>
-              setOnHover({
-                ...onHover,
-                administrators: true,
-              })
-            }
-            onMouseLeave={() =>
-              setOnHover({
-                ...onHover,
-                administrators: false,
-              })
-            }
-          >
+          <Button>
             <img
               style={{ width: 13, marginRight: 9 }}
               src={AdministratorsIcon}

@@ -25,20 +25,28 @@ export const UserName = styled.div`
   cursor: pointer;
 `;
 
+export const Button = styled.div`
+  padding: 0px 20px;
+  border-radius: 0;
+  text-transform: none;
+  font-family: Nunito Sans;
+  font-weight: 700;
+  height: 94%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    border-bottom: 4px #6b5ecd solid;
+  }
+`;
+
 export const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  button: {
-    padding: "0px 20px",
-    height: "100%",
-    borderRadius: 0,
-    textTransform: "none",
-    fontFamily: "Nunito Sans",
-    fontWeight: 700,
-  },
   title: {
     height: 74,
+    display: "flex",
   },
   link: {
     textDecoration: "none",
