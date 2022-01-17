@@ -20,6 +20,7 @@ import PersonsIcon from "../../assets/icons/PersonsIcon.svg";
 import ProjectsIcon from "../../assets/icons/ProjectsIcon.svg";
 import logoEFFE from "../../assets/icons/logoEFFE.svg";
 import EFFElogoname from "../../assets/icons/EFFElogoname.svg";
+import { LinkButton } from "./LinkButton";
 
 export default function Header() {
   var uid = localStorage.getItem("uid");
@@ -57,46 +58,25 @@ export default function Header() {
   return (
     <Navbar>
       <div className={classes.title}>
-        <Link className={classes.link} to="/inicio">
-          <Button>
-            <img
-              style={{ width: 13, marginRight: 9 }}
-              src={HomeIcon}
-              alt="home"
-            />
-            Inicio
-          </Button>
-        </Link>
-        <Link className={classes.link} to="/proyectos">
-          <Button>
-            <img
-              style={{ width: 13, marginRight: 9 }}
-              src={ProjectsIcon}
-              alt="home"
-            />
-            Proyectos
-          </Button>
-        </Link>
-        <Link className={classes.link} to="/personas">
-          <Button>
-            <img
-              style={{ width: 13, marginRight: 9 }}
-              src={PersonsIcon}
-              alt="home"
-            />
-            Personas
-          </Button>
-        </Link>
-        <Link className={classes.link} to="/administradores">
-          <Button>
-            <img
-              style={{ width: 13, marginRight: 9 }}
-              src={AdministratorsIcon}
-              alt="home"
-            />
-            Administradores
-          </Button>
-        </Link>
+        <LinkButton title="Inicio" src={HomeIcon} alt="Inicio" to="/inicio" />
+        <LinkButton
+          title="Proyectos"
+          src={ProjectsIcon}
+          alt="Proyectos"
+          to="/proyectos"
+        />
+        <LinkButton
+          title="Personas"
+          src={PersonsIcon}
+          alt="Personas"
+          to="/personas"
+        />
+        <LinkButton
+          title="Administradores"
+          src={AdministratorsIcon}
+          alt="Administradores"
+          to="/administradores"
+        />
       </div>
       <div style={{ position: "relative" }}>
         <img
