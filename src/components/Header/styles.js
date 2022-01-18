@@ -1,14 +1,52 @@
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "@emotion/styled";
+
+export const Navbar = styled.div`
+  height: 74px;
+  padding: 0px 40px;
+  background-color: #252525;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const UserName = styled.div`
+  height: 25px;
+  width: fit-content;
+  background-color: #fff;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 27px;
+  color: #252525;
+  padding: 5px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+`;
+
+export const Button = styled.div`
+  padding: 0px 20px;
+  border-radius: 0;
+  text-transform: none;
+  font-family: Nunito Sans;
+  font-weight: 700;
+  height: 94%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    border-bottom: 4px #6b5ecd solid;
+  }
+`;
 
 export const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    height: 74,
+    display: "flex",
   },
   link: {
     textDecoration: "none",

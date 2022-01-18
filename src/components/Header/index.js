@@ -1,18 +1,26 @@
 import React, { useState, Fragment } from "react";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Divider from "@material-ui/core/Divider";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { useStyles, PaperProps, anchorElPoint } from "./styles";
+import {
+  useStyles,
+  PaperProps,
+  anchorElPoint,
+  Navbar,
+  UserName,
+  Button,
+} from "./styles";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
+
+import AdministratorsIcon from "../../assets/icons/AdministratorsIcon.svg";
+import HomeIcon from "../../assets/icons/HomeIcon.svg";
+import PersonsIcon from "../../assets/icons/PersonsIcon.svg";
+import ProjectsIcon from "../../assets/icons/ProjectsIcon.svg";
+import logoEFFE from "../../assets/icons/logoEFFE.svg";
+import EFFElogoname from "../../assets/icons/EFFElogoname.svg";
+import { LinkButton } from "./LinkButton";
 
 export default function Header() {
   var uid = localStorage.getItem("uid");
@@ -48,63 +56,66 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar style={{ background: "#1c1c1c" }} position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <Link className={classes.link} to="/inicio">
-              <Button color="inherit">Inicio</Button>
-            </Link>
-            <Link className={classes.link} to="/proyectos">
-              <Button color="inherit">Proyectos</Button>
-            </Link>
-            <Link className={classes.link} to="/personas">
-              <Button color="inherit">Personas</Button>
-            </Link>
-            <Link className={classes.link} to="/administradores">
-              <Button color="inherit">Administradores</Button>
-            </Link>
-          </Typography>
-          <Fragment>
-            <Tooltip title="Configuración de la cuenta">
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-                data-testid="menu-perfil"
-              >
-                <AccountCircleIcon className={classes.mr5} />
-                {username}
-              </IconButton>
-            </Tooltip>
-            <Menu
-              className={classes.mt35}
-              anchorEl={anchorEl}
-              getContentAnchorEl={null}
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={PaperProps}
-              transformOrigin={anchorElPoint}
-              anchorOrigin={anchorElPoint}
+    <Navbar>
+      <div className={classes.title}>
+        <LinkButton title="Inicio" src={HomeIcon} alt="Inicio" to="/inicio" />
+        <LinkButton
+          title="Proyectos"
+          src={ProjectsIcon}
+          alt="Proyectos"
+          to="/proyectos"
+        />
+        <LinkButton
+          title="Personas"
+          src={PersonsIcon}
+          alt="Personas"
+          to="/personas"
+        />
+        <LinkButton
+          title="Administradores"
+          src={AdministratorsIcon}
+          alt="Administradores"
+          to="/administradores"
+        />
+      </div>
+      <div style={{ position: "relative" }}>
+        <img
+          src={logoEFFE}
+          alt="logo"
+          style={{ position: "absolute", top: -15, left: -74 }}
+        />
+        <img src={EFFElogoname} alt="logo" />
+      </div>
+      <Fragment>
+        <Tooltip title="Configuración de la cuenta">
+          <UserName data-testid="menu-perfil" onClick={handleMenu}>
+            {username.split("@")[0]}
+          </UserName>
+        </Tooltip>
+        <Menu
+          className={classes.mt35}
+          anchorEl={anchorEl}
+          getContentAnchorEl={null}
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={PaperProps}
+          transformOrigin={anchorElPoint}
+          anchorOrigin={anchorElPoint}
+        >
+          <MenuItem>
+            <LogoutIcon fontSize="small" className={classes.mr5} />
+            <Link
+              className={classes.menuLink}
+              onClick={Logout}
+              to="/login"
+              data-testid="logout"
             >
-              <MenuItem>
-                <LogoutIcon fontSize="small" className={classes.mr5} />
-                <Link
-                  className={classes.menuLink}
-                  onClick={Logout}
-                  to="/login"
-                  data-testid="logout"
-                >
-                  Cerrar Sesión
-                </Link>
-              </MenuItem>
-            </Menu>
-          </Fragment>
-        </Toolbar>
-      </AppBar>
-    </div>
+              Cerrar Sesión
+            </Link>
+          </MenuItem>
+        </Menu>
+      </Fragment>
+    </Navbar>
   );
 }

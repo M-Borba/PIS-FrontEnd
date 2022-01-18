@@ -3,7 +3,7 @@
 exports[`renders learn react link 1`] = `
 <div>
   <div
-    class="makeStyles-container-8 MuiBox-root css-0"
+    class="makeStyles-container-7 MuiBox-root css-0"
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
@@ -13,11 +13,11 @@ exports[`renders learn react link 1`] = `
       >
         <img
           alt="Logo"
-          class="makeStyles-imgcontainer-9"
+          class="makeStyles-imgcontainer-8"
           src="effectus_wallpaper.png"
         />
         <div
-          class="makeStyles-paper-10"
+          class="makeStyles-paper-9"
           data-testid="login"
         >
           <h1
@@ -26,7 +26,7 @@ exports[`renders learn react link 1`] = `
             Iniciar sesión
           </h1>
           <form
-            class="makeStyles-form-11"
+            class="makeStyles-form-10"
             novalidate=""
           >
             <div
@@ -122,7 +122,7 @@ exports[`renders learn react link 1`] = `
               </div>
             </div>
             <button
-              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-12 css-1v2ereb-MuiButtonBase-root-MuiButton-root"
+              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-11 css-1v2ereb-MuiButtonBase-root-MuiButton-root"
               role="submit"
               style="margin-top: 20px;"
               tabindex="0"
@@ -134,7 +134,7 @@ exports[`renders learn react link 1`] = `
               />
             </button>
             <h2
-              class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-13 css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-12 css-ahj2mt-MuiTypography-root"
             />
           </form>
         </div>
