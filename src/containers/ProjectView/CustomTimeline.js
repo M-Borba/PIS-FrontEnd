@@ -54,8 +54,11 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const [isLoading, setIsLoading] = useState();
   const [organization, setOrganization] = useState("");
 
-  const defaultTimeStart = moment().startOf("day").toDate();
-  const defaultTimeEnd = moment().startOf("day").add(30, "day").toDate();
+  const defaultTimeStart = moment()
+    .startOf("day")
+    .subtract(6, "month")
+    .toDate();
+  const defaultTimeEnd = moment().startOf("day").add(7, "month").toDate();
 
   const classes = useStyles();
 
