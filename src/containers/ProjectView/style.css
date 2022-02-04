@@ -10,6 +10,13 @@
     border-left: 1px solid #bbb;
     border-right: 1px solid #bbb;
     color: #fff;
+    font-size: 16px;
+    font-weight: 700 !important;
+}
+
+.react-calendar-timeline .rct-dateHeader {
+    font-size: 16px;
+    font-weight: 400
 }
 
 .react-calendar-timeline .rct-header-root {

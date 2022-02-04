@@ -6,4 +6,23 @@ export default createTheme({
       fontFamily: "'Nunito Sans'",
     },
   },
+  overrides: {
+    MuiDataGrid: {
+      root: {
+        "& .MuiDataGrid-columnHeaderTitle": {
+          fontWeight: 700,
+          fontSize: "14px",
+        },
+        "& .MuiDataGrid-cell": {
+          fontSize: "16px",
+        },
+      },
+    },
+    MuiTypography: {
+      body2: {
+        fontSize: "14px !important",
+        fontWeight: "700 !important",
+      },
+    },
+  },
 });

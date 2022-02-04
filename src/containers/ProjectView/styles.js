@@ -13,6 +13,10 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     p: 4,
   },
+  datePrimaryHeader: {
+    fontSize: "16px !important",
+    fontWeight: 700,
+  },
   modalInfo: {
     position: "absolute",
     top: "50%",

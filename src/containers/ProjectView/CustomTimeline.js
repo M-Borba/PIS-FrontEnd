@@ -203,7 +203,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               dragSnap={60 * 60 * 24 * 1000} //dia
               itemHeightRatio={0.75}
               canMove={true} //se pueden mover
-              canChangeGroup={false} //no se pueden "cambiar de renglon"
+              canChangeGroup={false} //no se pueden "cambiar de renglón"
               canResize={"both"}
               defaultTimeStart={defaultTimeStart}
               defaultTimeEnd={defaultTimeEnd}

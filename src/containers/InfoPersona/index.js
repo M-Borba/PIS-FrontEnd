@@ -20,17 +20,22 @@ export default function InfoPersona({ personData }) {
           display: "flex",
           alignItems: "center",
           flexWrap: "wrap",
+          justifyContent: "center",
         }}
       >
         <PersonIcon
           style={{
-            width: 50,
-            height: 50,
+            width: "16px",
+            height: "16px",
           }}
         />
         <Typography
-          variant="h4"
-          style={{ marginLeft: 10, overflowWrap: "break-word" }}
+          style={{
+            marginLeft: 10,
+            overflowWrap: "break-word",
+            fontWeight: 700,
+            fontSize: "16px",
+          }}
         >
           {personData.fullName}
         </Typography>
@@ -38,25 +43,33 @@ export default function InfoPersona({ personData }) {
       <Divider style={{ marginBottom: 15, marginTop: 15 }} />
       <Box mt={3}>
         <Typography
-          style={{ fontWeight: 600 }}
+          style={{ fontWeight: 700, fontSize: "12px" }}
           display="inline"
           variant="body1"
         >
           Email:{" "}
         </Typography>
-        <Typography display="inline" variant="body1">
+        <Typography
+          display="inline"
+          style={{ fontWeight: 400, fontSize: "12px" }}
+          variant="body1"
+        >
           {personData.email}
         </Typography>
       </Box>
       <Box mt={3}>
         <Typography
-          style={{ fontWeight: 600 }}
+          style={{ fontWeight: 700, fontSize: "12px" }}
           display="inline"
           variant="body1"
         >
           Carga Horaria:{" "}
         </Typography>
-        <Typography display="inline" variant="body1">
+        <Typography
+          display="inline"
+          style={{ fontWeight: 400, fontSize: "12px" }}
+          variant="body1"
+        >
           {personData.cargaHoraria}
         </Typography>
       </Box>
@@ -64,7 +77,7 @@ export default function InfoPersona({ personData }) {
       <Grid container spacing={2}>
         <Grid item>
           <Typography
-            style={{ fontWeight: 600 }}
+            style={{ fontWeight: 700, fontSize: "12px" }}
             variant="body1"
             display="inline"
             gutterBottom

@@ -166,6 +166,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     borderRadius: 5,
                     background: color,
                     border: "none",
+                    fontSize: "12px",
+                    fontWeight: 700,
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
