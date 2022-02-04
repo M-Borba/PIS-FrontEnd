@@ -27,4 +27,9 @@ export default createTheme({
       },
     },
   },
+  typography: {
+    allVariants: {
+      fontFamily: "'Nunito Sans'",
+    },
+  },
 });
