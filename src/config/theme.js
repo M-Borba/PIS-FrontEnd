@@ -44,10 +44,23 @@ export default createTheme({
         },
       },
     },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            backgroundColor: "#E3E1F3",
+          },
+          "&:hover": {
+            backgroundColor: "#EEEFF6",
+          },
+        },
+      },
+    },
   },
+
   typography: {
     allVariants: {
-      fontFamily: "'Nunito Sans'",
+      fontFamily: "'Nunito Sans', sans serif",
     },
   },
 });

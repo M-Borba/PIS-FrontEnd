@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TodayIcon from "@mui/icons-material/Today";
 
 import { useStyles } from "./styles";
-import { InputLabel } from "@mui/material";
+import { InputAdornment, InputLabel } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 FilterForm.propTypes = {
@@ -56,10 +56,17 @@ export default function FilterForm({
     </Tooltip>
   );
 
+  const canResetFilters = () => {
+    return project_type !== "" || project_state !== "" || organization !== "";
+  };
+
   return (
-    <div className={classes.container}>
-      <form className={classes.form} noValidate>
-        <InputLabel sx={{ width: "330px" }}>Filtrar por</InputLabel>
+    <div
+      className={classes.container}
+      style={canResetFilters() ? { background: "#E2E0F2" } : null}
+    >
+      <form id="filter-form" className={classes.form} noValidate>
+        <InputLabel sx={{ width: "330px" }}>Filtrar por:</InputLabel>
         <TextField
           fullWidth
           id="project_type"
@@ -70,9 +77,6 @@ export default function FilterForm({
           select
           SelectProps={{
             IconComponent: ExpandMoreIcon,
-          }}
-          inputProps={{
-            border: "0px",
           }}
           value={project_type}
           onChange={onInputChange}
@@ -112,11 +116,24 @@ export default function FilterForm({
           value={organization}
           onChange={onOrganizationChange}
           inputProps={{ maxLength: 50 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
-        {renderButton("Buscar", onSearch, <SearchIcon />)}
-        {renderButton("Limpiar", onClear, <HighlightOffIcon />)}
+        {/*{renderButton("Buscar", onSearch, <SearchIcon />)}*/}
+        {/*{renderButton("Limpiar", onClear, "Limpiar filtros")}*/}
       </form>
-      {renderButton("Hoy", setToday, <TodayIcon />)}
+      {canResetFilters() ? (
+        <InputLabel className={classes.clear} onClick={onClear}>
+          Limpiar filtros
+        </InputLabel>
+      ) : null}
+
+      {/*{renderButton("Hoy", setToday, <TodayIcon />)}*/}
     </div>
   );
 }
