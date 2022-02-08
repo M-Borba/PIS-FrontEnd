@@ -9,6 +9,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import TodayIcon from "@mui/icons-material/Today";
 
 import { useStyles } from "./styles";
+import { InputLabel } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 FilterForm.propTypes = {
   onClear: propTypes.func.isRequired,
@@ -57,6 +59,7 @@ export default function FilterForm({
   return (
     <div className={classes.container}>
       <form className={classes.form} noValidate>
+        <InputLabel sx={{ width: "330px" }}>Filtrar por</InputLabel>
         <TextField
           fullWidth
           id="project_type"
@@ -65,6 +68,12 @@ export default function FilterForm({
           name="project_type"
           autoComplete="project_type"
           select
+          SelectProps={{
+            IconComponent: ExpandMoreIcon,
+          }}
+          inputProps={{
+            border: "0px",
+          }}
           value={project_type}
           onChange={onInputChange}
         >
@@ -81,8 +90,10 @@ export default function FilterForm({
           onChange={onInputChange}
           id="project_state"
           name="project_state"
-          onChange={onInputChange}
           select
+          SelectProps={{
+            IconComponent: ExpandMoreIcon,
+          }}
           value={project_state}
         >
           <MenuItem value="">Cualquiera</MenuItem>
