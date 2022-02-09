@@ -393,14 +393,14 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 onCanvasClick={handleCanvasClick}
                 onItemClick={handleItemClick}
                 onItemSelect={handleItemClick}
-                sidebarWidth={210}
+                sidebarWidth={250}
                 groupRenderer={handleGroupRenderer}
                 visibleTimeStart={displayToday && defaultTimeStart}
                 visibleTimeEnd={displayToday && defaultTimeEnd}
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">
-                  <SidebarHeader>
+                  <SidebarHeader style={{ backgroundColor: "white" }}>
                     {({ getRootProps }) => {
                       return (
                         <div {...getRootProps()}>

@@ -210,7 +210,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               timeSteps={customTimeSteps}
               onItemClick={handleItemClick}
               onItemSelect={handleItemClick}
-              sidebarWidth={210}
+              sidebarWidth={250}
               visibleTimeStart={displayToday && defaultTimeStart}
               visibleTimeEnd={displayToday && defaultTimeEnd}
             >
