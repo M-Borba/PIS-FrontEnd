@@ -402,7 +402,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 itemsSorted
                 itemTouchSendsClick={true}
                 minZoom={30.4368498333 * 86400 * 1000} // mes
-                maxZoom={365.242198 * 86400 * 1000} // año
+                maxZoom={2 * 365.242198 * 86400 * 1000} // 2 años
                 dragSnap={60 * 60 * 24 * 1000} //dia
                 stackItems
                 timeSteps={customTimeSteps}

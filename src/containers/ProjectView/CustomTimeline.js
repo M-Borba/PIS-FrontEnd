@@ -201,6 +201,8 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               keys={keys}
               fullUpdate
               itemTouchSendsClick={true}
+              minZoom={30.4368498333 * 86400 * 1000} // mes
+              maxZoom={2 * 365.242198 * 86400 * 1000} // 2 años
               dragSnap={60 * 60 * 24 * 1000} //dia
               itemHeightRatio={0.75}
               canMove={true} //se pueden mover
