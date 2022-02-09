@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     height: "32px",
     padding: "0px",
     alignSelf: "center",
+    color: "#FAFAFA",
   },
   switchBase: {
     // backgroundColor: "#252525",
@@ -23,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   track: {
     borderRadius: "15px",
-    backgroundColor: "#252525",
+    backgroundColor: "#252525 !important",
     opacity: "1 !important",
     zIndex: "-2",
     "&:after, &:before": {

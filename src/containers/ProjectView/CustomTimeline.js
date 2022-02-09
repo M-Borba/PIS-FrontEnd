@@ -125,6 +125,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 borderRadius: 5,
                 background: color,
                 border: "none",
+                height: "20px",
               },
             },
             className:
@@ -205,6 +206,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               canMove={true} //se pueden mover
               canChangeGroup={false} //no se pueden "cambiar de renglón"
               canResize={"both"}
+              lineHeight={40}
               defaultTimeStart={defaultTimeStart}
               defaultTimeEnd={defaultTimeEnd}
               timeSteps={customTimeSteps}

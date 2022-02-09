@@ -66,9 +66,8 @@ export default function FilterForm({
       style={canResetFilters() ? { background: "#E2E0F2" } : null}
     >
       <form id="filter-form" className={classes.form} noValidate>
-        <InputLabel sx={{ width: "330px" }}>Filtrar por:</InputLabel>
+        <InputLabel>Filtrar por:</InputLabel>
         <TextField
-          fullWidth
           id="project_type"
           type="text"
           label="Tipo de proyecto"
@@ -88,7 +87,6 @@ export default function FilterForm({
           <MenuItem value="hibrido">Híbrido</MenuItem>
         </TextField>
         <TextField
-          fullWidth
           type="text"
           label="Estado del proyecto"
           onChange={onInputChange}
@@ -107,7 +105,6 @@ export default function FilterForm({
           <MenuItem value="upcoming">Upcoming</MenuItem>
         </TextField>
         <TextField
-          fullWidth
           id="organization"
           type="text"
           label="Organización"

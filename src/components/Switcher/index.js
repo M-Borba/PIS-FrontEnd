@@ -16,7 +16,7 @@ export default function Switcher({ onSwitch, isProjectView }) {
     <div
       style={{
         // margin: "1vh 1vh 0 1vh",
-        backgroundColor: "white",
+        backgroundColor: "#FAFAFA",
         alignContent: "center",
         display: "flex",
         justifyContent: "center",
@@ -34,7 +34,7 @@ export default function Switcher({ onSwitch, isProjectView }) {
       {/*  Proyectos*/}
       {/*</Typography>*/}
       <Switch
-        color="default"
+        color="primary"
         classes={{
           root: classes.root,
           switchBase: classes.switchBase,

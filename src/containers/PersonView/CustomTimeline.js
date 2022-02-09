@@ -143,7 +143,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let color = "#B0CFCB";
+              let color = "#6B5ECD";
               let finasignacion = endValue(dt.end_date);
               let hoy = new Date().getTime();
               if (hoy < finasignacion) {
@@ -168,6 +168,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     border: "none",
                     fontSize: "12px",
                     fontWeight: 400,
+                    height: "20px",
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -340,10 +341,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       <div {...getItemProps(item.itemProps)}>
         {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
 
-        <div
-          className="rct-item-content"
-          style={{ maxHeight: `${itemContext.dimensions.height}` }}
-        >
+        <div className="rct-item-content">
           <strong>{itemContext.title.split("-")[0]}</strong>
           {" - " + itemContext.title.split("-")[1]}
         </div>
@@ -418,7 +416,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 onCanvasClick={handleCanvasClick}
                 onItemClick={handleItemClick}
                 onItemSelect={handleItemClick}
-                sidebarWidth={250}
                 itemRenderer={handleItemRenderer}
                 sidebarWidth={250}
                 groupRenderer={handleGroupRenderer}
@@ -427,7 +424,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">
-                  <SidebarHeader style={{ backgroundColor: "white" }}>
+                  <SidebarHeader style={{ backgroundColor: "#FAFAFA" }}>
                     {({ getRootProps }) => {
                       return (
                         <div {...getRootProps()}>
