@@ -328,6 +328,31 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     );
   };
 
+  const handleItemRenderer = ({
+    item,
+    itemContext,
+    getItemProps,
+    getResizeProps,
+  }) => {
+    const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
+
+    return (
+      <div {...getItemProps(item.itemProps)}>
+        {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
+
+        <div
+          className="rct-item-content"
+          style={{ maxHeight: `${itemContext.dimensions.height}` }}
+        >
+          <strong>{itemContext.title.split("-")[0]}</strong>
+          {" - " + itemContext.title.split("-")[1]}
+        </div>
+
+        {itemContext.useResizeHandle ? <div {...rightResizeProps} /> : ""}
+      </div>
+    );
+  };
+
   const updateAsignacion = (asignacionId, title, startDate, endDate) =>
     setItems(
       items.map((item) =>
@@ -393,6 +418,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 onCanvasClick={handleCanvasClick}
                 onItemClick={handleItemClick}
                 onItemSelect={handleItemClick}
+                sidebarWidth={250}
+                itemRenderer={handleItemRenderer}
                 sidebarWidth={250}
                 groupRenderer={handleGroupRenderer}
                 visibleTimeStart={displayToday && defaultTimeStart}
