@@ -23,12 +23,7 @@ export default function InfoPersona({ personData }) {
           justifyContent: "center",
         }}
       >
-        <PersonIcon
-          style={{
-            width: "16px",
-            height: "16px",
-          }}
-        />
+        <PersonIcon fontSize="medium" />
         <Typography
           style={{
             marginLeft: 10,
@@ -51,7 +46,7 @@ export default function InfoPersona({ personData }) {
         </Typography>
         <Typography
           display="inline"
-          style={{ fontWeight: 400, fontSize: "12px" }}
+          style={{ marginLeft: "22px", fontWeight: 400, fontSize: "12px" }}
           variant="body1"
         >
           {personData.email}
@@ -67,7 +62,7 @@ export default function InfoPersona({ personData }) {
         </Typography>
         <Typography
           display="inline"
-          style={{ fontWeight: 400, fontSize: "12px" }}
+          style={{ marginLeft: "22px", fontWeight: 400, fontSize: "12px" }}
           variant="body1"
         >
           {personData.cargaHoraria}

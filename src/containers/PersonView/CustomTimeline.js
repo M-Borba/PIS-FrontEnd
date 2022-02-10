@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import Modal from "@material-ui/core/Modal";
@@ -24,6 +24,7 @@ import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
+import { Popover } from "@mui/material";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -52,6 +53,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const [fetchingError, setFetchingError] = useState([false]);
   const [assignationError, setAssignationError] = useState(false);
   const [isLoading, setIsLoading] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openedPopoverId, setOpenedPopoverId] = useState(null);
 
   const [assignObject, setAssignObject] = useState({
     open: false,
@@ -79,6 +82,17 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   };
   const handleInfoClose = () => {
     setOpenInfo(false);
+  };
+
+  const handlePopoverOpen = (event) => {
+    const { target } = event;
+    setAnchorEl(target);
+    setOpenedPopoverId(target.id);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+    setOpenedPopoverId(null);
   };
 
   var groupsToAdd = [];
@@ -318,13 +332,48 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     setItems(items.filter((item) => item.id != asignacionId));
 
   const handleGroupRenderer = ({ group }) => {
-    var uId = group.id;
+    const uId = group.id;
+    const { title } = group;
     return (
       <div className="custom-group">
-        <a id={group.id}>{group.title}</a>
-        <IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>
-          <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
-        </IconButton>
+        <a
+          onMouseLeave={() => {
+            handleInfoClose();
+            handlePopoverClose();
+          }}
+          onMouseEnter={(e) => {
+            handlePopoverOpen(e);
+            handleInfoOpen(uId);
+          }}
+          id={`person-id-${uId}`}
+          key={`person-id-${uId}`}
+        >
+          {title}
+        </a>
+        <Popover
+          id={`simple-popover-${uId}`}
+          key={`simple-popover-${uId}`}
+          anchorOrigin={{
+            vertical: "center",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          className={classes.popover}
+          anchorEl={() => document.getElementById(`person-id-${uId}`)}
+          open={openInfo && openedPopoverId === `person-id-${uId}`}
+          disableRestoreFocus
+        >
+          {/*<h1>{title}</h1>*/}
+          <Box className={classes.popover}>
+            <FetchInfoPersona id={idInfoPersona} />
+          </Box>
+        </Popover>
+        {/*<IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>*/}
+        {/*  <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />*/}
+        {/*</IconButton>*/}
       </div>
     );
   };
@@ -395,6 +444,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             />
             {filteredData && (
               <Timeline
+                key="person-timeline"
                 groups={groups}
                 items={items}
                 keys={keys}
@@ -471,22 +521,22 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               updateAsignacion={updateAsignacion}
             />
             <>
-              <Modal
-                open={openInfo}
-                onClose={handleInfoClose}
-                disableEnforceFocus
-              >
-                <Box className={classes.modalInfo}>
-                  <IconButton
-                    aria-label="Close"
-                    onClick={handleInfoClose}
-                    className={classes.closeButton}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <FetchInfoPersona id={idInfoPersona} />
-                </Box>
-              </Modal>
+              {/*<Modal*/}
+              {/*  open={openInfo}*/}
+              {/*  onClose={handleInfoClose}*/}
+              {/*  disableEnforceFocus*/}
+              {/*>*/}
+              {/*  <Box className={classes.modalInfo}>*/}
+              {/*    <IconButton*/}
+              {/*      aria-label="Close"*/}
+              {/*      onClick={handleInfoClose}*/}
+              {/*      className={classes.closeButton}*/}
+              {/*    >*/}
+              {/*      <CloseIcon />*/}
+              {/*    </IconButton>*/}
+              {/*    <FetchInfoPersona id={idInfoPersona} />*/}
+              {/*  </Box>*/}
+              {/*</Modal>*/}
             </>
             {filteredData && (
               <Grid container style={{ marginLeft: 10 }}>
