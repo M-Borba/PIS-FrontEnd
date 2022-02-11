@@ -35,6 +35,7 @@ export const useStyles = makeStyles((theme) => ({
     "& > div": {
       borderRadius: "16px !important",
       marginLeft: "20px",
+      marginTop: "-29px",
     },
   },
   box: {
