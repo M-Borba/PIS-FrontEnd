@@ -1,16 +1,15 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import {
-  useStyles,
-  PaperProps,
   anchorElPoint,
   Navbar,
+  PaperProps,
   UserName,
-  Button,
+  useStyles,
 } from "./styles";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
 
@@ -32,6 +31,7 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const selectedTab = window.location.pathname;
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -58,24 +58,33 @@ export default function Header() {
   return (
     <Navbar>
       <div className={classes.title}>
-        <LinkButton title="Inicio" src={HomeIcon} alt="Inicio" to="/inicio" />
+        <LinkButton
+          title="Inicio"
+          src={HomeIcon}
+          alt="Inicio"
+          to="/inicio"
+          isSelected={"/inicio" === selectedTab}
+        />
         <LinkButton
           title="Proyectos"
           src={ProjectsIcon}
           alt="Proyectos"
           to="/proyectos"
+          isSelected={"/proyectos" === selectedTab}
         />
         <LinkButton
           title="Personas"
           src={PersonsIcon}
           alt="Personas"
           to="/personas"
+          isSelected={"/personas" === selectedTab}
         />
         <LinkButton
           title="Administradores"
           src={AdministratorsIcon}
           alt="Administradores"
           to="/administradores"
+          isSelected={"/administradores" === selectedTab}
         />
       </div>
       <div style={{ position: "relative" }}>

@@ -31,12 +31,14 @@ export const Button = styled.div`
   text-transform: none;
   font-family: Nunito Sans;
   font-weight: 700;
+  line-height: 20px;
   height: 94%;
   display: flex;
   justify-content: center;
   align-items: center;
+
   &:hover {
-    border-bottom: 4px #6b5ecd solid;
+    border-bottom: 4.5px #6b5ecd solid;
   }
 `;
 
@@ -62,6 +64,14 @@ export const useStyles = makeStyles((theme) => ({
   },
   mt35: {
     marginTop: 35,
+  },
+  selected: {
+    borderBottom: "10px #6b5ecd solid",
+    boxSizing: "border-box",
+    "& > div": { marginTop: "0.6vh" },
+    "&:hover": {
+      borderBottom: "10px #6b5ecd solid",
+    },
   },
 }));
 
