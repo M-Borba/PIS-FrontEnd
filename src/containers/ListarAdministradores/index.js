@@ -37,14 +37,6 @@ export default function ListarAdministradores() {
         <Loading />
       ) : (
         <>
-          <Typography
-            style={{ marginTop: 20 }}
-            color="#1c1c1c"
-            variant="h4"
-            align="center"
-          >
-            LISTADO DE ADMINISTRADORES
-          </Typography>
           <UpdateGridProvider>
             <Administradores rows={rows} setRows={setRows} />
           </UpdateGridProvider>

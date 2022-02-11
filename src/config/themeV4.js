@@ -24,5 +24,20 @@ export default createTheme({
         fontWeight: "700 !important",
       },
     },
+    MuiButton: {
+      root: {
+        fontSize: "18px",
+        fontWeight: "700",
+        borderRadius: "31px",
+      },
+      contained: {
+        color: "#ffffff",
+        backgroundColor: "#6B5ECD",
+        "&:hover": {
+          backgroundColor: "#6458bf",
+        },
+        textTransform: "none",
+      },
+    },
   },
 });

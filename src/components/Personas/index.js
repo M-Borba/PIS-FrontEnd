@@ -105,10 +105,7 @@ export default function Personas({ rows, setRows }) {
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
         <Button
-          style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
-          }}
+          classes={{ root: classes.buttonRoot }}
           variant="contained"
           onClick={handleNewOpen}
         >
