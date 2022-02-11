@@ -57,7 +57,7 @@ export default function FilterForm({
   );
 
   const canResetFilters = () => {
-    return project_type !== "" || project_state !== "" || organization !== "";
+    return project_type || project_state || organization;
   };
 
   return (
@@ -121,16 +121,13 @@ export default function FilterForm({
             ),
           }}
         />
-        {/*{renderButton("Buscar", onSearch, <SearchIcon />)}*/}
-        {/*{renderButton("Limpiar", onClear, "Limpiar filtros")}*/}
       </form>
-      {canResetFilters() ? (
+      {canResetFilters() && (
         <InputLabel className={classes.clear} onClick={onClear}>
-          Limpiar filtros
+          {" "}
+          Limpiar filtros{" "}
         </InputLabel>
-      ) : null}
-
-      {/*{renderButton("Hoy", setToday, <TodayIcon />)}*/}
+      )}
     </div>
   );
 }
