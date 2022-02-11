@@ -9,7 +9,6 @@ export const useStyles = makeStyles((theme) => ({
     color: "#FAFAFA",
   },
   switchBase: {
-    // backgroundColor: "#252525",
     padding: "1px",
   },
   thumb: {

@@ -1,15 +1,12 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import Modal from "@material-ui/core/Modal";
-import { Box, IconButton, Grid } from "@material-ui/core";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, Grid } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
-  TimelineHeaders,
-  SidebarHeader,
   DateHeader,
+  SidebarHeader,
+  TimelineHeaders,
   TodayMarker,
 } from "react-calendar-timeline";
 import { useSnackbar } from "notistack";
@@ -516,24 +513,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               removeAsignacion={removeAsignacion}
               updateAsignacion={updateAsignacion}
             />
-            <>
-              {/*<Modal*/}
-              {/*  open={openInfo}*/}
-              {/*  onClose={handleInfoClose}*/}
-              {/*  disableEnforceFocus*/}
-              {/*>*/}
-              {/*  <Box className={classes.modalInfo}>*/}
-              {/*    <IconButton*/}
-              {/*      aria-label="Close"*/}
-              {/*      onClick={handleInfoClose}*/}
-              {/*      className={classes.closeButton}*/}
-              {/*    >*/}
-              {/*      <CloseIcon />*/}
-              {/*    </IconButton>*/}
-              {/*    <FetchInfoPersona id={idInfoPersona} />*/}
-              {/*  </Box>*/}
-              {/*</Modal>*/}
-            </>
+            <></>
             {filteredData && (
               <Grid container style={{ marginLeft: 10 }}>
                 <Grid

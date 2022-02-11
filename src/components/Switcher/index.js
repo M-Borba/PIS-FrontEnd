@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
+import React from "react";
 import Switch from "@material-ui/core/Switch";
 import PropTypes from "prop-types";
-import Typography from "@mui/material/Typography";
 import { useStyles } from "../../components/Switcher/styles";
 
 Switcher.propTypes = {
@@ -15,7 +13,6 @@ export default function Switcher({ onSwitch, isProjectView }) {
   return (
     <div
       style={{
-        // margin: "1vh 1vh 0 1vh",
         backgroundColor: "#FAFAFA",
         alignContent: "center",
         display: "flex",
@@ -23,16 +20,6 @@ export default function Switcher({ onSwitch, isProjectView }) {
         height: "100%",
       }}
     >
-      {/*<Grid*/}
-      {/*  container*/}
-      {/*  direction="row"*/}
-      {/*  alignItems="center"*/}
-      {/*  justifyContent="center"*/}
-      {/*  spacing={0}*/}
-      {/*>*/}
-      {/*<Typography variant="body2" color="common.white">*/}
-      {/*  Proyectos*/}
-      {/*</Typography>*/}
       <Switch
         color="primary"
         classes={{
@@ -45,10 +32,6 @@ export default function Switcher({ onSwitch, isProjectView }) {
         checked={isProjectView}
         onChange={onSwitch}
       />
-      {/*<Typography variant="body2" color="common.white">*/}
-      {/*  Personas*/}
-      {/*</Typography>*/}
-      {/*</Grid>*/}
     </div>
   );
 }
