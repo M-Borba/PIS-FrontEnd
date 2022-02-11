@@ -17,7 +17,7 @@ export const UserName = styled.div`
   font-family: Nunito Sans;
   font-style: normal;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 27px;
   color: #252525;
   padding: 5px 20px;
@@ -47,6 +47,7 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     height: 74,
     display: "flex",
+    fontSize: "20px",
   },
   link: {
     textDecoration: "none",

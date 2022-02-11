@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import LoginView from "./containers/Login";
 import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider as ThemeProviderV4 } from "@material-ui/core/styles";
 import Header from "./components/Header";
 import ListarAdministradores from "./containers/ListarAdministradores";
 import ListarPersonas from "./containers/ListarPersonas";
@@ -19,6 +20,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import "./App.css";
 import theme from "./config/theme";
+import themeV4 from "./config/themeV4";
 
 export default function App() {
   var uid = localStorage.getItem("uid");
@@ -31,33 +33,41 @@ export default function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={DateAdapter}>
-        <Router>
-          <Route
-            render={({ location }) =>
-              !["/login", "/Login"].includes(location.pathname) && <Header />
-            }
-          />
-          <SwitchRouter>
-            <Route path="/login" component={LoginView} />
-            {uid == NOT_LOGGED && <Redirect to="/login" />}
-            <Route path="/personas" component={ListarPersonas} />
-            <Route path="/proyecto/:id" component={Project} />
-            <Route path="/proyectos" component={ListarProyectos} />
-            <Route path="/administradores" component={ListarAdministradores} />
-            <Route path={["/", "/inicio"]}>
-              <>
-                <PersonView onSwitch={onSwitch} isProjectView={isProjectView} />
-                <ProjectView
-                  onSwitch={onSwitch}
-                  isProjectView={isProjectView}
-                />
-              </>
-            </Route>
-          </SwitchRouter>
-        </Router>
-      </LocalizationProvider>
-    </ThemeProvider>
+    <ThemeProviderV4 theme={themeV4}>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <Router>
+            <Route
+              render={({ location }) =>
+                !["/login", "/Login"].includes(location.pathname) && <Header />
+              }
+            />
+            <SwitchRouter>
+              <Route path="/login" component={LoginView} />
+              {uid == NOT_LOGGED && <Redirect to="/login" />}
+              <Route path="/personas" component={ListarPersonas} />
+              <Route path="/proyecto/:id" component={Project} />
+              <Route path="/proyectos" component={ListarProyectos} />
+              <Route
+                path="/administradores"
+                component={ListarAdministradores}
+              />
+              <Route path={["/", "/inicio"]}>
+                <>
+                  <PersonView
+                    onSwitch={onSwitch}
+                    isProjectView={isProjectView}
+                  />
+                  <ProjectView
+                    onSwitch={onSwitch}
+                    isProjectView={isProjectView}
+                  />
+                </>
+              </Route>
+            </SwitchRouter>
+          </Router>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </ThemeProviderV4>
   );
 }

@@ -42,14 +42,6 @@ export default function ListarPersonas() {
         <Loading />
       ) : (
         <>
-          <Typography
-            style={{ marginTop: 20 }}
-            color="#1c1c1c"
-            variant="h4"
-            align="center"
-          >
-            LISTADO DE PERSONAS
-          </Typography>
           <UpdateGridProvider>
             <Personas rows={rows} setRows={setRows} />
           </UpdateGridProvider>
