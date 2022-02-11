@@ -29,6 +29,14 @@ export const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+  popover: {
+    pointerEvents: "none",
+    boxShadow: "0px 4px 4px 0px #00000040",
+    "& > div": {
+      borderRadius: "16px !important",
+      marginLeft: "20px",
+    },
+  },
   box: {
     display: "flex",
     padding: 8,

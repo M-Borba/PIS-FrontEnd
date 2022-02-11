@@ -1,15 +1,12 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import Modal from "@material-ui/core/Modal";
-import { Box, IconButton, Grid } from "@material-ui/core";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Box, Grid } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
-  TimelineHeaders,
-  SidebarHeader,
   DateHeader,
+  SidebarHeader,
+  TimelineHeaders,
   TodayMarker,
 } from "react-calendar-timeline";
 import { useSnackbar } from "notistack";
@@ -24,6 +21,7 @@ import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
+import { Popover } from "@mui/material";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -52,6 +50,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const [fetchingError, setFetchingError] = useState([false]);
   const [assignationError, setAssignationError] = useState(false);
   const [isLoading, setIsLoading] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openedPopoverId, setOpenedPopoverId] = useState(null);
 
   const [assignObject, setAssignObject] = useState({
     open: false,
@@ -79,6 +79,17 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   };
   const handleInfoClose = () => {
     setOpenInfo(false);
+  };
+
+  const handlePopoverOpen = (event) => {
+    const { target } = event;
+    setAnchorEl(target);
+    setOpenedPopoverId(target.id);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+    setOpenedPopoverId(null);
   };
 
   var groupsToAdd = [];
@@ -143,7 +154,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let color = "#B0CFCB";
+              let color = "#6B5ECD";
               let finasignacion = endValue(dt.end_date);
               let hoy = new Date().getTime();
               if (hoy < finasignacion) {
@@ -168,6 +179,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     border: "none",
                     fontSize: "12px",
                     fontWeight: 400,
+                    height: "20px",
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -317,13 +329,44 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     setItems(items.filter((item) => item.id != asignacionId));
 
   const handleGroupRenderer = ({ group }) => {
-    var uId = group.id;
+    const uId = group.id;
+    const { title } = group;
     return (
       <div className="custom-group">
-        <a id={group.id}>{group.title}</a>
-        <IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>
-          <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />
-        </IconButton>
+        <a
+          onMouseLeave={() => {
+            handleInfoClose();
+            handlePopoverClose();
+          }}
+          onMouseEnter={(e) => {
+            handlePopoverOpen(e);
+            handleInfoOpen(uId);
+          }}
+          id={`person-id-${uId}`}
+          key={`person-id-${uId}`}
+        >
+          {title}
+        </a>
+        <Popover
+          id={`simple-popover-${uId}`}
+          key={`simple-popover-${uId}`}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          className={classes.popover}
+          anchorEl={() => document.getElementById(`person-id-${uId}`)}
+          open={openInfo && openedPopoverId === `person-id-${uId}`}
+          disableRestoreFocus
+        >
+          <Box>
+            <FetchInfoPersona id={idInfoPersona} />
+          </Box>
+        </Popover>
       </div>
     );
   };
@@ -340,10 +383,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       <div {...getItemProps(item.itemProps)}>
         {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
 
-        <div
-          className="rct-item-content"
-          style={{ maxHeight: `${itemContext.dimensions.height}` }}
-        >
+        <div className="rct-item-content">
           <strong>{itemContext.title.split("-")[0]}</strong>
           {" - " + itemContext.title.split("-")[1]}
         </div>
@@ -397,6 +437,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             />
             {filteredData && (
               <Timeline
+                key="person-timeline"
                 groups={groups}
                 items={items}
                 keys={keys}
@@ -404,7 +445,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                 itemsSorted
                 itemTouchSendsClick={true}
                 minZoom={30.4368498333 * 86400 * 1000} // mes
-                maxZoom={365.242198 * 86400 * 1000} // año
+                maxZoom={2 * 365.242198 * 86400 * 1000} // 2 años
                 dragSnap={60 * 60 * 24 * 1000} //dia
                 stackItems
                 timeSteps={customTimeSteps}
@@ -426,7 +467,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">
-                  <SidebarHeader style={{ backgroundColor: "white" }}>
+                  <SidebarHeader style={{ backgroundColor: "#FAFAFA" }}>
                     {({ getRootProps }) => {
                       return (
                         <div {...getRootProps()}>
@@ -472,24 +513,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               removeAsignacion={removeAsignacion}
               updateAsignacion={updateAsignacion}
             />
-            <>
-              <Modal
-                open={openInfo}
-                onClose={handleInfoClose}
-                disableEnforceFocus
-              >
-                <Box className={classes.modalInfo}>
-                  <IconButton
-                    aria-label="Close"
-                    onClick={handleInfoClose}
-                    className={classes.closeButton}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <FetchInfoPersona id={idInfoPersona} />
-                </Box>
-              </Modal>
-            </>
+            <></>
             {filteredData && (
               <Grid container style={{ marginLeft: 10 }}>
                 <Grid

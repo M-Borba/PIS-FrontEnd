@@ -7,6 +7,7 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
+    padding: "20px 10px",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -20,6 +21,10 @@ export const useStyles = makeStyles((theme) => ({
     width: "50%",
   },
   clear: {
-    width: "auto",
+    "&:hover": {
+      cursor: "pointer",
+    },
+    textDecorationLine: "underline",
+    color: "#6B5ECD !important",
   },
 }));

@@ -15,4 +15,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   errorMsg: { position: "fixed", color: "red" },
+  root: {
+    width: "100% !important",
+  },
 }));

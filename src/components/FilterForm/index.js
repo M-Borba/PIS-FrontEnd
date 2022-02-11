@@ -9,6 +9,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import TodayIcon from "@mui/icons-material/Today";
 
 import { useStyles } from "./styles";
+import { InputAdornment, InputLabel } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 FilterForm.propTypes = {
   onClear: propTypes.func.isRequired,
@@ -54,17 +56,27 @@ export default function FilterForm({
     </Tooltip>
   );
 
+  const canResetFilters = () => {
+    return project_type || project_state || organization;
+  };
+
   return (
-    <div className={classes.container}>
-      <form className={classes.form} noValidate>
+    <div
+      className={classes.container}
+      style={canResetFilters() ? { background: "#E2E0F2" } : null}
+    >
+      <form id="filter-form" className={classes.form} noValidate>
+        <InputLabel>Filtrar por:</InputLabel>
         <TextField
-          fullWidth
           id="project_type"
           type="text"
           label="Tipo de proyecto"
           name="project_type"
           autoComplete="project_type"
           select
+          SelectProps={{
+            IconComponent: ExpandMoreIcon,
+          }}
           value={project_type}
           onChange={onInputChange}
         >
@@ -75,14 +87,15 @@ export default function FilterForm({
           <MenuItem value="hibrido">Híbrido</MenuItem>
         </TextField>
         <TextField
-          fullWidth
           type="text"
           label="Estado del proyecto"
           onChange={onInputChange}
           id="project_state"
           name="project_state"
-          onChange={onInputChange}
           select
+          SelectProps={{
+            IconComponent: ExpandMoreIcon,
+          }}
           value={project_state}
         >
           <MenuItem value="">Cualquiera</MenuItem>
@@ -92,7 +105,6 @@ export default function FilterForm({
           <MenuItem value="upcoming">Upcoming</MenuItem>
         </TextField>
         <TextField
-          fullWidth
           id="organization"
           type="text"
           label="Organización"
@@ -101,11 +113,21 @@ export default function FilterForm({
           value={organization}
           onChange={onOrganizationChange}
           inputProps={{ maxLength: 50 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
         />
-        {renderButton("Buscar", onSearch, <SearchIcon />)}
-        {renderButton("Limpiar", onClear, <HighlightOffIcon />)}
       </form>
-      {renderButton("Hoy", setToday, <TodayIcon />)}
+      {canResetFilters() && (
+        <InputLabel className={classes.clear} onClick={onClear}>
+          {" "}
+          Limpiar filtros{" "}
+        </InputLabel>
+      )}
     </div>
   );
 }

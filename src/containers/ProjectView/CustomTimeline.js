@@ -125,6 +125,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 borderRadius: 5,
                 background: color,
                 border: "none",
+                height: "20px",
               },
             },
             className:
@@ -200,17 +201,20 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               keys={keys}
               fullUpdate
               itemTouchSendsClick={true}
+              minZoom={30.4368498333 * 86400 * 1000} // mes
+              maxZoom={2 * 365.242198 * 86400 * 1000} // 2 años
               dragSnap={60 * 60 * 24 * 1000} //dia
               itemHeightRatio={0.75}
               canMove={true} //se pueden mover
               canChangeGroup={false} //no se pueden "cambiar de renglón"
               canResize={"both"}
+              lineHeight={40}
               defaultTimeStart={defaultTimeStart}
               defaultTimeEnd={defaultTimeEnd}
               timeSteps={customTimeSteps}
               onItemClick={handleItemClick}
               onItemSelect={handleItemClick}
-              sidebarWidth={210}
+              sidebarWidth={250}
               visibleTimeStart={displayToday && defaultTimeStart}
               visibleTimeEnd={displayToday && defaultTimeEnd}
             >
