@@ -1,14 +1,14 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Box } from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
-import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import CreateProject from "../../containers/CreateProject";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
+import AddButton from "../AddButton";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -137,13 +137,9 @@ export default function Proyecto({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button
-          classes={{ root: classes.buttonRoot }}
-          variant="contained"
-          onClick={handleNewOpen}
-        >
+        <AddButton variant="contained" onClick={handleNewOpen}>
           Agregar Proyecto
-        </Button>
+        </AddButton>
       </Box>
       <Modal
         open={openNew}
