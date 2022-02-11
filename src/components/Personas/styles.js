@@ -31,10 +31,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   popover: {
     pointerEvents: "none",
-    borderRadius: "16px !important",
     boxShadow: "0px 4px 4px 0px #00000040",
     "& > div": {
       borderRadius: "16px !important",
+      marginLeft: "20px",
     },
   },
   box: {

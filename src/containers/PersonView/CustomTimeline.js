@@ -354,7 +354,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           id={`simple-popover-${uId}`}
           key={`simple-popover-${uId}`}
           anchorOrigin={{
-            vertical: "center",
+            vertical: "top",
             horizontal: "right",
           }}
           transformOrigin={{
@@ -366,14 +366,10 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           open={openInfo && openedPopoverId === `person-id-${uId}`}
           disableRestoreFocus
         >
-          {/*<h1>{title}</h1>*/}
-          <Box className={classes.popover}>
+          <Box>
             <FetchInfoPersona id={idInfoPersona} />
           </Box>
         </Popover>
-        {/*<IconButton variant="outlined" onClick={() => handleInfoOpen(uId)}>*/}
-        {/*  <VisibilityIcon style={{ color: "rgb(30, 30, 30)" }} />*/}
-        {/*</IconButton>*/}
       </div>
     );
   };
