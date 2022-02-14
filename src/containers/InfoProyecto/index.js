@@ -232,9 +232,49 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 data={projectData.people}
               />
             </Box>
-            <AddButton type="submit" variant="contained">
-              Aplicar cambios
-            </AddButton>
+            <Grid
+              xs={12}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <Grid
+                xs={12}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  width: "100%",
+                }}
+              >
+                <AddButton type="submit" variant="contained">
+                  Aplicar cambios
+                </AddButton>
+              </Grid>
+              <Grid
+                xs={6}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                }}
+              >
+                <AddButton
+                  styles={{
+                    backgroundColor: "#c21321",
+                    "&:hover": { backgroundColor: "#9d1e29" },
+                  }}
+                  type="submit"
+                  variant="contained"
+                  onClick={onClose}
+                >
+                  Cancelar
+                </AddButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </form>
