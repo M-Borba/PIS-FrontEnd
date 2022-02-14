@@ -45,7 +45,13 @@ export default function InfoProyecto({ projectData, type, state, onClose }) {
           );
         })
         .catch((error) => {
-          console.log(error.response);
+          enqueueSnackbar(
+            `El proyecto ${projectData.name} no se actualizó con éxito.`,
+            {
+              variant: "error",
+              autoHideDuration: 4000,
+            }
+          );
         });
     } else {
       e.preventDefault();
