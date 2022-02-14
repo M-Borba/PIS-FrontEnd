@@ -2,13 +2,7 @@ import React, { Fragment, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {
-  anchorElPoint,
-  Navbar,
-  PaperProps,
-  UserName,
-  useStyles,
-} from "./styles";
+import { anchorElPoint, Navbar, PaperProps, useStyles } from "./styles";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config/axios";
 import { Tooltip } from "@material-ui/core";
@@ -20,6 +14,8 @@ import ProjectsIcon from "../../assets/icons/ProjectsIcon.svg";
 import logoEFFE from "../../assets/icons/logoEFFE.svg";
 import EFFElogoname from "../../assets/icons/EFFElogoname.svg";
 import { LinkButton } from "./LinkButton";
+import PersonIcon from "@material-ui/icons/Person";
+import { Avatar } from "@mui/material";
 
 export default function Header() {
   var uid = localStorage.getItem("uid");
@@ -97,9 +93,12 @@ export default function Header() {
       </div>
       <Fragment>
         <Tooltip title="Configuración de la cuenta">
-          <UserName data-testid="menu-perfil" onClick={handleMenu}>
+          <div className={classes.userName} onClick={handleMenu}>
+            <Avatar className={classes.userNameIcon}>
+              <PersonIcon />
+            </Avatar>
             {username.split("@")[0]}
-          </UserName>
+          </div>
         </Tooltip>
         <Menu
           className={classes.mt35}

@@ -10,21 +10,6 @@ export const Navbar = styled.div`
   justify-content: space-between;
 `;
 
-export const UserName = styled.div`
-  height: 25px;
-  width: fit-content;
-  background-color: #fff;
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 27px;
-  color: #252525;
-  padding: 5px 20px;
-  border-radius: 50px;
-  cursor: pointer;
-`;
-
 export const Button = styled.div`
   padding: 0px 20px;
   border-radius: 0;
@@ -72,6 +57,26 @@ export const useStyles = makeStyles((theme) => ({
     "&:hover": {
       borderBottom: "10px #6b5ecd solid",
     },
+  },
+  userName: {
+    width: "fit-content",
+    backgroundColor: "#fff",
+    fontFamily: "Nunito Sans",
+    fontStyle: "normal",
+    fontWeight: 600,
+    fontSize: "20px",
+    lineHeight: "27px",
+    color: "#252525",
+    padding: "5px 15px 5px 7px",
+    borderRadius: "50px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+  },
+  userNameIcon: {
+    marginRight: 5,
+    backgroundColor: "#6b5ecd !important",
+    color: "#fff",
   },
 }));
 
