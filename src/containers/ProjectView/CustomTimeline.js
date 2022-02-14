@@ -1,13 +1,13 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import Modal from "@material-ui/core/Modal";
-import { IconButton, Box, Typography } from "@material-ui/core";
+import { Box, IconButton, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import Timeline, {
-  TimelineHeaders,
-  SidebarHeader,
   DateHeader,
+  SidebarHeader,
+  TimelineHeaders,
   TodayMarker,
 } from "react-calendar-timeline";
 import randomColor from "randomcolor";
@@ -22,7 +22,7 @@ import { customTimeSteps } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import not_found from "../../resources/not_found.png";
-import { startValue, endValue } from "../PersonView/CustomTimeline";
+import { endValue, startValue } from "../PersonView/CustomTimeline";
 import Loading from "../../components/Loading";
 
 var keys = {
@@ -263,6 +263,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 <CloseIcon />
               </IconButton>
               <InfoProyecto
+                onClose={handleInfoClose}
                 projectData={projectData}
                 type={projectData.project_type
                   ?.replaceAll("_", " ")

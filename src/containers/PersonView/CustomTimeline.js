@@ -524,7 +524,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     backgroundColor: "#C14B3A",
                     border: "1px solid black",
                   }}
-                ></Grid>
+                />
                 <Grid item>
                   &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
                 </Grid>

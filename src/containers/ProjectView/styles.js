@@ -27,6 +27,7 @@ export const useStyles = makeStyles((theme) => ({
     background: "white",
     boxShadow: 24,
     overflowX: "hidden",
+    outline: "0px !important",
   },
   closeButton: {
     position: "absolute",
