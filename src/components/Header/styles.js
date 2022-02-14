@@ -74,9 +74,9 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   userNameIcon: {
-    marginRight: 5,
+    marginRight: 8,
     backgroundColor: "#6b5ecd !important",
-    color: "#fff",
+    color: "#fff !important",
   },
 }));
 
