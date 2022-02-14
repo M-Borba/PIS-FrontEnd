@@ -268,9 +268,6 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 type={projectData.project_type
                   ?.replaceAll("_", " ")
                   .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}
-                state={projectData.project_state?.replace(/^\w/, (m) =>
-                  m.toUpperCase()
-                )}
               />
             </Paper>
           </Modal>

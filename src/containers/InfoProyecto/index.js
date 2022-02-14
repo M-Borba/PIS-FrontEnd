@@ -19,11 +19,10 @@ import { axiosInstance } from "../../config/axios";
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
   type: propTypes.string,
-  state: propTypes.string,
   onClose: propTypes.func,
 };
 
-export default function InfoProyecto({ projectData, type, state, onClose }) {
+export default function InfoProyecto({ projectData, type, onClose }) {
   const [project_state, setProjectState] = useState(projectData.project_state);
   const initialState = projectData.project_state;
   const { enqueueSnackbar } = useSnackbar();
@@ -82,10 +81,7 @@ export default function InfoProyecto({ projectData, type, state, onClose }) {
         </Typography>
       </div>
       <Divider style={{ marginBottom: 15, marginTop: 15 }} />
-      <form
-        id="timeline-proyect-change-form"
-        onSubmit={(event) => handleApplyChanges(event, projectData)}
-      >
+      <form onSubmit={(event) => handleApplyChanges(event, projectData)}>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <Box>
@@ -236,12 +232,7 @@ export default function InfoProyecto({ projectData, type, state, onClose }) {
                 data={projectData.people}
               />
             </Box>
-            <AddButton
-              color="secondary"
-              form="timeline-proyect-change-form"
-              type="submit"
-              variant="contained"
-            >
+            <AddButton type="submit" variant="contained">
               Aplicar cambios
             </AddButton>
           </Grid>

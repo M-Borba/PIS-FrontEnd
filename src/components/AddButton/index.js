@@ -21,7 +21,7 @@ const AddButton = ({ variant, children, onClick, type, form }) => {
 AddButton.propTypes = {
   variant: PropTypes.string,
   children: PropTypes.node,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   type: PropTypes.string,
   form: PropTypes.string,
 };
