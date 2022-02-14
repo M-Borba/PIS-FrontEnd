@@ -2,10 +2,13 @@ import React, { Fragment, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import PersonIcon from "@material-ui/icons/Person";
+import { Avatar } from "@mui/material";
+import { Tooltip } from "@material-ui/core";
+
 import { anchorElPoint, Navbar, PaperProps, useStyles } from "./styles";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config/axios";
-import { Tooltip } from "@material-ui/core";
 
 import AdministratorsIcon from "../../assets/icons/AdministratorsIcon.svg";
 import HomeIcon from "../../assets/icons/HomeIcon.svg";
@@ -14,8 +17,6 @@ import ProjectsIcon from "../../assets/icons/ProjectsIcon.svg";
 import logoEFFE from "../../assets/icons/logoEFFE.svg";
 import EFFElogoname from "../../assets/icons/EFFElogoname.svg";
 import { LinkButton } from "./LinkButton";
-import PersonIcon from "@material-ui/icons/Person";
-import { Avatar } from "@mui/material";
 
 export default function Header() {
   var uid = localStorage.getItem("uid");
