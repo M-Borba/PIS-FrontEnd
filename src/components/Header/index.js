@@ -5,9 +5,9 @@ import Menu from "@material-ui/core/Menu";
 import PersonIcon from "@material-ui/icons/Person";
 import { Avatar } from "@mui/material";
 import { Tooltip } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import { anchorElPoint, Navbar, PaperProps, useStyles } from "./styles";
-import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config/axios";
 
 import AdministratorsIcon from "../../assets/icons/AdministratorsIcon.svg";
