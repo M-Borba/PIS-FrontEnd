@@ -1,14 +1,14 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Box } from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 import propTypes from "prop-types";
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
+import AddButton from "../AddButton";
 
 Personas.propTypes = {
   rows: propTypes.array,
@@ -104,16 +104,9 @@ export default function Personas({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <Button
-          style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
-          }}
-          variant="contained"
-          onClick={handleNewOpen}
-        >
+        <AddButton variant="contained" onClick={handleNewOpen}>
           Agregar Persona
-        </Button>
+        </AddButton>
       </Box>
 
       <Modal
