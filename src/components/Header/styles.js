@@ -10,33 +10,20 @@ export const Navbar = styled.div`
   justify-content: space-between;
 `;
 
-export const UserName = styled.div`
-  height: 25px;
-  width: fit-content;
-  background-color: #fff;
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 27px;
-  color: #252525;
-  padding: 5px 20px;
-  border-radius: 50px;
-  cursor: pointer;
-`;
-
 export const Button = styled.div`
   padding: 0px 20px;
   border-radius: 0;
   text-transform: none;
   font-family: Nunito Sans;
   font-weight: 700;
+  line-height: 20px;
   height: 94%;
   display: flex;
   justify-content: center;
   align-items: center;
+
   &:hover {
-    border-bottom: 4px #6b5ecd solid;
+    border-bottom: 4.5px #6b5ecd solid;
   }
 `;
 
@@ -62,6 +49,34 @@ export const useStyles = makeStyles((theme) => ({
   },
   mt35: {
     marginTop: 35,
+  },
+  selected: {
+    borderBottom: "10px #6b5ecd solid",
+    boxSizing: "border-box",
+    "& > div": { marginTop: "0.6vh" },
+    "&:hover": {
+      borderBottom: "10px #6b5ecd solid",
+    },
+  },
+  userName: {
+    width: "fit-content",
+    backgroundColor: "#fff",
+    fontFamily: "Nunito Sans",
+    fontStyle: "normal",
+    fontWeight: 600,
+    fontSize: "20px",
+    lineHeight: "27px",
+    color: "#252525",
+    padding: "5px 15px 5px 7px",
+    borderRadius: "50px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+  },
+  userNameIcon: {
+    marginRight: 8,
+    backgroundColor: "#6b5ecd !important",
+    color: "#fff !important",
   },
 }));
 

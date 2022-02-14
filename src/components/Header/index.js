@@ -1,18 +1,14 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import {
-  useStyles,
-  PaperProps,
-  anchorElPoint,
-  Navbar,
-  UserName,
-  Button,
-} from "./styles";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import { axiosInstance } from "../../config/axios";
+import PersonIcon from "@material-ui/icons/Person";
+import { Avatar } from "@mui/material";
 import { Tooltip } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
+import { anchorElPoint, Navbar, PaperProps, useStyles } from "./styles";
+import { axiosInstance } from "../../config/axios";
 
 import AdministratorsIcon from "../../assets/icons/AdministratorsIcon.svg";
 import HomeIcon from "../../assets/icons/HomeIcon.svg";
@@ -32,6 +28,7 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const selectedTab = window.location.pathname;
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -58,24 +55,33 @@ export default function Header() {
   return (
     <Navbar>
       <div className={classes.title}>
-        <LinkButton title="Inicio" src={HomeIcon} alt="Inicio" to="/inicio" />
+        <LinkButton
+          title="Inicio"
+          src={HomeIcon}
+          alt="Inicio"
+          to="/inicio"
+          isSelected={"/inicio" === selectedTab}
+        />
         <LinkButton
           title="Proyectos"
           src={ProjectsIcon}
           alt="Proyectos"
           to="/proyectos"
+          isSelected={"/proyectos" === selectedTab}
         />
         <LinkButton
           title="Personas"
           src={PersonsIcon}
           alt="Personas"
           to="/personas"
+          isSelected={"/personas" === selectedTab}
         />
         <LinkButton
           title="Administradores"
           src={AdministratorsIcon}
           alt="Administradores"
           to="/administradores"
+          isSelected={"/administradores" === selectedTab}
         />
       </div>
       <div style={{ position: "relative" }}>
@@ -88,9 +94,12 @@ export default function Header() {
       </div>
       <Fragment>
         <Tooltip title="Configuración de la cuenta">
-          <UserName data-testid="menu-perfil" onClick={handleMenu}>
+          <div className={classes.userName} onClick={handleMenu}>
+            <Avatar className={classes.userNameIcon}>
+              <PersonIcon />
+            </Avatar>
             {username.split("@")[0]}
-          </UserName>
+          </div>
         </Tooltip>
         <Menu
           className={classes.mt35}
