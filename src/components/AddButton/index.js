@@ -9,7 +9,6 @@ const AddButton = ({ variant, children, onClick, type, form, styles }) => {
   const styleObj = { buttonRoot: styles };
   const style = makeStyles(styleObj);
   const customClass = style();
-  // console.log(customClass);
   return (
     <Button
       classes={{ root: classes.buttonRoot + " " + customClass.buttonRoot }}

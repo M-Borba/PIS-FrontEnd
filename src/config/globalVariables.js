@@ -54,3 +54,18 @@ export const customTimeSteps = {
   month: 1,
   year: 1,
 };
+
+export const PROYECT_FORM_LABELS = {
+  ESTADO: "Estado",
+  FECHA_INICIO: "Fecha de inicio",
+  FECHA_FIN: "Fecha de fin",
+  ORGANIZACION: "Organización",
+  TIPO_PROYECTO: "Tipo de proyecto",
+  INDEFINIDA: "Indefinida",
+  BUDGET: "Presupuesto",
+  APPLY_CHANGES: "Aplicar cambios",
+};
+export const BUTTON_LABELS = {
+  APPLY_CHANGES: "Aplicar cambios",
+  CANCEL: "Cancelar",
+};

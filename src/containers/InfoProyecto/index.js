@@ -15,6 +15,10 @@ import AddButton from "../../components/AddButton";
 
 import { renderColor } from "../../utils/utils";
 import { axiosInstance } from "../../config/axios";
+import {
+  BUTTON_LABELS,
+  PROYECT_FORM_LABELS,
+} from "../../config/globalVariables";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -91,12 +95,10 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 display="inline"
                 gutterBottom
               >
-                Organización:{" "}
+                {PROYECT_FORM_LABELS.ORGANIZACION}:{" "}
               </Typography>
               <Typography display="inline" variant="body1">
-                {projectData.organization == ""
-                  ? "-"
-                  : projectData.organization ?? "-"}
+                {projectData.organization || "-"}
               </Typography>
             </Box>
 
@@ -107,7 +109,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 display="inline"
                 gutterBottom
               >
-                Tipo proyecto:{" "}
+                {PROYECT_FORM_LABELS.TIPO_PROYECTO}:{" "}
               </Typography>
               <Typography display="inline" variant="body1">
                 {type}
@@ -121,7 +123,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 display="inline"
                 gutterBottom
               >
-                Estado:{" "}
+                {PROYECT_FORM_LABELS.ESTADO}:{" "}
               </Typography>
               <FormControl>
                 <Select
@@ -154,7 +156,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 display="inline"
                 gutterBottom
               >
-                Fecha Inicio:{" "}
+                {PROYECT_FORM_LABELS.FECHA_INICIO}:{" "}
               </Typography>
               <Typography display="inline" variant="body1">
                 {moment(projectData.start_date).format("DD/MM/YYYY")}
@@ -167,17 +169,13 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 display="inline"
                 gutterBottom
               >
-                Fecha Fin:{" "}
+                {PROYECT_FORM_LABELS.FECHA_FIN}:{" "}
               </Typography>
-              {projectData.end_date ? (
-                <Typography display="inline" variant="body1">
-                  {moment(projectData.end_date).format("DD/MM/YYYY")}
-                </Typography>
-              ) : (
-                <Typography display="inline" variant="body1">
-                  Indefinida
-                </Typography>
-              )}
+              <Typography display="inline" variant="body1">
+                {projectData.end_date
+                  ? moment(projectData.end_date).format("DD/MM/YYYY")
+                  : PROYECT_FORM_LABELS.INDEFINIDA}
+              </Typography>
             </Box>
 
             <Box mt={2}>
@@ -193,7 +191,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
               </Typography>
             </Box>
 
-            {projectData.budget ? (
+            {projectData.budget && (
               <Box mt={2}>
                 <Typography
                   style={{ fontWeight: 600 }}
@@ -201,14 +199,12 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                   display="inline"
                   gutterBottom
                 >
-                  Budget:{" "}
+                  {PROYECT_FORM_LABELS.BUDGET}:{" "}
                 </Typography>
                 <Typography display="inline" variant="body1">
                   {projectData.budget}
                 </Typography>
               </Box>
-            ) : (
-              <></>
             )}
           </Grid>
 
@@ -245,12 +241,14 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                 style={{
                   display: "flex",
                   flexDirection: "row",
+                  maxHeight: "45px",
                   justifyContent: "flex-start",
                   width: "100%",
+                  alignSelf: "flex-end",
                 }}
               >
                 <AddButton type="submit" variant="contained">
-                  Aplicar cambios
+                  {BUTTON_LABELS.APPLY_CHANGES}
                 </AddButton>
               </Grid>
               <Grid
@@ -260,18 +258,19 @@ export default function InfoProyecto({ projectData, type, onClose }) {
                   flexDirection: "row",
                   justifyContent: "flex-end",
                   width: "100%",
+                  alignSelf: "flex-end",
                 }}
               >
                 <AddButton
                   styles={{
                     backgroundColor: "#c21321",
+                    maxHeight: "45px",
                     "&:hover": { backgroundColor: "#9d1e29" },
                   }}
-                  type="submit"
                   variant="contained"
                   onClick={onClose}
                 >
-                  Cancelar
+                  {BUTTON_LABELS.CANCEL}
                 </AddButton>
               </Grid>
             </Grid>
