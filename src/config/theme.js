@@ -20,7 +20,7 @@ export default createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          width: "229px",
+          // width: "229px",
           height: " 41px",
           fontFamily: '"Nunito Sans", sans-serif',
           background: "#FFFFFF",

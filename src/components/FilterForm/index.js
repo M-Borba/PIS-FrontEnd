@@ -3,10 +3,8 @@ import propTypes from "prop-types";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
-import TodayIcon from "@mui/icons-material/Today";
 
 import { useStyles } from "./styles";
 import { InputAdornment, InputLabel } from "@mui/material";
@@ -68,6 +66,11 @@ export default function FilterForm({
       <form id="filter-form" className={classes.form} noValidate>
         <InputLabel>Filtrar por:</InputLabel>
         <TextField
+          InputProps={{
+            style: {
+              width: "229px",
+            },
+          }}
           id="project_type"
           type="text"
           label="Tipo de proyecto"
@@ -94,6 +97,9 @@ export default function FilterForm({
           name="project_state"
           select
           SelectProps={{
+            style: {
+              width: "229px",
+            },
             IconComponent: ExpandMoreIcon,
           }}
           value={project_state}

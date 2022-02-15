@@ -68,6 +68,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     asignacionId: -1,
     projectName: "",
     personName: "",
+    mouseX: 0,
+    mouseY: 0,
   });
   const [organization, setOrganization] = useState("");
 
@@ -136,7 +138,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
-        if (rows.length == 0) {
+        if (rows.length === 0) {
           if (Object.keys(filterParams).length === 0) {
             setFetchingError(true);
           } else {
@@ -229,7 +231,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
         },
       },
     };
-    setItems(items.map((item) => (item.id == itemId ? newItem : item)));
+    setItems(items.map((item) => (item.id === itemId ? newItem : item)));
 
     // Cambio el item en backend
     let requestBody = {
@@ -250,9 +252,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       .put(`/person_project/${itemId}`, { person_project: requestBody })
       .then()
       .catch((error) => {
-        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+        setItems(
+          items.map((item) => (item.id === itemId ? currentItem : item))
+        );
         setAssignationError(true);
-        if (error.response.status == 400)
+        if (error.response.status === 400)
           enqueueSnackbar(
             error.response.data.errors.start_date ??
               error.response.data.errors.end_date,
@@ -269,7 +273,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   // Asignacion
 
   const handleCanvasClick = (groupId, time, e) => {
-    let personName = groups.find((group) => group.id == groupId).title;
+    let personName = groups.find((group) => group.id === groupId).title;
     setAssignObject({
       open: true,
       groupId: groupId,
@@ -311,14 +315,18 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   // Info Asignacion
 
   const handleItemClick = (itemId, e, time) => {
-    let itemObject = items.find((item) => item.id == itemId);
+    let itemObject = items.find((item) => item.id === itemId);
     let projectName = itemObject.title;
-    let personName = groups.find((group) => group.id == itemObject.group).title;
+    let personName = groups.find(
+      (group) => group.id === itemObject.group
+    ).title;
     setInfoAssignObject({
       open: true,
       asignacionId: itemId,
       projectName: projectName,
       personName: personName,
+      mouseX: e.clientX,
+      mouseY: e.clientY,
     });
   };
 
@@ -326,7 +334,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     setInfoAssignObject({ ...infoAssignObject, open: false });
 
   const removeAsignacion = (asignacionId) =>
-    setItems(items.filter((item) => item.id != asignacionId));
+    setItems(items.filter((item) => item.id !== asignacionId));
 
   const handleGroupRenderer = ({ group }) => {
     const uId = group.id;
@@ -396,7 +404,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const updateAsignacion = (asignacionId, title, startDate, endDate) =>
     setItems(
       items.map((item) =>
-        item.id == asignacionId
+        item.id === asignacionId
           ? {
               ...item,
               start: startValue(startDate),
@@ -508,6 +516,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               open={infoAssignObject.open}
               projectName={infoAssignObject.projectName}
               personName={infoAssignObject.personName}
+              mouseX={infoAssignObject.mouseX}
+              mouseY={infoAssignObject.mouseY}
               asignacionId={parseInt(infoAssignObject.asignacionId)}
               onClose={handleInfoAsignacionClose}
               removeAsignacion={removeAsignacion}
@@ -524,7 +534,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     backgroundColor: "#C14B3A",
                     border: "1px solid black",
                   }}
-                ></Grid>
+                />
                 <Grid item>
                   &nbsp;&nbsp;= Asignación a finalizar en menos de 10 días.
                 </Grid>

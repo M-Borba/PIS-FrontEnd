@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import { Typography, Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -52,7 +52,7 @@ export default function InfoProyecto({ projectData, type, state }) {
               Organización:{" "}
             </Typography>
             <Typography display="inline" variant="body1">
-              {projectData.organization == ""
+              {projectData.organization === ""
                 ? "-"
                 : projectData.organization ?? "-"}
             </Typography>

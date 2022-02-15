@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Typography } from "@material-ui/core";
 import { TextField } from "@mui/material";
 import propTypes from "prop-types";
-import Button from "@material-ui/core/Button";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -11,16 +10,19 @@ import CloseIcon from "@material-ui/icons/Close";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
+import FolderIcon from "@mui/icons-material/Folder";
 import moment from "moment";
 
 import {
-  roles,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
+  roles,
   rolesTraducidos,
 } from "../../config/globalVariables";
 import { useStyles } from "./styles";
 import { renderColor } from "../../utils/utils.js";
+import Button from "@mui/material/Button";
+import { DatePicker } from "@mui/lab";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
@@ -59,18 +61,18 @@ function InfoAsignacionDialog({
 
   const renderInformation = (title, info) => (
     <Box
-      mt={2}
+      mt={1.5}
       style={title === "Estado" ? { display: "flex", gap: "0.5rem" } : {}}
     >
       <Typography
-        style={{ fontWeight: 600 }}
+        style={{ fontWeight: 600, fontSize: 14 }}
         variant="body1"
         display="inline"
         gutterBottom
       >
         {title}:{" "}
       </Typography>
-      <Typography display="inline" variant="body1">
+      <Typography style={{ fontSize: 14 }} display="inline" variant="body1">
         {info}
       </Typography>
     </Box>
@@ -79,11 +81,14 @@ function InfoAsignacionDialog({
   return (
     <div style={{ padding: "16px" }}>
       <DialogTitle className={classes.dialogTitle}>
-        <Stack direction="row" className={classes.jC_sb}>
-          <Typography variant="h6">
-            {personName} en {projectName.split("-")[0]} como{" "}
-            {projectName.split("-")[1]}
-          </Typography>
+        <Stack direction="row" height={35} className={classes.jC_sb}>
+          <div
+            style={{ fontWeight: 700, display: "flex", alignItems: "center" }}
+          >
+            <FolderIcon style={{ height: 24, marginRight: 5 }} />{" "}
+            <span style={{ marginRight: 5 }}>{projectName.split("-")[0]}</span>
+            {renderColor(project.project_state)}{" "}
+          </div>
           <IconButton
             aria-label="Close"
             className={classes.closeButton}
@@ -92,14 +97,46 @@ function InfoAsignacionDialog({
             <CloseIcon />
           </IconButton>
         </Stack>
+        <Typography variant="subtitle1">
+          {personName} como {projectName.split("-")[1]}
+        </Typography>
+        <Divider flexItem style={{ marginBottom: 10 }} />
       </DialogTitle>
       <form onSubmit={aplicarCambios}>
         <div style={{ display: "flex" }}>
           <DialogContent className={classes.content}>
             <Stack
               spacing={1}
-              divider={<Divider flexItem style={{ margin: 10 }} />}
+              divider={<Divider flexItem style={{ marginBottom: 10 }} />}
             >
+              <Stack>
+                {renderInformation(
+                  "Organización",
+                  project.organization === ""
+                    ? "-"
+                    : project.organization ?? "-"
+                )}
+                {renderInformation(
+                  "Tipo proyecto",
+                  project.project_type
+                    ?.replaceAll("_", " ")
+                    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
+                )}
+                {renderInformation(
+                  "Estado",
+                  renderColor(project.project_state)
+                )}
+                {renderInformation(
+                  "Fecha Inicio",
+                  moment(project.start_date).format("DD/MM/YYYY")
+                )}
+                {renderInformation(
+                  "Fecha Fin",
+                  project.end_date
+                    ? moment(project.end_date).format("DD/MM/YYYY")
+                    : "Indefinida"
+                )}
+              </Stack>
               <TextField
                 fullWidth
                 required
@@ -109,6 +146,9 @@ function InfoAsignacionDialog({
                 value={asignacionInfo.role}
                 onChange={onChange}
                 sx={{ marginTop: 1 }}
+                InputProps={{
+                  className: classes.fWidth,
+                }}
               >
                 {rolItems}
               </TextField>
@@ -118,9 +158,9 @@ function InfoAsignacionDialog({
                   required
                   id="working_hours"
                   label="Carga horaria"
-                  variant="standard"
+                  InputProps={{ className: classes.fWidth }}
+                  // variant="standard"
                   type="number"
-                  required={true}
                   value={asignacionInfo.working_hours}
                   onChange={onChange}
                   inputProps={{
@@ -130,11 +170,11 @@ function InfoAsignacionDialog({
                 />
                 <TextField
                   fullWidth
+                  InputProps={{ className: classes.fWidth }}
                   required
                   select
                   name="working_hours_type"
                   label="Tipo de carga horaria"
-                  name="working_hours_type"
                   value={asignacionInfo.working_hours_type}
                   onChange={onChange}
                 >
@@ -142,57 +182,68 @@ function InfoAsignacionDialog({
                 </TextField>
               </Stack>
               <Stack spacing={1} direction="row">
-                <TextField
-                  fullWidth
-                  required
-                  InputLabelProps={{ shrink: true }}
+                <DatePicker
+                  name="start_date"
                   id="start_date"
-                  label="Fecha Inicio"
-                  variant="standard"
-                  type="date"
                   value={asignacionInfo.start_date}
-                  onChange={onChange}
-                  InputProps={{ inputProps: { max: "9999-12-31" } }}
+                  className={classes.fWidth}
+                  onChange={(e) => onChange(e, "start_date")}
+                  PaperProps={{
+                    style: {
+                      borderRadius: "15px",
+                    },
+                  }}
+                  TextFieldProps={{
+                    className: classes.fWidth,
+                    InputLabelProps: { shrink: true },
+                    name: "start_date",
+                    required: true,
+                    id: "start_date",
+                    label: "Fecha Inicio",
+                    type: "date",
+                    InputProps: {
+                      className: classes.fWidth,
+                      readOnly: true,
+                      inputProps: {
+                        max: "9999-12-31",
+                        className: classes.fWidth,
+                      },
+                    },
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
-                <TextField
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  id="end_date"
-                  label="Fecha Fin"
-                  variant="standard"
-                  type="date"
-                  value={asignacionInfo.end_date}
-                  onChange={onChange}
-                  InputProps={{ inputProps: { max: "9999-12-31" } }}
+                <DatePicker
+                  name="start_date"
+                  id="start_date"
+                  value={asignacionInfo.start_date}
+                  className={classes.fWidth}
+                  onChange={(e) => onChange(e, "end_date")}
+                  PaperProps={{
+                    style: {
+                      borderRadius: "15px",
+                    },
+                  }}
+                  TextFieldProps={{
+                    className: classes.fWidth,
+                    InputLabelProps: { shrink: true },
+                    name: "start_date",
+                    required: true,
+                    id: "start_date",
+                    label: "Fecha Inicio",
+                    type: "date",
+                    InputProps: {
+                      className: classes.fWidth,
+                      readOnly: true,
+                      inputProps: {
+                        max: "9999-12-31",
+                        className: classes.fWidth,
+                      },
+                    },
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
                 />
               </Stack>
             </Stack>
-          </DialogContent>
-          <DialogContent className={classes.content}>
-            <Typography variant="h6">
-              Información de {projectName.split("-")[0]}
-            </Typography>
-            {renderInformation(
-              "Organización",
-              project.organization == "" ? "-" : project.organization ?? "-"
-            )}
-            {renderInformation(
-              "Tipo proyecto",
-              project.project_type
-                ?.replaceAll("_", " ")
-                .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
-            )}
-            {renderInformation("Estado", renderColor(project.project_state))}
-            {renderInformation(
-              "Fecha Inicio",
-              moment(project.start_date).format("DD/MM/YYYY")
-            )}
-            {renderInformation(
-              "Fecha Fin",
-              project.end_date
-                ? moment(project.end_date).format("DD/MM/YYYY")
-                : "Imdefinida"
-            )}
           </DialogContent>
         </div>
         <DialogActions
@@ -212,7 +263,8 @@ function InfoAsignacionDialog({
             type="submit"
             variant="contained"
           >
-            Aplicar Cambios
+            Aplicar cambios
+            {/*{BUTTON_LABEL.}*/}
           </Button>
         </DialogActions>
       </form>

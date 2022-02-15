@@ -1,14 +1,13 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
-import Dialog from "@mui/material/Dialog";
 import { useSnackbar } from "notistack";
-import { Modal, Paper } from "@material-ui/core";
 
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
-import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { rolesFormateados } from "../../config/globalVariables";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
+import { Dialog, Popover } from "@mui/material";
+import DeleteDialogContent from "../../components/DeleteDialogContent";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -18,6 +17,8 @@ InfoAsignacion.propTypes = {
   onClose: propTypes.func.isRequired,
   removeAsignacion: propTypes.func.isRequired,
   updateAsignacion: propTypes.func.isRequired,
+  mouseX: propTypes.number.isRequired,
+  mouseY: propTypes.number.isRequired,
 };
 
 const initialState = {
@@ -37,11 +38,14 @@ function InfoAsignacion({
   onClose,
   removeAsignacion,
   updateAsignacion,
+  mouseX,
+  mouseY,
 }) {
   const classes = useStyles();
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const { enqueueSnackbar } = useSnackbar();
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
+
   const dialogContent = `¿Está seguro que desea eliminar la asignación de ${personName} en ${
     projectName.split("-")[0]
   } como ${projectName.split("-")[1]}?`;
@@ -133,20 +137,34 @@ function InfoAsignacion({
       });
   };
 
-  const onInputChange = (e) => {
-    e.target.name == "rol" &&
+  const onInputChange = (e, type = "") => {
+    if (e._isAMomentObject) {
+      const month =
+        e._d.getMonth() + 1 < 10
+          ? `0${e._d.getMonth() + 1}`
+          : e._d.getMonth() + 1;
+      const day = e._d.getDate() < 10 ? `0${e._d.getDate()}` : e._d.getDate();
+      type === "start_date" &&
+        setAsignacionInfo({
+          ...asignacionInfo,
+          start_date: `${1900 + e._d.getYear()}-${month}-${day}`,
+        });
+      type === "end_date" &&
+        setAsignacionInfo({
+          ...asignacionInfo,
+          end_date: `${1900 + e._d.getYear()}-${month}-${day}`,
+        });
+      return;
+    }
+    e.target.name === "rol" &&
       setAsignacionInfo({ ...asignacionInfo, role: e.target.value });
-    e.target.id == "working_hours" &&
+    e.target.id === "working_hours" &&
       setAsignacionInfo({ ...asignacionInfo, working_hours: e.target.value });
-    e.target.name == "working_hours_type" &&
+    e.target.name === "working_hours_type" &&
       setAsignacionInfo({
         ...asignacionInfo,
         working_hours_type: e.target.value,
       });
-    e.target.id == "start_date" &&
-      setAsignacionInfo({ ...asignacionInfo, start_date: e.target.value });
-    e.target.id == "end_date" &&
-      setAsignacionInfo({ ...asignacionInfo, end_date: e.target.value });
   };
 
   const handleClose = () => {
@@ -156,24 +174,43 @@ function InfoAsignacion({
 
   const handleConfirmacionClose = () => setOpenConfirmacion(false);
 
-  const handleConfirmacionOpen = () => setOpenConfirmacion(true);
+  const handleConfirmacionOpen = () => {
+    setOpenConfirmacion(true);
+  };
 
   return (
     <Fragment>
-      <Modal open={open} onClose={handleClose} disableEnforceFocus>
-        <Paper className={classes.modalInfo} variant="elevation" elevation={3}>
-          <InfoAsignacionDialog
-            asignacionInfo={asignacionInfo}
-            projectName={projectName}
-            personName={personName}
-            onClose={handleClose}
-            onChange={onInputChange}
-            aplicarCambios={handleAplicarCambios}
-            desasignar={handleConfirmacionOpen}
-            project={asignacionInfo.project}
-          />
-        </Paper>
-      </Modal>
+      <Popover
+        anchorReference="anchorPosition"
+        anchorPosition={{ top: mouseY, left: mouseX }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          style: {
+            borderRadius: "16px",
+          },
+        }}
+        open={open}
+        onClose={handleClose}
+        disableEnforceFocus
+      >
+        <InfoAsignacionDialog
+          asignacionInfo={asignacionInfo}
+          projectName={projectName}
+          personName={personName}
+          onClose={handleClose}
+          onChange={onInputChange}
+          aplicarCambios={handleAplicarCambios}
+          desasignar={handleConfirmacionOpen}
+          project={asignacionInfo.project}
+        />
+      </Popover>
       <Dialog
         fullWidth
         open={openConfirmacion}

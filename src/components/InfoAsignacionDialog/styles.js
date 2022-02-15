@@ -4,11 +4,14 @@ export const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     margin: 0,
     padding: theme.spacing(2),
+    paddingTop: "10 !important",
+    paddingBottom: "0 !important",
   },
   content: {
     width: "50%",
     margin: 0,
     padding: theme.spacing(2),
+    paddingTop: "0 !important",
   },
   actions: {
     margin: 0,
@@ -23,6 +26,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   working_hours_type_width: {
     with: theme.spacing(1),
+  },
+  fWidth: {
+    width: "100% !important",
   },
   textClass: {
     wordWrap: "break-word",
