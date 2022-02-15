@@ -208,7 +208,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const defaultTimeEnd = moment().startOf("day").add(7, "month").toDate();
 
   const handleItemResize = (itemId, time, edge) => {
-    let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
+    let itemIndex = items.findIndex((itemIter) => itemIter.id === itemId);
     let todayDate = new Date().getTime();
 
     // Cambio en item en la timeline
@@ -229,7 +229,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
         },
       },
     };
-    setItems(items.map((item) => (item.id == itemId ? newItem : item)));
+    setItems(items.map((item) => (item.id === itemId ? newItem : item)));
 
     // Cambio el item en backend
     let requestBody = {
@@ -250,9 +250,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       .put(`/person_project/${itemId}`, { person_project: requestBody })
       .then()
       .catch((error) => {
-        setItems(items.map((item) => (item.id == itemId ? currentItem : item)));
+        setItems(
+          items.map((item) => (item.id === itemId ? currentItem : item))
+        );
         setAssignationError(true);
-        if (error.response.status == 400)
+        if (error.response.status === 400)
           enqueueSnackbar(
             error.response.data.errors.start_date ??
               error.response.data.errors.end_date,
@@ -269,7 +271,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   // Asignacion
 
   const handleCanvasClick = (groupId, time, e) => {
-    let personName = groups.find((group) => group.id == groupId).title;
+    let personName = groups.find((group) => group.id === groupId).title;
     setAssignObject({
       open: true,
       groupId: groupId,
@@ -311,9 +313,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   // Info Asignacion
 
   const handleItemClick = (itemId, e, time) => {
-    let itemObject = items.find((item) => item.id == itemId);
+    let itemObject = items.find((item) => item.id === itemId);
     let projectName = itemObject.title;
-    let personName = groups.find((group) => group.id == itemObject.group).title;
+    let personName = groups.find(
+      (group) => group.id === itemObject.group
+    ).title;
     setInfoAssignObject({
       open: true,
       asignacionId: itemId,
@@ -326,7 +330,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     setInfoAssignObject({ ...infoAssignObject, open: false });
 
   const removeAsignacion = (asignacionId) =>
-    setItems(items.filter((item) => item.id != asignacionId));
+    setItems(items.filter((item) => item.id !== asignacionId));
 
   const handleGroupRenderer = ({ group }) => {
     const uId = group.id;
