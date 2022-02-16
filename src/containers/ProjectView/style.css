@@ -4,23 +4,30 @@
 }
 
 .react-calendar-timeline .rct-dateHeader-primary {
-    background-color: initial;
-    border-left: 1px solid #bbb;
-    border-right: 1px solid #bbb;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700 !important;
+  background-color: initial;
+  border-left: 1px solid #bbb;
+  border-right: 1px solid #bbb;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700 !important;
+}
+
+.rct-item {
+  line-height: 20px !important;
+  height: 20px !important;
+  margin-top: 5px !important;
+  border-radius: 2px !important;
 }
 
 .react-calendar-timeline .rct-dateHeader {
-    font-size: 16px;
-    font-weight: 400;
-    border: 0;
+  font-size: 16px;
+  font-weight: 400;
+  border: 0;
 }
 
 .react-calendar-timeline .rct-header-root {
-    background: #242424;
-    border-bottom: 1px solid #F1EDED;
+  background: #242424;
+  border-bottom: 1px solid #F1EDED;
 }
 
 .react-calendar-timeline .rct-vertical-lines .rct-vl {

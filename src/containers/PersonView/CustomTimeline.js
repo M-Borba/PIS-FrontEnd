@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
+import { Popover } from "@mui/material";
+
 import Timeline, {
   DateHeader,
   SidebarHeader,
@@ -21,7 +23,6 @@ import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
-import { Popover } from "@mui/material";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -181,7 +182,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     border: "none",
                     fontSize: "12px",
                     fontWeight: 400,
-                    height: "20px",
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -210,7 +210,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const defaultTimeEnd = moment().startOf("day").add(7, "month").toDate();
 
   const handleItemResize = (itemId, time, edge) => {
-    let itemIndex = items.findIndex((itemIter) => itemIter.id == itemId);
+    let itemIndex = items.findIndex((itemIter) => itemIter.id === itemId);
     let todayDate = new Date().getTime();
 
     // Cambio en item en la timeline
@@ -386,7 +386,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     getResizeProps,
   }) => {
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-
     return (
       <div {...getItemProps(item.itemProps)}>
         {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}

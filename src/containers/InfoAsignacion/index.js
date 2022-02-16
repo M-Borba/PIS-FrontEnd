@@ -57,14 +57,18 @@ function InfoAsignacion({
         .get(`/person_project/${asignacionId}`)
         .then((response) => {
           let asignacionData = response.data.person_project;
-          setAsignacionInfo({
-            role: asignacionData.role,
-            working_hours: asignacionData.working_hours,
-            working_hours_type: asignacionData.working_hours_type,
-            start_date: asignacionData.start_date,
-            end_date: asignacionData.end_date,
-            project: asignacionData.project,
-          });
+          axiosInstance
+            .get(`/projects/${asignacionData.project.id}`)
+            .then((response) => {
+              setAsignacionInfo({
+                role: asignacionData.role,
+                working_hours: asignacionData.working_hours,
+                working_hours_type: asignacionData.working_hours_type,
+                start_date: asignacionData.start_date,
+                end_date: asignacionData.end_date,
+                project: response.data.project,
+              });
+            });
         })
         .catch((error) => {
           let message = error.response.data;
@@ -138,21 +142,19 @@ function InfoAsignacion({
   };
 
   const onInputChange = (e, type = "") => {
+    console.log(e, type);
+    if (!e) return;
     if (e._isAMomentObject) {
-      const month =
-        e._d.getMonth() + 1 < 10
-          ? `0${e._d.getMonth() + 1}`
-          : e._d.getMonth() + 1;
-      const day = e._d.getDate() < 10 ? `0${e._d.getDate()}` : e._d.getDate();
+      if (!e._isValid) return;
       type === "start_date" &&
         setAsignacionInfo({
           ...asignacionInfo,
-          start_date: `${1900 + e._d.getYear()}-${month}-${day}`,
+          start_date: e.format("YYYY-MM-DD"),
         });
       type === "end_date" &&
         setAsignacionInfo({
           ...asignacionInfo,
-          end_date: `${1900 + e._d.getYear()}-${month}-${day}`,
+          end_date: e.format("YYYY-MM-DD"),
         });
       return;
     }
@@ -200,16 +202,18 @@ function InfoAsignacion({
         onClose={handleClose}
         disableEnforceFocus
       >
-        <InfoAsignacionDialog
-          asignacionInfo={asignacionInfo}
-          projectName={projectName}
-          personName={personName}
-          onClose={handleClose}
-          onChange={onInputChange}
-          aplicarCambios={handleAplicarCambios}
-          desasignar={handleConfirmacionOpen}
-          project={asignacionInfo.project}
-        />
+        {asignacionInfo.project && (
+          <InfoAsignacionDialog
+            asignacionInfo={asignacionInfo}
+            projectName={projectName}
+            personName={personName}
+            onClose={handleClose}
+            onChange={onInputChange}
+            aplicarCambios={handleAplicarCambios}
+            desasignar={handleConfirmacionOpen}
+            project={asignacionInfo.project}
+          />
+        )}
       </Popover>
       <Dialog
         fullWidth
