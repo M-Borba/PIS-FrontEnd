@@ -4,11 +4,11 @@ import { Box, Typography } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import moment from "moment";
 import { useSnackbar } from "notistack";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import moment from "moment";
 
 import ListData from "./List";
 import AddButton from "../../components/AddButton";
@@ -19,6 +19,7 @@ import {
   BUTTON_LABELS,
   PROYECT_FORM_LABELS,
 } from "../../config/globalVariables";
+import TypographyStyled from "./TypographyStyled";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -89,42 +90,27 @@ export default function InfoProyecto({ projectData, type, onClose }) {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid item xs={6}>
             <Box>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
+              <TypographyStyled>
                 {PROYECT_FORM_LABELS.ORGANIZACION}:{" "}
-              </Typography>
+              </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {projectData.organization || "-"}
               </Typography>
             </Box>
 
             <Box mt={2}>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
+              <TypographyStyled>
                 {PROYECT_FORM_LABELS.TIPO_PROYECTO}:{" "}
-              </Typography>
+              </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {type}
               </Typography>
             </Box>
 
             <Box mt={2} style={{ display: "flex", gap: "0.5rem" }}>
-              <Typography
-                style={{ fontWeight: 600, alignSelf: "center" }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
+              <TypographyStyled style={{ alignSelf: "center" }}>
                 {PROYECT_FORM_LABELS.ESTADO}:{" "}
-              </Typography>
+              </TypographyStyled>
               <FormControl>
                 <Select
                   labelId="state-input"
@@ -150,27 +136,17 @@ export default function InfoProyecto({ projectData, type, onClose }) {
             </Box>
 
             <Box mt={2}>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
+              <TypographyStyled>
                 {PROYECT_FORM_LABELS.FECHA_INICIO}:{" "}
-              </Typography>
+              </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {moment(projectData.start_date).format("DD/MM/YYYY")}
               </Typography>
             </Box>
             <Box mt={2}>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
+              <TypographyStyled>
                 {PROYECT_FORM_LABELS.FECHA_FIN}:{" "}
-              </Typography>
+              </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {projectData.end_date
                   ? moment(projectData.end_date).format("DD/MM/YYYY")
@@ -179,13 +155,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
             </Box>
 
             <Box mt={2}>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                gutterBottom
-              >
-                Descripción:{" "}
-              </Typography>
+              <TypographyStyled>Descripción: </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {projectData.description}
               </Typography>
@@ -193,14 +163,9 @@ export default function InfoProyecto({ projectData, type, onClose }) {
 
             {projectData.budget && (
               <Box mt={2}>
-                <Typography
-                  style={{ fontWeight: 600 }}
-                  variant="body1"
-                  display="inline"
-                  gutterBottom
-                >
+                <TypographyStyled>
                   {PROYECT_FORM_LABELS.BUDGET}:{" "}
-                </Typography>
+                </TypographyStyled>
                 <Typography display="inline" variant="body1">
                   {projectData.budget}
                 </Typography>
