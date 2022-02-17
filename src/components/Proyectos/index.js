@@ -9,8 +9,8 @@ import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
-import AddButton from "../AddButton";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
+import CustomButton from "../CustomButton";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -139,9 +139,9 @@ export default function Proyecto({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <AddButton variant="contained" onClick={handleNewOpen}>
+        <CustomButton variant="contained" onClick={handleNewOpen}>
           {BUTTON_LABELS.AGREGAR_PROYECTO}{" "}
-        </AddButton>
+        </CustomButton>
       </Box>
       <Modal
         open={openNew}

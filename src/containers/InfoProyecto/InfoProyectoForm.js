@@ -10,7 +10,7 @@ import propTypes from "prop-types";
 
 import { renderColor } from "../../utils/utils";
 import ListData from "./List";
-import AddButton from "../../components/AddButton";
+import CustomButton from "../../components/CustomButton";
 import TypographyStyled from "./TypographyStyled";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 
@@ -137,7 +137,7 @@ const InfoProyectoForm = ({
                 alignSelf: "flex-end",
               }}
             >
-              <AddButton
+              <CustomButton
                 styles={{
                   backgroundColor: "#c21321",
                   maxHeight: "45px",
@@ -147,7 +147,7 @@ const InfoProyectoForm = ({
                 onClick={onClose}
               >
                 {BUTTON_LABELS.CANCEL}
-              </AddButton>
+              </CustomButton>
             </Grid>
             <Grid
               xs={12}
@@ -159,9 +159,9 @@ const InfoProyectoForm = ({
                 alignSelf: "flex-end",
               }}
             >
-              <AddButton type="submit" variant="contained">
+              <CustomButton type="submit" variant="contained">
                 {BUTTON_LABELS.APPLY_CHANGES}
-              </AddButton>
+              </CustomButton>
             </Grid>
           </Grid>
         </Grid>

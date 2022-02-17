@@ -9,7 +9,7 @@ import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
-import AddButton from "../AddButton";
+import CustomButton from "../CustomButton";
 import { BUTTON_LABELS, PERSON_LABELS } from "../../config/globalVariables";
 
 Personas.propTypes = {
@@ -106,9 +106,9 @@ export default function Personas({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <AddButton variant="contained" onClick={handleNewOpen}>
+        <CustomButton variant="contained" onClick={handleNewOpen}>
           {BUTTON_LABELS.AGREGAR_PERSONA}
-        </AddButton>
+        </CustomButton>
       </Box>
 
       <Modal

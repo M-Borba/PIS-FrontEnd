@@ -6,6 +6,7 @@ import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import PersonIcon from "@mui/icons-material/Person";
+
 import {
   TypographyData,
   TypographyHeader,

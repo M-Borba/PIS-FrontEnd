@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
 
-const AddButton = ({
+const CustomButton = ({
   variant,
   children,
   onClick,
@@ -37,7 +37,7 @@ const AddButton = ({
   );
 };
 
-AddButton.propTypes = {
+CustomButton.propTypes = {
   variant: PropTypes.string,
   children: PropTypes.node,
   onClick: PropTypes.func,
@@ -46,4 +46,4 @@ AddButton.propTypes = {
   styles: PropTypes.object,
   redButton: PropTypes.bool,
 };
-export default AddButton;
+export default CustomButton;

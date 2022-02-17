@@ -26,7 +26,7 @@ import {
 import { useStyles } from "./styles";
 import { renderColor } from "../../utils/utils.js";
 import ListData from "../../containers/InfoProyecto/List";
-import AddButton from "../AddButton";
+import CustomButton from "../CustomButton";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
@@ -270,12 +270,12 @@ function InfoAsignacionDialog({
             className={classes.actions}
             style={{ justifyContent: "space-between", margin: "0 16px" }}
           >
-            <AddButton onClick={desasignar} variant="contained" redButton>
+            <CustomButton onClick={desasignar} variant="contained" redButton>
               {BUTTON_LABELS.UNASSIGN}
-            </AddButton>
-            <AddButton role="submit" type="submit" variant="contained">
+            </CustomButton>
+            <CustomButton role="submit" type="submit" variant="contained">
               {BUTTON_LABELS.APPLY_CHANGES}
-            </AddButton>
+            </CustomButton>
           </DialogActions>
         </form>
       </div>

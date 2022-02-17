@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
-import AddButton from "../AddButton";
+import CustomButton from "../CustomButton";
 
 DeleteDialogContent.propTypes = {
   dialogContent: PropTypes.string.isRequired,
@@ -37,12 +37,12 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
         className={Classes.actions}
         style={{ justifyContent: "space-between" }}
       >
-        <AddButton onClick={onClose} variant="contained">
+        <CustomButton onClick={onClose} variant="contained">
           Cancelar
-        </AddButton>
-        <AddButton redButton onClick={onConfirmation} variant="contained">
+        </CustomButton>
+        <CustomButton redButton onClick={onConfirmation} variant="contained">
           Desasignar
-        </AddButton>
+        </CustomButton>
       </DialogActions>
     </Fragment>
   );

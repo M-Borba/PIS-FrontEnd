@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
+import { Dialog, Popover } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
 import { rolesFormateados } from "../../config/globalVariables";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
-import { Dialog, Popover } from "@mui/material";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 
 InfoAsignacion.propTypes = {
