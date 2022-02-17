@@ -524,7 +524,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             />
             <></>
             {filteredData && (
-              <Grid container style={{ marginLeft: 10 }}>
+              <Grid container style={{ marginLeft: 10, width: "fit-content" }}>
                 <Grid
                   item
                   style={{

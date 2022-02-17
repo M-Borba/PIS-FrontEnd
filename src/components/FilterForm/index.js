@@ -5,10 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { InputAdornment, InputLabel } from "@mui/material";
 
 import { useStyles } from "./styles";
-import { InputAdornment, InputLabel } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  FILTER_FORM_LABELS,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
+import { renderColor } from "../../utils/utils";
 
 FilterForm.propTypes = {
   onClear: propTypes.func.isRequired,
@@ -64,7 +69,7 @@ export default function FilterForm({
       style={canResetFilters() ? { background: "#E2E0F2" } : null}
     >
       <form id="filter-form" className={classes.form} noValidate>
-        <InputLabel>Filtrar por:</InputLabel>
+        <InputLabel>{FILTER_FORM_LABELS.FILTRAR_POR}</InputLabel>
         <TextField
           InputProps={{
             style: {
@@ -73,7 +78,7 @@ export default function FilterForm({
           }}
           id="project_type"
           type="text"
-          label="Tipo de proyecto"
+          label={PROJECT_LABELS.TIPO_PROYECTO}
           name="project_type"
           autoComplete="project_type"
           select
@@ -83,15 +88,21 @@ export default function FilterForm({
           value={project_type}
           onChange={onInputChange}
         >
-          <MenuItem value="">Cualquiera</MenuItem>
-          <MenuItem value="staff_augmentation">Staff Augmentation</MenuItem>
-          <MenuItem value="end_to_end">End to End</MenuItem>
-          <MenuItem value="tercerizado">Tercerizado</MenuItem>
-          <MenuItem value="hibrido">Híbrido</MenuItem>
+          <MenuItem value="">{FILTER_FORM_LABELS.CUALQUIERA}</MenuItem>
+          <MenuItem value="staff_augmentation">
+            {FILTER_FORM_LABELS.STAFF_AUGMENTATION}
+          </MenuItem>
+          <MenuItem value="end_to_end">
+            {FILTER_FORM_LABELS.END_TO_END}
+          </MenuItem>
+          <MenuItem value="tercerizado">
+            {FILTER_FORM_LABELS.TERCERIZADO}
+          </MenuItem>
+          <MenuItem value="hibrido">{FILTER_FORM_LABELS.HIBIRDO}</MenuItem>
         </TextField>
         <TextField
           type="text"
-          label="Estado del proyecto"
+          label={PROJECT_LABELS.ESTADO}
           onChange={onInputChange}
           id="project_state"
           name="project_state"
@@ -104,16 +115,16 @@ export default function FilterForm({
           }}
           value={project_state}
         >
-          <MenuItem value="">Cualquiera</MenuItem>
-          <MenuItem value="verde">Verde</MenuItem>
-          <MenuItem value="amarillo">Amarillo</MenuItem>
-          <MenuItem value="rojo">Rojo</MenuItem>
-          <MenuItem value="upcoming">Upcoming</MenuItem>
+          <MenuItem value="">{FILTER_FORM_LABELS.CUALQUIERA}</MenuItem>
+          <MenuItem value="verde">{renderColor("verde")}</MenuItem>
+          <MenuItem value="amarillo">{renderColor("amarillo")}</MenuItem>
+          <MenuItem value="rojo">{renderColor("rojo")}</MenuItem>
+          <MenuItem value="upcoming">{renderColor("upcoming")}</MenuItem>
         </TextField>
         <TextField
           id="organization"
           type="text"
-          label="Organización"
+          label={PROJECT_LABELS.ORGANIZACION}
           name="organization"
           autoComplete="organization"
           value={organization}
@@ -130,8 +141,7 @@ export default function FilterForm({
       </form>
       {canResetFilters() && (
         <InputLabel className={classes.clear} onClick={onClear}>
-          {" "}
-          Limpiar filtros{" "}
+          {FILTER_FORM_LABELS.LIMPIAR_FILTROS}
         </InputLabel>
       )}
     </div>

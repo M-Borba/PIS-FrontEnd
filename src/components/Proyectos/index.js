@@ -3,12 +3,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
-import { useStyles } from "./styles";
 import CloseIcon from "@material-ui/icons/Close";
+
+import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 import AddButton from "../AddButton";
+import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -18,53 +20,53 @@ Proyecto.propTypes = {
 const columns = [
   {
     field: "id",
-    headerName: "ID",
+    headerName: PROJECT_LABELS.ID,
     hide: true,
   },
   {
     field: "name",
-    headerName: "Nombre",
+    headerName: PROJECT_LABELS.NOMBRE,
     sortable: true,
     flex: 1, //tamaño
   },
   {
     field: "organization",
-    headerName: "Organización",
+    headerName: PROJECT_LABELS.ORGANIZACION,
     sortable: true,
     flex: 0.6,
   },
   {
     field: "project_type",
-    headerName: "Tipo",
+    headerName: PROJECT_LABELS.TIPO,
     flex: 0.7,
   },
   {
     field: "project_state",
-    headerName: "Estado",
+    headerName: PROJECT_LABELS.ESTADO,
     sortable: true,
     flex: 0.5,
   },
   {
     field: "start_date",
-    headerName: "Fecha Inicio",
+    headerName: PROJECT_LABELS.FECHA_INICIO,
     flex: 0.6,
     type: "date",
   },
   {
     field: "end_date",
-    headerName: "Fecha Fin",
+    headerName: PROJECT_LABELS.FECHA_FIN,
     flex: 0.6,
     type: "date",
   },
   {
     field: "technologies",
-    headerName: "tecnologías",
+    headerName: PROJECT_LABELS.TECNOLOGIAS,
     hide: true,
   },
   {
     field: "actions",
     type: "actions",
-    headerName: "Acciones",
+    headerName: PROJECT_LABELS.ACCIONES,
     flex: 1.5,
     renderCell: (params) => {
       return (
@@ -103,13 +105,13 @@ export default function Proyecto({ rows, setRows }) {
   const addRow = (newRow) => setRows([...rows, newRow]);
 
   const removeRow = (projectId) =>
-    setRows(rows.filter((row) => row.id != projectId));
+    setRows(rows.filter((row) => row.id !== projectId));
   setRemoveRow.current = (projectId) => removeRow(projectId);
 
   const editRow = (projectData) =>
     setRows(
       rows.map((row) =>
-        row.id == projectData.id
+        row.id === projectData.id
           ? {
               ...row,
               name: projectData.name,
@@ -138,7 +140,7 @@ export default function Proyecto({ rows, setRows }) {
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
         <AddButton variant="contained" onClick={handleNewOpen}>
-          Agregar Proyecto
+          {BUTTON_LABELS.AGREGAR_PROYECTO}{" "}
         </AddButton>
       </Box>
       <Modal

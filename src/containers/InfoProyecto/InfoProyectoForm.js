@@ -12,10 +12,7 @@ import { renderColor } from "../../utils/utils";
 import ListData from "./List";
 import AddButton from "../../components/AddButton";
 import TypographyStyled from "./TypographyStyled";
-import {
-  BUTTON_LABELS,
-  PROYECT_FORM_LABELS,
-} from "../../config/globalVariables";
+import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 
 const InfoProyectoForm = ({
   handleApplyChanges,
@@ -30,9 +27,7 @@ const InfoProyectoForm = ({
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
           <Box>
-            <TypographyStyled>
-              {PROYECT_FORM_LABELS.ORGANIZACION}:{" "}
-            </TypographyStyled>
+            <TypographyStyled>{PROJECT_LABELS.ORGANIZACION}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {projectData.organization || "-"}
             </Typography>
@@ -40,7 +35,7 @@ const InfoProyectoForm = ({
 
           <Box mt={2}>
             <TypographyStyled>
-              {PROYECT_FORM_LABELS.TIPO_PROYECTO}:{" "}
+              {PROJECT_LABELS.TIPO_PROYECTO}:{" "}
             </TypographyStyled>
             <Typography display="inline" variant="body1">
               {type}
@@ -49,12 +44,12 @@ const InfoProyectoForm = ({
 
           <Box mt={2} style={{ display: "flex", gap: "0.5rem" }}>
             <TypographyStyled style={{ alignSelf: "center" }}>
-              {PROYECT_FORM_LABELS.ESTADO}:{" "}
+              {PROJECT_LABELS.ESTADO}:{" "}
             </TypographyStyled>
             <FormControl>
               <Select
                 labelId="state-input"
-                label="Estado"
+                label={PROJECT_LABELS.ESTADO}
                 id="project_state"
                 name="project_state"
                 style={{ width: "unset" }}
@@ -72,21 +67,17 @@ const InfoProyectoForm = ({
           </Box>
 
           <Box mt={2}>
-            <TypographyStyled>
-              {PROYECT_FORM_LABELS.FECHA_INICIO}:{" "}
-            </TypographyStyled>
+            <TypographyStyled>{PROJECT_LABELS.FECHA_INICIO}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {moment(projectData.start_date).format("DD/MM/YYYY")}
             </Typography>
           </Box>
           <Box mt={2}>
-            <TypographyStyled>
-              {PROYECT_FORM_LABELS.FECHA_FIN}:{" "}
-            </TypographyStyled>
+            <TypographyStyled>{PROJECT_LABELS.FECHA_FIN}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {projectData.end_date
                 ? moment(projectData.end_date).format("DD/MM/YYYY")
-                : PROYECT_FORM_LABELS.INDEFINIDA}
+                : PROJECT_LABELS.INDEFINIDA}
             </Typography>
           </Box>
 
@@ -99,9 +90,7 @@ const InfoProyectoForm = ({
 
           {projectData.budget && (
             <Box mt={2}>
-              <TypographyStyled>
-                {PROYECT_FORM_LABELS.BUDGET}:{" "}
-              </TypographyStyled>
+              <TypographyStyled>{PROJECT_LABELS.BUDGET}: </TypographyStyled>
               <Typography display="inline" variant="body1">
                 {projectData.budget}
               </Typography>
@@ -138,26 +127,12 @@ const InfoProyectoForm = ({
             }}
           >
             <Grid
-              xs={12}
+              xs={6}
               style={{
                 display: "flex",
                 flexDirection: "row",
                 maxHeight: "45px",
                 justifyContent: "flex-start",
-                width: "100%",
-                alignSelf: "flex-end",
-              }}
-            >
-              <AddButton type="submit" variant="contained">
-                {BUTTON_LABELS.APPLY_CHANGES}
-              </AddButton>
-            </Grid>
-            <Grid
-              xs={6}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
                 width: "100%",
                 alignSelf: "flex-end",
               }}
@@ -172,6 +147,20 @@ const InfoProyectoForm = ({
                 onClick={onClose}
               >
                 {BUTTON_LABELS.CANCEL}
+              </AddButton>
+            </Grid>
+            <Grid
+              xs={12}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                width: "100%",
+                alignSelf: "flex-end",
+              }}
+            >
+              <AddButton type="submit" variant="contained">
+                {BUTTON_LABELS.APPLY_CHANGES}
               </AddButton>
             </Grid>
           </Grid>

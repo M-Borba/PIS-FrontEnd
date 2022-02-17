@@ -15,8 +15,11 @@ import moment from "moment";
 import { DatePicker } from "@mui/lab";
 
 import {
+  BUTTON_LABELS,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
+  PERSON_LABELS,
+  PROJECT_LABELS,
   roles,
   rolesTraducidos,
 } from "../../config/globalVariables";
@@ -62,7 +65,11 @@ function InfoAsignacionDialog({
   const renderInformation = (title, info) => (
     <Box
       mt={1.5}
-      style={title === "Estado" ? { display: "flex", gap: "0.5rem" } : {}}
+      style={
+        title === PROJECT_LABELS.ESTADO
+          ? { display: "flex", gap: "0.5rem" }
+          : {}
+      }
     >
       <Typography
         style={{ fontWeight: 600, fontSize: 14 }}
@@ -115,27 +122,27 @@ function InfoAsignacionDialog({
                 <Stack width={"100%"} spacing={1} direction="row">
                   <Stack width={"100%"}>
                     {renderInformation(
-                      "Organización",
+                      PROJECT_LABELS.ORGANIZACION,
                       project.organization === ""
                         ? "-"
                         : project.organization ?? "-"
                     )}
                     {renderInformation(
-                      "Tipo proyecto",
+                      PROJECT_LABELS.TIPO_PROYECTO,
                       project.project_type
                         ?.replaceAll("_", " ")
                         .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
                     )}
                     {renderInformation(
-                      "Estado",
+                      PROJECT_LABELS.ESTADO,
                       renderColor(project.project_state)
                     )}
                     {renderInformation(
-                      "Fecha Inicio",
+                      PROJECT_LABELS.FECHA_INICIO,
                       moment(project.start_date).format("DD/MM/YYYY")
                     )}
                     {renderInformation(
-                      "Fecha Fin",
+                      PROJECT_LABELS.FECHA_FIN,
                       moment(project.end_date).format("DD/MM/YYYY")
                     )}
                   </Stack>
@@ -144,14 +151,14 @@ function InfoAsignacionDialog({
                       <Fragment>
                         <Box>
                           <ListData
-                            title="Tecnologías"
+                            title={PROJECT_LABELS.TECNOLOGIAS}
                             type="tecnologías"
                             data={project.technologies}
                           />
                         </Box>
                         <Box>
                           <ListData
-                            title="Personas Asignadas"
+                            title={PROJECT_LABELS.PERSONAS}
                             type="personas"
                             data={project.people}
                           />
@@ -164,7 +171,7 @@ function InfoAsignacionDialog({
                   fullWidth
                   required
                   select
-                  label="Rol"
+                  label={PERSON_LABELS.ROL}
                   name="rol"
                   value={asignacionInfo.role}
                   onChange={onChange}
@@ -180,7 +187,7 @@ function InfoAsignacionDialog({
                     fullWidth
                     required
                     id="working_hours"
-                    label="Carga horaria"
+                    label={PERSON_LABELS.CARGA_HORARIA}
                     InputProps={{ className: classes.fWidth }}
                     type="number"
                     value={asignacionInfo.working_hours}
@@ -196,7 +203,7 @@ function InfoAsignacionDialog({
                     required
                     select
                     name="working_hours_type"
-                    label="Tipo de carga horaria"
+                    label={PERSON_LABELS.TIPO_CARGA_HORARIA}
                     value={asignacionInfo.working_hours_type}
                     onChange={onChange}
                   >
@@ -226,14 +233,14 @@ function InfoAsignacionDialog({
                       name: "start_date",
                       required: true,
                       id: "start_date",
-                      label: "Fecha Inicio",
+                      label: PROJECT_LABELS.FECHA_INICIO,
                     }}
                     renderInput={(params) => <TextField {...params} />}
                   />
                   <DatePicker
                     name="start_date"
                     id="start_date"
-                    value={asignacionInfo.start_date}
+                    value={asignacionInfo.end_date}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "end_date")}
                     PaperProps={{
@@ -247,10 +254,10 @@ function InfoAsignacionDialog({
                     TextFieldProps={{
                       className: classes.fWidth,
                       InputLabelProps: { shrink: true },
-                      name: "start_date",
+                      name: "end_date",
                       required: true,
-                      id: "start_date",
-                      label: "Fecha Inicio",
+                      id: "end_date",
+                      label: PROJECT_LABELS.FECHA_FIN,
                       type: "date",
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -264,11 +271,10 @@ function InfoAsignacionDialog({
             style={{ justifyContent: "space-between", margin: "0 16px" }}
           >
             <AddButton onClick={desasignar} variant="contained" redButton>
-              Desasignar
+              {BUTTON_LABELS.UNASSIGN}
             </AddButton>
             <AddButton role="submit" type="submit" variant="contained">
-              Aplicar cambios
-              {/*{BUTTON_LABEL.}*/}
+              {BUTTON_LABELS.APPLY_CHANGES}
             </AddButton>
           </DialogActions>
         </form>

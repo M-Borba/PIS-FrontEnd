@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+
 import { useStyles } from "./styles";
+import { LOGIN_LABELS } from "../../config/globalVariables";
 
 ChangePassword.propTypes = {
   onSubmit: PropTypes.func.isRequired,
@@ -25,8 +27,7 @@ export default function ChangePassword({
   return (
     <div className={classes.paper} data-testid="login">
       <Typography component="h1" variant="h5">
-        Parece que es la primera vez que inicia sesión. Por favor, ingrese una
-        nueva contraseña.
+        {LOGIN_LABELS.CAMBIO_TEXTO}
       </Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
@@ -35,7 +36,7 @@ export default function ChangePassword({
           required
           fullWidth
           name="password"
-          label="Contraseña"
+          label={LOGIN_LABELS.CONTRASENA}
           type="password"
           id="password"
           value={password}
@@ -50,7 +51,7 @@ export default function ChangePassword({
           required
           fullWidth
           name="passwordConfirmation"
-          label="Confirme su contraseña"
+          label={LOGIN_LABELS.CONFIRMAR_CONTRASENA}
           type="password"
           id="passwordConfirmation"
           value={passwordConfirmation}
@@ -66,7 +67,7 @@ export default function ChangePassword({
           fullWidth
           variant="contained"
         >
-          Establecer nueva contraseña e iniciar sesión
+          {LOGIN_LABELS.CAMBIO_BUTTON}
         </Button>
       </form>
     </div>

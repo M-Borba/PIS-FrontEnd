@@ -17,6 +17,7 @@ import ProjectsIcon from "../../assets/icons/ProjectsIcon.svg";
 import logoEFFE from "../../assets/icons/logoEFFE.svg";
 import EFFElogoname from "../../assets/icons/EFFElogoname.svg";
 import { LinkButton } from "./LinkButton";
+import { HEADER_LABELS } from "../../config/globalVariables";
 
 export default function Header() {
   var uid = localStorage.getItem("uid");
@@ -56,30 +57,30 @@ export default function Header() {
     <Navbar>
       <div className={classes.title}>
         <LinkButton
-          title="Inicio"
+          title={HEADER_LABELS.INICIO}
           src={HomeIcon}
-          alt="Inicio"
+          alt={HEADER_LABELS.INICIO}
           to="/inicio"
           isSelected={"/inicio" === selectedTab}
         />
         <LinkButton
-          title="Proyectos"
+          title={HEADER_LABELS.PROYECTOS}
           src={ProjectsIcon}
-          alt="Proyectos"
+          alt={HEADER_LABELS.PROYECTOS}
           to="/proyectos"
           isSelected={"/proyectos" === selectedTab}
         />
         <LinkButton
-          title="Personas"
+          title={HEADER_LABELS.PERSONAS}
           src={PersonsIcon}
-          alt="Personas"
+          alt={HEADER_LABELS.PERSONAS}
           to="/personas"
           isSelected={"/personas" === selectedTab}
         />
         <LinkButton
-          title="Administradores"
+          title={HEADER_LABELS.ADMINS}
           src={AdministratorsIcon}
-          alt="Administradores"
+          alt={HEADER_LABELS.ADMINS}
           to="/administradores"
           isSelected={"/administradores" === selectedTab}
         />
@@ -93,7 +94,7 @@ export default function Header() {
         <img src={EFFElogoname} alt="logo" />
       </div>
       <Fragment>
-        <Tooltip title="Configuración de la cuenta">
+        <Tooltip title={HEADER_LABELS.CONFIGURACION_DE_CUENTA}>
           <div className={classes.userName} onClick={handleMenu}>
             <Avatar className={classes.userNameIcon}>
               <PersonIcon />
@@ -120,7 +121,7 @@ export default function Header() {
               to="/login"
               data-testid="logout"
             >
-              Cerrar Sesión
+              {HEADER_LABELS.CERRAR_SESION}
             </Link>
           </MenuItem>
         </Menu>

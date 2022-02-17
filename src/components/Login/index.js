@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
+import Button from "@material-ui/core/Button";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
 import { useStyles } from "./styles";
+import { LOGIN_LABELS } from "../../config/globalVariables";
 
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
@@ -26,7 +27,7 @@ export default function Login({
   return (
     <div className={classes.paper} data-testid="login">
       <Typography component="h1" variant="h5">
-        Iniciar sesión
+        {LOGIN_LABELS.INICIAR_SESION}
       </Typography>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <TextField
@@ -36,7 +37,7 @@ export default function Login({
           fullWidth
           id="email"
           type="email"
-          label="Email"
+          label={LOGIN_LABELS.EMAIL}
           name="email"
           autoComplete="email"
           value={email}
@@ -49,7 +50,7 @@ export default function Login({
           required
           fullWidth
           name="password"
-          label="Contraseña"
+          label={LOGIN_LABELS.CONTRASENA}
           type="password"
           id="password"
           value={password}
@@ -64,9 +65,8 @@ export default function Login({
           type="submit"
           fullWidth
           variant="contained"
-          className={classes.submit}
         >
-          Iniciar sesión
+          {LOGIN_LABELS.INICIAR_SESION}
         </Button>
         <Typography className={classes.errorMsg} component="h2">
           {error}

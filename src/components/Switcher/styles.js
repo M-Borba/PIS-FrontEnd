@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { SWITCHER_LABELS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   root: {
     width: "215px",
@@ -34,14 +36,14 @@ export const useStyles = makeStyles((theme) => ({
       fontWeight: "700",
     },
     "&:after": {
-      content: "'Personas'",
+      content: SWITCHER_LABELS.PERSONAS,
       right: "27px",
       "&$Mui-checked": {
         color: "#252525",
       },
     },
     "&:before": {
-      content: "'Proyectos'",
+      content: SWITCHER_LABELS.PROYECTOS,
       left: "26px",
       zIndex: "1000",
       "&$Mui-checked": {
