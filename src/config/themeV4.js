@@ -34,7 +34,7 @@ export default createTheme({
         color: "#ffffff",
         backgroundColor: "#6B5ECD",
         "&:hover": {
-          backgroundColor: "#6458bf",
+          backgroundColor: "#504699",
         },
         textTransform: "none",
       },

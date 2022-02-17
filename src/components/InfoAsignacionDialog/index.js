@@ -12,7 +12,6 @@ import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
 import FolderIcon from "@mui/icons-material/Folder";
 import moment from "moment";
-import Button from "@mui/material/Button";
 import { DatePicker } from "@mui/lab";
 
 import {
@@ -24,6 +23,7 @@ import {
 import { useStyles } from "./styles";
 import { renderColor } from "../../utils/utils.js";
 import ListData from "../../containers/InfoProyecto/List";
+import AddButton from "../AddButton";
 
 InfoAsignacionDialog.propTypes = {
   asignacionInfo: propTypes.object.isRequired,
@@ -263,22 +263,13 @@ function InfoAsignacionDialog({
             className={classes.actions}
             style={{ justifyContent: "space-between", margin: "0 16px" }}
           >
-            <Button
-              className={classes.secondary}
-              onClick={desasignar}
-              variant="contained"
-            >
+            <AddButton onClick={desasignar} variant="contained" redButton>
               Desasignar
-            </Button>
-            <Button
-              className={classes.submit}
-              role="submit"
-              type="submit"
-              variant="contained"
-            >
+            </AddButton>
+            <AddButton role="submit" type="submit" variant="contained">
               Aplicar cambios
               {/*{BUTTON_LABEL.}*/}
-            </Button>
+            </AddButton>
           </DialogActions>
         </form>
       </div>
