@@ -36,6 +36,7 @@ const AddButton = ({
     </Button>
   );
 };
+
 AddButton.propTypes = {
   variant: PropTypes.string,
   children: PropTypes.node,

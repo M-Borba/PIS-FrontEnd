@@ -1,21 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import propTypes from "prop-types";
-import { Box, Typography } from "@material-ui/core";
-import Grid from "@mui/material/Grid";
+import { Typography } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import moment from "moment";
+import { useSnackbar } from "notistack";
 
-import ListData from "./List";
-import { renderColor } from "../../utils/utils.js";
+import { axiosInstance } from "../../config/axios";
+import InfoProyectoForm from "./InfoProyectoForm";
 
 InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
   type: propTypes.string,
-  state: propTypes.string,
+  onClose: propTypes.func,
 };
 
-export default function InfoProyecto({ projectData, type, state }) {
+export default function InfoProyecto({ projectData, type, onClose }) {
+  const [project_state, setProjectState] = useState(projectData.project_state);
+  const initialState = projectData.project_state;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleApplyChanges = (e, projectData) => {
+    if (initialState !== project_state) {
+      projectData.project_state = project_state;
+      axiosInstance
+        .put(`/projects/${projectData.id}`, {
+          project: projectData,
+        })
+        .then((response) => {
+          enqueueSnackbar(
+            `El proyecto ${projectData.name} se actualizó con éxito.`,
+            {
+              variant: "success",
+              autoHideDuration: 4000,
+            }
+          );
+        })
+        .catch((error) => {
+          enqueueSnackbar(
+            `El proyecto ${projectData.name} no se actualizó con éxito.`,
+            {
+              variant: "error",
+              autoHideDuration: 4000,
+            }
+          );
+        });
+    } else {
+      e.preventDefault();
+      onClose();
+    }
+  };
+
   return (
     <div style={{ padding: 30 }}>
       <div
@@ -39,134 +73,14 @@ export default function InfoProyecto({ projectData, type, state }) {
         </Typography>
       </div>
       <Divider style={{ marginBottom: 15, marginTop: 15 }} />
-
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={6}>
-          <Box>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              display="inline"
-              gutterBottom
-            >
-              Organización:{" "}
-            </Typography>
-            <Typography display="inline" variant="body1">
-              {projectData.organization === ""
-                ? "-"
-                : projectData.organization ?? "-"}
-            </Typography>
-          </Box>
-
-          <Box mt={2}>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              display="inline"
-              gutterBottom
-            >
-              Tipo proyecto:{" "}
-            </Typography>
-            <Typography display="inline" variant="body1">
-              {type}
-            </Typography>
-          </Box>
-
-          <Box mt={2} style={{ display: "flex", gap: "0.5rem" }}>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              display="inline"
-              gutterBottom
-            >
-              Estado:{" "}
-            </Typography>
-            {renderColor(state)}
-          </Box>
-
-          <Box mt={2}>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              display="inline"
-              gutterBottom
-            >
-              Fecha Inicio:{" "}
-            </Typography>
-            <Typography display="inline" variant="body1">
-              {moment(projectData.start_date).format("DD/MM/YYYY")}
-            </Typography>
-          </Box>
-          <Box mt={2}>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              display="inline"
-              gutterBottom
-            >
-              Fecha Fin:{" "}
-            </Typography>
-            {projectData.end_date ? (
-              <Typography display="inline" variant="body1">
-                {moment(projectData.end_date).format("DD/MM/YYYY")}
-              </Typography>
-            ) : (
-              <Typography display="inline" variant="body1">
-                Indefinida
-              </Typography>
-            )}
-          </Box>
-
-          <Box mt={2}>
-            <Typography
-              style={{ fontWeight: 600 }}
-              variant="body1"
-              gutterBottom
-            >
-              Descripción:{" "}
-            </Typography>
-            <Typography display="inline" variant="body1">
-              {projectData.description}
-            </Typography>
-          </Box>
-
-          {projectData.budget ? (
-            <Box mt={2}>
-              <Typography
-                style={{ fontWeight: 600 }}
-                variant="body1"
-                display="inline"
-                gutterBottom
-              >
-                Budget:{" "}
-              </Typography>
-              <Typography display="inline" variant="body1">
-                {projectData.budget}
-              </Typography>
-            </Box>
-          ) : (
-            <></>
-          )}
-        </Grid>
-
-        <Grid item xs={6}>
-          <Box>
-            <ListData
-              title="Tecnologías"
-              type="tecnologías"
-              data={projectData.technologies}
-            />
-          </Box>
-          <Divider style={{ marginBottom: 15, marginTop: 15 }} />
-          <Box>
-            <ListData
-              title="Personas Asignadas"
-              type="personas"
-              data={projectData.people}
-            />
-          </Box>
-        </Grid>
-      </Grid>
+      <InfoProyectoForm
+        projectData={projectData}
+        handleApplyChanges={handleApplyChanges}
+        project_state={project_state}
+        setProjectState={setProjectState}
+        onClose={onClose}
+        type={type}
+      />
     </div>
   );
 }
