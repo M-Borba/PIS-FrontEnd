@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { axiosInstance } from "../../config/axios";
-import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
+
+import { axiosInstance } from "../../config/axios";
+import ProyectoForm from "../../components/ProyectoForm";
 
 CreateProject.propTypes = {
   addRow: propTypes.func.isRequired,
@@ -26,7 +27,7 @@ export default function CreateProject({ addRow, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(project);
     axiosInstance
       .post("/projects", {
         project: project,

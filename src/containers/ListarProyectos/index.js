@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography } from "@material-ui/core";
+import moment from "moment";
 
 import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
@@ -16,6 +16,7 @@ export default function ListarProyectos() {
     await axiosInstance.get("/projects").then((response) => {
       rawRows = response.data.projects;
       let rowsNuevas = rawRows.map((row) => {
+        console.log(moment(row.start_date).format("DD/MM/YYYY"));
         return {
           id: row.id,
           name: row.name,
@@ -27,9 +28,11 @@ export default function ListarProyectos() {
           ),
           description: row.description,
           budget: row.budget,
-          start_date: row.start_date.replaceAll("-", "/"),
+          start_date: moment(row.start_date).format("DD/MM/YYYY"),
           end_date:
-            row.end_date != null ? row.end_date.replaceAll("-", "/") : null,
+            row.end_date != null
+              ? moment(row.start_date).format("DD/MM/YYYY")
+              : null,
           people: row.people,
           organization: row.organization,
           technologies: row.technologies || [],
