@@ -20,6 +20,10 @@
   border: 0 !important;
 }
 
+.rct-item-content {
+  padding: 0 10px !important;
+}
+
 .react-calendar-timeline .rct-dateHeader {
   font-size: 16px;
   font-weight: 400;
