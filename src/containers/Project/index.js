@@ -29,7 +29,7 @@ export default function Project() {
           type={project.project_type
             ?.replaceAll("_", " ")
             .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())}
-          state={project.project_state?.replace(/^\w/, (m) => m.toUpperCase())}
+          // state={project.project_state?.replace(/^\w/, (m) => m.toUpperCase())}
         />
       )}
       {project && (
