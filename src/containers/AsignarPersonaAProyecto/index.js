@@ -128,7 +128,6 @@ export default function AgregarPersona({
             })
             .catch((error) => {
               let message = error.response.data;
-              console.log(message);
               enqueueSnackbar(
                 message.error
                   ? message.error

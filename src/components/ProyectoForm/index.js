@@ -55,7 +55,6 @@ export default function ProyectoForm({
       .get("/technologies")
       .then((response) => {
         setTechnologies(response.data.technologies);
-        console.log(response.data.technologies);
       })
       .catch((error) => {
         console.log(error);

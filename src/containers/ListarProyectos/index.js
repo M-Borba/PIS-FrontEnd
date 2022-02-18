@@ -16,7 +16,6 @@ export default function ListarProyectos() {
     await axiosInstance.get("/projects").then((response) => {
       rawRows = response.data.projects;
       let rowsNuevas = rawRows.map((row) => {
-        console.log(moment(row.start_date).format("DD/MM/YYYY"));
         return {
           id: row.id,
           name: row.name,

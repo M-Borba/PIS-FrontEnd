@@ -27,7 +27,6 @@ export default function CreateProject({ addRow, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(project);
     axiosInstance
       .post("/projects", {
         project: project,
