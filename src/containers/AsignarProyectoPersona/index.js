@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import AsignacionForm from "../../components/AsignacionDialog";
-import { axiosInstance } from "../../config/axios";
-import { rolesFormateados } from "../../config/globalVariables";
 import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import { useSnackbar } from "notistack";
+
+import AsignacionForm from "../../components/AsignacionDialog";
+import { axiosInstance } from "../../config/axios";
+import { rolesFormateados } from "../../config/globalVariables";
 
 AsignarProyectoPersona.propTypes = {
   open: PropTypes.bool.isRequired,
@@ -94,18 +95,32 @@ function AsignarProyectoPersona({
       });
   };
 
-  const onInputChange = (e) => {
-    e.target.name == "project" &&
-      setRequestBody({ ...requestBody, project_id: e.target.value });
-    e.target.name == "role" &&
-      setRequestBody({ ...requestBody, role: e.target.value });
-    e.target.id == "fechaInicio" &&
+  const onInputChange = (e, type) => {
+    if (e._isAMomentObject) {
+      if (!e._isValid) return;
+      type === "start_date" &&
+        setRequestBody({
+          ...requestBody,
+          start_date: e.format("YYYY-MM-DD"),
+        });
+      type === "end_date" &&
+        setRequestBody({
+          ...requestBody,
+          end_date: e.format("YYYY-MM-DD"),
+        });
+      return;
+    }
+    e.target.id === "fechaInicio" &&
       setRequestBody({ ...requestBody, start_date: e.target.value });
-    e.target.id == "fechaFin" &&
+    e.target.id === "fechaFin" &&
       setRequestBody({ ...requestBody, end_date: e.target.value });
-    e.target.name == "working_hours_type" &&
+    e.target.name === "project" &&
+      setRequestBody({ ...requestBody, project_id: e.target.value });
+    e.target.name === "role" &&
+      setRequestBody({ ...requestBody, role: e.target.value });
+    e.target.name === "working_hours_type" &&
       setRequestBody({ ...requestBody, working_hours_type: e.target.value });
-    e.target.id == "horas" &&
+    e.target.id === "horas" &&
       setRequestBody({ ...requestBody, working_hours: e.target.value });
   };
 

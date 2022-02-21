@@ -1,14 +1,4 @@
 import React from "react";
-import propTypes from "prop-types";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import { useStyles } from "./styles";
-import CardSelector from "../CardSelector";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -19,6 +9,22 @@ import List from "@mui/material/List";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Card from "@mui/material/Card";
+import propTypes from "prop-types";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+
+import { useStyles } from "./styles";
+import CardSelector from "../CardSelector";
+import {
+  BUTTON_LABELS,
+  PERSON_LABELS,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -95,7 +101,7 @@ export default function AsignPersonForm({
             <CardSelector
               name={"roles"}
               id={"roles"}
-              title={"Rol"}
+              title={PERSON_LABELS.ROL}
               list={asign.roles}
               onInputChange={onInputChange}
             />
@@ -108,7 +114,7 @@ export default function AsignPersonForm({
               required
               fullWidth
               name="startDate"
-              label="Inicio"
+              label={PROJECT_LABELS.FECHA_INICIO}
               type="date"
               id="startDate"
               value={asign.startDate}
@@ -121,7 +127,7 @@ export default function AsignPersonForm({
               variant="outlined"
               fullWidth
               name="endDate"
-              label="Fin"
+              label={PROJECT_LABELS.FECHA_FIN}
               type="date"
               id="endDate"
               value={asign.endDate || ""}
@@ -135,7 +141,7 @@ export default function AsignPersonForm({
               required
               fullWidth
               name="workingHours"
-              label="Horas"
+              label={PERSON_LABELS.HORAS}
               type="number"
               id="workingHours"
               value={asign.hours}
@@ -151,14 +157,14 @@ export default function AsignPersonForm({
                 fullWidth
                 required
                 value={asign.hoursType}
-                label="Tipo de Horas"
+                label={PERSON_LABELS.TIPO_CARGA_HORARIA}
                 id="hoursType"
                 labelId="hours-type"
                 onChange={onInputChange}
                 name="hoursType"
               >
-                <MenuItem value="weekly">Semanales</MenuItem>
-                <MenuItem value="monthly">Mensuales</MenuItem>
+                <MenuItem value="weekly">{PERSON_LABELS.SEMANALES}</MenuItem>
+                <MenuItem value="monthly">{PERSON_LABELS.MENSUALES}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -171,7 +177,7 @@ export default function AsignPersonForm({
           color="primary"
           className={classes.submit}
         >
-          Guardar
+          {BUTTON_LABELS.SAVE}
         </Button>
 
         <Typography className={classes.errorMsg} component="h2">

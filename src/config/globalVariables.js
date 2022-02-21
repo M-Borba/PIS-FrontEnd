@@ -96,6 +96,7 @@ export const FILTER_FORM_LABELS = {
 
 export const PERSON_LABELS = {
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
+  HORAS: "Horas",
   CARGA_HORARIA: "Carga horaria",
   CARGA_HORARIA_SEMANAL: "Carga horaria semanal",
   TECNOLOGIAS: "Tecnologías",
@@ -105,6 +106,9 @@ export const PERSON_LABELS = {
   NOMBRE_COMPLETO: "Nombre completo",
   ACCIONES: "Acciones",
   ID: "ID",
+  SEMANALES: "Semanales",
+  MENSUALES: "Mensuales",
+  NO_EXISTEN_PERSONAS_PARA_MOSTRAR: "No existen personas para mostrar",
 };
 
 export const HEADER_LABELS = {
@@ -119,6 +123,8 @@ export const HEADER_LABELS = {
 export const BUTTON_LABELS = {
   APPLY_CHANGES: "Aplicar cambios",
   CANCEL: "Cancelar",
+  SAVE: "Guardar",
+  ASSIGN: "Asignar",
   UNASSIGN: "Desasignar",
   AGREGAR_PROYECTO: "Agregar proyecto",
   AGREGAR_PERSONA: "Agregar persona",

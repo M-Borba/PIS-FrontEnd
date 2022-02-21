@@ -1,13 +1,17 @@
 import {
+  BUTTON_LABELS,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
+  DATE_FORMAT,
+  HEADER_LABELS,
+  PERSON_LABELS,
+  PROJECT_LABELS,
   roles,
   rolesTraducidos,
 } from "../../config/globalVariables";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { useStyles } from "../InfoAsignacionDialog/styles";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -17,6 +21,9 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import { DatePicker } from "@mui/lab";
+import moment from "moment";
+import CustomButton from "../CustomButton";
 
 AsignacionDialog.propTypes = {
   proyectos: PropTypes.array.isRequired,
@@ -35,8 +42,9 @@ function AsignacionDialog({
   onInputChange,
   datos,
 }) {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const Classes = useStyles();
-
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => {
     return (
       <MenuItem key={id} value={cargaHoraria}>
@@ -84,9 +92,17 @@ function AsignacionDialog({
               required
               autoFocus
               name="project"
-              label="Proyectos"
+              label={HEADER_LABELS.PROYECTOS}
               value={datos.project_id}
-              onChange={onInputChange}
+              onChange={(e) => {
+                proyectos.find((proyecto) => {
+                  if (proyecto.id === e.target.value) {
+                    setEndDate(proyecto.end_date);
+                    setStartDate(proyecto.start_date);
+                  }
+                });
+                onInputChange(e);
+              }}
               sx={{ marginTop: 1 }}
             >
               {proyectosItems}
@@ -96,7 +112,7 @@ function AsignacionDialog({
               fullWidth
               required
               name="role"
-              label="Rol"
+              label={PERSON_LABELS.ROL}
               value={datos.role}
               onChange={onInputChange}
             >
@@ -108,7 +124,7 @@ function AsignacionDialog({
                 fullWidth
                 required
                 name="working_hours_type"
-                label="Tipo de carga horaria"
+                label={PERSON_LABELS.TIPO_CARGA_HORARIA}
                 value={datos.working_hours_type}
                 onChange={onInputChange}
               >
@@ -117,9 +133,9 @@ function AsignacionDialog({
               <TextField
                 style={{ width: 280 }}
                 required
+                variant="outlined"
                 id="horas"
-                label="Carga horaria"
-                variant="standard"
+                label={PERSON_LABELS.CARGA_HORARIA}
                 type="number"
                 value={datos.working_hours}
                 onChange={onInputChange}
@@ -130,39 +146,100 @@ function AsignacionDialog({
               />
             </Stack>
             <Stack spacing={1} direction="row">
-              <TextField
+              {/*<TextField*/}
+              {/*  fullWidth*/}
+              {/*  required*/}
+              {/*  id="fechaInicio"*/}
+              {/*  variant="standard"*/}
+              {/*  type="date"*/}
+              {/*  label="Fecha Inicio"*/}
+              {/*  InputLabelProps={{ shrink: true }}*/}
+              {/*  value={datos.start_date}*/}
+              {/*  onChange={onInputChange}*/}
+              {/*  InputProps={{ inputProps: { max: "9999-12-31" } }}*/}
+              {/*/>*/}
+              {/*<MuiPickersUtilsProvider utils={MomentUtils}>*/}
+
+              <DatePicker
                 fullWidth
                 required
                 id="fechaInicio"
-                variant="standard"
-                type="date"
-                label="Fecha Inicio"
-                InputLabelProps={{ shrink: true }}
-                value={datos.start_date}
-                onChange={onInputChange}
-                InputProps={{ inputProps: { max: "9999-12-31" } }}
+                value={startDate}
+                minDate={moment(startDate)}
+                maxDate={moment(endDate)}
+                onChange={(e) => onInputChange(e, "start_date")}
+                name="start_date"
+                disableMaskedInput
+                inputFormat={DATE_FORMAT}
+                // className={classes.fWidth}
+                PaperProps={{
+                  style: {
+                    borderRadius: "15px",
+                  },
+                }}
+                inputProps={{
+                  disabled: true,
+                }}
+                TextFieldProps={{
+                  // className: classes.fWidth,
+                  InputLabelProps: { shrink: true },
+                  name: "start_date",
+                  required: true,
+                  id: "start_date",
+                  label: PROJECT_LABELS.FECHA_INICIO,
+                }}
+                renderInput={(params) => <TextField {...params} />}
               />
-              <TextField
+              <DatePicker
                 fullWidth
                 id="fechaFin"
-                variant="standard"
-                type="date"
-                label="Fecha de fin"
-                InputLabelProps={{ shrink: true }}
-                value={datos.end_date}
-                onChange={onInputChange}
-                InputProps={{ inputProps: { max: "9999-12-31" } }}
+                value={endDate}
+                minDate={moment(startDate)}
+                maxDate={moment(endDate)}
+                onChange={(e) => onInputChange(e, "end_date")}
+                name="end_date"
+                disableMaskedInput
+                inputFormat={DATE_FORMAT}
+                // className={classes.fWidth}
+                PaperProps={{
+                  style: {
+                    borderRadius: "15px",
+                  },
+                }}
+                inputProps={{
+                  disabled: true,
+                }}
+                TextFieldProps={{
+                  // className: classes.fWidth,
+                  InputLabelProps: { shrink: true },
+                  name: "end_date",
+                  required: true,
+                  id: "end_date",
+                  label: PROJECT_LABELS.FECHA_FIN,
+                }}
+                renderInput={(params) => <TextField {...params} />}
               />
+              {/*<TextField*/}
+              {/*  fullWidth*/}
+              {/*  id="fechaFin"*/}
+              {/*  variant="standard"*/}
+              {/*  type="date"*/}
+              {/*  label="Fecha de fin"*/}
+              {/*  InputLabelProps={{ shrink: true }}*/}
+              {/*  value={datos.end_date}*/}
+              {/*  onChange={onInputChange}*/}
+              {/*  InputProps={{ inputProps: { max: "9999-12-31" } }}*/}
+              {/*/>*/}
             </Stack>
           </Stack>
         </DialogContent>
         <DialogActions style={{ justifyContent: "space-between" }}>
-          <Button onClick={onClose} variant="contained">
-            Cancelar
-          </Button>
-          <Button role="submit" type="submit" variant="contained">
-            Asignar
-          </Button>
+          <CustomButton redButton onClick={onClose} variant="contained">
+            {BUTTON_LABELS.CANCEL}
+          </CustomButton>
+          <CustomButton role="submit" type="submit" variant="contained">
+            {BUTTON_LABELS.ASSIGN}
+          </CustomButton>
         </DialogActions>
       </form>
     </Fragment>
