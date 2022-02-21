@@ -1,5 +1,7 @@
 import { createTheme } from "@material-ui/core";
 
+import { COLORS } from "./globalVariables";
+
 export default createTheme({
   typography: {
     allVariants: {
@@ -31,10 +33,10 @@ export default createTheme({
         borderRadius: "31px",
       },
       contained: {
-        color: "#ffffff",
-        backgroundColor: "#6B5ECD",
+        color: COLORS.white,
+        backgroundColor: COLORS.primaryPurple,
         "&:hover": {
-          backgroundColor: "#504699",
+          backgroundColor: COLORS.primaryPurpleHover,
         },
         textTransform: "none",
       },

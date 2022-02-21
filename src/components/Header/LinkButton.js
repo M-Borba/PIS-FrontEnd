@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { Button, useStyles } from "./styles";
+import { useStyles } from "./styles";
 
 export const LinkButton = ({ src, alt, title, to, isSelected }) => {
   const classes = useStyles();
@@ -10,10 +10,10 @@ export const LinkButton = ({ src, alt, title, to, isSelected }) => {
 
   return (
     <Link className={`${classes.link} ${selectedStyle}`} to={to}>
-      <Button>
+      <div className={classes.button}>
         <img style={{ marginRight: 9 }} src={src} alt={alt} />
         {title}
-      </Button>
+      </div>
     </Link>
   );
 };

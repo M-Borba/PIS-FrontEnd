@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
 import { useStyles } from "./styles";
+import { COLORS } from "../../config/globalVariables";
 
 const CustomButton = ({
   variant,
@@ -19,8 +20,8 @@ const CustomButton = ({
   redButton &&
     (styleObj.buttonRoot = {
       ...styleObj.buttonRoot,
-      backgroundColor: "#c21321",
-      "&:hover": { backgroundColor: "#990f1b" },
+      backgroundColor: COLORS.buttonRed,
+      "&:hover": { backgroundColor: COLORS.buttonRedHover },
     });
   const style = makeStyles(styleObj);
   const customClass = style();

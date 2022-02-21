@@ -72,6 +72,8 @@ export const PROJECT_LABELS = {
   NOMBRE: "Nombre",
   ACCIONES: "Acciones",
   ID: "ID",
+  NO_EXISTEN_PROYECTOS_PARA_MOSTRAR: "NO EXISTEN PROYECTOS PARA MOSTRAR",
+  NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
 };
 
 export const SWITCHER_LABELS = {
@@ -128,4 +130,27 @@ export const LOGIN_LABELS = {
     "Parece que es la primera vez que inicia sesión. Por favor, ingrese una nueva contraseña.",
   CONFIRMAR_CONTRASENA: "Confirme su contraseña",
   CAMBIO_BUTTON: "Establecer nueva contraseña e iniciar sesión",
+};
+
+export const COLORS = {
+  white: "#fff",
+  black: "#000",
+  menuItemHover: "#EEEFF6",
+  menuItemSelected: "#E3E1F3",
+  primaryPurple: "#6B5ECD",
+  containerBorder: "#e3e3e3",
+  primaryPurpleHover: "#504699",
+  textFieldBorder: "#F8F8FA",
+  stateGreen: "#7EDE6D",
+  stateRed: "#E87272",
+  stateYellow: "#FAE269",
+  stateUpcoming: "#B0CFCB",
+  timelineRed: "#C14B3A",
+  buttonRed: "#C21321",
+  buttonRedHover: "#990F1B",
+  backgroundDarkestGrey: "#252525",
+  backgroundDarkGrey: "#404040",
+  backgroundBlack: "#1C1C1C",
+  backgroundWhite: "#FAFAFA",
+  filterFormBackground: "#E2E0F2",
 };

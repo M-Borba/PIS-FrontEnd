@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   modalInfo: {
     position: "absolute",
@@ -9,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     height: "65%",
     width: "30%",
     background: "white",
-    border: "2px solid #000",
+    border: `2px solid ${COLORS.black}`,
     boxShadow: 24,
     overflow: "scroll",
     overflowX: "hidden",

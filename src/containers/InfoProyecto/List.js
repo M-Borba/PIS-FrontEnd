@@ -4,6 +4,8 @@ import { Box, Typography } from "@material-ui/core";
 import { Chip } from "@mui/material";
 import List from "@mui/material/List";
 
+import { COLORS } from "../../config/globalVariables";
+
 const ListData = ({ title, type, data }) => (
   <>
     <Typography style={{ fontWeight: 600, fontSize: 14 }} variant="body1">
@@ -28,7 +30,7 @@ const ListData = ({ title, type, data }) => (
               sx={{
                 margin: "3px",
                 fontFamily: "Nunito Sans",
-                background: "#E3E1F3",
+                background: COLORS.menuItemSelected,
               }}
               label={item.full_name}
             />

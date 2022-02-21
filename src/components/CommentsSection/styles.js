@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   modalInfo: {
     position: "absolute",
@@ -30,12 +32,12 @@ export const useStyles = makeStyles((theme) => ({
   button: {
     width: "fit-content",
     margin: "auto",
-    color: "#ffffff",
+    color: COLORS.white,
     marginBottom: "18px",
-    background: "#1c1c1c",
+    background: COLORS.backgroundBlack,
     "&:hover": {
-      backgroundColor: "#404040",
-      color: "#fff",
+      backgroundColor: COLORS.backgroundDarkGrey,
+      color: COLORS.white,
     },
   },
   noteContainer: {

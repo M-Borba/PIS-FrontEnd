@@ -7,7 +7,7 @@ import { Avatar } from "@mui/material";
 import { Tooltip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { anchorElPoint, Navbar, PaperProps, useStyles } from "./styles";
+import { anchorElPoint, PaperProps, useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
 
 import AdministratorsIcon from "../../assets/icons/AdministratorsIcon.svg";
@@ -54,7 +54,7 @@ export default function Header() {
   };
 
   return (
-    <Navbar>
+    <div className={classes.navbar}>
       <div className={classes.title}>
         <LinkButton
           title={HEADER_LABELS.INICIO}
@@ -126,6 +126,6 @@ export default function Header() {
           </MenuItem>
         </Menu>
       </Fragment>
-    </Navbar>
+    </div>
   );
 }

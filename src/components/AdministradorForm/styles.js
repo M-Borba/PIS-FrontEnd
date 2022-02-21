@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(8, 4),
@@ -12,12 +14,12 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    color: "#ffffff",
-    background: "#1c1c1c",
+    color: COLORS.white,
+    background: COLORS.backgroundBlack,
     margin: theme.spacing(3, 0, 2),
     "&:hover": {
-      backgroundColor: "#404040",
-      color: "#fff",
+      backgroundColor: COLORS.backgroundDarkGrey,
+      color: COLORS.white,
     },
   },
   errorMsg: { color: "red" },

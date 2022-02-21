@@ -1,15 +1,14 @@
 import React from "react";
 import propTypes from "prop-types";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import Tooltip from "@mui/material/Tooltip";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { InputAdornment, InputLabel } from "@mui/material";
 
 import { useStyles } from "./styles";
 import {
+  COLORS,
   FILTER_FORM_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
@@ -43,22 +42,6 @@ export default function FilterForm({
 }) {
   const classes = useStyles();
 
-  const renderButton = (tooltip, onClick, iconComponent) => (
-    <Tooltip title={tooltip} className={classes.form}>
-      <Button
-        style={{
-          color: "#ffffff",
-          background: "#1c1c1c",
-        }}
-        variant="contained"
-        className={classes.clear}
-        onClick={onClick}
-      >
-        {iconComponent}
-      </Button>
-    </Tooltip>
-  );
-
   const canResetFilters = () => {
     return project_type || project_state || organization;
   };
@@ -66,7 +49,9 @@ export default function FilterForm({
   return (
     <div
       className={classes.container}
-      style={canResetFilters() ? { background: "#E2E0F2" } : null}
+      style={
+        canResetFilters() ? { background: COLORS.filterFormBackground } : null
+      }
     >
       <form id="filter-form" className={classes.form} noValidate>
         <InputLabel>{FILTER_FORM_LABELS.FILTRAR_POR}</InputLabel>

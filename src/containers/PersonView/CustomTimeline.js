@@ -16,7 +16,7 @@ import { useSnackbar } from "notistack";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados } from "../../config/globalVariables";
+import { COLORS, rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import FilterForm from "../../components/FilterForm";
 import { useStyles } from "../../components/Personas/styles";
@@ -157,13 +157,13 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let color = "#6B5ECD";
+              let color = COLORS.primaryPurple;
               let finasignacion = endValue(dt.end_date);
               let hoy = new Date().getTime();
               if (hoy < finasignacion) {
                 if (finasignacion - 864000000 < hoy) {
                   //10 dias = 864000000
-                  color = "#C14B3A";
+                  color = COLORS.timelineRed;
                 }
               }
 
@@ -226,8 +226,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           borderRadius: 5,
           background:
             endDate - 864000000 < todayDate && endDate >= todayDate
-              ? "#C14B3A"
-              : "#B0CFCB",
+              ? COLORS.timelineRed
+              : COLORS.stateUpcoming,
         },
       },
     };
@@ -303,8 +303,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             background:
               endValue(endDate) - 864000000 < todayDate &&
               endValue(endDate) >= todayDate
-                ? "#C14B3A"
-                : "#B0CFCB",
+                ? COLORS.timelineRed
+                : COLORS.stateUpcoming,
           },
         },
         title: title,
@@ -474,7 +474,9 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">
-                  <SidebarHeader style={{ backgroundColor: "#FAFAFA" }}>
+                  <SidebarHeader
+                    style={{ backgroundColor: COLORS.backgroundWhite }}
+                  >
                     {({ getRootProps }) => {
                       return (
                         <div {...getRootProps()}>
@@ -530,7 +532,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                   style={{
                     height: 20,
                     width: 20,
-                    backgroundColor: "#C14B3A",
+                    backgroundColor: COLORS.timelineRed,
                     border: "1px solid black",
                   }}
                 />

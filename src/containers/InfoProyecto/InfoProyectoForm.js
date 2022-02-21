@@ -137,15 +137,7 @@ const InfoProyectoForm = ({
                 alignSelf: "flex-end",
               }}
             >
-              <CustomButton
-                styles={{
-                  backgroundColor: "#c21321",
-                  maxHeight: "45px",
-                  "&:hover": { backgroundColor: "#9d1e29" },
-                }}
-                variant="contained"
-                onClick={onClose}
-              >
+              <CustomButton redButton variant="contained" onClick={onClose}>
                 {BUTTON_LABELS.CANCEL}
               </CustomButton>
             </Grid>

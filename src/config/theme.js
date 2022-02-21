@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
+import { COLORS } from "./globalVariables";
+
 const baseTheme = createTheme({
   palette: {
     black: "#000",
@@ -20,19 +22,19 @@ export default createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          height: " 41px",
+          height: "41px",
           fontFamily: '"Nunito Sans", sans-serif',
-          background: "#FFFFFF",
-          border: "1px solid #F8F8FA",
+          background: COLORS.white,
+          border: `1px solid ${COLORS.textFieldBorder}`,
           boxSizing: "border-box",
           boxShadow: "0px 2px 10px 3px rgba(152, 152, 152, 0.06)",
           borderRadius: "15px",
           padding: "12px 12px",
           "&.Mui-focused ": {
-            border: "2px solid #6B5ECD",
+            border: `2px solid ${COLORS.primaryPurple}`,
           },
           "&:hover": {
-            border: "1px solid #6B5ECD",
+            border: `1px solid ${COLORS.primaryPurple}`,
           },
         },
         notchedOutline: {
@@ -47,10 +49,10 @@ export default createTheme({
       styleOverrides: {
         root: {
           "&.Mui-selected": {
-            backgroundColor: "#E3E1F3",
+            backgroundColor: COLORS.menuItemSelected,
           },
           "&:hover": {
-            backgroundColor: "#EEEFF6",
+            backgroundColor: COLORS.menuItemHover,
           },
         },
       },

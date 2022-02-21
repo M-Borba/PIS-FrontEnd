@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     margin: 0,
@@ -34,23 +36,23 @@ export const useStyles = makeStyles((theme) => ({
     wordWrap: "break-word",
   },
   submit: {
-    color: "#ffffff",
-    backgroundColor: "#1C1C1C",
+    color: COLORS.white,
+    backgroundColor: COLORS.backgroundBlack,
     margin: theme.spacing(3, 0, 2),
     "&:hover": {
-      backgroundColor: "#404040",
-      color: "#fff",
+      backgroundColor: COLORS.backgroundDarkGrey,
+      color: COLORS.white,
     },
   },
   secondary: {
-    color: "#1C1C1C",
+    color: COLORS.backgroundBlack,
     backgroundColor: "transparent",
     boxShadow: "none",
     margin: theme.spacing(3, 0, 2),
     "&:hover": {
       backgroundColor: "transparent",
       boxShadow: "none",
-      color: "#404040",
+      color: COLORS.backgroundDarkGrey,
     },
   },
 }));

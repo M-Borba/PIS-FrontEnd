@@ -1,31 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import styled from "@emotion/styled";
 
-export const Navbar = styled.div`
-  height: 74px;
-  padding: 0px 40px;
-  background-color: #252525;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const Button = styled.div`
-  padding: 0px 20px;
-  border-radius: 0;
-  text-transform: none;
-  font-family: Nunito Sans;
-  font-weight: 700;
-  line-height: 20px;
-  height: 94%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    border-bottom: 4.5px #6b5ecd solid;
-  }
-`;
+import { COLORS } from "../../config/globalVariables";
 
 export const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -51,22 +26,44 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: 35,
   },
   selected: {
-    borderBottom: "10px #6b5ecd solid",
+    borderBottom: `10px ${COLORS.primaryPurple} solid`,
     boxSizing: "border-box",
     "& > div": { marginTop: "0.6vh" },
     "&:hover": {
-      borderBottom: "10px #6b5ecd solid",
+      borderBottom: `10px ${COLORS.primaryPurple} solid`,
     },
+  },
+  button: {
+    padding: "0px 20px",
+    borderRadius: 0,
+    textTransform: "none",
+    fontWeight: 700,
+    lineHeight: 20,
+    height: "94%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    "&:hover": {
+      borderBottom: `4.5px ${COLORS.primaryPurple} solid`,
+    },
+  },
+  navbar: {
+    height: 74,
+    padding: "0 40px",
+    backgroundColor: COLORS.backgroundDarkestGrey,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   userName: {
     width: "fit-content",
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.white,
     fontFamily: "Nunito Sans",
     fontStyle: "normal",
     fontWeight: 600,
     fontSize: "20px",
     lineHeight: "27px",
-    color: "#252525",
+    color: COLORS.backgroundDarkestGrey,
     padding: "5px 15px 5px 7px",
     borderRadius: "50px",
     cursor: "pointer",
@@ -75,8 +72,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   userNameIcon: {
     marginRight: 8,
-    backgroundColor: "#6b5ecd !important",
-    color: "#fff !important",
+    backgroundColor: `${COLORS.primaryPurple} !important`,
+    color: `${COLORS.white} !important`,
   },
 }));
 
