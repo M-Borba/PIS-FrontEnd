@@ -51,6 +51,32 @@ function InfoAsignacionDialog({
   desasignar,
 }) {
   const classes = useStyles();
+
+  const projectInfo = [
+    {
+      label: PROJECT_LABELS.ORGANIZACION,
+      value: project.organization || "-",
+    },
+    {
+      label: PROJECT_LABELS.TIPO_PROYECTO,
+      value: project.project_type
+        ?.replaceAll("_", " ")
+        .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
+    },
+    {
+      label: PROJECT_LABELS.ESTADO,
+      value: renderColor(project.project_state),
+    },
+    {
+      label: PROJECT_LABELS.FECHA_INICIO,
+      value: moment(project.start_date).format(DATE_FORMAT),
+    },
+    {
+      label: PROJECT_LABELS.FECHA_FIN,
+      value: moment(project.end_date).format(DATE_FORMAT),
+    },
+  ];
+
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => (
     <MenuItem key={id} value={cargaHoraria}>
       {cargasHorarias_tFormateadas[cargaHoraria]}
@@ -65,6 +91,7 @@ function InfoAsignacionDialog({
 
   const renderInformation = (title, info) => (
     <Box
+      key={title}
       mt={1.5}
       style={
         title === PROJECT_LABELS.ESTADO
@@ -122,29 +149,8 @@ function InfoAsignacionDialog({
               >
                 <Stack width={"100%"} spacing={1} direction="row">
                   <Stack width={"100%"}>
-                    {renderInformation(
-                      PROJECT_LABELS.ORGANIZACION,
-                      project.organization === ""
-                        ? "-"
-                        : project.organization ?? "-"
-                    )}
-                    {renderInformation(
-                      PROJECT_LABELS.TIPO_PROYECTO,
-                      project.project_type
-                        ?.replaceAll("_", " ")
-                        .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase())
-                    )}
-                    {renderInformation(
-                      PROJECT_LABELS.ESTADO,
-                      renderColor(project.project_state)
-                    )}
-                    {renderInformation(
-                      PROJECT_LABELS.FECHA_INICIO,
-                      moment(project.start_date).format(DATE_FORMAT)
-                    )}
-                    {renderInformation(
-                      PROJECT_LABELS.FECHA_FIN,
-                      moment(project.end_date).format(DATE_FORMAT)
+                    {projectInfo.map(({ label, value }) =>
+                      renderInformation(label, value)
                     )}
                   </Stack>
                   <Stack width={"100%"}>
