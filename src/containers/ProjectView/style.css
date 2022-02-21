@@ -17,11 +17,12 @@
   height: 20px !important;
   margin-top: 5px !important;
   border-radius: 10px !important;
-  border: 0 !important;
+  border: 0;
 }
 
-.rct-item-content {
-  padding: 0 10px !important;
+.react-calendar-timeline .rct-item .rct-item-content {
+  padding: 0 10px;
+  width: inherit;
 }
 
 .react-calendar-timeline .rct-dateHeader {

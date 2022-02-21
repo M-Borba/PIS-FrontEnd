@@ -142,7 +142,6 @@ function InfoAsignacion({
   };
 
   const onInputChange = (e, type = "") => {
-    if (!e) return;
     if (e._isAMomentObject) {
       if (!e._isValid) return;
       type === "start_date" &&

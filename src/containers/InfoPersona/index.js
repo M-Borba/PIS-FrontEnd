@@ -12,6 +12,7 @@ import {
   TypographyHeader,
   TypographyLabel,
 } from "./TypographyStyled";
+import { PROJECT_LABELS } from "../../config/globalVariables";
 
 InfoPersona.propTypes = {
   personData: propTypes.object.isRequired,
@@ -63,7 +64,7 @@ export default function InfoPersona({ personData }) {
             alignItems="center"
             spacing={2}
           >
-            {personData.technologies?.length != 0 ? (
+            {personData.technologies?.length !== 0 ? (
               personData.technologies?.map((tech, index) => (
                 <Grid key={`tech-${index}`} item>
                   <Chip tech={tech} />
@@ -72,7 +73,7 @@ export default function InfoPersona({ personData }) {
             ) : (
               <Grid style={{ margin: 20 }}>
                 <TypographyData variant="body1" display="inline">
-                  Aún no hay tecnologias asociadas
+                  {PROJECT_LABELS.NO_TECNOLOGIAS}
                 </TypographyData>
               </Grid>
             )}
