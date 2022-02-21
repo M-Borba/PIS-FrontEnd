@@ -6,8 +6,6 @@ export const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     margin: 0,
     padding: theme.spacing(2),
-    paddingTop: "10 !important",
-    paddingBottom: "0 !important",
   },
   content: {
     width: "50%",
@@ -30,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
     with: theme.spacing(1),
   },
   fWidth: {
-    width: "100% !important",
+    width: "100%",
   },
   textClass: {
     wordWrap: "break-word",

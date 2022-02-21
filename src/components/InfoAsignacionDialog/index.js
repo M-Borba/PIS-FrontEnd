@@ -18,6 +18,7 @@ import {
   BUTTON_LABELS,
   cargasHorarias_t,
   cargasHorarias_tFormateadas,
+  DATE_FORMAT,
   PERSON_LABELS,
   PROJECT_LABELS,
   roles,
@@ -139,11 +140,11 @@ function InfoAsignacionDialog({
                     )}
                     {renderInformation(
                       PROJECT_LABELS.FECHA_INICIO,
-                      moment(project.start_date).format("DD/MM/YYYY")
+                      moment(project.start_date).format(DATE_FORMAT)
                     )}
                     {renderInformation(
                       PROJECT_LABELS.FECHA_FIN,
-                      moment(project.end_date).format("DD/MM/YYYY")
+                      moment(project.end_date).format(DATE_FORMAT)
                     )}
                   </Stack>
                   <Stack width={"100%"}>
@@ -215,7 +216,7 @@ function InfoAsignacionDialog({
                     name="start_date"
                     id="start_date"
                     disableMaskedInput
-                    inputFormat="DD/MM/YYYY"
+                    inputFormat={DATE_FORMAT}
                     value={asignacionInfo.start_date}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "start_date")}

@@ -12,7 +12,11 @@ import { renderColor } from "../../utils/utils";
 import ListData from "./List";
 import CustomButton from "../../components/CustomButton";
 import TypographyStyled from "./TypographyStyled";
-import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
+import {
+  BUTTON_LABELS,
+  DATE_FORMAT,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
 
 const InfoProyectoForm = ({
   handleApplyChanges,
@@ -69,14 +73,14 @@ const InfoProyectoForm = ({
           <Box mt={2}>
             <TypographyStyled>{PROJECT_LABELS.FECHA_INICIO}: </TypographyStyled>
             <Typography display="inline" variant="body1">
-              {moment(projectData.start_date).format("DD/MM/YYYY")}
+              {moment(projectData.start_date).format(DATE_FORMAT)}
             </Typography>
           </Box>
           <Box mt={2}>
             <TypographyStyled>{PROJECT_LABELS.FECHA_FIN}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {projectData.end_date
-                ? moment(projectData.end_date).format("DD/MM/YYYY")
+                ? moment(projectData.end_date).format(DATE_FORMAT)
                 : PROJECT_LABELS.INDEFINIDA}
             </Typography>
           </Box>

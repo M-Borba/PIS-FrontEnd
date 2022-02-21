@@ -57,6 +57,8 @@ export const customTimeSteps = {
   year: 1,
 };
 
+export const DATE_FORMAT = "DD/MM/YYYY";
+
 export const PROJECT_LABELS = {
   ESTADO: "Estado",
   TIPO: "Tipo",

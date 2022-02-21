@@ -5,6 +5,7 @@ import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
 import UpdateGridProvider from "../UpdateGridProvider";
 import Loading from "../../components/Loading";
+import { DATE_FORMAT } from "../../config/globalVariables";
 
 export default function ListarProyectos() {
   var rawRows;
@@ -27,10 +28,10 @@ export default function ListarProyectos() {
           ),
           description: row.description,
           budget: row.budget,
-          start_date: moment(row.start_date).format("DD/MM/YYYY"),
+          start_date: moment(row.start_date).format(DATE_FORMAT),
           end_date:
             row.end_date != null
-              ? moment(row.start_date).format("DD/MM/YYYY")
+              ? moment(row.start_date).format(DATE_FORMAT)
               : null,
           people: row.people,
           organization: row.organization,
