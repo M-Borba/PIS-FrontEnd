@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
@@ -44,7 +45,7 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
       })
       .catch((error) => {
         console.error(error.response);
-        error.response.status == 400
+        error.response.status === 400
           ? setErrors(error.response.data?.errors)
           : enqueueSnackbar(error.response.data.error, {
               variant: "error",

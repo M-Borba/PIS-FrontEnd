@@ -4,11 +4,13 @@ import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import propTypes from "prop-types";
+
 import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
-import AddButton from "../AddButton";
+import CustomButton from "../CustomButton";
+import { BUTTON_LABELS, PERSON_LABELS } from "../../config/globalVariables";
 
 Personas.propTypes = {
   rows: propTypes.array,
@@ -18,35 +20,35 @@ Personas.propTypes = {
 const columns = [
   {
     field: "id",
-    headerName: "ID",
+    headerName: PERSON_LABELS.ID,
     hide: true,
   },
   {
     field: "fullName",
-    headerName: "Nombre Completo",
+    headerName: PERSON_LABELS.NOMBRE_COMPLETO,
     sortable: true,
     flex: 1, //tamaño
   },
   {
     field: "email",
-    headerName: "Email",
+    headerName: PERSON_LABELS.EMAIL,
     sortable: true,
     flex: 1,
   },
   {
     field: "cargaHoraria",
-    headerName: "Carga Horaria Semanal",
+    headerName: PERSON_LABELS.CARGA_HORARIA_SEMANAL,
     flex: 0.7,
   },
   {
     field: "technologies",
-    headerName: "Tecnologías",
+    headerName: PERSON_LABELS.TECNOLOGIAS,
     hide: true,
   },
   {
     field: "actions",
     type: "actions",
-    headerName: "Acciones",
+    headerName: PERSON_LABELS.ACCIONES,
     flex: 0.5,
     renderCell: (params) => {
       return (
@@ -76,13 +78,13 @@ export default function Personas({ rows, setRows }) {
   const addRow = (newRow) => setRows([...rows, newRow]);
 
   const removeRow = (personId) =>
-    setRows(rows.filter((row) => row.id != personId));
+    setRows(rows.filter((row) => row.id !== personId));
   setRemoveRow.current = (personId) => removeRow(personId);
 
   const editRow = (personData) =>
     setRows(
       rows.map((row) =>
-        row.id == personData.id
+        row.id === personData.id
           ? {
               ...row,
               fullName: personData.fullName,
@@ -104,9 +106,9 @@ export default function Personas({ rows, setRows }) {
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <AddButton variant="contained" onClick={handleNewOpen}>
-          Agregar Persona
-        </AddButton>
+        <CustomButton variant="contained" onClick={handleNewOpen}>
+          {BUTTON_LABELS.AGREGAR_PERSONA}
+        </CustomButton>
       </Box>
 
       <Modal

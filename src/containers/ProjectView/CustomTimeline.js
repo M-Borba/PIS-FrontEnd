@@ -18,7 +18,11 @@ import "./style.css";
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
 import Switcher from "../../components/Switcher/";
-import { customTimeSteps } from "../../config/globalVariables";
+import {
+  COLORS,
+  customTimeSteps,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
 import not_found from "../../resources/not_found.png";
@@ -78,7 +82,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
       .get("/projects", { params: filterParams })
       .then((response) => {
         const rows = response.data.projects;
-        if (rows.length == 0) {
+        if (rows.length === 0) {
           if (Object.keys(filterParams).length === 0) {
             setFetchingError(true);
           } else {
@@ -101,16 +105,16 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
           let color = "";
           switch (proj.project_state) {
             case "verde":
-              color = "#7ede6d";
+              color = COLORS.stateGreen;
               break;
             case "rojo":
-              color = "#E87272";
+              color = COLORS.stateRed;
               break;
             case "amarillo":
-              color = "#FAE269";
+              color = COLORS.stateYellow;
               break;
             case "upcoming":
-              color = "#B0CFCB";
+              color = COLORS.stateUpcoming;
               break;
           }
           itemsToAdd.push({
@@ -245,7 +249,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 src={not_found}
               />
               <Typography variant="h4" style={{ marginTop: "30px" }}>
-                NO EXISTEN PROYECTOS PARA MOSTRAR
+                {PROJECT_LABELS.NO_EXISTEN_PROYECTOS_PARA_MOSTRAR}
               </Typography>
             </Box>
           )}
@@ -282,7 +286,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               src={not_found}
             />
             <Typography variant="h4" style={{ marginTop: "30px" }}>
-              AÚN NO EXISTEN PROYECTOS EN EL SISTEMA
+              {PROJECT_LABELS.NO_EXISTEN_PROYECTOS_AUN}
             </Typography>
           </Box>
         )

@@ -1,14 +1,13 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
-import Dialog from "@mui/material/Dialog";
 import { useSnackbar } from "notistack";
-import { Modal, Paper } from "@material-ui/core";
+import { Dialog, Popover } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
-import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { rolesFormateados } from "../../config/globalVariables";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
+import DeleteDialogContent from "../../components/DeleteDialogContent";
 
 InfoAsignacion.propTypes = {
   open: propTypes.bool.isRequired,
@@ -18,6 +17,8 @@ InfoAsignacion.propTypes = {
   onClose: propTypes.func.isRequired,
   removeAsignacion: propTypes.func.isRequired,
   updateAsignacion: propTypes.func.isRequired,
+  mouseX: propTypes.number.isRequired,
+  mouseY: propTypes.number.isRequired,
 };
 
 const initialState = {
@@ -37,11 +38,14 @@ function InfoAsignacion({
   onClose,
   removeAsignacion,
   updateAsignacion,
+  mouseX,
+  mouseY,
 }) {
   const classes = useStyles();
   const [asignacionInfo, setAsignacionInfo] = useState(initialState);
   const { enqueueSnackbar } = useSnackbar();
   const [openConfirmacion, setOpenConfirmacion] = useState(false);
+
   const dialogContent = `¿Está seguro que desea eliminar la asignación de ${personName} en ${
     projectName.split("-")[0]
   } como ${projectName.split("-")[1]}?`;
@@ -53,14 +57,18 @@ function InfoAsignacion({
         .get(`/person_project/${asignacionId}`)
         .then((response) => {
           let asignacionData = response.data.person_project;
-          setAsignacionInfo({
-            role: asignacionData.role,
-            working_hours: asignacionData.working_hours,
-            working_hours_type: asignacionData.working_hours_type,
-            start_date: asignacionData.start_date,
-            end_date: asignacionData.end_date,
-            project: asignacionData.project,
-          });
+          axiosInstance
+            .get(`/projects/${asignacionData.project.id}`)
+            .then((response) => {
+              setAsignacionInfo({
+                role: asignacionData.role,
+                working_hours: asignacionData.working_hours,
+                working_hours_type: asignacionData.working_hours_type,
+                start_date: asignacionData.start_date,
+                end_date: asignacionData.end_date,
+                project: response.data.project,
+              });
+            });
         })
         .catch((error) => {
           let message = error.response.data;
@@ -133,20 +141,30 @@ function InfoAsignacion({
       });
   };
 
-  const onInputChange = (e) => {
-    e.target.name == "rol" &&
+  const onInputChange = (e, type = "") => {
+    if (e._isAMomentObject) {
+      if (!e._isValid) return;
+      type === "start_date" &&
+        setAsignacionInfo({
+          ...asignacionInfo,
+          start_date: e.format("YYYY-MM-DD"),
+        });
+      type === "end_date" &&
+        setAsignacionInfo({
+          ...asignacionInfo,
+          end_date: e.format("YYYY-MM-DD"),
+        });
+      return;
+    }
+    e.target.name === "rol" &&
       setAsignacionInfo({ ...asignacionInfo, role: e.target.value });
-    e.target.id == "working_hours" &&
+    e.target.id === "working_hours" &&
       setAsignacionInfo({ ...asignacionInfo, working_hours: e.target.value });
-    e.target.name == "working_hours_type" &&
+    e.target.name === "working_hours_type" &&
       setAsignacionInfo({
         ...asignacionInfo,
         working_hours_type: e.target.value,
       });
-    e.target.id == "start_date" &&
-      setAsignacionInfo({ ...asignacionInfo, start_date: e.target.value });
-    e.target.id == "end_date" &&
-      setAsignacionInfo({ ...asignacionInfo, end_date: e.target.value });
   };
 
   const handleClose = () => {
@@ -156,12 +174,33 @@ function InfoAsignacion({
 
   const handleConfirmacionClose = () => setOpenConfirmacion(false);
 
-  const handleConfirmacionOpen = () => setOpenConfirmacion(true);
+  const handleConfirmacionOpen = () => {
+    setOpenConfirmacion(true);
+  };
 
   return (
     <Fragment>
-      <Modal open={open} onClose={handleClose} disableEnforceFocus>
-        <Paper className={classes.modalInfo} variant="elevation" elevation={3}>
+      <Popover
+        anchorReference="anchorPosition"
+        anchorPosition={{ top: mouseY, left: mouseX }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+        PaperProps={{
+          style: {
+            borderRadius: "16px",
+          },
+        }}
+        open={open}
+        onClose={handleClose}
+        disableEnforceFocus
+      >
+        {asignacionInfo.project && (
           <InfoAsignacionDialog
             asignacionInfo={asignacionInfo}
             projectName={projectName}
@@ -172,8 +211,8 @@ function InfoAsignacion({
             desasignar={handleConfirmacionOpen}
             project={asignacionInfo.project}
           />
-        </Paper>
-      </Modal>
+        )}
+      </Popover>
       <Dialog
         fullWidth
         open={openConfirmacion}

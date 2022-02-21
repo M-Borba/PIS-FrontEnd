@@ -2,13 +2,14 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import propTypes from "prop-types";
-import { useStyles } from "./styles";
 import CloseIcon from "@material-ui/icons/Close";
+import propTypes from "prop-types";
+
+import { useStyles } from "./styles";
 import CreatePerson from "../../containers/CreatePerson";
 import CreateProject from "../../containers/CreateProject";
 import CreateAdministrator from "../../containers/CreateAdministrator";
-import AddButton from "../AddButton";
+import CustomButton from "../CustomButton";
 
 Listado.propTypes = {
   button: propTypes.string.isRequired,
@@ -57,9 +58,9 @@ export default function Listado({
       }}
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <AddButton variant="contained" onClick={buttonClick}>
+        <CustomButton variant="contained" onClick={buttonClick}>
           {button}
-        </AddButton>
+        </CustomButton>
       </Box>
 
       <Modal

@@ -4,7 +4,11 @@ import { useSnackbar } from "notistack";
 import moment from "moment";
 
 import { useStyles } from "./styles";
-import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
+import {
+  DATE_FORMAT,
+  ROLES_CHECKBOX,
+  rolesTraducidos,
+} from "../../config/globalVariables";
 import { axiosInstance } from "../../config/axios";
 import AsignPersonForm from "../../components/AsignPersonForm";
 
@@ -128,7 +132,6 @@ export default function AgregarPersona({
             })
             .catch((error) => {
               let message = error.response.data;
-              console.log(message);
               enqueueSnackbar(
                 message.error
                   ? message.error
@@ -204,10 +207,10 @@ export default function AgregarPersona({
         asign={asignacion}
         error={error}
         title={"Asignando Persona a " + projectData.name}
-        startDate={moment(projectData.start_date).format("DD/MM/YYYY")}
+        startDate={moment(projectData.start_date).format(DATE_FORMAT)}
         endDate={
           projectData.end_date
-            ? moment(projectData.end_date).format("DD/MM/YYYY")
+            ? moment(projectData.end_date).format(DATE_FORMAT)
             : "Indefinido"
         }
       />

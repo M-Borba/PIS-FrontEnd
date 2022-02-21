@@ -1,8 +1,10 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+
 import Listado from "../../components/Listado";
 import Acciones from "./acciones";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
+import { BUTTON_LABELS, PERSON_LABELS } from "../../config/globalVariables";
 
 Administrador.propTypes = {
   rows: PropTypes.array,
@@ -12,27 +14,27 @@ Administrador.propTypes = {
 const columns = [
   {
     field: "id",
-    headerName: "Email",
+    headerName: PERSON_LABELS.ID,
     hide: true,
     sortable: true,
     flex: 1, //tamaño
   },
   {
     field: "fullName",
-    headerName: "Nombre completo",
+    headerName: PERSON_LABELS.NOMBRE_COMPLETO,
     sortable: true,
     flex: 1, //tamaño
   },
   {
     field: "email",
-    headerName: "Email",
+    headerName: PERSON_LABELS.EMAIL,
     sortable: true,
     flex: 1,
   },
   {
     field: "actions",
     type: "actions",
-    headerName: "Acciones",
+    headerName: PERSON_LABELS.ACCIONES,
     flex: 0.3,
     renderCell: (params) => {
       return (
@@ -58,12 +60,12 @@ export default function Administrador({ rows, setRows }) {
   const handleNewClose = () => setOpenNew(false);
 
   const removeRow = (adminId) =>
-    setRows(rows.filter((row) => row.id != adminId));
+    setRows(rows.filter((row) => row.id !== adminId));
   setRemoveRow.current = (adminId) => removeRow(adminId);
 
   return (
     <Listado
-      button={"Agregar Administrador"}
+      button={BUTTON_LABELS.AGREGAR_ADMINISTRADOR}
       buttonClick={handleNewOpen}
       modalOpen={openNew}
       modalOnClose={handleNewClose}

@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@mui/material/Typography";
+import { Popover } from "@mui/material";
+
 import Timeline, {
   DateHeader,
   SidebarHeader,
@@ -14,14 +16,13 @@ import { useSnackbar } from "notistack";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { rolesFormateados } from "../../config/globalVariables";
+import { COLORS, rolesFormateados } from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import FilterForm from "../../components/FilterForm";
 import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
-import { Popover } from "@mui/material";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -68,6 +69,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     asignacionId: -1,
     projectName: "",
     personName: "",
+    mouseX: 0,
+    mouseY: 0,
   });
   const [organization, setOrganization] = useState("");
 
@@ -136,7 +139,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       .get("/person_project", { params: filterParams })
       .then((response) => {
         const rows = response.data.person_project;
-        if (rows.length == 0) {
+        if (rows.length === 0) {
           if (Object.keys(filterParams).length === 0) {
             setFetchingError(true);
           } else {
@@ -154,13 +157,13 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
-              let color = "#6B5ECD";
+              let color = COLORS.primaryPurple;
               let finasignacion = endValue(dt.end_date);
               let hoy = new Date().getTime();
               if (hoy < finasignacion) {
                 if (finasignacion - 864000000 < hoy) {
                   //10 dias = 864000000
-                  color = "#C14B3A";
+                  color = COLORS.timelineRed;
                 }
               }
 
@@ -179,7 +182,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     border: "none",
                     fontSize: "12px",
                     fontWeight: 400,
-                    height: "20px",
                   },
                 },
                 title: proj.name + " - " + rolesFormateados[dt.role],
@@ -224,8 +226,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
           borderRadius: 5,
           background:
             endDate - 864000000 < todayDate && endDate >= todayDate
-              ? "#C14B3A"
-              : "#B0CFCB",
+              ? COLORS.timelineRed
+              : COLORS.stateUpcoming,
         },
       },
     };
@@ -301,8 +303,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             background:
               endValue(endDate) - 864000000 < todayDate &&
               endValue(endDate) >= todayDate
-                ? "#C14B3A"
-                : "#B0CFCB",
+                ? COLORS.timelineRed
+                : COLORS.stateUpcoming,
           },
         },
         title: title,
@@ -323,6 +325,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       asignacionId: itemId,
       projectName: projectName,
       personName: personName,
+      mouseX: e.clientX,
+      mouseY: e.clientY,
     });
   };
 
@@ -382,7 +386,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     getResizeProps,
   }) => {
     const { left: leftResizeProps, right: rightResizeProps } = getResizeProps();
-
     return (
       <div {...getItemProps(item.itemProps)}>
         {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
@@ -400,7 +403,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
   const updateAsignacion = (asignacionId, title, startDate, endDate) =>
     setItems(
       items.map((item) =>
-        item.id == asignacionId
+        item.id === asignacionId
           ? {
               ...item,
               start: startValue(startDate),
@@ -471,7 +474,9 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               >
                 <TodayMarker />
                 <TimelineHeaders className="sticky">
-                  <SidebarHeader style={{ backgroundColor: "#FAFAFA" }}>
+                  <SidebarHeader
+                    style={{ backgroundColor: COLORS.backgroundWhite }}
+                  >
                     {({ getRootProps }) => {
                       return (
                         <div {...getRootProps()}>
@@ -512,6 +517,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
               open={infoAssignObject.open}
               projectName={infoAssignObject.projectName}
               personName={infoAssignObject.personName}
+              mouseX={infoAssignObject.mouseX}
+              mouseY={infoAssignObject.mouseY}
               asignacionId={parseInt(infoAssignObject.asignacionId)}
               onClose={handleInfoAsignacionClose}
               removeAsignacion={removeAsignacion}
@@ -519,13 +526,13 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             />
             <></>
             {filteredData && (
-              <Grid container style={{ marginLeft: 10 }}>
+              <Grid container style={{ marginLeft: 10, width: "fit-content" }}>
                 <Grid
                   item
                   style={{
                     height: 20,
                     width: 20,
-                    backgroundColor: "#C14B3A",
+                    backgroundColor: COLORS.timelineRed,
                     border: "1px solid black",
                   }}
                 />

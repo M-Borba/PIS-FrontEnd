@@ -3,7 +3,7 @@
 exports[`renders learn react link 1`] = `
 <div>
   <div
-    class="makeStyles-container-10 MuiBox-root css-0"
+    class="makeStyles-container-12 MuiBox-root css-0"
   >
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
@@ -13,11 +13,11 @@ exports[`renders learn react link 1`] = `
       >
         <img
           alt="Logo"
-          class="makeStyles-imgcontainer-11"
+          class="makeStyles-imgcontainer-13"
           src="effectus_wallpaper.png"
         />
         <div
-          class="makeStyles-paper-12"
+          class="makeStyles-paper-14"
           data-testid="login"
         >
           <h1
@@ -26,7 +26,7 @@ exports[`renders learn react link 1`] = `
             Iniciar sesión
           </h1>
           <form
-            class="makeStyles-form-13"
+            class="makeStyles-form-15"
             novalidate=""
           >
             <div
@@ -48,7 +48,7 @@ exports[`renders learn react link 1`] = `
                 </span>
               </label>
               <div
-                class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl css-kgt6i8-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth Mui-focused MuiInputBase-formControl css-196zjg6-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -94,7 +94,7 @@ exports[`renders learn react link 1`] = `
                 </span>
               </label>
               <div
-                class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-kgt6i8-MuiInputBase-root-MuiOutlinedInput-root"
+                class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-196zjg6-MuiInputBase-root-MuiOutlinedInput-root"
               >
                 <input
                   aria-invalid="false"
@@ -122,19 +122,23 @@ exports[`renders learn react link 1`] = `
               </div>
             </div>
             <button
-              class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-14 css-rs95d5-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-fullWidth"
               role="submit"
               style="margin-top: 20px;"
               tabindex="0"
               type="submit"
             >
-              Iniciar sesión
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                class="MuiButton-label"
+              >
+                Iniciar sesión
+              </span>
+              <span
+                class="MuiTouchRipple-root"
               />
             </button>
             <h2
-              class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-15 css-1ht536l-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 makeStyles-errorMsg-17 css-1ht536l-MuiTypography-root"
             />
           </form>
         </div>

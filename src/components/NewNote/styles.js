@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   newNoteContainer: {
     display: "flex",
@@ -19,11 +21,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   button: {
     width: "fit-content",
-    color: "#ffffff",
-    background: "#1c1c1c",
+    color: COLORS.white,
+    background: COLORS.backgroundBlack,
     "&:hover": {
-      backgroundColor: "#404040",
-      color: "#fff",
+      backgroundColor: COLORS.backgroundDarkGrey,
+      color: COLORS.white,
     },
   },
 }));

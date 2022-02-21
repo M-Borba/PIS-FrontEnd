@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { axiosInstance } from "../../config/axios";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@mui/material/TextField";
@@ -16,7 +15,9 @@ import FormHelperText from "@mui/material/FormHelperText";
 import NumberFormat from "react-number-format";
 import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
+
 import { useStyles } from "./styles";
+import { axiosInstance } from "../../config/axios";
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -54,7 +55,6 @@ export default function ProyectoForm({
       .get("/technologies")
       .then((response) => {
         setTechnologies(response.data.technologies);
-        console.log(response.data.technologies);
       })
       .catch((error) => {
         console.log(error);
@@ -114,7 +114,6 @@ export default function ProyectoForm({
                 value={project.project_type}
                 labelId="tipo"
                 onChange={handleChange}
-                name="project_type"
               >
                 <MenuItem value="staff_augmentation">
                   Staff Augmentation
@@ -208,7 +207,6 @@ export default function ProyectoForm({
               thousandSeparator="."
               onValueChange={handleBugdetChange}
               decimalSeparator=","
-              helperText={errors?.budget?.[0]}
               isAllowed={({ value }) => value <= 1000000 && value >= 0}
             />
           </Grid>

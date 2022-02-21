@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { useStyles } from "./styles";
-import { IconButton } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import { Box, IconButton } from "@material-ui/core";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
-import { Box } from "@mui/system";
+
+import { useStyles } from "./styles";
+import CustomButton from "../CustomButton";
 
 DeleteDialogContent.propTypes = {
   dialogContent: PropTypes.string.isRequired,
@@ -37,26 +37,12 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
         className={Classes.actions}
         style={{ justifyContent: "space-between" }}
       >
-        <Button
-          style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
-          }}
-          onClick={onClose}
-          variant="contained"
-        >
+        <CustomButton onClick={onClose} variant="contained">
           Cancelar
-        </Button>
-        <Button
-          style={{
-            color: "#ffffff",
-            background: "#1c1c1c",
-          }}
-          onClick={onConfirmation}
-          variant="contained"
-        >
-          Confirmar
-        </Button>
+        </CustomButton>
+        <CustomButton redButton onClick={onConfirmation} variant="contained">
+          Desasignar
+        </CustomButton>
       </DialogActions>
     </Fragment>
   );

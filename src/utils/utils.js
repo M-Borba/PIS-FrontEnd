@@ -1,19 +1,21 @@
 import React from "react";
 
+import { COLORS } from "../config/globalVariables";
+
 export const renderColor = (state) => {
   let color = "";
   switch (state?.toLowerCase()) {
     case "verde":
-      color = "#7EDE6D";
+      color = COLORS.stateGreen;
       break;
     case "rojo":
-      color = "#E87272";
+      color = COLORS.stateRed;
       break;
     case "amarillo":
-      color = "#FAE269";
+      color = COLORS.stateYellow;
       break;
     case "upcoming":
-      color = "#B0CFCB";
+      color = COLORS.stateUpcoming;
       break;
   }
   return (

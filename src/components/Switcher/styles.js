@@ -1,18 +1,20 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS, SWITCHER_LABELS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   root: {
     width: "215px",
     height: "32px",
     padding: "0px",
     alignSelf: "center",
-    color: "#FAFAFA",
+    color: COLORS.backgroundWhite,
   },
   switchBase: {
     padding: "1px",
   },
   thumb: {
-    color: "white",
+    color: COLORS.white,
     width: "105px",
     height: "26px",
     marginTop: "2px",
@@ -23,30 +25,24 @@ export const useStyles = makeStyles((theme) => ({
   },
   track: {
     borderRadius: "15px",
-    backgroundColor: "#252525 !important",
+    backgroundColor: `${COLORS.backgroundDarkestGrey} !important`,
     opacity: "1 !important",
     zIndex: "-2",
     "&:after, &:before": {
-      color: "white",
+      color: COLORS.white,
       fontSize: "14px",
       position: "absolute",
       top: "6px",
       fontWeight: "700",
     },
     "&:after": {
-      content: "'Personas'",
+      content: SWITCHER_LABELS.PERSONAS,
       right: "27px",
-      "&$Mui-checked": {
-        color: "#252525",
-      },
     },
     "&:before": {
-      content: "'Proyectos'",
+      content: SWITCHER_LABELS.PROYECTOS,
       left: "26px",
       zIndex: "1000",
-      "&$Mui-checked": {
-        color: "#252525",
-      },
     },
   },
   checked: {

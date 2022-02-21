@@ -108,15 +108,19 @@ exports[`login component tests renders correctly 1`] = `
         </div>
       </div>
       <button
-        class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root makeStyles-submit-3 css-1fu7jd5-MuiButtonBase-root-MuiButton-root"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-fullWidth"
         role="submit"
         style="margin-top: 20px;"
         tabindex="0"
         type="submit"
       >
-        Iniciar sesión
         <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          class="MuiButton-label"
+        >
+          Iniciar sesión
+        </span>
+        <span
+          class="MuiTouchRipple-root"
         />
       </button>
       <h2

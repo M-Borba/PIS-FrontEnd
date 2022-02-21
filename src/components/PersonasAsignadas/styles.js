@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(4, 4),
@@ -11,6 +13,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   subtext: {
     paddingLeft: 25,
-    color: "#7d7d7d",
+    color: COLORS.backgroundDarkGrey,
   },
 }));

@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   container: {
     margin: "1vh 2vw",
@@ -25,6 +27,6 @@ export const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
     textDecorationLine: "underline",
-    color: "#6B5ECD !important",
+    color: `${COLORS.primaryPurple} !important`,
   },
 }));

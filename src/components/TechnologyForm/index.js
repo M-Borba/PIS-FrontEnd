@@ -11,8 +11,10 @@ import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import { useStyles } from "./styles";
 import randomColor from "randomcolor";
+
+import { useStyles } from "./styles";
+import { COLORS } from "../../config/globalVariables";
 
 TechnologyForm.propTypes = {
   defaultTechs: PropTypes.array,
@@ -100,7 +102,7 @@ export default function TechnologyForm({
           <Box display="flex" justifyContent="center" mt={1}>
             <IconButton
               style={{
-                color: "#1c1c1c",
+                color: COLORS.backgroundBlack,
               }}
               onClick={addTechnology}
             >

@@ -1,14 +1,15 @@
 import * as React from "react";
-import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import { Box, FormControlLabel, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CloseIcon from "@material-ui/icons/Close";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import propTypes from "prop-types";
+import Dialog from "@material-ui/core/Dialog";
+
 import { useStyles } from "./styles";
 import EditPerson from "../../containers/EditPerson";
-import Dialog from "@material-ui/core/Dialog";
 import EliminarPersona from "../../containers/EliminarPersona";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import InfoPersona from "../../containers/InfoPersona";

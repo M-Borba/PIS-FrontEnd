@@ -1,7 +1,9 @@
 import React from "react";
 import Switch from "@material-ui/core/Switch";
 import PropTypes from "prop-types";
-import { useStyles } from "../../components/Switcher/styles";
+
+import { useStyles } from "./styles";
+import { COLORS } from "../../config/globalVariables";
 
 Switcher.propTypes = {
   onSwitch: PropTypes.func,
@@ -13,7 +15,7 @@ export default function Switcher({ onSwitch, isProjectView }) {
   return (
     <div
       style={{
-        backgroundColor: "#FAFAFA",
+        backgroundColor: COLORS.backgroundWhite,
         alignContent: "center",
         display: "flex",
         justifyContent: "center",
