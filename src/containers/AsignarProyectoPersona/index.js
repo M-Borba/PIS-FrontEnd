@@ -130,7 +130,13 @@ function AsignarProyectoPersona({
   };
 
   return (
-    <Dialog fullWidth open={open} onClose={handleClose} maxWidth={"xs"}>
+    <Dialog
+      PaperProps={{ style: { borderRadius: 15 } }}
+      fullWidth
+      open={open}
+      onClose={handleClose}
+      maxWidth={"xs"}
+    >
       <AsignacionForm
         proyectos={proyectos}
         datos={requestBody}

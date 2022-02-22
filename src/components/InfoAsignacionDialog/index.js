@@ -223,6 +223,8 @@ function InfoAsignacionDialog({
                     id="start_date"
                     disableMaskedInput
                     inputFormat={DATE_FORMAT}
+                    minDate={moment(project.start_date)}
+                    maxDate={moment(project.end_date)}
                     value={asignacionInfo.start_date}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "start_date")}
@@ -248,6 +250,8 @@ function InfoAsignacionDialog({
                     name="start_date"
                     id="start_date"
                     value={asignacionInfo.end_date}
+                    minDate={moment(project.start_date)}
+                    maxDate={moment(project.end_date)}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "end_date")}
                     PaperProps={{

@@ -1,16 +1,4 @@
-import {
-  BUTTON_LABELS,
-  cargasHorarias_t,
-  cargasHorarias_tFormateadas,
-  DATE_FORMAT,
-  HEADER_LABELS,
-  PERSON_LABELS,
-  PROJECT_LABELS,
-  roles,
-  rolesTraducidos,
-} from "../../config/globalVariables";
 import React, { Fragment, useState } from "react";
-import { useStyles } from "../InfoAsignacionDialog/styles";
 import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import DialogActions from "@mui/material/DialogActions";
@@ -23,6 +11,19 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { DatePicker } from "@mui/lab";
 import moment from "moment";
+
+import {
+  BUTTON_LABELS,
+  cargasHorarias_t,
+  cargasHorarias_tFormateadas,
+  DATE_FORMAT,
+  HEADER_LABELS,
+  PERSON_LABELS,
+  PROJECT_LABELS,
+  roles,
+  rolesTraducidos,
+} from "../../config/globalVariables";
+import { useStyles } from "../InfoAsignacionDialog/styles";
 import CustomButton from "../CustomButton";
 
 AsignacionDialog.propTypes = {
@@ -146,20 +147,6 @@ function AsignacionDialog({
               />
             </Stack>
             <Stack spacing={1} direction="row">
-              {/*<TextField*/}
-              {/*  fullWidth*/}
-              {/*  required*/}
-              {/*  id="fechaInicio"*/}
-              {/*  variant="standard"*/}
-              {/*  type="date"*/}
-              {/*  label="Fecha Inicio"*/}
-              {/*  InputLabelProps={{ shrink: true }}*/}
-              {/*  value={datos.start_date}*/}
-              {/*  onChange={onInputChange}*/}
-              {/*  InputProps={{ inputProps: { max: "9999-12-31" } }}*/}
-              {/*/>*/}
-              {/*<MuiPickersUtilsProvider utils={MomentUtils}>*/}
-
               <DatePicker
                 fullWidth
                 required
@@ -171,7 +158,6 @@ function AsignacionDialog({
                 name="start_date"
                 disableMaskedInput
                 inputFormat={DATE_FORMAT}
-                // className={classes.fWidth}
                 PaperProps={{
                   style: {
                     borderRadius: "15px",
@@ -181,7 +167,6 @@ function AsignacionDialog({
                   disabled: true,
                 }}
                 TextFieldProps={{
-                  // className: classes.fWidth,
                   InputLabelProps: { shrink: true },
                   name: "start_date",
                   required: true,
@@ -200,7 +185,6 @@ function AsignacionDialog({
                 name="end_date"
                 disableMaskedInput
                 inputFormat={DATE_FORMAT}
-                // className={classes.fWidth}
                 PaperProps={{
                   style: {
                     borderRadius: "15px",
@@ -210,7 +194,6 @@ function AsignacionDialog({
                   disabled: true,
                 }}
                 TextFieldProps={{
-                  // className: classes.fWidth,
                   InputLabelProps: { shrink: true },
                   name: "end_date",
                   required: true,
@@ -219,21 +202,15 @@ function AsignacionDialog({
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
-              {/*<TextField*/}
-              {/*  fullWidth*/}
-              {/*  id="fechaFin"*/}
-              {/*  variant="standard"*/}
-              {/*  type="date"*/}
-              {/*  label="Fecha de fin"*/}
-              {/*  InputLabelProps={{ shrink: true }}*/}
-              {/*  value={datos.end_date}*/}
-              {/*  onChange={onInputChange}*/}
-              {/*  InputProps={{ inputProps: { max: "9999-12-31" } }}*/}
-              {/*/>*/}
             </Stack>
           </Stack>
         </DialogContent>
-        <DialogActions style={{ justifyContent: "space-between" }}>
+        <DialogActions
+          style={{
+            justifyContent: "space-between",
+            padding: "4px 24px 15px",
+          }}
+        >
           <CustomButton redButton onClick={onClose} variant="contained">
             {BUTTON_LABELS.CANCEL}
           </CustomButton>
