@@ -20,9 +20,11 @@ import { axiosInstance } from "../../config/axios";
 import {
   BUTTON_LABELS,
   DATE_FORMAT,
+  FILTER_FORM_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
+import { renderColor } from "../../utils/utils";
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -127,9 +129,15 @@ export default function ProyectoForm({
                   <MenuItem value="staff_augmentation">
                     Staff Augmentation
                   </MenuItem>
-                  <MenuItem value="end_to_end">End to End</MenuItem>
-                  <MenuItem value="tercerizado">Tercerizado</MenuItem>
-                  <MenuItem value="hibrido">Híbrido</MenuItem>
+                  <MenuItem value="end_to_end">
+                    {FILTER_FORM_LABELS.END_TO_END}
+                  </MenuItem>
+                  <MenuItem value="tercerizado">
+                    {FILTER_FORM_LABELS.TERCERIZADO}
+                  </MenuItem>
+                  <MenuItem value="hibrido">
+                    {FILTER_FORM_LABELS.HIBIRDO}
+                  </MenuItem>
                 </Select>
                 <FormHelperText>{errors?.project_type?.[0]}</FormHelperText>
               </FormControl>
@@ -150,16 +158,16 @@ export default function ProyectoForm({
                   onChange={handleChange}
                 >
                   <MenuItem value={PROJECT_LABELS.ESTADO_VERDE_MIN}>
-                    {PROJECT_LABELS.ESTADO_VERDE}
+                    {renderColor(PROJECT_LABELS.ESTADO_VERDE_MIN)}
                   </MenuItem>
                   <MenuItem value={PROJECT_LABELS.ESTADO_AMARILLO_MIN}>
-                    {PROJECT_LABELS.ESTADO_AMARILLO}
+                    {renderColor(PROJECT_LABELS.ESTADO_AMARILLO_MIN)}
                   </MenuItem>
                   <MenuItem value={PROJECT_LABELS.ESTADO_ROJO_MIN}>
-                    {PROJECT_LABELS.ESTADO_ROJO}
+                    {renderColor(PROJECT_LABELS.ESTADO_ROJO_MIN)}
                   </MenuItem>
                   <MenuItem value={PROJECT_LABELS.ESTADO_UPCOMING_MIN}>
-                    {PROJECT_LABELS.ESTADO_UPCOMING}
+                    {renderColor(PROJECT_LABELS.ESTADO_UPCOMING_MIN)}
                   </MenuItem>
                 </Select>
                 <FormHelperText>{errors?.project_state?.[0]}</FormHelperText>
