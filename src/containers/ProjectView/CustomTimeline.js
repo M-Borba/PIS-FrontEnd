@@ -104,16 +104,16 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
 
           let color = "";
           switch (proj.project_state) {
-            case "verde":
+            case PROJECT_LABELS.ESTADO_VERDE_MIN:
               color = COLORS.stateGreen;
               break;
-            case "rojo":
+            case PROJECT_LABELS.ESTADO_ROJO_MIN:
               color = COLORS.stateRed;
               break;
-            case "amarillo":
+            case PROJECT_LABELS.ESTADO_AMARILLO_MIN:
               color = COLORS.stateYellow;
               break;
-            case "upcoming":
+            case PROJECT_LABELS.ESTADO_UPCOMING_MIN:
               color = COLORS.stateUpcoming;
               break;
           }

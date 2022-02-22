@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
+import moment from "moment";
 import { useHistory } from "react-router-dom";
-import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import { Box, FormControlLabel, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -41,8 +42,12 @@ export default function Acciones({ projectRow }) {
     project_state: projectRow.project_state.toLowerCase(),
     description: projectRow.description,
     budget: projectRow.budget,
-    start_date: projectRow.start_date,
-    end_date: projectRow.end_date,
+    start_date: moment(
+      projectRow.start_date.split(" ")[0].split("/").reverse().join("-")
+    ),
+    end_date: moment(
+      projectRow.end_date.split(" ")[0].split("/").reverse().join("-")
+    ),
     people: projectRow.people,
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],
@@ -72,7 +77,7 @@ export default function Acciones({ projectRow }) {
       let asignaciones = [];
       response.data.person_project.map((person) => {
         person.person.projects.map((project) => {
-          if (project.id == projectData.id) {
+          if (project.id === projectData.id) {
             asignaciones.push({
               id: person.person.id,
               name: person.person.full_name,

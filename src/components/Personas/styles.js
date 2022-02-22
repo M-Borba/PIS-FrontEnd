@@ -9,9 +9,10 @@ export const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     background: COLORS.white,
-    border: `2px solid ${COLORS.black}`,
-    boxShadow: 24,
+    borderRadius: "16px",
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     width: "auto",
+    maxWidth: 730,
     p: 4,
   },
   modalInfo: {

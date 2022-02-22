@@ -58,16 +58,25 @@ export const customTimeSteps = {
 };
 
 export const DATE_FORMAT = "DD/MM/YYYY";
-export const SAVE_DATE_FORMAT = "YYYY/MM/DD";
 
 export const PROJECT_LABELS = {
   ESTADO: "Estado",
+  ESTADO_VERDE: "Verde",
+  ESTADO_VERDE_MIN: "verde",
+  ESTADO_AMARILLO: "Amarillo",
+  ESTADO_AMARILLO_MIN: "amarillo",
+  ESTADO_ROJO: "Rojo",
+  ESTADO_ROJO_MIN: "rojo",
+  ESTADO_UPCOMING: "Upcoming",
+  ESTADO_UPCOMING_MIN: "upcoming",
   TIPO: "Tipo",
+  DESCRIPCION: "Descripción",
   FECHA_INICIO: "Fecha de inicio",
   FECHA_FIN: "Fecha de fin",
   ORGANIZACION: "Organización",
   TIPO_PROYECTO: "Tipo de proyecto",
   INDEFINIDA: "Indefinida",
+  MODIFICACION_PROYECTO: "Modificación de proyecto",
   BUDGET: "Presupuesto",
   APPLY_CHANGES: "Aplicar cambios",
   PERSONAS: "Personas",
@@ -96,6 +105,7 @@ export const FILTER_FORM_LABELS = {
 };
 
 export const PERSON_LABELS = {
+  MODIFICA_PERSONA: "Modificación de Persona",
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
   CARGA_HORARIA: "Carga horaria",
   CARGA_HORARIA_SEMANAL: "Carga horaria semanal",
@@ -106,6 +116,11 @@ export const PERSON_LABELS = {
   NOMBRE_COMPLETO: "Nombre completo",
   ACCIONES: "Acciones",
   ID: "ID",
+  APELLIDO: "Apellido",
+  SENIORITY: "Seniority",
+  SENIOR: "Senior",
+  SEMI_SENIOR: "Semi-Senior",
+  JUNIOR: "Junior",
 };
 
 export const HEADER_LABELS = {

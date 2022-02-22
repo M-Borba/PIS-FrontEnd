@@ -62,10 +62,18 @@ const InfoProyectoForm = ({
                   setProjectState(e.target.value);
                 }}
               >
-                <MenuItem value="verde">{renderColor("verde")}</MenuItem>
-                <MenuItem value="amarillo">{renderColor("amarillo")}</MenuItem>
-                <MenuItem value="rojo">{renderColor("rojo")}</MenuItem>
-                <MenuItem value="upcoming">{renderColor("upcoming")}</MenuItem>
+                <MenuItem value={PROJECT_LABELS.ESTADO_VERDE_MIN}>
+                  {renderColor(PROJECT_LABELS.ESTADO_VERDE_MIN)}
+                </MenuItem>
+                <MenuItem value={PROJECT_LABELS.ESTADO_AMARILLO_MIN}>
+                  {renderColor(PROJECT_LABELS.ESTADO_AMARILLO_MIN)}
+                </MenuItem>
+                <MenuItem value={PROJECT_LABELS.ESTADO_ROJO_MIN}>
+                  {renderColor(PROJECT_LABELS.ESTADO_ROJO_MIN)}
+                </MenuItem>
+                <MenuItem value={PROJECT_LABELS.ESTADO_UPCOMING_MIN}>
+                  {renderColor(PROJECT_LABELS.ESTADO_UPCOMING_MIN)}
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
