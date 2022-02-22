@@ -2,9 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Box, Grid } from "@material-ui/core";
-import Typography from "@mui/material/Typography";
 import { Popover } from "@mui/material";
-
+import Typography from "@mui/material/Typography";
 import Timeline, {
   DateHeader,
   SidebarHeader,
@@ -16,7 +15,11 @@ import { useSnackbar } from "notistack";
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import { COLORS, rolesFormateados } from "../../config/globalVariables";
+import {
+  COLORS,
+  PERSON_LABELS,
+  rolesFormateados,
+} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import FilterForm from "../../components/FilterForm";
 import { useStyles } from "../../components/Personas/styles";
@@ -389,9 +392,8 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     return (
       <div {...getItemProps(item.itemProps)}>
         {itemContext.useResizeHandle ? <div {...leftResizeProps} /> : ""}
-
         <div className="rct-item-content">
-          <strong>{itemContext.title.split("-")[0]}</strong>
+          <b>{itemContext.title.split("-")[0]}</b>
           {" - " + itemContext.title.split("-")[1]}
         </div>
 
@@ -501,7 +503,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                   src={not_found}
                 />
                 <Typography variant="h4" style={{ marginTop: "30px" }}>
-                  NO EXISTEN PERSONAS PARA MOSTRAR
+                  {PERSON_LABELS.NO_EXISTEN_PERSONAS_PARA_MOSTRAR}
                 </Typography>
               </Box>
             )}

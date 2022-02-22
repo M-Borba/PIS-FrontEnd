@@ -22,7 +22,7 @@
 
 .react-calendar-timeline .rct-item .rct-item-content {
   padding: 0 10px;
-  width: inherit;
+  max-width: 100%;
 }
 
 .react-calendar-timeline .rct-dateHeader {
