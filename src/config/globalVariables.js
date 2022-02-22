@@ -58,6 +58,7 @@ export const customTimeSteps = {
 };
 
 export const DATE_FORMAT = "DD/MM/YYYY";
+export const SAVE_DATE_FORMAT = "YYYY/MM/DD";
 
 export const PROJECT_LABELS = {
   ESTADO: "Estado",
@@ -119,6 +120,7 @@ export const HEADER_LABELS = {
 export const BUTTON_LABELS = {
   APPLY_CHANGES: "Aplicar cambios",
   CANCEL: "Cancelar",
+  SAVE: "Guardar",
   UNASSIGN: "Desasignar",
   AGREGAR_PROYECTO: "Agregar proyecto",
   AGREGAR_PERSONA: "Agregar persona",

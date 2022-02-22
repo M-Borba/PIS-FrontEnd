@@ -4,12 +4,17 @@ import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
+import moment from "moment";
 
 import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
-import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
+import {
+  BUTTON_LABELS,
+  DATE_FORMAT,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
 
 Proyecto.propTypes = {
@@ -119,10 +124,8 @@ export default function Proyecto({ rows, setRows }) {
               project_state: formatState(projectData.project_state),
               description: projectData.description,
               budget: projectData.budget,
-              start_date: projectData.start_date.replaceAll("-", "/"),
-              end_date: projectData.end_date
-                ? projectData.end_date.replaceAll("-", "/")
-                : null,
+              start_date: moment(projectData.start_date).format(DATE_FORMAT),
+              end_date: moment(projectData.end_date).format(DATE_FORMAT),
               people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,

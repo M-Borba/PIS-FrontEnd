@@ -30,9 +30,9 @@ export default function ListarProyectos() {
           budget: row.budget,
           start_date: moment(row.start_date).format(DATE_FORMAT),
           end_date:
-            row.end_date != null
-              ? moment(row.start_date).format(DATE_FORMAT)
-              : null,
+            // row.end_date != null              ?
+            moment(row.end_date).format(DATE_FORMAT),
+          // : null,
           people: row.people,
           organization: row.organization,
           technologies: row.technologies || [],

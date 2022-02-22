@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 import TextField from "@mui/material/TextField";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Typography from "@material-ui/core/Typography";
 import Select from "@mui/material/Select";
@@ -15,9 +14,17 @@ import FormHelperText from "@mui/material/FormHelperText";
 import NumberFormat from "react-number-format";
 import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
+import { DatePicker } from "@mui/lab";
+import moment from "moment";
 
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
+import {
+  BUTTON_LABELS,
+  DATE_FORMAT,
+  PROJECT_LABELS,
+  SAVE_DATE_FORMAT,
+} from "../../config/globalVariables";
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -73,7 +80,11 @@ export default function ProyectoForm({
 
   const handleDatesChange = (type, value) => {
     setErrors({});
-    setProject((prev) => ({ ...prev, [type]: value }));
+    console.log(value);
+    setProject((prev) => ({
+      ...prev,
+      [type]: moment(value).format(SAVE_DATE_FORMAT),
+    }));
   };
 
   return (
@@ -227,18 +238,52 @@ export default function ProyectoForm({
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <DesktopDatePicker
-              required
-              label="Inicio *"
-              inputFormat="MM-DD-YYYY"
+            {/*<DesktopDatePicker*/}
+            {/*  required*/}
+            {/*  label="Inicio *"*/}
+            {/*  inputFormat={DATE_FORMAT}*/}
+            {/*  value={project.start_date}*/}
+            {/*  onChange={(e) => handleDatesChange("start_date", e)}*/}
+            {/*  renderInput={(params) => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      name="start_date"*/}
+            {/*      fullWidth*/}
+            {/*      variant="outlined"*/}
+            {/*      error={!!errors?.start_date}*/}
+            {/*      helperText={errors?.start_date?.[0]}*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*/>*/}
+            <DatePicker
+              fullWidth
               value={project.start_date}
               onChange={(e) => handleDatesChange("start_date", e)}
+              disableMaskedInput
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              inputProps={{
+                disabled: true,
+              }}
+              // TextFieldProps={{
+              //
+              //   name: "end_date",
+              //
+              //   id: "end_date",
+              //
+              // }}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   name="start_date"
                   fullWidth
-                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  label={PROJECT_LABELS.FECHA_INICIO}
                   error={!!errors?.start_date}
                   helperText={errors?.start_date?.[0]}
                 />
@@ -246,17 +291,52 @@ export default function ProyectoForm({
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <DesktopDatePicker
-              label="Fin"
-              inputFormat="MM-DD-YYYY"
+            {/*<DesktopDatePicker*/}
+            {/*  label="Fin"*/}
+            {/*  inputFormat="MM-DD-YYYY"*/}
+            {/*  value={project.end_date}*/}
+            {/*  onChange={(e) => handleDatesChange("end_date", e)}*/}
+            {/*  renderInput={(params) => (*/}
+            {/*    <TextField*/}
+            {/*      {...params}*/}
+            {/*      name="end_date"*/}
+            {/*      fullWidth*/}
+            {/*      variant="outlined"*/}
+            {/*      error={!!errors?.end_date}*/}
+            {/*      helperText={errors?.end_date?.[0]}*/}
+            {/*    />*/}
+            {/*  )}*/}
+            {/*/>*/}
+            <DatePicker
+              fullWidth
+              id="fechaFin"
               value={project.end_date}
               onChange={(e) => handleDatesChange("end_date", e)}
+              disableMaskedInput
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              inputProps={{
+                disabled: true,
+              }}
+              // TextFieldProps={{
+              //
+              //   name: "end_date",
+              //
+              //   id: "end_date",
+              //
+              // }}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   name="end_date"
                   fullWidth
-                  variant="outlined"
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  label={PROJECT_LABELS.FECHA_FIN}
                   error={!!errors?.end_date}
                   helperText={errors?.end_date?.[0]}
                 />
@@ -273,7 +353,7 @@ export default function ProyectoForm({
           color="primary"
           className={classes.submit}
         >
-          Guardar
+          {BUTTON_LABELS.SAVE}
         </Button>
       </form>
     </div>
