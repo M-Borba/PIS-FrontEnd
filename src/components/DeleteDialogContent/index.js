@@ -8,14 +8,21 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 import CustomButton from "../CustomButton";
+import { BUTTON_LABELS } from "../../config/globalVariables";
 
 DeleteDialogContent.propTypes = {
   dialogContent: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirmation: PropTypes.func.isRequired,
+  deleteButtonText: PropTypes.string.isRequired,
 };
 
-function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
+function DeleteDialogContent({
+  dialogContent,
+  onClose,
+  onConfirmation,
+  deleteButtonText,
+}) {
   const Classes = useStyles();
 
   return (
@@ -38,10 +45,10 @@ function DeleteDialogContent({ dialogContent, onClose, onConfirmation }) {
         style={{ justifyContent: "space-between" }}
       >
         <CustomButton onClick={onClose} variant="contained">
-          Cancelar
+          {BUTTON_LABELS.CANCEL}
         </CustomButton>
         <CustomButton redButton onClick={onConfirmation} variant="contained">
-          Desasignar
+          {deleteButtonText}
         </CustomButton>
       </DialogActions>
     </Fragment>

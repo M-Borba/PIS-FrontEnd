@@ -140,6 +140,7 @@ export const BUTTON_LABELS = {
   APPLY_CHANGES: "Aplicar cambios",
   CANCEL: "Cancelar",
   SAVE: "Guardar",
+  DELETE: "Eliminar",
   ASSIGN: "Asignar",
   UNASSIGN: "Desasignar",
   AGREGAR_PROYECTO: "Agregar proyecto",

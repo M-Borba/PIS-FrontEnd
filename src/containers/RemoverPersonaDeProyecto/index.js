@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
 import { useSnackbar } from "notistack";
+import { BUTTON_LABELS } from "../../config/globalVariables";
 
 RemoverPersona.propTypes = {
   personName: PropTypes.string.isRequired,
@@ -20,7 +21,7 @@ RemoverPersona.propTypes = {
 function findPersonInPersonProjects(id, array) {
   var foundPerson = undefined;
   array.forEach((person) => {
-    if (person.person.id == id) {
+    if (person.person.id === id) {
       foundPerson = person.person;
     }
   });
@@ -30,7 +31,7 @@ function findPersonInPersonProjects(id, array) {
 function findDateInProject(id, array) {
   var foundDate = undefined;
   array.forEach((project) => {
-    if (project.id == id) {
+    if (project.id === id) {
       foundDate = project.dates;
     }
   });
@@ -48,10 +49,10 @@ function removePerson(
 ) {
   //buscar la persona en el arreglo
   let person = findPersonInPersonProjects(personId, personProject);
-  if (person != undefined) {
+  if (person !== undefined) {
     //busco las asignaciones de la persona en el proyecto
     let dates = findDateInProject(projectData.id, person.projects);
-    if (dates != undefined) {
+    if (dates !== undefined) {
       //itero en la lista de dates
       let nuevasAsignaciones = asignaciones;
       dates.forEach((assingment) => {
@@ -60,9 +61,9 @@ function removePerson(
           .then((response) => {
             // Quito los roles de la persona.
             nuevasAsignaciones.forEach((persona) => {
-              if (persona.id == personId)
+              if (persona.id === personId)
                 persona.roles = persona.roles.filter(
-                  (asignacion) => asignacion.id != assingment.id
+                  (asignacion) => asignacion.id !== assingment.id
                 );
             });
             enqueueSnackbar(response.data.message, {
@@ -80,12 +81,12 @@ function removePerson(
       });
       // Quito a la persona del modal de desasignacion.
       nuevasAsignaciones = nuevasAsignaciones.filter(
-        (persona) => persona.id != personId
+        (persona) => persona.id !== personId
       );
       setAsignaciones(nuevasAsignaciones);
       // Quito a la persona del modal de informacion del proyecto.
       projectData.people = projectData.people.filter(
-        (persona) => persona.id != personId
+        (persona) => persona.id !== personId
       );
       editRow(projectData);
     }
@@ -106,13 +107,13 @@ function RemoverPersona({
 }) {
   const { enqueueSnackbar } = useSnackbar();
   let dialogContent;
-  if (asignId == undefined)
+  if (asignId === undefined)
     dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
     dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
-    if (asignId == undefined) {
+    if (asignId === undefined) {
       //si se quiere borrar a todas las asignaciones de una persona del proyecto
       axiosInstance
         .get(`/person_project`)
@@ -145,20 +146,20 @@ function RemoverPersona({
           let nuevasAsignaciones = asignaciones;
           let personIndex;
           nuevasAsignaciones.forEach((persona, index) => {
-            if (persona.id == personId) {
+            if (persona.id === personId) {
               personIndex = index;
               persona.roles = persona.roles.filter(
-                (asignacion) => asignacion.id != asignId
+                (asignacion) => asignacion.id !== asignId
               );
             }
           });
           // Si no le quedan mas roles en el proyecto, quito a la persona del modal de informacion del proyecto y del modal de desasignacion.
-          if (nuevasAsignaciones[personIndex].roles == 0) {
+          if (nuevasAsignaciones[personIndex].roles === 0) {
             nuevasAsignaciones = nuevasAsignaciones.filter(
-              (persona) => persona.id != personId
+              (persona) => persona.id !== personId
             );
             projectData.people = projectData.people.filter(
-              (persona) => persona.id != personId
+              (persona) => persona.id !== personId
             );
             editRow(projectData);
           }
@@ -186,6 +187,7 @@ function RemoverPersona({
       dialogContent={dialogContent}
       onClose={handleClose}
       onConfirmation={onConfirmation}
+      deleteButtonText={BUTTON_LABELS.UNASSIGN}
     />
   );
 }
