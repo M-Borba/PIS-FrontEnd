@@ -15,6 +15,7 @@ import randomColor from "randomcolor";
 
 import { useStyles } from "./styles";
 import { COLORS, PERSON_LABELS } from "../../config/globalVariables";
+import { renderMenuItems } from "../../utils/utils";
 
 TechnologyForm.propTypes = {
   defaultTechs: PropTypes.array,
@@ -42,6 +43,21 @@ export default function TechnologyForm({
   setTech,
 }) {
   const classes = useStyles();
+
+  const seniorities = [
+    {
+      value: "senior",
+      label: PERSON_LABELS.SENIOR,
+    },
+    {
+      value: "semi-senior",
+      label: PERSON_LABELS.SEMI_SENIOR,
+    },
+    {
+      value: "junior",
+      label: PERSON_LABELS.JUNIOR,
+    },
+  ];
 
   const handleChange = (e) => {
     setAllErrors({});
@@ -91,11 +107,7 @@ export default function TechnologyForm({
               onChange={handleChange}
               value={tech.seniority}
             >
-              <MenuItem value="senior">{PERSON_LABELS.SENIOR}</MenuItem>
-              <MenuItem value="semi-senior">
-                {PERSON_LABELS.SEMI_SENIOR}
-              </MenuItem>
-              <MenuItem value="junior">{PERSON_LABELS.JUNIOR}</MenuItem>
+              {renderMenuItems(seniorities)}
             </Select>
             <FormHelperText>{technologiesError?.seniority}</FormHelperText>
           </FormControl>

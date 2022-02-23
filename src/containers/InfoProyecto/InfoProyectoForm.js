@@ -4,11 +4,10 @@ import Divider from "@mui/material/Divider";
 import { Box, Typography } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import moment from "moment";
 import propTypes from "prop-types";
 
-import { renderColor } from "../../utils/utils";
+import { renderColorMenuItems } from "../../utils/utils";
 import ListData from "./List";
 import CustomButton from "../../components/CustomButton";
 import TypographyStyled from "./TypographyStyled";
@@ -62,18 +61,7 @@ const InfoProyectoForm = ({
                   setProjectState(e.target.value);
                 }}
               >
-                <MenuItem value={PROJECT_LABELS.ESTADO_VERDE_MIN}>
-                  {renderColor(PROJECT_LABELS.ESTADO_VERDE_MIN)}
-                </MenuItem>
-                <MenuItem value={PROJECT_LABELS.ESTADO_AMARILLO_MIN}>
-                  {renderColor(PROJECT_LABELS.ESTADO_AMARILLO_MIN)}
-                </MenuItem>
-                <MenuItem value={PROJECT_LABELS.ESTADO_ROJO_MIN}>
-                  {renderColor(PROJECT_LABELS.ESTADO_ROJO_MIN)}
-                </MenuItem>
-                <MenuItem value={PROJECT_LABELS.ESTADO_UPCOMING_MIN}>
-                  {renderColor(PROJECT_LABELS.ESTADO_UPCOMING_MIN)}
-                </MenuItem>
+                {renderColorMenuItems()}
               </Select>
             </FormControl>
           </Box>

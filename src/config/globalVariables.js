@@ -61,14 +61,6 @@ export const DATE_FORMAT = "DD/MM/YYYY";
 
 export const PROJECT_LABELS = {
   ESTADO: "Estado",
-  ESTADO_VERDE: "Verde",
-  ESTADO_VERDE_MIN: "verde",
-  ESTADO_AMARILLO: "Amarillo",
-  ESTADO_AMARILLO_MIN: "amarillo",
-  ESTADO_ROJO: "Rojo",
-  ESTADO_ROJO_MIN: "rojo",
-  ESTADO_UPCOMING: "Upcoming",
-  ESTADO_UPCOMING_MIN: "upcoming",
   TIPO: "Tipo",
   DESCRIPCION: "Descripción",
   FECHA_INICIO: "Fecha de inicio",
@@ -76,6 +68,7 @@ export const PROJECT_LABELS = {
   ORGANIZACION: "Organización",
   TIPO_PROYECTO: "Tipo de proyecto",
   INDEFINIDA: "Indefinida",
+  CREACION_PROYECTO: "Creación de proyecto",
   MODIFICACION_PROYECTO: "Modificación de proyecto",
   BUDGET: "Presupuesto",
   APPLY_CHANGES: "Aplicar cambios",
@@ -87,6 +80,13 @@ export const PROJECT_LABELS = {
   NO_TECNOLOGIAS: "Aún no hay tecnologías asociadas",
   NO_EXISTEN_PROYECTOS_PARA_MOSTRAR: "NO EXISTEN PROYECTOS PARA MOSTRAR",
   NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
+};
+
+export const PROJECT_STATE_VALUES = {
+  VERDE: "verde",
+  AMARILLO: "amarillo",
+  ROJO: "rojo",
+  UPCOMING: "upcoming",
 };
 
 export const SWITCHER_LABELS = {

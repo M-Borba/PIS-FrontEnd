@@ -4,18 +4,14 @@ import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
-import moment from "moment";
 
 import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
-import {
-  BUTTON_LABELS,
-  DATE_FORMAT,
-  PROJECT_LABELS,
-} from "../../config/globalVariables";
+import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
+import { rawDateToDateFormat, renderColor } from "../../utils/utils";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -50,7 +46,11 @@ const columns = [
     headerName: PROJECT_LABELS.ESTADO,
     sortable: true,
     flex: 0.5,
+    renderCell: (params) => {
+      return renderColor(params.value.toLowerCase());
+    },
   },
+
   {
     field: "start_date",
     headerName: PROJECT_LABELS.FECHA_INICIO,
@@ -124,8 +124,11 @@ export default function Proyecto({ rows, setRows }) {
               project_state: formatState(projectData.project_state),
               description: projectData.description,
               budget: projectData.budget,
-              start_date: moment(projectData.start_date).format(DATE_FORMAT),
-              end_date: moment(projectData.end_date).format(DATE_FORMAT),
+              start_date: rawDateToDateFormat(projectData.start_date),
+              end_date:
+                projectData.end_date !== null
+                  ? rawDateToDateFormat(projectData.end_date)
+                  : null,
               people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,
@@ -143,7 +146,7 @@ export default function Proyecto({ rows, setRows }) {
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
         <CustomButton variant="contained" onClick={handleNewOpen}>
-          {BUTTON_LABELS.AGREGAR_PROYECTO}{" "}
+          {BUTTON_LABELS.AGREGAR_PROYECTO}
         </CustomButton>
       </Box>
       <Modal

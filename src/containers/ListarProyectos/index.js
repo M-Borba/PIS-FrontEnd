@@ -4,13 +4,16 @@ import { axiosInstance } from "../../config/axios";
 import Proyectos from "../../components/Proyectos";
 import UpdateGridProvider from "../UpdateGridProvider";
 import Loading from "../../components/Loading";
-import moment from "moment";
-import { DATE_FORMAT } from "../../config/globalVariables";
+import {
+  rawDateToDateFormat,
+  stateRowDisplayFormat,
+  typeRowDisplayFormat,
+} from "../../utils/utils";
 
 export default function ListarProyectos() {
   var rawRows;
   const [rows, setRows] = useState([]);
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -20,18 +23,13 @@ export default function ListarProyectos() {
         return {
           id: row.id,
           name: row.name,
-          project_type: row.project_type
-            .replaceAll("_", " ")
-            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
-          project_state: row.project_state.replace(/^\w/, (m) =>
-            m.toUpperCase()
-          ),
+          project_type: typeRowDisplayFormat(row.project_type),
+          project_state: stateRowDisplayFormat(row.project_state),
           description: row.description,
           budget: row.budget,
-          start_date: moment(row.start_date).format(DATE_FORMAT),
-          end_date: moment(row.end_date).format(DATE_FORMAT),
-          // row.end_date != null              ?
-          // : null,
+          start_date: rawDateToDateFormat(row.start_date),
+          end_date:
+            row.end_date !== null ? rawDateToDateFormat(row.end_date) : null,
           people: row.people,
           organization: row.organization,
           technologies: row.technologies || [],

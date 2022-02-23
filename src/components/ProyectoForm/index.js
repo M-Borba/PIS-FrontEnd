@@ -20,11 +20,10 @@ import { axiosInstance } from "../../config/axios";
 import {
   BUTTON_LABELS,
   DATE_FORMAT,
-  FILTER_FORM_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
-import { renderColor } from "../../utils/utils";
+import { renderColorMenuItems, renderTipoMenuItems } from "../../utils/utils";
 
 ProyectoForm.propTypes = {
   onSubmit: propTypes.func,
@@ -36,8 +35,8 @@ ProyectoForm.propTypes = {
     project_state: propTypes.string,
     description: propTypes.string,
     budget: propTypes.oneOfType([propTypes.number, propTypes.string]),
-    start_date: propTypes.string,
-    end_date: propTypes.string,
+    start_date: propTypes.object,
+    end_date: propTypes.object,
     people: propTypes.array,
     organization: propTypes.string,
     technologies: propTypes.array,
@@ -126,18 +125,7 @@ export default function ProyectoForm({
                   labelId="tipo"
                   onChange={handleChange}
                 >
-                  <MenuItem value="staff_augmentation">
-                    Staff Augmentation
-                  </MenuItem>
-                  <MenuItem value="end_to_end">
-                    {FILTER_FORM_LABELS.END_TO_END}
-                  </MenuItem>
-                  <MenuItem value="tercerizado">
-                    {FILTER_FORM_LABELS.TERCERIZADO}
-                  </MenuItem>
-                  <MenuItem value="hibrido">
-                    {FILTER_FORM_LABELS.HIBIRDO}
-                  </MenuItem>
+                  {renderTipoMenuItems()}
                 </Select>
                 <FormHelperText>{errors?.project_type?.[0]}</FormHelperText>
               </FormControl>
@@ -157,18 +145,7 @@ export default function ProyectoForm({
                   value={project.project_state}
                   onChange={handleChange}
                 >
-                  <MenuItem value={PROJECT_LABELS.ESTADO_VERDE_MIN}>
-                    {renderColor(PROJECT_LABELS.ESTADO_VERDE_MIN)}
-                  </MenuItem>
-                  <MenuItem value={PROJECT_LABELS.ESTADO_AMARILLO_MIN}>
-                    {renderColor(PROJECT_LABELS.ESTADO_AMARILLO_MIN)}
-                  </MenuItem>
-                  <MenuItem value={PROJECT_LABELS.ESTADO_ROJO_MIN}>
-                    {renderColor(PROJECT_LABELS.ESTADO_ROJO_MIN)}
-                  </MenuItem>
-                  <MenuItem value={PROJECT_LABELS.ESTADO_UPCOMING_MIN}>
-                    {renderColor(PROJECT_LABELS.ESTADO_UPCOMING_MIN)}
-                  </MenuItem>
+                  {renderColorMenuItems()}
                 </Select>
                 <FormHelperText>{errors?.project_state?.[0]}</FormHelperText>
               </FormControl>
@@ -212,8 +189,8 @@ export default function ProyectoForm({
                   onChange={handleChange}
                   MenuProps={{ classes: { list: classes.menuPaper } }}
                 >
-                  {technologies?.map((t, index) => (
-                    <MenuItem key={`item-${index}`} value={t.name}>
+                  {technologies?.map((t) => (
+                    <MenuItem key={`item-${t.name}`} value={t.name}>
                       <Checkbox
                         checked={project.technologies?.indexOf(t.name) > -1}
                       />
@@ -261,6 +238,7 @@ export default function ProyectoForm({
             <Grid item xs={12} md={6}>
               <DatePicker
                 fullWidth
+                required
                 value={project.start_date}
                 onChange={(e) => handleDatesChange("start_date", e)}
                 disableMaskedInput
@@ -290,6 +268,7 @@ export default function ProyectoForm({
             <Grid item xs={12} md={6}>
               <DatePicker
                 fullWidth
+                required
                 id="fechaFin"
                 value={project.end_date}
                 onChange={(e) => handleDatesChange("end_date", e)}

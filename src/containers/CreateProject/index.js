@@ -4,6 +4,12 @@ import { useSnackbar } from "notistack";
 
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
+import { PROJECT_LABELS } from "../../config/globalVariables";
+import {
+  rawDateToDateFormat,
+  stateRowDisplayFormat,
+  typeRowDisplayFormat,
+} from "../../utils/utils";
 
 CreateProject.propTypes = {
   addRow: propTypes.func.isRequired,
@@ -33,21 +39,18 @@ export default function CreateProject({ addRow, onClose }) {
       })
       .then((response) => {
         let projectData = response.data.project;
+        console.log(projectData);
         let newRow = {
           id: projectData.id,
           name: projectData.name,
-          project_type: projectData.project_type
-            .replaceAll("_", " ")
-            .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase()),
-          project_state: projectData.project_state.replace(/^\w/, (m) =>
-            m.toUpperCase()
-          ),
+          project_type: typeRowDisplayFormat(projectData.project_type),
+          project_state: stateRowDisplayFormat(projectData.project_state),
           description: projectData.description,
           budget: projectData.budget,
-          start_date: projectData.start_date.replaceAll("-", "/"),
+          start_date: rawDateToDateFormat(projectData.start_date),
           end_date:
-            projectData.end_date != null
-              ? projectData.end_date.replaceAll("-", "/")
+            projectData.end_date !== null
+              ? rawDateToDateFormat(projectData.end_date)
               : null,
           people: projectData.people,
           organization: projectData.organization,
@@ -70,7 +73,7 @@ export default function CreateProject({ addRow, onClose }) {
       onSubmit={(e) => handleSubmit(e)}
       setProject={setProject}
       project={project}
-      title={"Creación de proyecto"}
+      title={PROJECT_LABELS.CREACION_PROYECTO}
       errors={errors}
       setErrors={setErrors}
     />

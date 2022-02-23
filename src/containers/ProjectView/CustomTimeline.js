@@ -22,6 +22,7 @@ import {
   COLORS,
   customTimeSteps,
   PROJECT_LABELS,
+  PROJECT_STATE_VALUES,
 } from "../../config/globalVariables";
 import InfoProyecto from "../../containers/InfoProyecto";
 import FilterForm from "../../components/FilterForm";
@@ -104,16 +105,16 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
 
           let color = "";
           switch (proj.project_state) {
-            case PROJECT_LABELS.ESTADO_VERDE_MIN:
+            case PROJECT_STATE_VALUES.VERDE:
               color = COLORS.stateGreen;
               break;
-            case PROJECT_LABELS.ESTADO_ROJO_MIN:
+            case PROJECT_STATE_VALUES.ROJO:
               color = COLORS.stateRed;
               break;
-            case PROJECT_LABELS.ESTADO_AMARILLO_MIN:
+            case PROJECT_STATE_VALUES.AMARILLO:
               color = COLORS.stateYellow;
               break;
-            case PROJECT_LABELS.ESTADO_UPCOMING_MIN:
+            case PROJECT_STATE_VALUES.UPCOMING:
               color = COLORS.stateUpcoming;
               break;
           }
@@ -158,7 +159,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
 
   const handleItemClick = async (itemId) => {
     axiosInstance.get("/projects/" + itemId).then((response) => {
-      var data = response.data.project;
+      const data = response.data.project;
       setProjectData(data);
       setOpenInfo(true);
     });
@@ -243,11 +244,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
           )}
           {!filteredData && (
             <Box display="flex" flexDirection="column" alignItems="center">
-              <img
-                style={{ marginTop: "30px" }}
-                className={classes.imgcontainer}
-                src={not_found}
-              />
+              <img style={{ marginTop: "30px" }} src={not_found} />
               <Typography variant="h4" style={{ marginTop: "30px" }}>
                 {PROJECT_LABELS.NO_EXISTEN_PROYECTOS_PARA_MOSTRAR}
               </Typography>
@@ -280,11 +277,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
         fetchingError &&
         !isProjectView && (
           <Box display="flex" flexDirection="column" alignItems="center">
-            <img
-              style={{ marginTop: "15%" }}
-              className={classes.imgcontainer}
-              src={not_found}
-            />
+            <img style={{ marginTop: "15%" }} src={not_found} />
             <Typography variant="h4" style={{ marginTop: "30px" }}>
               {PROJECT_LABELS.NO_EXISTEN_PROYECTOS_AUN}
             </Typography>
