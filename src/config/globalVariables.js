@@ -95,6 +95,7 @@ export const FILTER_FORM_LABELS = {
 };
 
 export const PERSON_LABELS = {
+  PERSONAS: "Personas",
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
   HORAS: "Horas",
   CARGA_HORARIA: "Carga horaria",

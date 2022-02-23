@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     background: COLORS.white,
-    border: `2px solid ${COLORS.black}`,
+    borderRadius: "16px",
     boxShadow: 24,
     overflow: "auto",
     p: 4,

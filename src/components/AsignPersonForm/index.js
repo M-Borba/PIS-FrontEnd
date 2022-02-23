@@ -2,17 +2,9 @@ import React from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import CardHeader from "@mui/material/CardHeader";
-import ListItem from "@mui/material/ListItem";
-import Checkbox from "@mui/material/Checkbox";
-import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Card from "@mui/material/Card";
 import propTypes from "prop-types";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -64,40 +56,15 @@ export default function AsignPersonForm({
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <Card
-              style={{ display: "flex", flexDirection: "column" }}
-              component={Paper}
-            >
-              <CardHeader className={classes.cardHeader} title={"Personas"} />
-              <List className={classes.list} dense component="div" role="list">
-                {asign.people.map(([p, value]) => {
-                  return (
-                    <ListItem
-                      key={p.id}
-                      role="listitem"
-                      button
-                      onClick={() => {
-                        onInputChange([p, value], "Personas");
-                      }}
-                    >
-                      <ListItemIcon>
-                        <Checkbox
-                          style={{ color: "black" }}
-                          id={p.id}
-                          checked={value}
-                          tabIndex={-1}
-                          disableRipple
-                        />
-                      </ListItemIcon>
-                      <ListItemText primary={p.full_name} />
-                    </ListItem>
-                  );
-                })}
-                <ListItem />
-              </List>
-            </Card>
+            <CardSelector
+              list={asign.people}
+              title={PERSON_LABELS.PERSONAS}
+              onInputChange={onInputChange}
+              name={"personas"}
+              id={"personas"}
+            />
           </Grid>
-          <Grid item xs={6} style={{ textAlign: "center" }}>
+          <Grid item xs={6}>
             <CardSelector
               name={"roles"}
               id={"roles"}
@@ -184,7 +151,7 @@ export default function AsignPersonForm({
           {error}
         </Typography>
 
-        <Box mt={5}></Box>
+        <Box mt={5} />
       </form>
     </div>
   );

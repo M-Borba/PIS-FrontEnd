@@ -6,19 +6,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   cardHeader: {
     padding: theme.spacing(1, 12),
-    overflow: "auto",
+    textAlign: "center",
   },
   list: {
-    height: 230,
+    height: 250,
     backgroundColor: theme.palette.background.paper,
     overflow: "auto",
     marginTop: 4,
-  },
-  collapse: {
-    "& .MuiCollapse-wrapperInner": {
-      display: "flex",
-      flexDirection: "column",
-    },
   },
   button: {
     margin: theme.spacing(0.5, 0),
