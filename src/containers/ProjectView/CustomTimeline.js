@@ -255,6 +255,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
               className={classes.modalInfo}
               variant="elevation"
               elevation={3}
+              style={{ borderRadius: 16 }}
             >
               <IconButton
                 aria-label="Close"

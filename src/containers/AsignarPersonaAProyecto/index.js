@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import { useStyles } from "./styles";
 import { ROLES_CHECKBOX, rolesTraducidos } from "../../config/globalVariables";
 import { axiosInstance } from "../../config/axios";
-import AsignPersonForm from "../../components/AsignPersonForm";
+import AssignPersonForm from "../../components/AssignPersonForm";
 
 AgregarPersona.propTypes = {
   projectData: propTypes.object.isRequired,
@@ -192,7 +192,7 @@ export default function AgregarPersona({
 
   return (
     <div className={classes.paper}>
-      <AsignPersonForm
+      <AssignPersonForm
         onSubmit={handleSubmit}
         onInputChange={checkInput}
         assign={asignacion}

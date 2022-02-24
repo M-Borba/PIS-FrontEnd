@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import propTypes from "prop-types";
+import moment from "moment";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
-import propTypes from "prop-types";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
-import moment from "moment";
+import { DatePicker } from "@mui/lab";
+import Box from "@mui/material/Box";
 
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
@@ -17,11 +19,9 @@ import {
   PERSON_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
-import { DatePicker } from "@mui/lab";
 import CustomButton from "../CustomButton";
-import Box from "@mui/material/Box";
 
-AsignPersonForm.propTypes = {
+AssignPersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
   assign: propTypes.shape({
@@ -39,7 +39,7 @@ AsignPersonForm.propTypes = {
   setAssign: propTypes.func,
 };
 
-export default function AsignPersonForm({
+export default function AssignPersonForm({
   title,
   onSubmit,
   onInputChange,

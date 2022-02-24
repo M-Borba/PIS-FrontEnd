@@ -227,10 +227,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       itemProps: {
         style: {
           borderRadius: 5,
+          border: "none",
           background:
             endDate - 864000000 < todayDate && endDate >= todayDate
               ? COLORS.timelineRed
-              : COLORS.stateUpcoming,
+              : COLORS.primaryPurple,
         },
       },
     };
@@ -303,11 +304,12 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
         itemProps: {
           style: {
             borderRadius: 5,
+            border: "none",
             background:
               endValue(endDate) - 864000000 < todayDate &&
               endValue(endDate) >= todayDate
                 ? COLORS.timelineRed
-                : COLORS.stateUpcoming,
+                : COLORS.primaryPurple,
           },
         },
         title: title,

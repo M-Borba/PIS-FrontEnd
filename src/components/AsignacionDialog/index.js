@@ -154,7 +154,10 @@ function AsignacionDialog({
                 value={startDate}
                 minDate={moment(startDate)}
                 maxDate={moment(endDate)}
-                onChange={(e) => onInputChange(e, "start_date")}
+                onChange={(e) => {
+                  setStartDate(e);
+                  onInputChange(e, "start_date");
+                }}
                 name="start_date"
                 disableMaskedInput
                 inputFormat={DATE_FORMAT}
@@ -181,7 +184,10 @@ function AsignacionDialog({
                 value={endDate}
                 minDate={moment(startDate)}
                 maxDate={moment(endDate)}
-                onChange={(e) => onInputChange(e, "end_date")}
+                onChange={(e) => {
+                  setEndDate(e);
+                  onInputChange(e, "end_date");
+                }}
                 name="end_date"
                 disableMaskedInput
                 inputFormat={DATE_FORMAT}
