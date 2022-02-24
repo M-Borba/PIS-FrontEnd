@@ -123,18 +123,6 @@ export default function AsignPersonForm({
           </Grid>
           <Grid container my={5} spacing={2}>
             <Grid item xs={6}>
-              {/*<TextField*/}
-              {/*  variant="outlined"*/}
-              {/*  required*/}
-              {/*  fullWidth*/}
-              {/*  name="startDate"*/}
-              {/*  label={PROJECT_LABELS.FECHA_INICIO}*/}
-              {/*  type="date"*/}
-              {/*  id="startDate"*/}
-              {/*  value={assign.startDate}*/}
-              {/*  InputLabelProps={{ shrink: true }}*/}
-              {/*  onChange={onInputChange}*/}
-              {/*/>*/}
               <DatePicker
                 fullWidth
                 name="startDate"
@@ -168,17 +156,6 @@ export default function AsignPersonForm({
               />
             </Grid>
             <Grid item xs={6}>
-              {/*<TextField*/}
-              {/*  variant="outlined"*/}
-              {/*  fullWidth*/}
-              {/*  name="endDate"*/}
-              {/*  label={PROJECT_LABELS.FECHA_FIN}*/}
-              {/*  type="date"*/}
-              {/*  id="endDate"*/}
-              {/*  value={assign.endDate}*/}
-              {/*  InputLabelProps={{ shrink: true }}*/}
-              {/*  onChange={onInputChange}*/}
-              {/*/>*/}
               <DatePicker
                 fullWidth
                 name="endDate"
@@ -255,11 +232,9 @@ export default function AsignPersonForm({
           >
             {BUTTON_LABELS.SAVE}
           </Button>
-
           <Typography className={classes.errorMsg} component="h2">
             {error}
           </Typography>
-
           <Box mt={5} />
         </form>
       </div>
