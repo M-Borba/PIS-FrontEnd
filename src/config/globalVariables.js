@@ -163,4 +163,6 @@ export const COLORS = {
   backgroundBlack: "#1C1C1C",
   backgroundWhite: "#FAFAFA",
   filterFormBackground: "#E2E0F2",
+  scrollThumb: "#C7C7C7",
+  scrollThumbHover: "#999999",
 };
