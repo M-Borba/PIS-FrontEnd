@@ -36,17 +36,17 @@ export default function AgregarPersona({
 
   const isValid = () => {
     return (
-      asignacion.people !== [],
-      asignacion.roles !== [],
-      asignacion.startDate !== "",
-      asignacion.hours > 0,
+      asignacion.people.flat(1).some((person) => person === true) &&
+      asignacion.roles.flat(1).some((role) => role === true) &&
+      asignacion.startDate !== "" &&
+      asignacion.hours > 0 &&
       asignacion.hoursType !== ""
     );
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValid(asignacion)) {
+    if (!isValid()) {
       setError("Completar todos los campos para completar la asignación");
     } else {
       var body = Object.assign({}, asignacion);

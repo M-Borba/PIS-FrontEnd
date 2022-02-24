@@ -39,7 +39,6 @@ export default function CreateProject({ addRow, onClose }) {
       })
       .then((response) => {
         let projectData = response.data.project;
-        console.log(projectData);
         let newRow = {
           id: projectData.id,
           name: projectData.name,
