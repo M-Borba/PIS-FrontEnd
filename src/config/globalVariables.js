@@ -62,11 +62,14 @@ export const DATE_FORMAT = "DD/MM/YYYY";
 export const PROJECT_LABELS = {
   ESTADO: "Estado",
   TIPO: "Tipo",
+  DESCRIPCION: "Descripción",
   FECHA_INICIO: "Fecha de inicio",
   FECHA_FIN: "Fecha de fin",
   ORGANIZACION: "Organización",
   TIPO_PROYECTO: "Tipo de proyecto",
   INDEFINIDA: "Indefinida",
+  CREACION_PROYECTO: "Creación de proyecto",
+  MODIFICACION_PROYECTO: "Modificación de proyecto",
   BUDGET: "Presupuesto",
   APPLY_CHANGES: "Aplicar cambios",
   PERSONAS: "Personas",
@@ -77,6 +80,13 @@ export const PROJECT_LABELS = {
   NO_TECNOLOGIAS: "Aún no hay tecnologías asociadas",
   NO_EXISTEN_PROYECTOS_PARA_MOSTRAR: "NO EXISTEN PROYECTOS PARA MOSTRAR",
   NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
+};
+
+export const PROJECT_STATE_VALUES = {
+  VERDE: "verde",
+  AMARILLO: "amarillo",
+  ROJO: "rojo",
+  UPCOMING: "upcoming",
 };
 
 export const SWITCHER_LABELS = {
@@ -95,6 +105,7 @@ export const FILTER_FORM_LABELS = {
 };
 
 export const PERSON_LABELS = {
+  MODIFICA_PERSONA: "Modificación de Persona",
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
   HORAS: "Horas",
   CARGA_HORARIA: "Carga horaria",
@@ -109,6 +120,11 @@ export const PERSON_LABELS = {
   SEMANALES: "Semanales",
   MENSUALES: "Mensuales",
   NO_EXISTEN_PERSONAS_PARA_MOSTRAR: "No existen personas para mostrar",
+  APELLIDO: "Apellido",
+  SENIORITY: "Seniority",
+  SENIOR: "Senior",
+  SEMI_SENIOR: "Semi-Senior",
+  JUNIOR: "Junior",
 };
 
 export const HEADER_LABELS = {
@@ -124,6 +140,7 @@ export const BUTTON_LABELS = {
   APPLY_CHANGES: "Aplicar cambios",
   CANCEL: "Cancelar",
   SAVE: "Guardar",
+  DELETE: "Eliminar",
   ASSIGN: "Asignar",
   UNASSIGN: "Desasignar",
   AGREGAR_PROYECTO: "Agregar proyecto",

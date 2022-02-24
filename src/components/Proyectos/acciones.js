@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { FormControlLabel, IconButton, Box } from "@material-ui/core";
+import { Box, FormControlLabel, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -19,6 +19,7 @@ import AgregarPersona from "../../containers/AsignarPersonaAProyecto";
 import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
+import { dateFormatToMoment } from "../../utils/utils";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
@@ -41,8 +42,10 @@ export default function Acciones({ projectRow }) {
     project_state: projectRow.project_state.toLowerCase(),
     description: projectRow.description,
     budget: projectRow.budget,
-    start_date: projectRow.start_date,
-    end_date: projectRow.end_date,
+    start_date: dateFormatToMoment(projectRow.start_date),
+    end_date: projectRow.end_date
+      ? dateFormatToMoment(projectRow.end_date)
+      : null,
     people: projectRow.people,
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],
@@ -72,7 +75,7 @@ export default function Acciones({ projectRow }) {
       let asignaciones = [];
       response.data.person_project.map((person) => {
         person.person.projects.map((project) => {
-          if (project.id == projectData.id) {
+          if (project.id === projectData.id) {
             asignaciones.push({
               id: person.person.id,
               name: person.person.full_name,
@@ -92,7 +95,7 @@ export default function Acciones({ projectRow }) {
   return (
     <div
       style={{
-        margin: "10px",
+        margin: "10px 0px 10px 10px",
       }}
     >
       <FormControlLabel
@@ -222,6 +225,11 @@ export default function Acciones({ projectRow }) {
               <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Dialog
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"

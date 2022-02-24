@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -9,6 +8,8 @@ import { useStyles } from "./styles";
 import TechnologyForm from "../TechnologyForm";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import { BUTTON_LABELS, PERSON_LABELS } from "../../config/globalVariables";
+import CustomButton from "../CustomButton";
 
 PersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -106,8 +107,7 @@ export default function PersonForm({
               id="first_name"
               name="first_name"
               type="text"
-              label="Nombre"
-              name="first_name"
+              label={PERSON_LABELS.NOMBRE}
               value={person.first_name}
               onChange={onInputChange}
               error={!!errors?.first_name}
@@ -122,8 +122,7 @@ export default function PersonForm({
               id="last_name"
               name="last_name"
               type="text"
-              label="Apellidos"
-              name="last_name"
+              label={PERSON_LABELS.APELLIDO}
               value={person.last_name}
               onChange={onInputChange}
               error={!!errors?.last_name}
@@ -138,7 +137,7 @@ export default function PersonForm({
               fullWidth
               id="email"
               type="email"
-              label="Email"
+              label={PERSON_LABELS.EMAIL}
               name="email"
               autoComplete="email"
               value={person.email}
@@ -153,7 +152,7 @@ export default function PersonForm({
               margin="normal"
               fullWidth
               name="working_hours"
-              label="Horas Semanales"
+              label={PERSON_LABELS.CARGA_HORARIA}
               type="number"
               id="working_hours"
               value={person.working_hours}
@@ -178,15 +177,15 @@ export default function PersonForm({
             />
           </Grid>
         </Grid>
-        <Button
+        <CustomButton
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
           className={classes.submit}
         >
-          Guardar
-        </Button>
+          {BUTTON_LABELS.SAVE}
+        </CustomButton>
       </form>
     </div>
   );

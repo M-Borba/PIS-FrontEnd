@@ -14,6 +14,8 @@ const CustomButton = ({
   form,
   styles,
   redButton,
+  fullWidth,
+  className,
 }) => {
   const classes = useStyles();
   const styleObj = { buttonRoot: styles };
@@ -28,10 +30,12 @@ const CustomButton = ({
   return (
     <Button
       classes={{ root: classes.buttonRoot + " " + customClass.buttonRoot }}
+      className={className}
       onClick={onClick}
       variant={variant}
       type={type}
       form={form}
+      fullWidth={fullWidth}
     >
       {children}
     </Button>
@@ -46,5 +50,7 @@ CustomButton.propTypes = {
   form: PropTypes.string,
   styles: PropTypes.object,
   redButton: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  className: PropTypes.string,
 };
 export default CustomButton;

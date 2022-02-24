@@ -14,7 +14,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import randomColor from "randomcolor";
 
 import { useStyles } from "./styles";
-import { COLORS } from "../../config/globalVariables";
+import { COLORS, PERSON_LABELS } from "../../config/globalVariables";
+import { renderMenuItems } from "../../utils/utils";
 
 TechnologyForm.propTypes = {
   defaultTechs: PropTypes.array,
@@ -43,6 +44,21 @@ export default function TechnologyForm({
 }) {
   const classes = useStyles();
 
+  const seniorities = [
+    {
+      value: "senior",
+      label: PERSON_LABELS.SENIOR,
+    },
+    {
+      value: "semi-senior",
+      label: PERSON_LABELS.SEMI_SENIOR,
+    },
+    {
+      value: "junior",
+      label: PERSON_LABELS.JUNIOR,
+    },
+  ];
+
   const handleChange = (e) => {
     setAllErrors({});
     setTechnologiesError({});
@@ -60,7 +76,7 @@ export default function TechnologyForm({
           >
             <InputLabel id="technology-select">Tecnología</InputLabel>
             <Select
-              label="Tecnología"
+              label={PERSON_LABELS.TECNOLOGIAS}
               id="technology"
               labelId="technology-select"
               name="technology"
@@ -84,22 +100,20 @@ export default function TechnologyForm({
           >
             <InputLabel id="seniority-select">Seniority</InputLabel>
             <Select
-              label="Seniority"
+              label={PERSON_LABELS.SENIORITY}
               id="seniority"
               labelId="seniority-select"
               name="seniority"
               onChange={handleChange}
               value={tech.seniority}
             >
-              <MenuItem value="senior">Senior</MenuItem>
-              <MenuItem value="semi-senior">Semi senior</MenuItem>
-              <MenuItem value="junior">Junior</MenuItem>
+              {renderMenuItems(seniorities)}
             </Select>
             <FormHelperText>{technologiesError?.seniority}</FormHelperText>
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <Box display="flex" justifyContent="center" mt={1}>
+          <Box display="flex" justifyContent="center">
             <IconButton
               style={{
                 color: COLORS.backgroundBlack,

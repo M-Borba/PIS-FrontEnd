@@ -11,6 +11,7 @@ import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
+import { rawDateToDateFormat, renderColor } from "../../utils/utils";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -45,7 +46,11 @@ const columns = [
     headerName: PROJECT_LABELS.ESTADO,
     sortable: true,
     flex: 0.5,
+    renderCell: (params) => {
+      return renderColor(params.value.toLowerCase());
+    },
   },
+
   {
     field: "start_date",
     headerName: PROJECT_LABELS.FECHA_INICIO,
@@ -119,9 +124,9 @@ export default function Proyecto({ rows, setRows }) {
               project_state: formatState(projectData.project_state),
               description: projectData.description,
               budget: projectData.budget,
-              start_date: projectData.start_date.replaceAll("-", "/"),
+              start_date: rawDateToDateFormat(projectData.start_date),
               end_date: projectData.end_date
-                ? projectData.end_date.replaceAll("-", "/")
+                ? rawDateToDateFormat(projectData.end_date)
                 : null,
               people: projectData.people,
               organization: projectData.organization,
@@ -140,7 +145,7 @@ export default function Proyecto({ rows, setRows }) {
     >
       <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
         <CustomButton variant="contained" onClick={handleNewOpen}>
-          {BUTTON_LABELS.AGREGAR_PROYECTO}{" "}
+          {BUTTON_LABELS.AGREGAR_PROYECTO}
         </CustomButton>
       </Box>
       <Modal
