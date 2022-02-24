@@ -8,7 +8,7 @@ import { BUTTON_LABELS } from "../../config/globalVariables";
 RemoverPersona.propTypes = {
   personName: PropTypes.string.isRequired,
   personId: PropTypes.number.isRequired,
-  asignId: PropTypes.number,
+  assignId: PropTypes.number,
   asignRole: PropTypes.string,
   asignClose: PropTypes.func.isRequired,
   projectData: PropTypes.object.isRequired,
@@ -49,10 +49,10 @@ function removePerson(
 ) {
   //buscar la persona en el arreglo
   let person = findPersonInPersonProjects(personId, personProject);
-  if (person !== undefined) {
+  if (person) {
     //busco las asignaciones de la persona en el proyecto
     let dates = findDateInProject(projectData.id, person.projects);
-    if (dates !== undefined) {
+    if (dates) {
       //itero en la lista de dates
       let nuevasAsignaciones = asignaciones;
       dates.forEach((assingment) => {
@@ -96,7 +96,7 @@ function removePerson(
 function RemoverPersona({
   personName,
   personId,
-  asignId,
+  assignId,
   asignRole,
   asignClose,
   projectData,
@@ -107,13 +107,13 @@ function RemoverPersona({
 }) {
   const { enqueueSnackbar } = useSnackbar();
   let dialogContent;
-  if (asignId === undefined)
+  if (assignId)
     dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
     dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
-    if (asignId === undefined) {
+    if (assignId) {
       //si se quiere borrar a todas las asignaciones de una persona del proyecto
       axiosInstance
         .get(`/person_project`)
@@ -140,7 +140,7 @@ function RemoverPersona({
     } else {
       //se especifico la asignacion que se quiere borrar
       axiosInstance
-        .delete("person_project/" + asignId)
+        .delete("person_project/" + assignId)
         .then((response) => {
           // Quito el rol especificado.
           let nuevasAsignaciones = asignaciones;
@@ -149,7 +149,7 @@ function RemoverPersona({
             if (persona.id === personId) {
               personIndex = index;
               persona.roles = persona.roles.filter(
-                (asignacion) => asignacion.id !== asignId
+                (asignacion) => asignacion.id !== assignId
               );
             }
           });

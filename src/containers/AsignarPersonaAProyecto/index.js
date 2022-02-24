@@ -50,11 +50,9 @@ export default function AgregarPersona({
       setError("Completar todos los campos para completar la asignación");
     } else {
       var body = Object.assign({}, asignacion);
-      let roles = body.roles
-        .filter((rol) => rol[1] === true)
-        .map((rol) => rol[0]); //conseguir la lista de roles
+      let roles = body.roles.filter((rol) => rol[1]).map((rol) => rol[0]); //conseguir la lista de roles
       let peopleIds = body.people
-        .filter((rol) => rol[1] === true)
+        .filter((rol) => rol[1])
         .map((person) =>
           Object({
             id: person[0].id,
@@ -105,9 +103,9 @@ export default function AgregarPersona({
 
               // Agrego a la persona a el modal de informacion del proyecto si no estaba.
               if (
-                projectData.people.find(
+                !projectData.people.find(
                   (persona) => persona.id === asignacionData.person.id
-                ) === undefined
+                )
               ) {
                 let personaNueva = {
                   full_name: asignacionData.person.full_name,

@@ -28,8 +28,7 @@ export default function ListarProyectos() {
           description: row.description,
           budget: row.budget,
           start_date: rawDateToDateFormat(row.start_date),
-          end_date:
-            row.end_date !== null ? rawDateToDateFormat(row.end_date) : null,
+          end_date: row.end_date ? rawDateToDateFormat(row.end_date) : null,
           people: row.people,
           organization: row.organization,
           technologies: row.technologies || [],

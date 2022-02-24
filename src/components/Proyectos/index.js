@@ -125,10 +125,9 @@ export default function Proyecto({ rows, setRows }) {
               description: projectData.description,
               budget: projectData.budget,
               start_date: rawDateToDateFormat(projectData.start_date),
-              end_date:
-                projectData.end_date !== null
-                  ? rawDateToDateFormat(projectData.end_date)
-                  : null,
+              end_date: projectData.end_date
+                ? rawDateToDateFormat(projectData.end_date)
+                : null,
               people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,

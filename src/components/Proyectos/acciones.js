@@ -43,10 +43,9 @@ export default function Acciones({ projectRow }) {
     description: projectRow.description,
     budget: projectRow.budget,
     start_date: dateFormatToMoment(projectRow.start_date),
-    end_date:
-      projectRow.end_date !== null
-        ? dateFormatToMoment(projectRow.end_date)
-        : null,
+    end_date: projectRow.end_date
+      ? dateFormatToMoment(projectRow.end_date)
+      : null,
     people: projectRow.people,
     organization: projectRow.organization,
     technologies: projectRow.technologies || [],

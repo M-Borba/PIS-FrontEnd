@@ -37,13 +37,12 @@ export const renderColor = (state) => {
   );
 };
 
-export const renderMenuItems = (array) => {
-  return array.map(({ value, label }) => (
+export const renderMenuItems = (array) =>
+  array.map(({ value, label }) => (
     <MenuItem key={value} value={value}>
       {label}
     </MenuItem>
   ));
-};
 
 export const renderColorMenuItems = (withAny = false) => {
   const values = [
@@ -70,7 +69,7 @@ export const renderColorMenuItems = (withAny = false) => {
   return renderMenuItems(values);
 };
 
-export const renderTipoMenuItems = (withAny) => {
+export const renderTipoMenuItems = (withAny = false) => {
   const values = [
     {
       value: "staff_augmentation",
@@ -86,20 +85,14 @@ export const renderTipoMenuItems = (withAny) => {
   return renderMenuItems(values);
 };
 
-export const rawDateToDateFormat = (rawDate) => {
-  return moment(rawDate).format(DATE_FORMAT);
-};
+export const rawDateToDateFormat = (rawDate) =>
+  moment(rawDate).format(DATE_FORMAT);
 
-export const dateFormatToMoment = (date) => {
-  return moment(date.split(" ")[0].split("/").reverse().join("-"));
-};
+export const dateFormatToMoment = (date) =>
+  moment(date.split(" ")[0].split("/").reverse().join("-"));
 
-export const typeRowDisplayFormat = (type) => {
-  return type
-    .replaceAll("_", " ")
-    .replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
-};
+export const typeRowDisplayFormat = (type) =>
+  type.replaceAll("_", " ").replace(/(^\w|\s\w)/g, (m) => m.toUpperCase());
 
-export const stateRowDisplayFormat = (state) => {
-  return state.replace(/^\w/, (m) => m.toUpperCase());
-};
+export const stateRowDisplayFormat = (state) =>
+  state.replace(/^\w/, (m) => m.toUpperCase());
