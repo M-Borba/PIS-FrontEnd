@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
   paper: {
-    margin: theme.spacing(5, 5),
+    margin: theme.spacing(4, 5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   submit: {
-    marginTop: 10,
+    marginTop: 20,
   },
   menuPaper: {
     maxHeight: theme.typography.pxToRem(200),

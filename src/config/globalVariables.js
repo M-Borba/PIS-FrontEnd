@@ -2,7 +2,7 @@ import React from "react";
 
 export const BACKEND_HOST =
   process.env.REACT_APP_BACKEND_HOST ||
-  "https://operations-development.herokuapp.com/";
+  "https://operations-development.herokuapp.com";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
@@ -157,6 +157,15 @@ export const LOGIN_LABELS = {
     "Parece que es la primera vez que inicia sesión. Por favor, ingrese una nueva contraseña.",
   CONFIRMAR_CONTRASENA: "Confirme su contraseña",
   CAMBIO_BUTTON: "Establecer nueva contraseña e iniciar sesión",
+};
+
+export const ADMIN_LABELS = {
+  CREAR_ADMIN: "Creación de administrador",
+  EMAIL: PERSON_LABELS.EMAIL,
+  NOMBRE: PERSON_LABELS.NOMBRE,
+  APELLIDO: PERSON_LABELS.APELLIDO,
+  CONTRASENA: LOGIN_LABELS.CONTRASENA,
+  CONFIRMAR_CONTRASENA: LOGIN_LABELS.CONFIRMAR_CONTRASENA,
 };
 
 export const COLORS = {

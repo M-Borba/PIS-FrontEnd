@@ -51,7 +51,10 @@ export default function CardSelector({ title, list, onInputChange }) {
                       disableRipple
                     />
                   </ListItemIcon>
-                  <ListItemText primary={p.full_name} />
+                  <ListItemText
+                    className={classes.fw400}
+                    primary={p.full_name}
+                  />
                 </ListItem>
               );
             })

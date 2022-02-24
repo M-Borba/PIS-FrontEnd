@@ -19,6 +19,7 @@ import {
 } from "../../config/globalVariables";
 import { DatePicker } from "@mui/lab";
 import CustomButton from "../CustomButton";
+import Box from "@mui/material/Box";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -57,7 +58,9 @@ export default function AsignPersonForm({
         {title}
       </Typography>
       <Typography component="p">
-        {moment(startDate).format(DATE_FORMAT)} - {moment(endDate).format(DATE_FORMAT)}      </Typography>
+        {moment(startDate).format(DATE_FORMAT)} -{" "}
+        {moment(endDate).format(DATE_FORMAT)}{" "}
+      </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -79,7 +82,7 @@ export default function AsignPersonForm({
             />
           </Grid>
         </Grid>
-        <Grid container my={5} spacing={2}>
+        <Grid container my={2} spacing={2}>
           <Grid item xs={6}>
             <DatePicker
               fullWidth
@@ -186,6 +189,7 @@ export default function AsignPersonForm({
         <Typography className={classes.errorMsg} component="h2">
           {error}
         </Typography>
+        <Box mt={1} />
       </form>
     </div>
   );

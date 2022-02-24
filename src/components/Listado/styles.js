@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { COLORS } from "../../config/globalVariables";
-
 export const useStyles = makeStyles((theme) => ({
   modal: {
     position: "absolute",
@@ -9,7 +7,8 @@ export const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     background: "white",
-    border: `2px solid ${COLORS.black}`,
+    borderRadius: 16,
+    border: 0,
     boxShadow: 24,
     width: "auto",
     p: 4,
