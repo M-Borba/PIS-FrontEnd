@@ -4,6 +4,7 @@ import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
+import { PROJECT_LABELS } from "../../config/globalVariables";
 
 EditarProjecto.propTypes = {
   projectData: propTypes.shape({
@@ -12,8 +13,8 @@ EditarProjecto.propTypes = {
     project_state: propTypes.string,
     description: propTypes.string,
     budget: propTypes.number,
-    start_date: propTypes.string,
-    end_date: propTypes.string,
+    start_date: propTypes.Moment,
+    end_date: propTypes.Moment,
     people: propTypes.array,
     organization: propTypes.string,
     technologies: propTypes.array,
@@ -59,7 +60,7 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
       onSubmit={handleSubmit}
       project={project}
       setProject={setProject}
-      title={"Modificación de Proyecto"}
+      title={PROJECT_LABELS.MODIFICACION_PROYECTO}
       errors={errors}
       setErrors={setErrors}
     />

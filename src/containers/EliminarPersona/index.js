@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSnackbar } from "notistack";
+
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
-import { useSnackbar } from "notistack";
+import { BUTTON_LABELS } from "../../config/globalVariables";
 
 EliminarPersona.propTypes = {
   personName: PropTypes.string.isRequired,
@@ -40,6 +42,7 @@ function EliminarPersona({ personName, personId, handleClose, removeRow }) {
       dialogContent={dialogContent}
       onClose={handleClose}
       onConfirmation={onConfirmation}
+      deleteButtonText={BUTTON_LABELS.DELETE}
     />
   );
 }

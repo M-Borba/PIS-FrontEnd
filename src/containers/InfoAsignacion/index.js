@@ -5,7 +5,7 @@ import { Dialog, Popover } from "@mui/material";
 
 import { useStyles } from "./styles";
 import { axiosInstance } from "../../config/axios";
-import { rolesFormateados } from "../../config/globalVariables";
+import { BUTTON_LABELS, rolesFormateados } from "../../config/globalVariables";
 import InfoAsignacionDialog from "../../components/InfoAsignacionDialog";
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 
@@ -223,6 +223,7 @@ function InfoAsignacion({
           dialogContent={dialogContent}
           onClose={handleConfirmacionClose}
           onConfirmation={handleDesasignar}
+          deleteButtonText={BUTTON_LABELS.UNASSIGN}
         />
       </Dialog>
     </Fragment>

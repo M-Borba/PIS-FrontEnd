@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
+import { useSnackbar } from "notistack";
+
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
-import { useSnackbar } from "notistack";
+import { BUTTON_LABELS } from "../../config/globalVariables";
 
 EliminarProyecto.propTypes = {
   projectName: PropTypes.string.isRequired,
@@ -41,6 +43,7 @@ function EliminarProyecto({ projectId, projectName, handleClose, removeRow }) {
         dialogContent={dialogContent}
         onClose={handleClose}
         onConfirmation={onConfirmation}
+        deleteButtonText={BUTTON_LABELS.DELETE}
       />
     </Fragment>
   );

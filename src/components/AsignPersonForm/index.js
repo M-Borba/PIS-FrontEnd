@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,98 +7,143 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
+import moment from "moment";
 
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
 import {
   BUTTON_LABELS,
+  DATE_FORMAT,
   PERSON_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
+import { DatePicker } from "@mui/lab";
 import CustomButton from "../CustomButton";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
   onInputChange: propTypes.func,
-  asign: propTypes.shape({
+  assign: propTypes.shape({
     roles: propTypes.array.isRequired,
     people: propTypes.array.isRequired,
-    startDate: propTypes.string.isRequired,
-    endDate: propTypes.string,
+    startDate: propTypes.object.isRequired,
+    endDate: propTypes.object,
     hours: propTypes.number.isRequired,
     hoursType: propTypes.string.isRequired,
   }).isRequired,
   error: propTypes.string,
   title: propTypes.string,
-  startDate: propTypes.string,
-  endDate: propTypes.string,
+  startDate: propTypes.object,
+  endDate: propTypes.object,
+  setAssign: propTypes.func,
 };
 
 export default function AsignPersonForm({
   title,
   onSubmit,
   onInputChange,
-  asign,
+  assign,
   error,
   startDate,
   endDate,
+  setAssign,
 }) {
   const classes = useStyles();
+  const [projectStartDate, setProjectStartDate] = useState(assign.startDate);
+  const [projectEndDate, setProjectEndDate] = useState(assign.endDate);
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
         {title}
       </Typography>
       <Typography component="p">
-        {startDate} - {endDate}
-      </Typography>
+        {moment(startDate).format(DATE_FORMAT)} - {moment(endDate).format(DATE_FORMAT)}      </Typography>
       <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <CardSelector
-              list={asign.people}
+              list={assign.people}
               title={PERSON_LABELS.PERSONAS}
               onInputChange={onInputChange}
               name={"personas"}
               id={"personas"}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
             <CardSelector
               name={"roles"}
               id={"roles"}
               title={PERSON_LABELS.ROL}
-              list={asign.roles}
+              list={assign.roles}
               onInputChange={onInputChange}
             />
           </Grid>
         </Grid>
-        <Grid container my={2} spacing={2}>
+        <Grid container my={5} spacing={2}>
           <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              required
+            <DatePicker
               fullWidth
               name="startDate"
-              label={PROJECT_LABELS.FECHA_INICIO}
-              type="date"
-              id="startDate"
-              value={asign.startDate}
-              InputLabelProps={{ shrink: true }}
-              onChange={onInputChange}
+              value={assign.startDate}
+              maxDate={projectEndDate}
+              minDate={projectStartDate}
+              onChange={(e) => {
+                onInputChange(e, "start_date");
+                setAssign({ ...assign, startDate: e });
+              }}
+              disableMaskedInput
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              inputProps={{
+                disabled: true,
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="startDate"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  label={PROJECT_LABELS.FECHA_INICIO}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              variant="outlined"
+            <DatePicker
               fullWidth
               name="endDate"
-              label={PROJECT_LABELS.FECHA_FIN}
-              type="date"
-              id="endDate"
-              value={asign.endDate || ""}
-              InputLabelProps={{ shrink: true }}
-              onChange={onInputChange}
+              value={assign.endDate}
+              maxDate={projectEndDate}
+              minDate={projectStartDate}
+              onChange={(e) => {
+                onInputChange(e, "end_date");
+                setAssign({ ...assign, endDate: e });
+              }}
+              disableMaskedInput
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              inputProps={{
+                disabled: true,
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="endDate"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  label={PROJECT_LABELS.FECHA_FIN}
+                />
+              )}
             />
           </Grid>
           <Grid item xs={6}>
@@ -110,7 +155,7 @@ export default function AsignPersonForm({
               label={PERSON_LABELS.HORAS}
               type="number"
               id="workingHours"
-              value={asign.hours}
+              value={assign.hours}
               onChange={onInputChange}
               InputLabelProps={{ shrink: true }}
               inputProps={{ min: 1, max: 168 }}
@@ -122,7 +167,7 @@ export default function AsignPersonForm({
               <Select
                 fullWidth
                 required
-                value={asign.hoursType}
+                value={assign.hoursType}
                 label={PERSON_LABELS.TIPO_CARGA_HORARIA}
                 id="hoursType"
                 labelId="hours-type"

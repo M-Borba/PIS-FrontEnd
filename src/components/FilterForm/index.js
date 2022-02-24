@@ -1,6 +1,5 @@
 import React from "react";
 import propTypes from "prop-types";
-import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -12,7 +11,7 @@ import {
   FILTER_FORM_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
-import { renderColor } from "../../utils/utils";
+import { renderColorMenuItems, renderTipoMenuItems } from "../../utils/utils";
 
 FilterForm.propTypes = {
   onClear: propTypes.func.isRequired,
@@ -73,17 +72,7 @@ export default function FilterForm({
           value={project_type}
           onChange={onInputChange}
         >
-          <MenuItem value="">{FILTER_FORM_LABELS.CUALQUIERA}</MenuItem>
-          <MenuItem value="staff_augmentation">
-            {FILTER_FORM_LABELS.STAFF_AUGMENTATION}
-          </MenuItem>
-          <MenuItem value="end_to_end">
-            {FILTER_FORM_LABELS.END_TO_END}
-          </MenuItem>
-          <MenuItem value="tercerizado">
-            {FILTER_FORM_LABELS.TERCERIZADO}
-          </MenuItem>
-          <MenuItem value="hibrido">{FILTER_FORM_LABELS.HIBIRDO}</MenuItem>
+          {renderTipoMenuItems(true)}
         </TextField>
         <TextField
           type="text"
@@ -100,11 +89,7 @@ export default function FilterForm({
           }}
           value={project_state}
         >
-          <MenuItem value="">{FILTER_FORM_LABELS.CUALQUIERA}</MenuItem>
-          <MenuItem value="verde">{renderColor("verde")}</MenuItem>
-          <MenuItem value="amarillo">{renderColor("amarillo")}</MenuItem>
-          <MenuItem value="rojo">{renderColor("rojo")}</MenuItem>
-          <MenuItem value="upcoming">{renderColor("upcoming")}</MenuItem>
+          {renderColorMenuItems(true)}
         </TextField>
         <TextField
           id="organization"

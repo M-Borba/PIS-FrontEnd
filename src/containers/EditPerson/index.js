@@ -7,6 +7,7 @@ import { axiosInstance } from "../../config/axios";
 import PersonForm from "../../components/PersonForm";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
+import { PERSON_LABELS } from "../../config/globalVariables";
 
 EditPerson.propTypes = {
   personData: propTypes.shape({
@@ -80,7 +81,7 @@ export default function EditPerson({ personData, id, onClose, editRow }) {
 
   return (
     <PersonForm
-      title={"Modificación de Persona"}
+      title={PERSON_LABELS.MODIFICA_PERSONA}
       onSubmit={handleSubmit}
       person={person}
       errors={errors}
