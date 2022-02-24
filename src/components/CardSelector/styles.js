@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+import { COLORS } from "../../config/globalVariables";
+
 export const useStyles = makeStyles((theme) => ({
   root: {
     margin: "auto",
@@ -7,10 +9,10 @@ export const useStyles = makeStyles((theme) => ({
   cardHeader: {
     padding: theme.spacing(1, 12),
     textAlign: "center",
+    borderBottom: `2px solid ${COLORS.textFieldBorder}`,
   },
   list: {
     height: 250,
-    backgroundColor: theme.palette.background.paper,
     overflow: "auto",
     marginTop: 4,
   },

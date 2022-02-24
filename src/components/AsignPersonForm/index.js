@@ -3,9 +3,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import propTypes from "prop-types";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
@@ -17,6 +15,7 @@ import {
   PERSON_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
+import CustomButton from "../CustomButton";
 
 AsignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -74,7 +73,7 @@ export default function AsignPersonForm({
             />
           </Grid>
         </Grid>
-        <Grid container my={5} spacing={2}>
+        <Grid container my={2} spacing={2}>
           <Grid item xs={6}>
             <TextField
               variant="outlined"
@@ -136,22 +135,12 @@ export default function AsignPersonForm({
             </FormControl>
           </Grid>
         </Grid>
-        <Button
-          role="submit"
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
+        <CustomButton type="submit" fullWidth variant="contained">
           {BUTTON_LABELS.SAVE}
-        </Button>
-
+        </CustomButton>
         <Typography className={classes.errorMsg} component="h2">
           {error}
         </Typography>
-
-        <Box mt={5} />
       </form>
     </div>
   );

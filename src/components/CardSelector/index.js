@@ -9,7 +9,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Card from "@mui/material/Card";
 import Paper from "@mui/material/Paper";
 
-import { useStyles } from "./styles";
+import "./styles.css";
+import { useStyles } from "./styles.js";
 import { PERSON_LABELS } from "../../config/globalVariables";
 
 CardSelector.propTypes = {
