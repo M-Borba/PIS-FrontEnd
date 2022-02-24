@@ -33,7 +33,6 @@ export default function CardSelector({ title, list, onInputChange }) {
       <List className={classes.list} dense component="div">
         {title === PERSON_LABELS.PERSONAS
           ? list.map(([p, value]) => {
-              console.log(p, value);
               return (
                 <ListItem
                   key={p.id}
@@ -57,7 +56,6 @@ export default function CardSelector({ title, list, onInputChange }) {
               );
             })
           : list.map((value, index) => {
-              console.log(value, index);
               return (
                 <ListItem
                   key={value + index}
