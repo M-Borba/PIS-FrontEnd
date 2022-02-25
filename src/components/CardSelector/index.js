@@ -22,6 +22,12 @@ CardSelector.propTypes = {
 
 export default function CardSelector({ title, list, onInputChange }) {
   const classes = useStyles();
+  if (title === PERSON_LABELS.PERSONAS) {
+    list = list.map((item) => {
+      return [item[0].id, item[1]];
+    });
+  }
+  console.log(list);
   return (
     <Card
       style={{

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import propTypes from "prop-types";
-import moment from "moment";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
@@ -20,6 +19,7 @@ import {
   PROJECT_LABELS,
 } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
+import { rawDateToDateFormat } from "../../utils/utils";
 
 AssignPersonForm.propTypes = {
   onSubmit: propTypes.func,
@@ -52,145 +52,155 @@ export default function AssignPersonForm({
   const classes = useStyles();
   const [projectStartDate, setProjectStartDate] = useState(assign.startDate);
   const [projectEndDate, setProjectEndDate] = useState(assign.endDate);
+  const isLoaded = () => assign.people.length > 0 && assign.roles.length > 0;
   return (
-    <div className={classes.paper}>
-      <Typography component="h1" variant="h5">
-        {title}
-      </Typography>
-      <Typography component="p">
-        {moment(startDate).format(DATE_FORMAT)} -{" "}
-        {moment(endDate).format(DATE_FORMAT)}{" "}
-      </Typography>
-      <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <CardSelector
-              list={assign.people}
-              title={PERSON_LABELS.PERSONAS}
-              onInputChange={onInputChange}
-              name={"personas"}
-              id={"personas"}
-            />
-          </Grid>
-          <Grid item xs={6} style={{ textAlign: "center" }}>
-            <CardSelector
-              name={"roles"}
-              id={"roles"}
-              title={PERSON_LABELS.ROL}
-              list={assign.roles}
-              onInputChange={onInputChange}
-            />
-          </Grid>
-        </Grid>
-        <Grid container my={2} spacing={2}>
-          <Grid item xs={6}>
-            <DatePicker
-              fullWidth
-              name="startDate"
-              value={assign.startDate}
-              maxDate={projectEndDate}
-              minDate={projectStartDate}
-              onChange={(e) => {
-                onInputChange(e, "start_date");
-                setAssign({ ...assign, startDate: e });
-              }}
-              disableMaskedInput
-              inputFormat={DATE_FORMAT}
-              PaperProps={{
-                style: {
-                  borderRadius: "15px",
-                },
-              }}
-              inputProps={{
-                disabled: true,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  name="startDate"
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  required
-                  label={PROJECT_LABELS.FECHA_INICIO}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <DatePicker
-              fullWidth
-              name="endDate"
-              value={assign.endDate}
-              maxDate={projectEndDate}
-              minDate={projectStartDate}
-              onChange={(e) => {
-                onInputChange(e, "end_date");
-                setAssign({ ...assign, endDate: e });
-              }}
-              disableMaskedInput
-              inputFormat={DATE_FORMAT}
-              PaperProps={{
-                style: {
-                  borderRadius: "15px",
-                },
-              }}
-              inputProps={{
-                disabled: true,
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  name="endDate"
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  required
-                  label={PROJECT_LABELS.FECHA_FIN}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="workingHours"
-              label={PERSON_LABELS.HORAS}
-              type="number"
-              id="workingHours"
-              value={assign.hours}
-              onChange={onInputChange}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ min: 1, max: 168 }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputLabel id="hours-type">Tipo de Horas</InputLabel>
-              <Select
-                fullWidth
-                required
-                value={assign.hoursType}
-                label={PERSON_LABELS.TIPO_CARGA_HORARIA}
-                id="hoursType"
-                labelId="hours-type"
-                onChange={onInputChange}
-                name="hoursType"
-              >
-                <MenuItem value="weekly">{PERSON_LABELS.SEMANALES}</MenuItem>
-                <MenuItem value="monthly">{PERSON_LABELS.MENSUALES}</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <CustomButton type="submit" fullWidth variant="contained">
-          {BUTTON_LABELS.SAVE}
-        </CustomButton>
-        <Typography className={classes.errorMsg} component="h2">
-          {error}
-        </Typography>
-        <Box mt={1} />
-      </form>
-    </div>
+    <>
+      <div className={classes.paper}>
+        {isLoaded() && (
+          <>
+            <Typography component="h1" variant="h5">
+              {title}
+            </Typography>
+            <Typography component="p">
+              {rawDateToDateFormat(startDate)} - {rawDateToDateFormat(endDate)}
+            </Typography>
+            <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <CardSelector
+                    list={assign.people}
+                    title={PERSON_LABELS.PERSONAS}
+                    onInputChange={onInputChange}
+                    name={"personas"}
+                    id={"personas"}
+                  />
+                </Grid>
+                <Grid item xs={6} style={{ textAlign: "center" }}>
+                  <CardSelector
+                    name={"roles"}
+                    id={"roles"}
+                    title={PERSON_LABELS.ROL}
+                    list={assign.roles}
+                    onInputChange={onInputChange}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container my={2} spacing={2}>
+                <Grid item xs={6}>
+                  <DatePicker
+                    fullWidth
+                    name="startDate"
+                    value={assign.startDate}
+                    maxDate={projectEndDate}
+                    minDate={projectStartDate}
+                    onChange={(e) => {
+                      onInputChange(e, "start_date");
+                      setAssign({ ...assign, startDate: e });
+                    }}
+                    disableMaskedInput
+                    inputFormat={DATE_FORMAT}
+                    PaperProps={{
+                      style: {
+                        borderRadius: "15px",
+                      },
+                    }}
+                    inputProps={{
+                      disabled: true,
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="startDate"
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        required
+                        label={PROJECT_LABELS.FECHA_INICIO}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <DatePicker
+                    fullWidth
+                    name="endDate"
+                    value={assign.endDate}
+                    maxDate={projectEndDate}
+                    minDate={projectStartDate}
+                    onChange={(e) => {
+                      onInputChange(e, "end_date");
+                      setAssign({ ...assign, endDate: e });
+                    }}
+                    disableMaskedInput
+                    inputFormat={DATE_FORMAT}
+                    PaperProps={{
+                      style: {
+                        borderRadius: "15px",
+                      },
+                    }}
+                    inputProps={{
+                      disabled: true,
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="endDate"
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        required
+                        label={PROJECT_LABELS.FECHA_FIN}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="workingHours"
+                    label={PERSON_LABELS.HORAS}
+                    type="number"
+                    id="workingHours"
+                    value={assign.hours}
+                    onChange={onInputChange}
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ min: 1, max: 168 }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="hours-type">Tipo de Horas</InputLabel>
+                    <Select
+                      fullWidth
+                      required
+                      value={assign.hoursType}
+                      label={PERSON_LABELS.TIPO_CARGA_HORARIA}
+                      id="hoursType"
+                      labelId="hours-type"
+                      onChange={onInputChange}
+                      name="hoursType"
+                    >
+                      <MenuItem value="weekly">
+                        {PERSON_LABELS.SEMANALES}
+                      </MenuItem>
+                      <MenuItem value="monthly">
+                        {PERSON_LABELS.MENSUALES}
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <CustomButton type="submit" fullWidth variant="contained">
+                {BUTTON_LABELS.SAVE}
+              </CustomButton>
+              <Typography className={classes.errorMsg} component="h2">
+                {error}
+              </Typography>
+              <Box mt={1} />
+            </form>
+          </>
+        )}
+      </div>
+    </>
   );
 }

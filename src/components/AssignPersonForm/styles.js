@@ -7,6 +7,8 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    minHeight: 550,
+    minWidth: 550,
   },
   form: {
     width: "100%", // Fix IE 11 issue.

@@ -115,7 +115,7 @@ export default function AgregarPersona({
                 editRow(projectData);
               }
               enqueueSnackbar(
-                `Se asigno el rol ${role} a ${person.name} en ${projectData.name} con éxito.`,
+                `Se asignó el rol ${role} a ${person.name} en ${projectData.name} con éxito.`,
                 { variant: "success", autoHideDuration: 4000 }
               );
             })
