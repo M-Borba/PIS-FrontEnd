@@ -8,6 +8,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Card from "@mui/material/Card";
 import Paper from "@mui/material/Paper";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import { useStyles } from "./styles.js";
 import { PERSON_LABELS } from "../../config/globalVariables";
@@ -49,6 +51,8 @@ export default function CardSelector({ title, list, onInputChange }) {
                       checked={value}
                       tabIndex={-1}
                       disableRipple
+                      icon={<RadioButtonUncheckedIcon />}
+                      checkedIcon={<CheckCircleIcon />}
                     />
                   </ListItemIcon>
                   <ListItemText
@@ -75,6 +79,8 @@ export default function CardSelector({ title, list, onInputChange }) {
                       checked={value[1]}
                       tabIndex={-1}
                       disableRipple
+                      icon={<RadioButtonUncheckedIcon />}
+                      checkedIcon={<CheckCircleIcon />}
                     />
                   </ListItemIcon>
                   <ListItemText primary={value[0]} />
