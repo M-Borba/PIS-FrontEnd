@@ -1,6 +1,5 @@
 import React from "react";
 import propTypes from "prop-types";
-import moment from "moment";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -11,11 +10,8 @@ import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
 
 import { useStyles } from "./styles";
-import {
-  DATE_FORMAT,
-  PERSON_LABELS,
-  rolesFormateados,
-} from "../../config/globalVariables";
+import { PERSON_LABELS, rolesFormateados } from "../../config/globalVariables";
+import { rawDateToDateFormat } from "../../utils/utils";
 
 ListadoPersonasAsignadas.propTypes = {
   people: propTypes.array,
@@ -26,9 +22,9 @@ function assignationText(assignation) {
   return (
     rolesFormateados[assignation.role] +
     " (" +
-    moment(assignation.start_date).format(DATE_FORMAT) +
+    rawDateToDateFormat(assignation.start_date) +
     " - " +
-    moment(assignation.end_date).format(DATE_FORMAT) +
+    rawDateToDateFormat(assignation.end_date) +
     ")"
   );
 }
@@ -40,11 +36,6 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
       <Grid item key={"people"}>
         {people.length !== 0 ? (
           <>
-            {/*<Typography variant="h5">*/}
-            {/*  {PERSON_LABELS.PERSONAS_ASIGNADAS}*/}
-            {/*</Typography>*/}
-            {/*<Box m={2} />*/}
-            {/*<Divider />*/}
             <List>
               {people.map((person) => {
                 return (

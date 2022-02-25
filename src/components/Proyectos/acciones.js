@@ -215,7 +215,7 @@ export default function Acciones({ projectRow }) {
               onClose={handleAssignedClose}
               aria-labelledby="confirmation-dialog-title"
             >
-              <Card className={classes.modal} classes={{ root: classes.modal }}>
+              <Card classes={{ root: classes.modal }}>
                 <IconButton
                   aria-label="Close"
                   onClick={handleAssignedClose}

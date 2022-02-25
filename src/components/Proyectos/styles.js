@@ -42,12 +42,6 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },
-  header: {
-    position: "fixed",
-    background: "white",
-    width: "83%",
-    zIndex: 50,
-  },
   cardHeader: {
     padding: theme.spacing(1, 12),
     textAlign: "center",
