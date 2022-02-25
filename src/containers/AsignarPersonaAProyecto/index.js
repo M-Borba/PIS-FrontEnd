@@ -49,7 +49,7 @@ export default function AgregarPersona({
     if (!isValid()) {
       setError("Completar todos los campos para completar la asignación");
     } else {
-      var body = Object.assign({}, asignacion);
+      let body = Object.assign({}, asignacion);
       let roles = body.roles.filter((rol) => rol[1]).map((rol) => rol[0]); //conseguir la lista de roles
       let peopleIds = body.people
         .filter((rol) => rol[1])
@@ -114,9 +114,8 @@ export default function AgregarPersona({
                 projectData.people = [...projectData.people, personaNueva];
                 editRow(projectData);
               }
-
               enqueueSnackbar(
-                `Se asigno el rol ${role} a: ${person.name} en ${projectData.name} con éxito.`,
+                `Se asigno el rol ${role} a ${person.name} en ${projectData.name} con éxito.`,
                 { variant: "success", autoHideDuration: 4000 }
               );
             })
@@ -132,6 +131,9 @@ export default function AgregarPersona({
             });
         }
       }
+      ROLES_CHECKBOX.forEach((rol) => {
+        rol[1] = false;
+      });
       closeModal && onClose();
     }
   };

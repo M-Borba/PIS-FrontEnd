@@ -7,6 +7,7 @@ export const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     background: "white",
+    maxWidth: 730,
     borderRadius: 16,
     border: 0,
     boxShadow: 24,

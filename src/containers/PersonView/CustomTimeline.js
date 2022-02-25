@@ -537,7 +537,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
                     height: 20,
                     width: 20,
                     backgroundColor: COLORS.timelineRed,
-                    border: "1px solid black",
+                    borderRadius: 16,
                   }}
                 />
                 <Grid item>
