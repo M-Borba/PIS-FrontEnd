@@ -1,7 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
 import moment from "moment";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -41,11 +40,11 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
       <Grid item key={"people"}>
         {people.length !== 0 ? (
           <>
-            <Typography variant="h5">
-              {PERSON_LABELS.PERSONAS_ASIGNADAS}
-            </Typography>
-            <Box m={2} />
-            <Divider />
+            {/*<Typography variant="h5">*/}
+            {/*  {PERSON_LABELS.PERSONAS_ASIGNADAS}*/}
+            {/*</Typography>*/}
+            {/*<Box m={2} />*/}
+            {/*<Divider />*/}
             <List>
               {people.map((person) => {
                 return (

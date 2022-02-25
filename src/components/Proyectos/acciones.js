@@ -10,6 +10,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Dialog from "@material-ui/core/Dialog";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 
 import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
@@ -20,6 +23,7 @@ import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import { dateFormatToMoment } from "../../utils/utils";
+import { PERSON_LABELS } from "../../config/globalVariables";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
@@ -211,7 +215,7 @@ export default function Acciones({ projectRow }) {
               onClose={handleAssignedClose}
               aria-labelledby="confirmation-dialog-title"
             >
-              <Box className={classes.modal}>
+              <Card className={classes.modal} classes={{ root: classes.modal }}>
                 <IconButton
                   aria-label="Close"
                   onClick={handleAssignedClose}
@@ -219,11 +223,20 @@ export default function Acciones({ projectRow }) {
                 >
                   <CloseIcon />
                 </IconButton>
+                <CardHeader
+                  className={classes.cardHeader}
+                  title={
+                    <Typography variant="h5">
+                      {PERSON_LABELS.PERSONAS_ASIGNADAS}
+                    </Typography>
+                  }
+                />
+
                 <ListadoPersonasAsignadas
                   people={asignaciones}
                   removePerson={handleRemovePersonOpen}
                 />
-              </Box>
+              </Card>
             </Modal>
           </>
         }
