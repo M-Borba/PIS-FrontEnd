@@ -1,5 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
+import moment from "moment";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@mui/material/Grid";
 import List from "@mui/material/List";
@@ -9,36 +10,26 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
+
 import { useStyles } from "./styles";
-import { rolesFormateados } from "../../config/globalVariables";
+import {
+  DATE_FORMAT,
+  PERSON_LABELS,
+  rolesFormateados,
+} from "../../config/globalVariables";
 
 ListadoPersonasAsignadas.propTypes = {
   people: propTypes.array,
   removePerson: propTypes.func,
 };
 
-function formatDate(dateString) {
-  //formato actual: aaaa-MM-dd
-  let result;
-  dateString != null
-    ? (result =
-        dateString.substring(8) +
-        "-" +
-        dateString.substring(5, 7) +
-        "-" +
-        dateString.substring(0, 4))
-    : (result = "Final indefinido");
-
-  return result;
-}
-
-function asignationText(asignation) {
+function assignationText(assignation) {
   return (
-    rolesFormateados[asignation.role] +
+    rolesFormateados[assignation.role] +
     " (" +
-    formatDate(asignation.start_date) +
-    " / " +
-    formatDate(asignation.end_date) +
+    moment(assignation.start_date).format(DATE_FORMAT) +
+    " - " +
+    moment(assignation.end_date).format(DATE_FORMAT) +
     ")"
   );
 }
@@ -48,12 +39,14 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
   return (
     <div className={classes.paper}>
       <Grid item key={"people"}>
-        {people.length != 0 ? (
+        {people.length !== 0 ? (
           <>
-            <Typography variant="h5">Personas Asignadas</Typography>
+            <Typography variant="h5">
+              {PERSON_LABELS.PERSONAS_ASIGNADAS}
+            </Typography>
             <Box m={2} />
             <Divider />
-            <List className={classes.list}>
+            <List>
               {people.map((person) => {
                 return (
                   <>
@@ -72,21 +65,21 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
                         <CloseIcon />
                       </IconButton>
                     </ListItem>
-                    {person.roles.map((asignation) => {
+                    {person.roles.map((assignation) => {
                       return (
                         <>
-                          <ListItem key={asignation.id} role="listitem">
+                          <ListItem key={assignation.id} role="listitem">
                             <ListItemText
                               classes={{ primary: classes.subtext }}
-                              primary={asignationText(asignation)}
+                              primary={assignationText(assignation)}
                             />
                             <IconButton
                               onClick={() =>
                                 removePerson(
                                   person.id,
                                   person.name,
-                                  asignation.id,
-                                  rolesFormateados[asignation.role]
+                                  assignation.id,
+                                  rolesFormateados[assignation.role]
                                 )
                               }
                             >
@@ -103,7 +96,7 @@ export default function ListadoPersonasAsignadas({ people, removePerson }) {
             </List>
           </>
         ) : (
-          <Box m={2}>Aún no hay personas asociadas</Box>
+          <Box m={2}>{PERSON_LABELS.AUN_NO_HAY_PERSONAS_ASIGNADAS}</Box>
         )}
       </Grid>
     </div>

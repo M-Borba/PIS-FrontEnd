@@ -106,6 +106,9 @@ export const FILTER_FORM_LABELS = {
 
 export const PERSON_LABELS = {
   PERSONAS: "Personas",
+  PERSONAS_ASIGNADAS: "Personas asignadas",
+  AUN_NO_HAY_PERSONAS_ASIGNADAS: "Aún no hay personas asignadas",
+  CONFIRMAR_ELIMINACION: "Confirmar eliminación",
   MODIFICA_PERSONA: "Modificación de Persona",
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
   HORAS: "Horas",

@@ -33,7 +33,12 @@ export default function Acciones({ projectRow }) {
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
-  const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
+  const [personToRemove, setPersonToRemove] = React.useState({
+    personId: -1,
+    personName: "",
+    assignationId: -1,
+    assignationRole: "",
+  });
   const [asignaciones, setAsignaciones] = useState([]);
   const projectData = {
     id: projectRow.id,
@@ -58,8 +63,13 @@ export default function Acciones({ projectRow }) {
   const handleAssignedOpen = () => setOpenAssigned(true);
   const handleAssignedClose = () => setOpenAssigned(false);
 
-  const handleRemovePersonOpen = (pId, pName, aId, aRole) => {
-    setPersonToRemove([pId, pName, aId, aRole]);
+  const handleRemovePersonOpen = (
+    personId,
+    personName,
+    assignationId,
+    assignationRole
+  ) => {
+    setPersonToRemove({ personId, personName, assignationId, assignationRole });
     setOpenRemovePerson(true);
   };
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
@@ -184,11 +194,11 @@ export default function Acciones({ projectRow }) {
               aria-labelledby="confirmation-dialog-title"
             >
               <RemoverPersona
-                personName={personToRemove[1]}
-                personId={personToRemove[0]}
-                asignId={personToRemove[2]}
-                asignRole={personToRemove[3]}
-                asignClose={handleAssignedClose}
+                personName={personToRemove.personName}
+                personId={personToRemove.personId}
+                assignId={personToRemove.assignationId}
+                assignRole={personToRemove.assignationRole}
+                assignClose={handleAssignedClose}
                 projectData={projectData}
                 handleClose={handleRemovePersonClose}
                 asignaciones={asignaciones}
