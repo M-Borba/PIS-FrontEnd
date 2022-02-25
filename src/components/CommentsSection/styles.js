@@ -30,15 +30,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: "0 18px 18px 5px",
   },
   button: {
-    width: "fit-content",
     margin: "auto",
     color: COLORS.white,
     marginBottom: "18px",
-    background: COLORS.backgroundBlack,
-    "&:hover": {
-      backgroundColor: COLORS.backgroundDarkGrey,
-      color: COLORS.white,
-    },
+    justifySelf: "flex-end",
   },
   noteContainer: {
     display: "flex",

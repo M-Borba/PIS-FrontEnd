@@ -60,6 +60,7 @@ export const customTimeSteps = {
 export const DATE_FORMAT = "DD/MM/YYYY";
 
 export const PROJECT_LABELS = {
+  AGREGAR_NOTA: "Agregar nota",
   ESTADO: "Estado",
   TIPO: "Tipo",
   DESCRIPCION: "Descripción",

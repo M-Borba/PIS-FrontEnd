@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Paper, Button, Modal } from "@material-ui/core";
+import { Modal, Paper } from "@material-ui/core";
 
 import Comment from "./Comment";
 import { useStyles } from "./styles";
 import NewNote from "../NewNote";
+import { PROJECT_LABELS } from "../../config/globalVariables";
+import CustomButton from "../CustomButton";
 
 CommentsSection.propTypes = {
   notes: PropTypes.array,
@@ -19,15 +21,16 @@ export default function CommentsSection({ notes }) {
 
   return (
     <div className={classes.notesContainer}>
-      <Button
+      <CustomButton
         className={classes.button}
         role="submit"
         type="submit"
+        fullWidth
         variant="contained"
         onClick={() => setOpenModal(true)}
       >
-        Agregar nota
-      </Button>
+        {PROJECT_LABELS.AGREGAR_NOTA}
+      </CustomButton>
       <Modal open={openModal} onClose={closeModal} disableEnforceFocus>
         <Paper className={classes.modalInfo} variant="elevation" elevation={3}>
           <NewNote text={text} setText={setText} onClose={closeModal} />
