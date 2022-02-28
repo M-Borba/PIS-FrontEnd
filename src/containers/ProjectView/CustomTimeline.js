@@ -111,7 +111,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
           }
         }
         rows.sort((a, b) => {
-          return a.id - b.id;
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
         rows.map((proj) => {
           setFilteredData(true);
