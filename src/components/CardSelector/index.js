@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import CardHeader from "@mui/material/CardHeader";
 import ListItem from "@mui/material/ListItem";
@@ -22,12 +22,7 @@ CardSelector.propTypes = {
 
 export default function CardSelector({ title, list, onInputChange }) {
   const classes = useStyles();
-  if (title === PERSON_LABELS.PERSONAS) {
-    list = list.map((item) => {
-      return [item[0].id, item[1]];
-    });
-  }
-  console.log(list);
+  const [isPeople, setIsPeople] = useState(title === PERSON_LABELS.PERSONAS);
   return (
     <Card
       style={{
@@ -39,61 +34,35 @@ export default function CardSelector({ title, list, onInputChange }) {
     >
       <CardHeader className={classes.cardHeader} title={title} />
       <List className={classes.list} dense component="div">
-        {title === PERSON_LABELS.PERSONAS
-          ? list.map(([p, value]) => {
-              return (
-                <ListItem
-                  key={p.id}
-                  role="listitem"
-                  button
-                  onClick={() => {
-                    onInputChange([p, value], title);
-                  }}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      style={{ color: "black" }}
-                      id={p.id}
-                      checked={value}
-                      tabIndex={-1}
-                      disableRipple
-                      icon={<RadioButtonUncheckedIcon />}
-                      checkedIcon={<CheckCircleIcon />}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    className={classes.fw400}
-                    primary={p.full_name}
-                  />
-                </ListItem>
-              );
-            })
-          : list.map((value, index) => {
-              return (
-                <ListItem
-                  key={value + index}
-                  role="listitem"
-                  button
-                  onClick={() => {
-                    onInputChange(value, title);
-                  }}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      style={{ color: "black" }}
-                      id={value[0]}
-                      checked={value[1]}
-                      tabIndex={-1}
-                      disableRipple
-                      icon={<RadioButtonUncheckedIcon />}
-                      checkedIcon={<CheckCircleIcon />}
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={value[0]} />
-                </ListItem>
-              );
-            })}
-        <ListItem />
+        {list.map(([value, checkedValue], index) => {
+          console.log(value, checkedValue);
+          return (
+            <ListItem
+              key={isPeople ? value.id : value + index}
+              role="listitem"
+              button
+              onClick={() => {
+                onInputChange([value, checkedValue], title);
+              }}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  style={{ color: "black" }}
+                  id={isPeople ? value.id : value}
+                  checked={checkedValue}
+                  tabIndex={-1}
+                  disableRipple
+                  icon={<RadioButtonUncheckedIcon />}
+                  checkedIcon={<CheckCircleIcon />}
+                />
+              </ListItemIcon>
+              <ListItemText
+                className={classes.fw400}
+                primary={isPeople ? value.full_name : value}
+              />
+            </ListItem>
+          );
+        })}
       </List>
     </Card>
   );
