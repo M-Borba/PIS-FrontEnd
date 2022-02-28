@@ -33,7 +33,7 @@ export default function InfoProyecto({
           project: projectData,
         })
         .then((response) => {
-          updateProjectState(projectData);
+          updateProjectState && updateProjectState(projectData);
           enqueueSnackbar(
             `El proyecto ${projectData.name} se actualizó con éxito.`,
             {
@@ -53,7 +53,7 @@ export default function InfoProyecto({
         });
     }
     e.preventDefault();
-    onClose();
+    onClose && onClose();
   };
 
   return (

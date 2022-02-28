@@ -25,8 +25,6 @@ export default function Project() {
     <div className={classes.gridContainer}>
       {project && (
         <InfoProyecto
-          onClose={() => {}}
-          updateProjectState={() => {}}
           projectData={project}
           type={project.project_type
             ?.replaceAll("_", " ")
