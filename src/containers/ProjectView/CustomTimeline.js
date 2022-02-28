@@ -111,7 +111,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
           }
         }
         rows.sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a.id - b.id;
         });
         rows.map((proj) => {
           setFilteredData(true);

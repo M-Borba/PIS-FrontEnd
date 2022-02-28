@@ -53,7 +53,7 @@ export default function FilterForm({
       }
     >
       <form id="filter-form" className={classes.form} noValidate>
-        <InputLabel>{FILTER_FORM_LABELS.FILTRAR_POR}</InputLabel>
+        <InputLabel>{FILTER_FORM_LABELS.FILTRAR_POR}:</InputLabel>
         <TextField
           InputProps={{
             style: {
