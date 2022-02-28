@@ -12,6 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: "16px",
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
     width: "auto",
+    outline: "none",
     maxWidth: 730,
     p: 4,
   },

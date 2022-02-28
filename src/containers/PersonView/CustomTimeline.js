@@ -530,7 +530,14 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             />
             <></>
             {filteredData && (
-              <Grid container style={{ marginLeft: 10, width: "fit-content" }}>
+              <Grid
+                container
+                style={{
+                  marginLeft: "1%",
+                  width: "fit-content",
+                  marginBottom: 15,
+                }}
+              >
                 <Grid
                   item
                   style={{

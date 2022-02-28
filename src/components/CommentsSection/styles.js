@@ -8,8 +8,10 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    borderRadius: 16,
     width: "40%",
     background: "white",
+    padding: 10,
     overflowX: "hidden",
   },
   closeButton: {
@@ -30,15 +32,10 @@ export const useStyles = makeStyles((theme) => ({
     padding: "0 18px 18px 5px",
   },
   button: {
-    width: "fit-content",
     margin: "auto",
     color: COLORS.white,
     marginBottom: "18px",
-    background: COLORS.backgroundBlack,
-    "&:hover": {
-      backgroundColor: COLORS.backgroundDarkGrey,
-      color: COLORS.white,
-    },
+    justifySelf: "flex-end",
   },
   noteContainer: {
     display: "flex",

@@ -4,7 +4,7 @@ import { Box, Typography } from "@material-ui/core";
 import { Chip } from "@mui/material";
 import List from "@mui/material/List";
 
-import { COLORS } from "../../config/globalVariables";
+import { COLORS, PERSON_LABELS } from "../../config/globalVariables";
 
 const ListData = ({ title, type, data }) => (
   <>
@@ -12,13 +12,15 @@ const ListData = ({ title, type, data }) => (
       {title}:
     </Typography>
     <List
-      maxWidth={360}
       direction="row"
       sx={{
+        maxWidth: 360,
         width: "100%",
         position: "relative",
         overflow: "auto",
-        maxHeight: `${type === "personas" ? 370 : 145}`,
+        maxHeight: `${
+          type === PERSON_LABELS.PERSONAS.toLowerCase() ? 370 : 145
+        }`,
         "& ul": { padding: 0 },
       }}
       subheader={<li />}
@@ -33,6 +35,7 @@ const ListData = ({ title, type, data }) => (
                 background: COLORS.menuItemSelected,
               }}
               label={item.full_name}
+              key={item.id}
             />
           );
         })

@@ -10,6 +10,7 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: 730,
     borderRadius: 16,
     border: 0,
+    outline: "none",
     boxShadow: 24,
     width: "auto",
     p: 4,

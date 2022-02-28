@@ -5,15 +5,17 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 import { useStyles } from "./styles";
+import { rawDateToDateFormat } from "../../utils/utils";
 
 Comment.propTypes = {
   comment: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
-export default function Comment({ comment, user, id, date }) {
+export default function Comment({ comment, user, id, date, onClick }) {
   const classes = useStyles();
 
   return (
@@ -23,9 +25,9 @@ export default function Comment({ comment, user, id, date }) {
         <Paper elevation={3} className={classes.comment}>
           {comment}
         </Paper>
-        <p className={classes.date}>{date}</p>
+        <p className={classes.date}>{rawDateToDateFormat(date)}</p>
       </div>
-      <IconButton aria-label="Borrar" size="small">
+      <IconButton onClick={onClick} aria-label="Borrar" size="small">
         <CloseIcon className={classes.delete} />
       </IconButton>
     </div>

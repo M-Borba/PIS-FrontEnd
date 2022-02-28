@@ -176,7 +176,9 @@ export default function ProyectoForm({
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth error={!!errors?.technologies}>
-                <InputLabel id="technologies-input">Tecnología</InputLabel>
+                <InputLabel id="technologies-input">
+                  {PROJECT_LABELS.TECNOLOGIAS}
+                </InputLabel>
                 <Select
                   fullWidth
                   multiple

@@ -59,6 +59,25 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const [isLoading, setIsLoading] = useState();
   const [organization, setOrganization] = useState("");
 
+  const getStateColor = (state) => {
+    let color = "";
+    switch (state) {
+      case PROJECT_STATE_VALUES.VERDE:
+        color = COLORS.stateGreen;
+        break;
+      case PROJECT_STATE_VALUES.ROJO:
+        color = COLORS.stateRed;
+        break;
+      case PROJECT_STATE_VALUES.AMARILLO:
+        color = COLORS.stateYellow;
+        break;
+      case PROJECT_STATE_VALUES.UPCOMING:
+        color = COLORS.stateUpcoming;
+        break;
+    }
+    return color;
+  };
+
   const defaultTimeStart = moment()
     .startOf("day")
     .subtract(6, "month")
@@ -91,6 +110,9 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
             setFilteredData(false);
           }
         }
+        rows.sort((a, b) => {
+          return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+        });
         rows.map((proj) => {
           setFilteredData(true);
           setFetchingError(false);
@@ -103,21 +125,6 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
 
           setGroups(groupsToAdd);
 
-          let color = "";
-          switch (proj.project_state) {
-            case PROJECT_STATE_VALUES.VERDE:
-              color = COLORS.stateGreen;
-              break;
-            case PROJECT_STATE_VALUES.ROJO:
-              color = COLORS.stateRed;
-              break;
-            case PROJECT_STATE_VALUES.AMARILLO:
-              color = COLORS.stateYellow;
-              break;
-            case PROJECT_STATE_VALUES.UPCOMING:
-              color = COLORS.stateUpcoming;
-              break;
-          }
           itemsToAdd.push({
             id: proj.id,
             group: proj.id,
@@ -128,7 +135,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
             itemProps: {
               style: {
                 borderRadius: 5,
-                background: color,
+                background: getStateColor(proj.project_state),
                 border: "none",
                 height: "20px",
               },
@@ -151,6 +158,27 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
         setFetchingError(true);
       });
     setIsLoading(false);
+  };
+
+  const updateProjectState = (projectData) => {
+    setItems(
+      items.map((item) => {
+        if (item.id === projectData.id) {
+          return {
+            ...item,
+            itemProps: {
+              style: {
+                borderRadius: 5,
+                background: getStateColor(projectData.project_state),
+                border: "none",
+                height: "20px",
+              },
+            },
+          };
+        }
+        return item;
+      })
+    );
   };
 
   const handleInfoClose = () => {
@@ -264,6 +292,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
                 <CloseIcon />
               </IconButton>
               <InfoProyecto
+                updateProjectState={updateProjectState}
                 onClose={handleInfoClose}
                 projectData={projectData}
                 type={projectData.project_type

@@ -132,7 +132,7 @@ function AsignarProyectoPersona({
 
   return (
     <Dialog
-      PaperProps={{ style: { borderRadius: 15 } }}
+      PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
       fullWidth
       open={open}
       onClose={handleClose}

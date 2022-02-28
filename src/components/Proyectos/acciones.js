@@ -195,6 +195,8 @@ export default function Acciones({ projectRow }) {
               open={openRemovePerson}
               onClose={handleRemovePersonClose}
               maxWidth="xs"
+              style={{ borderRadius: 16 }}
+              PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
               aria-labelledby="confirmation-dialog-title"
             >
               <RemoverPersona
@@ -248,11 +250,7 @@ export default function Acciones({ projectRow }) {
               <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Dialog
-              PaperProps={{
-                style: {
-                  borderRadius: "15px",
-                },
-              }}
+              PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"
