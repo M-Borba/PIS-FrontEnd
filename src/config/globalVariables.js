@@ -81,6 +81,7 @@ export const PROJECT_LABELS = {
   NO_TECNOLOGIAS: "Aún no hay tecnologías asociadas",
   NO_EXISTEN_PROYECTOS_PARA_MOSTRAR: "NO EXISTEN PROYECTOS PARA MOSTRAR",
   NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
+  NUEVA_NOTA: "Nueva nota",
 };
 
 export const PROJECT_STATE_VALUES = {
@@ -130,6 +131,7 @@ export const PERSON_LABELS = {
   SENIOR: "Senior",
   SEMI_SENIOR: "Semi-Senior",
   JUNIOR: "Junior",
+  NO_HAY_COMENTARIOS: "No hay comentarios",
 };
 
 export const HEADER_LABELS = {
@@ -151,6 +153,7 @@ export const BUTTON_LABELS = {
   AGREGAR_PROYECTO: "Agregar proyecto",
   AGREGAR_PERSONA: "Agregar persona",
   AGREGAR_ADMINISTRADOR: "Agregar administrador",
+  ADD: "Agregar",
 };
 
 export const LOGIN_LABELS = {

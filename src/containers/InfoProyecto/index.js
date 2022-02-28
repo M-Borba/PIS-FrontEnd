@@ -12,9 +12,15 @@ InfoProyecto.propTypes = {
   projectData: propTypes.object.isRequired,
   type: propTypes.string,
   onClose: propTypes.func,
+  updateProjectState: propTypes.func,
 };
 
-export default function InfoProyecto({ projectData, type, onClose }) {
+export default function InfoProyecto({
+  projectData,
+  type,
+  onClose,
+  updateProjectState,
+}) {
   const [project_state, setProjectState] = useState(projectData.project_state);
   const initialState = projectData.project_state;
   const { enqueueSnackbar } = useSnackbar();
@@ -27,6 +33,7 @@ export default function InfoProyecto({ projectData, type, onClose }) {
           project: projectData,
         })
         .then((response) => {
+          updateProjectState(projectData);
           enqueueSnackbar(
             `El proyecto ${projectData.name} se actualizó con éxito.`,
             {
