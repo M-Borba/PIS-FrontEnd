@@ -214,6 +214,7 @@ function InfoAsignacion({
         )}
       </Popover>
       <Dialog
+        PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
         fullWidth
         open={openConfirmacion}
         onClose={handleConfirmacionClose}

@@ -51,10 +51,9 @@ export default function InfoProyecto({
             }
           );
         });
-    } else {
-      e.preventDefault();
-      onClose();
     }
+    e.preventDefault();
+    onClose();
   };
 
   return (

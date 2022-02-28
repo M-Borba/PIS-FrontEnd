@@ -79,6 +79,7 @@ export default function Acciones({ personRow }) {
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"
+              PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
               fullWidth
               aria-labelledby="confirmation-dialog-title"
             >

@@ -19,6 +19,15 @@ export default createTheme({
         },
       },
     },
+    MuiBox: {
+      styleOverrides: {
+        root: {
+          "&:focus-visible": {
+            outline: "none",
+          },
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {

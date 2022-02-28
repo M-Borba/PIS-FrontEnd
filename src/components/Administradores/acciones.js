@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FormControlLabel, IconButton, Dialog } from "@material-ui/core";
+import { Dialog, FormControlLabel, IconButton } from "@material-ui/core";
 import PropTypes from "prop-types";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EliminarAdministrador from "../../containers/EliminarAdministrador";
@@ -29,6 +29,7 @@ export default function Acciones({ adminRow }) {
               <DeleteIcon style={{ color: "rgb(30, 30, 30)" }} />
             </IconButton>
             <Dialog
+              PaperProps={{ style: { borderRadius: 16, outline: "none" } }}
               open={openRemove}
               onClose={handleRemoveClose}
               maxWidth="xs"
