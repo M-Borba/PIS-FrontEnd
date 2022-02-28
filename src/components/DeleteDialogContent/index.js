@@ -8,7 +8,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import { useStyles } from "./styles";
 import CustomButton from "../CustomButton";
-import { BUTTON_LABELS } from "../../config/globalVariables";
+import { BUTTON_LABELS, PERSON_LABELS } from "../../config/globalVariables";
 
 DeleteDialogContent.propTypes = {
   dialogContent: PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ function DeleteDialogContent({
   return (
     <Fragment>
       <DialogTitle id="confirmation-dialog-title" className={Classes.title}>
-        Confirmar eliminación
+        {PERSON_LABELS.CONFIRMAR_ELIMINACION}
         <IconButton
           aria-label="Close"
           className={Classes.closeButton}

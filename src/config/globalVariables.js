@@ -2,7 +2,7 @@ import React from "react";
 
 export const BACKEND_HOST =
   process.env.REACT_APP_BACKEND_HOST ||
-  "https://operations-development.herokuapp.com/";
+  "https://operations-development.herokuapp.com";
 export const NOT_LOGGED = "Aún no inició sesión";
 export const roles = [
   "Desarrollador",
@@ -106,6 +106,10 @@ export const FILTER_FORM_LABELS = {
 };
 
 export const PERSON_LABELS = {
+  PERSONAS: "Personas",
+  PERSONAS_ASIGNADAS: "Personas asignadas",
+  AUN_NO_HAY_PERSONAS_ASIGNADAS: "Aún no hay personas asignadas",
+  CONFIRMAR_ELIMINACION: "Confirmar eliminación",
   MODIFICA_PERSONA: "Modificación de Persona",
   TIPO_CARGA_HORARIA: "Tipo de carga horaria",
   HORAS: "Horas",
@@ -159,6 +163,15 @@ export const LOGIN_LABELS = {
   CAMBIO_BUTTON: "Establecer nueva contraseña e iniciar sesión",
 };
 
+export const ADMIN_LABELS = {
+  CREAR_ADMIN: "Creación de administrador",
+  EMAIL: PERSON_LABELS.EMAIL,
+  NOMBRE: PERSON_LABELS.NOMBRE,
+  APELLIDO: PERSON_LABELS.APELLIDO,
+  CONTRASENA: LOGIN_LABELS.CONTRASENA,
+  CONFIRMAR_CONTRASENA: LOGIN_LABELS.CONFIRMAR_CONTRASENA,
+};
+
 export const COLORS = {
   white: "#fff",
   black: "#000",
@@ -180,4 +193,6 @@ export const COLORS = {
   backgroundBlack: "#1C1C1C",
   backgroundWhite: "#FAFAFA",
   filterFormBackground: "#E2E0F2",
+  scrollThumb: "#C7C7C7",
+  scrollThumbHover: "#999999",
 };

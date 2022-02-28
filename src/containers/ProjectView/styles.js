@@ -26,6 +26,7 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: "800px",
     background: "white",
     boxShadow: 24,
+    borderRadius: 16,
     overflowX: "hidden",
     outline: "0px !important",
   },

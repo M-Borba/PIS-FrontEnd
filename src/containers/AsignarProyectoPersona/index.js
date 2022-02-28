@@ -98,24 +98,25 @@ function AsignarProyectoPersona({
   const onInputChange = (e, type) => {
     if (e._isAMomentObject) {
       if (!e._isValid) return;
-      type === "start_date" &&
-        setRequestBody({
-          ...requestBody,
-          start_date: e.format("YYYY-MM-DD"),
-        });
-      type === "end_date" &&
-        setRequestBody({
-          ...requestBody,
-          end_date: e.format("YYYY-MM-DD"),
-        });
+      setRequestBody({
+        ...requestBody,
+        [type]: e,
+      });
       return;
     }
     e.target.id === "fechaInicio" &&
       setRequestBody({ ...requestBody, start_date: e.target.value });
     e.target.id === "fechaFin" &&
       setRequestBody({ ...requestBody, end_date: e.target.value });
-    e.target.name === "project" &&
-      setRequestBody({ ...requestBody, project_id: e.target.value });
+    if (e.target.name === "project") {
+      const proy = proyectos.find((proyecto) => proyecto.id === e.target.value);
+      setRequestBody({
+        ...requestBody,
+        project_id: e.target.value,
+        start_date: proy.start_date,
+        end_date: proy.end_date,
+      });
+    }
     e.target.name === "role" &&
       setRequestBody({ ...requestBody, role: e.target.value });
     e.target.name === "working_hours_type" &&

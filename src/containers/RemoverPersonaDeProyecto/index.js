@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSnackbar } from "notistack";
+
 import DeleteDialogContent from "../../components/DeleteDialogContent";
 import { axiosInstance } from "../../config/axios";
-import { useSnackbar } from "notistack";
 import { BUTTON_LABELS } from "../../config/globalVariables";
 
 RemoverPersona.propTypes = {
   personName: PropTypes.string.isRequired,
   personId: PropTypes.number.isRequired,
   assignId: PropTypes.number,
-  asignRole: PropTypes.string,
-  asignClose: PropTypes.func.isRequired,
+  assignRole: PropTypes.string,
+  assignClose: PropTypes.func.isRequired,
   projectData: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
   asignaciones: PropTypes.array.isRequired,
@@ -19,7 +20,7 @@ RemoverPersona.propTypes = {
 };
 
 function findPersonInPersonProjects(id, array) {
-  var foundPerson = undefined;
+  let foundPerson = undefined;
   array.forEach((person) => {
     if (person.person.id === id) {
       foundPerson = person.person;
@@ -29,7 +30,7 @@ function findPersonInPersonProjects(id, array) {
 }
 
 function findDateInProject(id, array) {
-  var foundDate = undefined;
+  let foundDate = undefined;
   array.forEach((project) => {
     if (project.id === id) {
       foundDate = project.dates;
@@ -97,8 +98,8 @@ function RemoverPersona({
   personName,
   personId,
   assignId,
-  asignRole,
-  asignClose,
+  assignRole,
+  assignClose,
   projectData,
   handleClose,
   asignaciones,
@@ -107,13 +108,13 @@ function RemoverPersona({
 }) {
   const { enqueueSnackbar } = useSnackbar();
   let dialogContent;
-  if (assignId)
+  if (!assignId)
     dialogContent = `¿Está seguro que desea eliminar a ${personName} de ${projectData.name} completamente?`;
   else
-    dialogContent = `¿Está seguro que desea eliminar el rol ${asignRole} de ${personName} en ${projectData.name}?`;
+    dialogContent = `¿Está seguro que desea eliminar el rol ${assignRole} de ${personName} en ${projectData.name}?`;
 
   const onConfirmation = () => {
-    if (assignId) {
+    if (!assignId) {
       //si se quiere borrar a todas las asignaciones de una persona del proyecto
       axiosInstance
         .get(`/person_project`)
@@ -127,7 +128,7 @@ function RemoverPersona({
             editRow,
             enqueueSnackbar
           );
-          asignClose();
+          assignClose();
           handleClose();
         })
         .catch((error) => {
@@ -154,7 +155,7 @@ function RemoverPersona({
             }
           });
           // Si no le quedan mas roles en el proyecto, quito a la persona del modal de informacion del proyecto y del modal de desasignacion.
-          if (nuevasAsignaciones[personIndex].roles === 0) {
+          if (nuevasAsignaciones[personIndex].roles.length === 0) {
             nuevasAsignaciones = nuevasAsignaciones.filter(
               (persona) => persona.id !== personId
             );
@@ -169,7 +170,7 @@ function RemoverPersona({
             variant: "success",
             autoHideDuration: 4000,
           });
-          asignClose();
+          assignClose();
           handleClose();
         })
         .catch((error) => {

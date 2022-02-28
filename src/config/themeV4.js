@@ -23,7 +23,7 @@ export default createTheme({
     MuiTypography: {
       body2: {
         fontSize: "14px !important",
-        fontWeight: "700 !important",
+        fontWeight: "700",
       },
     },
     MuiButton: {
