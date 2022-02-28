@@ -10,6 +10,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Dialog from "@material-ui/core/Dialog";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 
 import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
@@ -20,6 +23,7 @@ import ListadoPersonasAsignadas from "../PersonasAsignadas";
 import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import { dateFormatToMoment } from "../../utils/utils";
+import { PERSON_LABELS } from "../../config/globalVariables";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
@@ -33,7 +37,12 @@ export default function Acciones({ projectRow }) {
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
-  const [personToRemove, setPersonToRemove] = React.useState([-1, "", -1, ""]);
+  const [personToRemove, setPersonToRemove] = React.useState({
+    personId: -1,
+    personName: "",
+    assignationId: -1,
+    assignationRole: "",
+  });
   const [asignaciones, setAsignaciones] = useState([]);
   const projectData = {
     id: projectRow.id,
@@ -58,8 +67,13 @@ export default function Acciones({ projectRow }) {
   const handleAssignedOpen = () => setOpenAssigned(true);
   const handleAssignedClose = () => setOpenAssigned(false);
 
-  const handleRemovePersonOpen = (pId, pName, aId, aRole) => {
-    setPersonToRemove([pId, pName, aId, aRole]);
+  const handleRemovePersonOpen = (
+    personId,
+    personName,
+    assignationId,
+    assignationRole
+  ) => {
+    setPersonToRemove({ personId, personName, assignationId, assignationRole });
     setOpenRemovePerson(true);
   };
   const handleRemovePersonClose = () => setOpenRemovePerson(false);
@@ -184,11 +198,11 @@ export default function Acciones({ projectRow }) {
               aria-labelledby="confirmation-dialog-title"
             >
               <RemoverPersona
-                personName={personToRemove[1]}
-                personId={personToRemove[0]}
-                asignId={personToRemove[2]}
-                asignRole={personToRemove[3]}
-                asignClose={handleAssignedClose}
+                personName={personToRemove.personName}
+                personId={personToRemove.personId}
+                assignId={personToRemove.assignationId}
+                assignRole={personToRemove.assignationRole}
+                assignClose={handleAssignedClose}
                 projectData={projectData}
                 handleClose={handleRemovePersonClose}
                 asignaciones={asignaciones}
@@ -201,7 +215,7 @@ export default function Acciones({ projectRow }) {
               onClose={handleAssignedClose}
               aria-labelledby="confirmation-dialog-title"
             >
-              <Box className={classes.modal}>
+              <Card classes={{ root: classes.modal }}>
                 <IconButton
                   aria-label="Close"
                   onClick={handleAssignedClose}
@@ -209,11 +223,20 @@ export default function Acciones({ projectRow }) {
                 >
                   <CloseIcon />
                 </IconButton>
+                <CardHeader
+                  className={classes.cardHeader}
+                  title={
+                    <Typography variant="h5">
+                      {PERSON_LABELS.PERSONAS_ASIGNADAS}
+                    </Typography>
+                  }
+                />
+
                 <ListadoPersonasAsignadas
                   people={asignaciones}
                   removePerson={handleRemovePersonOpen}
                 />
-              </Box>
+              </Card>
             </Modal>
           </>
         }

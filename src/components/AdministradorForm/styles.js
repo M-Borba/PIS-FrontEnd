@@ -1,26 +1,21 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-import { COLORS } from "../../config/globalVariables";
-
 export const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(8, 4),
+    marginBottom: 20,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    borderRadius: 16,
+    border: 0,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    color: COLORS.white,
-    background: COLORS.backgroundBlack,
     margin: theme.spacing(3, 0, 2),
-    "&:hover": {
-      backgroundColor: COLORS.backgroundDarkGrey,
-      color: COLORS.white,
-    },
   },
   errorMsg: { color: "red" },
 }));

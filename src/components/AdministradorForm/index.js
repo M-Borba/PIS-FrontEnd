@@ -1,8 +1,11 @@
 import React from "react";
 import propTypes from "prop-types";
-import { Button, TextField, Typography } from "@mui/material";
-import { useStyles } from "./styles";
+import { TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+
+import { ADMIN_LABELS, BUTTON_LABELS } from "../../config/globalVariables";
+import { useStyles } from "./styles";
+import CustomButton from "../CustomButton";
 
 AdministratorForm.propTypes = {
   onSubmit: propTypes.func,
@@ -41,7 +44,7 @@ export default function AdministratorForm({
               id="email"
               required
               type="email"
-              label="Email"
+              label={ADMIN_LABELS.EMAIL}
               name="email"
               value={administrator.email}
               onChange={onInputChange}
@@ -57,7 +60,7 @@ export default function AdministratorForm({
               fullWidth
               id="first_name"
               type="text"
-              label="Nombre"
+              label={ADMIN_LABELS.EMAIL}
               name="first_name"
               value={administrator.first_name}
               onChange={onInputChange}
@@ -70,7 +73,7 @@ export default function AdministratorForm({
               fullWidth
               id="last_name"
               type="text"
-              label="Apellido"
+              label={ADMIN_LABELS.APELLIDO}
               name="last_name"
               value={administrator.last_name}
               onChange={onInputChange}
@@ -83,7 +86,7 @@ export default function AdministratorForm({
               fullWidth
               id="password"
               type="password"
-              label="Contraseña"
+              label={ADMIN_LABELS.CONTRASENA}
               required
               name="password"
               value={administrator.password}
@@ -100,7 +103,7 @@ export default function AdministratorForm({
               id="password_confirmation"
               type="password"
               required
-              label="Confirmación de contraseña"
+              label={ADMIN_LABELS.CONFIRMAR_CONTRASENA}
               name="password_confirmation"
               value={administrator.password_confirmation}
               error={!!errors?.password_confirmation}
@@ -110,15 +113,15 @@ export default function AdministratorForm({
           </Grid>
         </Grid>
         <div style={{ paddingTop: 10 }} />
-        <Button
+        <CustomButton
           role="submit"
           type="submit"
           fullWidth
           variant="contained"
           className={classes.submit}
         >
-          Guardar
-        </Button>
+          {BUTTON_LABELS.SAVE}
+        </CustomButton>
       </form>
     </div>
   );

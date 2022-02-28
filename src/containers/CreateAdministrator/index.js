@@ -3,10 +3,12 @@
  */
 
 import React, { useState } from "react";
-import { axiosInstance } from "../../config/axios";
-import AdministratorForm from "../../components/AdministradorForm";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
+
+import { ADMIN_LABELS } from "../../config/globalVariables";
+import { axiosInstance } from "../../config/axios";
+import AdministratorForm from "../../components/AdministradorForm";
 
 CreateAdministrator.propTypes = {
   addRow: propTypes.func.isRequired,
@@ -63,7 +65,7 @@ export default function CreateAdministrator({ addRow, onClose }) {
   return (
     <div>
       <AdministratorForm
-        title={"Creación de administrador"}
+        title={ADMIN_LABELS.CREAR_ADMIN}
         onSubmit={handleSubmit}
         onInputChange={handleInputChange}
         administrator={administrator}
