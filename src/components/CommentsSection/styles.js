@@ -8,8 +8,10 @@ export const useStyles = makeStyles((theme) => ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    borderRadius: 16,
     width: "40%",
     background: "white",
+    padding: 10,
     overflowX: "hidden",
   },
   closeButton: {
