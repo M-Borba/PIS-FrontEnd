@@ -35,7 +35,6 @@ export default function CardSelector({ title, list, onInputChange }) {
       <CardHeader className={classes.cardHeader} title={title} />
       <List className={classes.list} dense component="div">
         {list.map(([value, checkedValue], index) => {
-          console.log(value, checkedValue);
           return (
             <ListItem
               key={isPeople ? value.id : value + index}
