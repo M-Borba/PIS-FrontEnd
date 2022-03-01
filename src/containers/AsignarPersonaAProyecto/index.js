@@ -202,7 +202,7 @@ export default function AgregarPersona({
         error={error}
         title={"Asignando Persona a " + projectData.name}
         startDate={projectData.start_date}
-        endDate={projectData.end_date ? projectData.end_date : "Indefinido"}
+        endDate={projectData.end_date}
       />
     </div>
   );

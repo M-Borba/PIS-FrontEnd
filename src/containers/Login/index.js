@@ -6,13 +6,14 @@
  *
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+
 import { axiosInstance } from "../../config/axios";
 import Login from "../../components/Login";
 import ChangePassword from "../../components/LoginChangePassword";
 import effectus_wallpaper from "../../resources/effectus_wallpaper.png";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import { useHistory } from "react-router-dom";
 import { NOT_LOGGED } from "../../config/globalVariables";
 import { useStyles } from "./styles";
@@ -28,9 +29,8 @@ export default function LoginView() {
 
   useEffect(() => {
     if (
-      localStorage.getItem("uid") != null &&
-      localStorage.getItem("uid") != undefined &&
-      localStorage.getItem("uid") != NOT_LOGGED &&
+      localStorage.getItem("uid") &&
+      localStorage.getItem("uid") !== NOT_LOGGED &&
       !needsPasswordReset
     ) {
       window.location = "/inicio";
@@ -56,7 +56,7 @@ export default function LoginView() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     signInAndSetHeaders().catch((error) => {
-      if (error.response?.data?.needs_password_reset == true) {
+      if (error.response?.data?.needs_password_reset) {
         const headers = error.response.headers;
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("uid", headers.uid);
@@ -97,14 +97,18 @@ export default function LoginView() {
   };
   const checkInput = (e) => {
     setLoginError("");
-    if (e.target.name == "email") setEmail(e.target.value);
-    if (e.target.name == "password") setPassword(e.target.value);
-    if (e.target.name == "passwordConfirmation")
+    if (e.target.name === "email") setEmail(e.target.value);
+    if (e.target.name === "password") setPassword(e.target.value);
+    if (e.target.name === "passwordConfirmation")
       setPasswordConfirmation(e.target.value);
   };
   return (
     <Box className={classes.container}>
-      <Paper variant="elevation" elevation={3} className={classes.paper}>
+      <Paper
+        variant="elevation"
+        elevation={3}
+        classes={{ root: classes.paper }}
+      >
         <Box display="flex" flexDirection="column" alignItems="center">
           <img
             className={classes.imgcontainer}
