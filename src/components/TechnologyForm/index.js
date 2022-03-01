@@ -151,7 +151,7 @@ const Chip = ({ onDelete, tech }) => {
 
   return (
     <MuiChip
-      style={{ backgroundColor: color }}
+      style={{ fontFamily: "Nunito Sans", backgroundColor: color }}
       label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
       variant="outlined"
       onDelete={() => onDelete(tech)}
