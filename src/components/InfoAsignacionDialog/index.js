@@ -251,9 +251,7 @@ function InfoAsignacionDialog({
                   <DatePicker
                     name="start_date"
                     id="start_date"
-                    value={
-                      asignacionInfo.end_date ? asignacionInfo.end_date : null
-                    }
+                    value={asignacionInfo.end_date || null}
                     minDate={moment(project.start_date)}
                     maxDate={project.end_date ? moment(project.end_date) : null}
                     className={classes.fWidth}

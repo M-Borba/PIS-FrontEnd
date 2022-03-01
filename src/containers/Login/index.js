@@ -29,8 +29,7 @@ export default function LoginView() {
 
   useEffect(() => {
     if (
-      localStorage.getItem("uid") !== null &&
-      localStorage.getItem("uid") !== undefined &&
+      localStorage.getItem("uid") &&
       localStorage.getItem("uid") !== NOT_LOGGED &&
       !needsPasswordReset
     ) {
@@ -57,7 +56,7 @@ export default function LoginView() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     signInAndSetHeaders().catch((error) => {
-      if (error.response?.data?.needs_password_reset === true) {
+      if (error.response?.data?.needs_password_reset) {
         const headers = error.response.headers;
         localStorage.setItem("token", headers["access-token"]);
         localStorage.setItem("uid", headers.uid);

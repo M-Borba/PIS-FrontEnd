@@ -45,11 +45,7 @@ export default function FilterForm({
     return project_type || project_state || organization;
   };
 
-  const keyDownHandler = (e) => {
-    if (e.key === "Enter") {
-      onSearch();
-    }
-  };
+  const keyDownHandler = (e) => e.key === "Enter" && onSearch();
 
   return (
     <div

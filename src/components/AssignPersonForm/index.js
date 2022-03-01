@@ -94,7 +94,7 @@ export default function AssignPersonForm({
                     fullWidth
                     name="startDate"
                     value={assign.startDate}
-                    maxDate={projectEndDate ? projectEndDate : null}
+                    maxDate={projectEndDate || null}
                     minDate={projectStartDate}
                     onChange={(e) => {
                       onInputChange(e, "start_date");
@@ -126,8 +126,8 @@ export default function AssignPersonForm({
                   <DatePicker
                     fullWidth
                     name="endDate"
-                    value={assign.endDate ? assign.endDate : null}
-                    maxDate={projectEndDate ? projectEndDate : null}
+                    value={assign.endDate || null}
+                    maxDate={projectEndDate || null}
                     minDate={projectStartDate}
                     onChange={(e) => {
                       onInputChange(e, "end_date");
