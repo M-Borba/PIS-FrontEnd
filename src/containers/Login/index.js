@@ -109,7 +109,6 @@ export default function LoginView() {
         variant="elevation"
         elevation={3}
         classes={{ root: classes.paper }}
-        // className={classes.paper}
       >
         <Box display="flex" flexDirection="column" alignItems="center">
           <img
