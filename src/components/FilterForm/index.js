@@ -45,6 +45,12 @@ export default function FilterForm({
     return project_type || project_state || organization;
   };
 
+  const keyDownHandler = (e) => {
+    if (e.key === "Enter") {
+      onSearch();
+    }
+  };
+
   return (
     <div
       className={classes.container}
@@ -52,7 +58,12 @@ export default function FilterForm({
         canResetFilters() ? { background: COLORS.filterFormBackground } : null
       }
     >
-      <form id="filter-form" className={classes.form} noValidate>
+      <form
+        id="filter-form"
+        className={classes.form}
+        onKeyDown={keyDownHandler}
+        noValidate
+      >
         <InputLabel>{FILTER_FORM_LABELS.FILTRAR_POR}:</InputLabel>
         <TextField
           InputProps={{
@@ -103,7 +114,7 @@ export default function FilterForm({
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <SearchIcon />
+                <SearchIcon style={{ cursor: "pointer" }} onClick={onSearch} />
               </InputAdornment>
             ),
           }}
