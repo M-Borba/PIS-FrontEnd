@@ -4,18 +4,13 @@ import Divider from "@mui/material/Divider";
 import { Box, Typography } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import moment from "moment";
 import propTypes from "prop-types";
 
-import { renderColorMenuItems } from "../../utils/utils";
+import { rawDateToDateFormat, renderColorMenuItems } from "../../utils/utils";
 import ListData from "./List";
 import CustomButton from "../../components/CustomButton";
 import TypographyStyled from "./TypographyStyled";
-import {
-  BUTTON_LABELS,
-  DATE_FORMAT,
-  PROJECT_LABELS,
-} from "../../config/globalVariables";
+import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 
 const InfoProyectoForm = ({
   handleApplyChanges,
@@ -69,20 +64,20 @@ const InfoProyectoForm = ({
           <Box mt={2}>
             <TypographyStyled>{PROJECT_LABELS.FECHA_INICIO}: </TypographyStyled>
             <Typography display="inline" variant="body1">
-              {moment(projectData.start_date).format(DATE_FORMAT)}
+              {rawDateToDateFormat(projectData.start_date)}
             </Typography>
           </Box>
           <Box mt={2}>
             <TypographyStyled>{PROJECT_LABELS.FECHA_FIN}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {projectData.end_date
-                ? moment(projectData.end_date).format(DATE_FORMAT)
-                : PROJECT_LABELS.INDEFINIDA}
+                ? rawDateToDateFormat(projectData.end_date)
+                : PROJECT_LABELS.FECHA_INDEFINIDA}
             </Typography>
           </Box>
 
           <Box mt={2}>
-            <TypographyStyled>Descripción: </TypographyStyled>
+            <TypographyStyled>{PROJECT_LABELS.DESCRIPCION}: </TypographyStyled>
             <Typography display="inline" variant="body1">
               {projectData.description}
             </Typography>

@@ -290,7 +290,6 @@ export default function ProyectoForm({
                     name="end_date"
                     fullWidth
                     InputLabelProps={{ shrink: true }}
-                    required
                     label={PROJECT_LABELS.FECHA_FIN}
                     error={!!errors?.end_date}
                     helperText={errors?.end_date?.[0]}

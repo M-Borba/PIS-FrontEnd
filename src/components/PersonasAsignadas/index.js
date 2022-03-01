@@ -10,7 +10,11 @@ import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
 
 import { useStyles } from "./styles";
-import { PERSON_LABELS, rolesFormateados } from "../../config/globalVariables";
+import {
+  PERSON_LABELS,
+  PROJECT_LABELS,
+  rolesFormateados,
+} from "../../config/globalVariables";
 import { rawDateToDateFormat } from "../../utils/utils";
 
 ListadoPersonasAsignadas.propTypes = {
@@ -19,14 +23,13 @@ ListadoPersonasAsignadas.propTypes = {
 };
 
 function assignationText(assignation) {
-  return (
-    rolesFormateados[assignation.role] +
+  return rolesFormateados[assignation.role] +
     " (" +
     rawDateToDateFormat(assignation.start_date) +
     " - " +
-    rawDateToDateFormat(assignation.end_date) +
-    ")"
-  );
+    assignation.end_date
+    ? rawDateToDateFormat(assignation.end_date)
+    : PROJECT_LABELS.FECHA_INDEFINIDA + ")";
 }
 
 export default function ListadoPersonasAsignadas({ people, removePerson }) {

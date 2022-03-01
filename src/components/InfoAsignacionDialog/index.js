@@ -25,7 +25,7 @@ import {
   rolesTraducidos,
 } from "../../config/globalVariables";
 import { useStyles } from "./styles";
-import { renderColor } from "../../utils/utils.js";
+import { rawDateToDateFormat, renderColor } from "../../utils/utils.js";
 import ListData from "../../containers/InfoProyecto/List";
 import CustomButton from "../CustomButton";
 
@@ -69,11 +69,13 @@ function InfoAsignacionDialog({
     },
     {
       label: PROJECT_LABELS.FECHA_INICIO,
-      value: moment(project.start_date).format(DATE_FORMAT),
+      value: rawDateToDateFormat(project.start_date),
     },
     {
       label: PROJECT_LABELS.FECHA_FIN,
-      value: moment(project.end_date).format(DATE_FORMAT),
+      value: project.end_date
+        ? rawDateToDateFormat(project.end_date)
+        : PROJECT_LABELS.FECHA_INDEFINIDA,
     },
   ];
 
@@ -224,7 +226,7 @@ function InfoAsignacionDialog({
                     disableMaskedInput
                     inputFormat={DATE_FORMAT}
                     minDate={moment(project.start_date)}
-                    maxDate={moment(project.end_date)}
+                    maxDate={project.end_date ? moment(project.end_date) : null}
                     value={asignacionInfo.start_date}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "start_date")}
@@ -249,9 +251,11 @@ function InfoAsignacionDialog({
                   <DatePicker
                     name="start_date"
                     id="start_date"
-                    value={asignacionInfo.end_date}
+                    value={
+                      asignacionInfo.end_date ? asignacionInfo.end_date : null
+                    }
                     minDate={moment(project.start_date)}
-                    maxDate={moment(project.end_date)}
+                    maxDate={project.end_date ? moment(project.end_date) : null}
                     className={classes.fWidth}
                     onChange={(e) => onChange(e, "end_date")}
                     PaperProps={{
@@ -266,7 +270,6 @@ function InfoAsignacionDialog({
                       className: classes.fWidth,
                       InputLabelProps: { shrink: true },
                       name: "end_date",
-                      required: true,
                       id: "end_date",
                       label: PROJECT_LABELS.FECHA_FIN,
                       type: "date",

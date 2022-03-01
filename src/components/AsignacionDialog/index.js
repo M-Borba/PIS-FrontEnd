@@ -153,7 +153,7 @@ function AsignacionDialog({
                 id="fechaInicio"
                 value={startDate}
                 minDate={moment(startDate)}
-                maxDate={moment(endDate)}
+                maxDate={endDate ? moment(endDate) : null}
                 onChange={(newDate) => {
                   setStartDate(newDate);
                   onInputChange(newDate, "start_date");
@@ -183,7 +183,7 @@ function AsignacionDialog({
                 id="fechaFin"
                 value={endDate}
                 minDate={moment(startDate)}
-                maxDate={moment(endDate)}
+                maxDate={endDate ? moment(endDate) : null}
                 onChange={(newDate) => {
                   setEndDate(newDate);
                   onInputChange(newDate, "end_date");
@@ -202,7 +202,6 @@ function AsignacionDialog({
                 TextFieldProps={{
                   InputLabelProps: { shrink: true },
                   name: "end_date",
-                  required: true,
                   id: "end_date",
                   label: PROJECT_LABELS.FECHA_FIN,
                 }}

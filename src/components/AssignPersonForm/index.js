@@ -62,7 +62,10 @@ export default function AssignPersonForm({
               {title}
             </Typography>
             <Typography component="p">
-              {rawDateToDateFormat(startDate)} - {rawDateToDateFormat(endDate)}
+              {rawDateToDateFormat(startDate)} -{" "}
+              {endDate
+                ? rawDateToDateFormat(endDate)
+                : PROJECT_LABELS.FECHA_INDEFINIDA}
             </Typography>
             <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
               <Grid container spacing={2}>
@@ -91,7 +94,7 @@ export default function AssignPersonForm({
                     fullWidth
                     name="startDate"
                     value={assign.startDate}
-                    maxDate={projectEndDate}
+                    maxDate={projectEndDate ? projectEndDate : null}
                     minDate={projectStartDate}
                     onChange={(e) => {
                       onInputChange(e, "start_date");
@@ -123,8 +126,8 @@ export default function AssignPersonForm({
                   <DatePicker
                     fullWidth
                     name="endDate"
-                    value={assign.endDate}
-                    maxDate={projectEndDate}
+                    value={assign.endDate ? assign.endDate : null}
+                    maxDate={projectEndDate ? projectEndDate : null}
                     minDate={projectStartDate}
                     onChange={(e) => {
                       onInputChange(e, "end_date");
@@ -146,7 +149,6 @@ export default function AssignPersonForm({
                         name="endDate"
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        required
                         label={PROJECT_LABELS.FECHA_FIN}
                       />
                     )}
