@@ -11,4 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     width: theme.typography.pxToRem(200),
     marginTop: theme.typography.pxToRem(40),
   },
+  paper: {
+    borderRadius: "16px !important",
+  },
 }));
