@@ -24,6 +24,7 @@ import RemoverPersona from "../../containers/RemoverPersonaDeProyecto";
 import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import { dateFormatToMoment } from "../../utils/utils";
 import { PERSON_LABELS } from "../../config/globalVariables";
+import AssignExtendDialog from "../AssignExtendDialog";
 
 Acciones.propTypes = {
   projectRow: propTypes.any,
@@ -34,9 +35,11 @@ export default function Acciones({ projectRow }) {
   const [removeRow, editRow] = React.useContext(UpdateGridContext);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openAssigned, setOpenAssigned] = React.useState(false);
+  const [openAssignExtend, setOpenAssignExtend] = React.useState(false);
   const [openRemovePerson, setOpenRemovePerson] = React.useState(false);
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
+  const [extendedEndDate, setExtendedEndDate] = React.useState(null);
   const [personToRemove, setPersonToRemove] = React.useState({
     personId: -1,
     personName: "",
@@ -66,6 +69,12 @@ export default function Acciones({ projectRow }) {
 
   const handleAssignedOpen = () => setOpenAssigned(true);
   const handleAssignedClose = () => setOpenAssigned(false);
+
+  const handleAssignExtendOpen = (extendedEndDate) => {
+    setExtendedEndDate(extendedEndDate);
+    setOpenAssignExtend(true);
+  };
+  const handleAssignExtendClose = () => setOpenAssignExtend(false);
 
   const handleRemovePersonOpen = (
     personId,
@@ -148,9 +157,20 @@ export default function Acciones({ projectRow }) {
                   id={projectData.id}
                   editRow={editRow.current}
                   onClose={handleEditClose}
+                  handleAssignExtendOpen={handleAssignExtendOpen}
                 />
               </Box>
             </Modal>
+            <Dialog open={openAssignExtend} onClose={handleAssignExtendClose}>
+              {asignaciones && (
+                <AssignExtendDialog
+                  project={projectData}
+                  assignations={asignaciones}
+                  endDate={extendedEndDate}
+                  handleClose={handleAssignExtendClose}
+                />
+              )}
+            </Dialog>
           </>
         }
       />

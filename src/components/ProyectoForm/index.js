@@ -243,7 +243,6 @@ export default function ProyectoForm({
                 required
                 value={project.start_date}
                 onChange={(e) => handleDatesChange("start_date", e)}
-                disableMaskedInput
                 inputFormat={DATE_FORMAT}
                 PaperProps={{
                   style: {
@@ -274,7 +273,6 @@ export default function ProyectoForm({
                 id="fechaFin"
                 value={project.end_date}
                 onChange={(e) => handleDatesChange("end_date", e)}
-                disableMaskedInput
                 inputFormat={DATE_FORMAT}
                 PaperProps={{
                   style: {

@@ -83,6 +83,7 @@ export const PROJECT_LABELS = {
   NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
   NUEVA_NOTA: "Nueva nota",
   FECHA_INDEFINIDA: "Fecha indefinida",
+  EXTENSION_ASIGNACION: "Extensión de asignación",
 };
 
 export const PROJECT_STATE_VALUES = {
