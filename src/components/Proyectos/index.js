@@ -99,8 +99,8 @@ export default function Proyecto({ rows, setRows }) {
   const [openNew, setOpenNew] = React.useState(false);
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "id",
-      sort: "desc",
+      field: "name",
+      sort: "asc",
     },
   ]);
 

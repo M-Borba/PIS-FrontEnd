@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
 
 import { axiosInstance } from "../../config/axios";
 import ProyectoForm from "../../components/ProyectoForm";
-import propTypes from "prop-types";
-import { useSnackbar } from "notistack";
 import { PROJECT_LABELS } from "../../config/globalVariables";
 
 EditarProjecto.propTypes = {
@@ -13,8 +13,8 @@ EditarProjecto.propTypes = {
     project_state: propTypes.string,
     description: propTypes.string,
     budget: propTypes.number,
-    start_date: propTypes.Moment,
-    end_date: propTypes.Moment,
+    start_date: propTypes.object,
+    end_date: propTypes.object,
     people: propTypes.array,
     organization: propTypes.string,
     technologies: propTypes.array,
@@ -22,13 +22,20 @@ EditarProjecto.propTypes = {
   id: propTypes.number,
   onClose: propTypes.func.isRequired,
   editRow: propTypes.func.isRequired,
+  handleAssignExtendOpen: propTypes.func.isRequired,
 };
 
-export default function EditarProjecto({ projectData, id, onClose, editRow }) {
+export default function EditarProjecto({
+  projectData,
+  id,
+  onClose,
+  editRow,
+  handleAssignExtendOpen,
+}) {
   const { enqueueSnackbar } = useSnackbar();
   const [errors, setErrors] = useState({});
   const [project, setProject] = useState(projectData);
-
+  const [initialEndDate, setInitialEndDate] = useState(projectData.end_date);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -43,6 +50,9 @@ export default function EditarProjecto({ projectData, id, onClose, editRow }) {
           { variant: "success", autoHideDuration: 4000 }
         );
         onClose();
+        initialEndDate < project.end_date &&
+          project.people.length > 0 &&
+          handleAssignExtendOpen(project.end_date);
       })
       .catch((error) => {
         console.error(error.response);

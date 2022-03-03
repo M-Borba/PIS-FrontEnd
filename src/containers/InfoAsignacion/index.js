@@ -86,7 +86,6 @@ function InfoAsignacion({
   const handleAplicarCambios = (e) => {
     // API call
     e.preventDefault();
-
     axiosInstance
       .put(`/person_project/${asignacionId}`, {
         person_project: asignacionInfo,

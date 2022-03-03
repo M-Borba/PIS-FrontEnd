@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
+import moment from "moment";
+import propTypes from "prop-types";
 import { Box, Typography } from "@material-ui/core";
 import { TextField } from "@mui/material";
-import propTypes from "prop-types";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -11,7 +12,6 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import MenuItem from "@mui/material/MenuItem";
 import FolderIcon from "@mui/icons-material/Folder";
-import moment from "moment";
 import { DatePicker } from "@mui/lab";
 
 import {
@@ -78,7 +78,6 @@ function InfoAsignacionDialog({
         : PROJECT_LABELS.FECHA_INDEFINIDA,
     },
   ];
-
   const cargasHorariasItems = cargasHorarias_t.map((cargaHoraria, id) => (
     <MenuItem key={id} value={cargaHoraria}>
       {cargasHorarias_tFormateadas[cargaHoraria]}
@@ -220,60 +219,69 @@ function InfoAsignacionDialog({
                   </TextField>
                 </Stack>
                 <Stack spacing={1} direction="row">
-                  <DatePicker
-                    name="start_date"
-                    id="start_date"
-                    disableMaskedInput
-                    inputFormat={DATE_FORMAT}
-                    minDate={moment(project.start_date)}
-                    maxDate={project.end_date ? moment(project.end_date) : null}
-                    value={asignacionInfo.start_date}
-                    className={classes.fWidth}
-                    onChange={(e) => onChange(e, "start_date")}
-                    PaperProps={{
-                      style: {
-                        borderRadius: "15px",
-                      },
-                    }}
-                    inputProps={{
-                      disabled: true,
-                    }}
-                    TextFieldProps={{
-                      className: classes.fWidth,
-                      InputLabelProps: { shrink: true },
-                      name: "start_date",
-                      required: true,
-                      id: "start_date",
-                      label: PROJECT_LABELS.FECHA_INICIO,
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                  <DatePicker
-                    name="start_date"
-                    id="start_date"
-                    value={asignacionInfo.end_date || null}
-                    minDate={moment(project.start_date)}
-                    maxDate={project.end_date ? moment(project.end_date) : null}
-                    className={classes.fWidth}
-                    onChange={(e) => onChange(e, "end_date")}
-                    PaperProps={{
-                      style: {
-                        borderRadius: "15px",
-                      },
-                    }}
-                    inputProps={{
-                      disabled: true,
-                    }}
-                    TextFieldProps={{
-                      className: classes.fWidth,
-                      InputLabelProps: { shrink: true },
-                      name: "end_date",
-                      id: "end_date",
-                      label: PROJECT_LABELS.FECHA_FIN,
-                      type: "date",
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
+                  {project && (
+                    <>
+                      <DatePicker
+                        name="start_date"
+                        id="start_date"
+                        disableMaskedInput
+                        inputFormat={DATE_FORMAT}
+                        minDate={moment(project.start_date)}
+                        maxDate={
+                          project.end_date ? moment(project.end_date) : null
+                        }
+                        value={asignacionInfo.start_date}
+                        className={classes.fWidth}
+                        onChange={(newDate) => onChange(newDate, "start_date")}
+                        PaperProps={{
+                          style: {
+                            borderRadius: "16px",
+                          },
+                        }}
+                        inputProps={{
+                          disabled: true,
+                        }}
+                        TextFieldProps={{
+                          className: classes.fWidth,
+                          InputLabelProps: { shrink: true },
+                          name: "start_date",
+                          required: true,
+                          id: "start_date",
+                          label: PROJECT_LABELS.FECHA_INICIO,
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                      <DatePicker
+                        name="end_date"
+                        id="end_date"
+                        inputFormat={DATE_FORMAT}
+                        disableMaskedInput
+                        value={asignacionInfo.end_date || null}
+                        minDate={moment(project.start_date)}
+                        maxDate={
+                          project.end_date ? moment(project.end_date) : null
+                        }
+                        className={classes.fWidth}
+                        onChange={(newDate) => onChange(newDate, "end_date")}
+                        PaperProps={{
+                          style: {
+                            borderRadius: "16px",
+                          },
+                        }}
+                        inputProps={{
+                          disabled: true,
+                        }}
+                        TextFieldProps={{
+                          className: classes.fWidth,
+                          InputLabelProps: { shrink: true },
+                          name: "end_date",
+                          id: "end_date",
+                          label: PROJECT_LABELS.FECHA_FIN,
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />{" "}
+                    </>
+                  )}
                 </Stack>
               </Stack>
             </DialogContent>

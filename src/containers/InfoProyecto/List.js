@@ -34,8 +34,8 @@ const ListData = ({ title, type, data }) => (
                 fontFamily: "Nunito Sans",
                 background: COLORS.menuItemSelected,
               }}
-              label={item.full_name}
-              key={item.id}
+              label={item.full_name || item}
+              key={item.id || item}
             />
           );
         })
