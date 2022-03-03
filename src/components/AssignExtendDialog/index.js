@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { useSnackbar } from "notistack";
 import { DialogTitle } from "@mui/material";
@@ -29,7 +29,7 @@ export default function AssignExtendDialog({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     setSelected(assignations.map((assignation) => false));
