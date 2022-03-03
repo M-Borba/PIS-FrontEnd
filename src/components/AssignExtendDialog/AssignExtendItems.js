@@ -12,28 +12,28 @@ const AssignExtendItems = ({ assignations, selected, setSelected }) => {
   const classes = useStyles();
   return (
     <List className={classes.list} component="div">
-      {assignations.map((assignation, index) => {
-        return (
-          <ListItem
-            key={assignation.id}
-            button
-            onClick={() => {
-              let newSelected = [...selected];
-              newSelected[index] = !newSelected[index];
-              setSelected(newSelected);
-            }}
-          >
-            <ListItemIcon style={{ color: COLORS.black }}>
-              {selected[index] ? (
-                <CheckCircleIcon />
-              ) : (
-                <RadioButtonUncheckedIcon />
-              )}
-            </ListItemIcon>
-            <ListItemText primary={assignation.name} />
-          </ListItem>
-        );
-      })}
+      {assignations.map((assignation, index) => (
+        <ListItem
+          key={assignation.id}
+          button
+          onClick={() =>
+            setSelected(
+              selected.map((isSelected, i) =>
+                i === index ? !isSelected : isSelected
+              )
+            )
+          }
+        >
+          <ListItemIcon style={{ color: COLORS.black }}>
+            {selected[index] ? (
+              <CheckCircleIcon />
+            ) : (
+              <RadioButtonUncheckedIcon />
+            )}
+          </ListItemIcon>
+          <ListItemText primary={assignation.name} />
+        </ListItem>
+      ))}
     </List>
   );
 };
