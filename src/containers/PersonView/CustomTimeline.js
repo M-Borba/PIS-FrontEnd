@@ -150,7 +150,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             setFilteredData(false);
           }
         }
-        console.log(rows);
         rows.sort((a, b) => {
           return a.person.full_name
             .toLowerCase()
