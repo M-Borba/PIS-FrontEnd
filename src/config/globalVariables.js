@@ -83,6 +83,7 @@ export const PROJECT_LABELS = {
   NO_EXISTEN_PROYECTOS_AUN: "AÚN NO EXISTEN PROYECTOS EN EL SISTEMA",
   NUEVA_NOTA: "Nueva nota",
   FECHA_INDEFINIDA: "Fecha indefinida",
+  EXTENSION_ASIGNACION: "Extensión de asignación",
 };
 
 export const PROJECT_STATE_VALUES = {
@@ -155,6 +156,7 @@ export const BUTTON_LABELS = {
   AGREGAR_PERSONA: "Agregar persona",
   AGREGAR_ADMINISTRADOR: "Agregar administrador",
   ADD: "Agregar",
+  EXTEND_ASSIGNATIONS: "Extender asignaciones",
 };
 
 export const LOGIN_LABELS = {
@@ -174,6 +176,10 @@ export const ADMIN_LABELS = {
   APELLIDO: PERSON_LABELS.APELLIDO,
   CONTRASENA: LOGIN_LABELS.CONTRASENA,
   CONFIRMAR_CONTRASENA: LOGIN_LABELS.CONFIRMAR_CONTRASENA,
+};
+
+export const REQUEST_LABELS = {
+  UPDATE_SUCCESS: "Los cambios se aplicaron con éxito",
 };
 
 export const COLORS = {

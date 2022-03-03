@@ -23,13 +23,16 @@ ListadoPersonasAsignadas.propTypes = {
 };
 
 function assignationText(assignation) {
-  return rolesFormateados[assignation.role] +
+  return (
+    rolesFormateados[assignation.role] +
     " (" +
     rawDateToDateFormat(assignation.start_date) +
     " - " +
-    assignation.end_date
-    ? rawDateToDateFormat(assignation.end_date)
-    : PROJECT_LABELS.FECHA_INDEFINIDA + ")";
+    (assignation.end_date
+      ? rawDateToDateFormat(assignation.end_date)
+      : PROJECT_LABELS.FECHA_INDEFINIDA) +
+    ")"
+  );
 }
 
 export default function ListadoPersonasAsignadas({ people, removePerson }) {
