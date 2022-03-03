@@ -19,7 +19,6 @@ export const useStyles = makeStyles((theme) => ({
   dialogTitle: {
     color: COLORS.black,
     fontSize: "1.75rem !important",
-    // borderBottom: `1px solid ${COLORS.containerBorder}`,
   },
 
   paper: {

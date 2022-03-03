@@ -170,7 +170,6 @@ export default function Acciones({ projectRow }) {
                 <AssignExtendDialog
                   project={projectData}
                   assignations={asignaciones}
-                  endDate={extendedEndDate}
                   handleClose={handleAssignExtendClose}
                 />
               )}
