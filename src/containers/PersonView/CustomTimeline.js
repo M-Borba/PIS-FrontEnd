@@ -1,16 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Box, Grid } from "@material-ui/core";
-import { Popover } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { useSnackbar } from "notistack";
 import Timeline, {
   DateHeader,
   SidebarHeader,
   TimelineHeaders,
   TodayMarker,
 } from "react-calendar-timeline";
-import { useSnackbar } from "notistack";
+import { Box, Grid } from "@material-ui/core";
+import { Popover } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
@@ -150,6 +150,11 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
             setFilteredData(false);
           }
         }
+        rows.sort((a, b) => {
+          return a.person.full_name
+            .toLowerCase()
+            .localeCompare(b.person.full_name.toLowerCase());
+        });
         rows.map((ppl) => {
           setFilteredData(true);
           setFetchingError(false);

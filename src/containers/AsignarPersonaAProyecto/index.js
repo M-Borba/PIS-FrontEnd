@@ -26,7 +26,9 @@ export default function AgregarPersona({
   const [error, setError] = useState("");
   const { enqueueSnackbar } = useSnackbar();
   const [asignacion, setAsignacion] = useState({
-    roles: ROLES_CHECKBOX,
+    roles: ROLES_CHECKBOX.sort((a, b) => {
+      return a[0].toLowerCase().localeCompare(b[0].toLowerCase());
+    }),
     people: [],
     startDate: projectData.start_date,
     endDate: projectData.end_date != null ? projectData.end_date : "",
@@ -142,6 +144,11 @@ export default function AgregarPersona({
     axiosInstance
       .get("/people")
       .then((response) => {
+        response.data.people.sort((a, b) => {
+          return a.first_name
+            .toLowerCase()
+            .localeCompare(b.first_name.toLowerCase());
+        });
         setAsignacion({
           ...asignacion,
           people: response.data.people.map((row) => [row, false]),
