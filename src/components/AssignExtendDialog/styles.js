@@ -12,6 +12,10 @@ export const useStyles = makeStyles((theme) => ({
     background: COLORS.white,
   },
 
+  button: {
+    marginBottom: 15,
+  },
+
   divider: {
     marginBottom: "5px !important",
   },
@@ -24,6 +28,7 @@ export const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(4, 4),
     marginTop: 0,
+    marginBottom: 0,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
