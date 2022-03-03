@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { DialogTitle } from "@mui/material";
 import propTypes from "prop-types";
+import { useSnackbar } from "notistack";
+import { DialogTitle } from "@mui/material";
+import Divider from "@mui/material/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
-import { useSnackbar } from "notistack";
 
 import {
   BUTTON_LABELS,
@@ -14,7 +15,6 @@ import { useStyles } from "./styles";
 import CustomButton from "../CustomButton";
 import AssignExtendItems from "./AssignExtendItems";
 import { axiosInstance } from "../../config/axios";
-import Divider from "@mui/material/Divider";
 
 AssignExtendDialog.propTypes = {
   handleClose: propTypes.func.isRequired,
