@@ -11,8 +11,30 @@ export const useStyles = makeStyles((theme) => ({
     zIndex: 10,
     background: COLORS.white,
   },
+
+  divider: {
+    marginBottom: "5px !important",
+  },
+
+  dialogTitle: {
+    color: COLORS.black,
+    fontSize: "1.75rem !important",
+    // borderBottom: `1px solid ${COLORS.containerBorder}`,
+  },
+
+  paper: {
+    margin: theme.spacing(4, 4),
+    marginTop: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    maxHeight: 500,
+    overflow: "auto",
+  },
+
   list: {
-    height: 250,
+    height: "100%",
+    width: "100%",
     fontWeight: 400,
     overflow: "auto",
     marginTop: 4,

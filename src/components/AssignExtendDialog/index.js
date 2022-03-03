@@ -3,17 +3,21 @@ import { DialogTitle } from "@mui/material";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
+import { useSnackbar } from "notistack";
 
-import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
+import {
+  BUTTON_LABELS,
+  PROJECT_LABELS,
+  REQUEST_LABELS,
+} from "../../config/globalVariables";
 import { useStyles } from "./styles";
 import CustomButton from "../CustomButton";
 import AssignExtendItems from "./AssignExtendItems";
 import { axiosInstance } from "../../config/axios";
+import Divider from "@mui/material/Divider";
 
 AssignExtendDialog.propTypes = {
   handleClose: propTypes.func.isRequired,
-  // onClose: propTypes.func.isRequired,
-  // onSubmit: propTypes.func.isRequired,
   project: propTypes.object.isRequired,
   assignations: propTypes.array.isRequired,
 };
@@ -24,6 +28,7 @@ export default function AssignExtendDialog({
   project,
 }) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const [selected, setSelected] = React.useState([]);
 
   useEffect(() => {
@@ -40,16 +45,20 @@ export default function AssignExtendDialog({
             .put(`/person_project/${role.id}`, {
               person_project: role,
             })
-            .then((r) => console.log(r));
+            .then((r) => {
+              enqueueSnackbar(`${REQUEST_LABELS.UPDATE_SUCCESS}`, {
+                variant: "success",
+                autoHideDuration: 4000,
+              });
+            });
         });
-        console.log(assignation);
       }
     });
   };
 
   return (
-    <>
-      <DialogTitle>
+    <div className={classes.paper}>
+      <DialogTitle className={classes.dialogTitle}>
         {PROJECT_LABELS.EXTENSION_ASIGNACION}
         <IconButton
           aria-label="Close"
@@ -59,20 +68,22 @@ export default function AssignExtendDialog({
           <CloseIcon />
         </IconButton>
       </DialogTitle>
+      <Divider flexItem />
       <AssignExtendItems
         assignations={assignations}
         selected={selected}
         setSelected={setSelected}
       />
+      <Divider flexItem className={classes.divider} />
       <CustomButton
         onClick={() => {
-          console.log(selected);
           handleSubmit();
-          // handleClose();
+          handleClose();
         }}
-        text={BUTTON_LABELS.APPLY_CHANGES}
         variant="contained"
-      />
-    </>
+      >
+        {BUTTON_LABELS.EXTEND_ASSIGNATIONS}
+      </CustomButton>
+    </div>
   );
 }

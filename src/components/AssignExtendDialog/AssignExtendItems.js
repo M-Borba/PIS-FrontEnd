@@ -6,13 +6,13 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import List from "@mui/material/List";
 
 import { useStyles } from "./styles";
+import { COLORS } from "../../config/globalVariables";
 
 const AssignExtendItems = ({ assignations, selected, setSelected }) => {
   const classes = useStyles();
   return (
     <List className={classes.list} component="div">
       {assignations.map((assignation, index) => {
-        console.log(assignation);
         return (
           <ListItem
             key={assignation.id}
@@ -23,7 +23,7 @@ const AssignExtendItems = ({ assignations, selected, setSelected }) => {
               setSelected(newSelected);
             }}
           >
-            <ListItemIcon>
+            <ListItemIcon style={{ color: COLORS.black }}>
               {selected[index] ? (
                 <CheckCircleIcon />
               ) : (

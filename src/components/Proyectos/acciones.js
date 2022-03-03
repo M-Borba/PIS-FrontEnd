@@ -161,7 +161,11 @@ export default function Acciones({ projectRow }) {
                 />
               </Box>
             </Modal>
-            <Dialog open={openAssignExtend} onClose={handleAssignExtendClose}>
+            <Dialog
+              open={openAssignExtend}
+              PaperProps={{ style: { borderRadius: 16 } }}
+              onClose={handleAssignExtendClose}
+            >
               {asignaciones && (
                 <AssignExtendDialog
                   project={projectData}
@@ -253,7 +257,6 @@ export default function Acciones({ projectRow }) {
                     </Typography>
                   }
                 />
-
                 <ListadoPersonasAsignadas
                   people={asignaciones}
                   removePerson={handleRemovePersonOpen}
