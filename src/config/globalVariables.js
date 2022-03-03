@@ -157,6 +157,7 @@ export const BUTTON_LABELS = {
   AGREGAR_ADMINISTRADOR: "Agregar administrador",
   ADD: "Agregar",
   EXTEND_ASSIGNATIONS: "Extender asignaciones",
+  DESCARGAR_REPORTE: "Descargar reporte",
 };
 
 export const LOGIN_LABELS = {

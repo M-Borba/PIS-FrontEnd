@@ -4,6 +4,8 @@ import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { CSVLink } from "react-csv";
 
 import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
@@ -94,8 +96,9 @@ function formatState(projectState) {
 }
 
 export default function Proyecto({ rows, setRows }) {
-  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
+  const [reportData, setReportData] = React.useState([]);
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
   const [sortModel, setSortModel] = React.useState([
     {
@@ -103,6 +106,18 @@ export default function Proyecto({ rows, setRows }) {
       sort: "asc",
     },
   ]);
+
+  const createProjectReport = () => {
+    console.log(rows);
+    let toReturn = [["Proyecto", "Horas Totales"]];
+    rows.forEach((row) => {
+      let totalHours = 0;
+      // row.people;
+      toReturn.push([row.name, totalHours]);
+    });
+    console.log(toReturn);
+    setReportData([toReturn]);
+  };
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
@@ -147,6 +162,16 @@ export default function Proyecto({ rows, setRows }) {
         <CustomButton variant="contained" onClick={handleNewOpen}>
           {BUTTON_LABELS.AGREGAR_PROYECTO}
         </CustomButton>
+        <Box m={1} />
+        <CSVLink
+          data={reportData}
+          filename={`reporte_proyectos-${new Date().toLocaleDateString()}.csv`}
+          onClick={createProjectReport}
+        >
+          <CustomButton blackButton variant="contained">
+            <FileDownloadIcon style={{ height: 31.5 }} />
+          </CustomButton>
+        </CSVLink>
       </Box>
       <Modal
         open={openNew}
