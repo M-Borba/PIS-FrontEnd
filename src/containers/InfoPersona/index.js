@@ -12,7 +12,7 @@ import {
   TypographyHeader,
   TypographyLabel,
 } from "./TypographyStyled";
-import { PROJECT_LABELS } from "../../config/globalVariables";
+import { PERSON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 
 InfoPersona.propTypes = {
   personData: propTypes.object.isRequired,
@@ -35,7 +35,7 @@ export default function InfoPersona({ personData }) {
       <Divider style={{ marginBottom: 15, marginTop: 15 }} />
       <Box mt={3}>
         <TypographyLabel display="inline" variant="body1">
-          Email:{" "}
+          {PERSON_LABELS.EMAIL}:{" "}
         </TypographyLabel>
         <TypographyData display="inline" variant="body1">
           {personData.email}
@@ -43,7 +43,7 @@ export default function InfoPersona({ personData }) {
       </Box>
       <Box mt={3}>
         <TypographyLabel display="inline" variant="body1">
-          Carga Horaria:{" "}
+          {PERSON_LABELS.CARGA_HORARIA}:{" "}
         </TypographyLabel>
         <TypographyData display="inline" variant="body1">
           {personData.cargaHoraria}
@@ -53,7 +53,7 @@ export default function InfoPersona({ personData }) {
       <Grid container spacing={2}>
         <Grid item>
           <TypographyLabel variant="body1" display="inline" gutterBottom>
-            Tecnologías:
+            {PERSON_LABELS.TECNOLOGIAS}:
           </TypographyLabel>
         </Grid>
         <Grid item style={{ width: "100%", textAlign: "center" }}>
@@ -94,7 +94,7 @@ const Chip = ({ tech }) => {
 
   return (
     <MuiChip
-      style={{ backgroundColor: color }}
+      style={{ backgroundColor: color, fontFamily: "Nunito Sans" }}
       label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
       variant="outlined"
     />

@@ -80,6 +80,7 @@ export default function AssignExtendDialog({
           handleSubmit();
           handleClose();
         }}
+        className={classes.button}
         variant="contained"
       >
         {BUTTON_LABELS.EXTEND_ASSIGNATIONS}

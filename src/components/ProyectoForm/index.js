@@ -13,6 +13,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import NumberFormat from "react-number-format";
 import Divider from "@mui/material/Divider";
 import Box from "@material-ui/core/Box";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { DatePicker } from "@mui/lab";
 
 import { useStyles } from "./styles";
@@ -194,6 +196,8 @@ export default function ProyectoForm({
                   {technologies?.map((t) => (
                     <MenuItem key={`item-${t.name}`} value={t.name}>
                       <Checkbox
+                        icon={<RadioButtonUncheckedIcon />}
+                        checkedIcon={<CheckCircleIcon />}
                         checked={project.technologies?.indexOf(t.name) > -1}
                       />
                       <ListItemText primary={t.name} />

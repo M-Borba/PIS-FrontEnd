@@ -65,8 +65,8 @@ export default function Personas({ rows, setRows }) {
   const [openNew, setOpenNew] = React.useState(false);
   const [sortModel, setSortModel] = React.useState([
     {
-      field: "id",
-      sort: "desc",
+      field: "fullName",
+      sort: "asc",
     },
   ]);
   const classes = useStyles();
