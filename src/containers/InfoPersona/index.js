@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import propTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import MuiChip from "@material-ui/core/Chip";
-import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import PersonIcon from "@mui/icons-material/Person";
@@ -24,13 +23,12 @@ InfoPersona.propTypes = {
 };
 
 export default function InfoPersona({ personData }) {
-  console.log("personData", personData);
   return (
     <>
       {personData.fullName ? (
         <Box
           sx={{ flexGrow: 1 }}
-          style={{ padding: 16, minWidth: 410, minHeight: 290 }}
+          style={{ padding: 16, minWidth: 410, minHeight: 290, maxWidth: 500 }}
         >
           <div
             style={{
@@ -112,7 +110,6 @@ export default function InfoPersona({ personData }) {
 }
 
 const Chip = ({ tech }) => {
-  const color = useMemo(() => randomColor({ luminosity: "light" }), [tech]);
   const capitalizeSeniority = {
     senior: "Senior",
     "semi-senior": "Semi Senior",
@@ -121,7 +118,11 @@ const Chip = ({ tech }) => {
 
   return (
     <MuiChip
-      style={{ backgroundColor: color, fontFamily: "Nunito Sans" }}
+      style={{
+        backgroundColor: COLORS.menuItemSelected,
+        fontFamily: "Nunito Sans",
+        border: 0,
+      }}
       label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
       variant="outlined"
     />
