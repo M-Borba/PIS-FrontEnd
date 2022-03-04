@@ -6,6 +6,7 @@ import randomColor from "randomcolor";
 import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import PersonIcon from "@mui/icons-material/Person";
+import ReactLoading from "react-loading";
 
 import {
   TypographyData,
@@ -17,7 +18,6 @@ import {
   PERSON_LABELS,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
-import ReactLoading from "react-loading";
 
 InfoPersona.propTypes = {
   personData: propTypes.object.isRequired,

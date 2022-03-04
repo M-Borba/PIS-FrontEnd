@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
 import { DatePicker } from "@mui/lab";
 import Box from "@mui/material/Box";
+import ReactLoading from "react-loading";
 
 import { useStyles } from "./styles";
 import CardSelector from "../CardSelector";
@@ -21,7 +22,6 @@ import {
 } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
 import { rawDateToDateFormat } from "../../utils/utils";
-import ReactLoading from "react-loading";
 
 AssignPersonForm.propTypes = {
   onSubmit: propTypes.func,
