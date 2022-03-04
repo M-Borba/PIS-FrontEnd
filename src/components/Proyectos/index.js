@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
+import { CSVLink } from "react-csv";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import { CSVLink } from "react-csv";
 
 import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
@@ -15,6 +15,7 @@ import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
 import { rawDateToDateFormat, renderColor } from "../../utils/utils";
 import { axiosInstance } from "../../config/axios";
+import Loading from "../Loading";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -103,6 +104,7 @@ export default function Proyecto({ rows, setRows }) {
   const [asignacionesLoaded, setAsignacionesLoaded] = React.useState(false);
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
+  const today = new Date();
   const [sortModel, setSortModel] = React.useState([
     {
       field: "name",
@@ -133,11 +135,25 @@ export default function Proyecto({ rows, setRows }) {
   }, []);
 
   const createProjectReport = () => {
-    let toReturn = [["Proyecto", "Horas Totales"]];
+    let toReturn = [["Proyecto", "Horas Totales Diarias"]];
+    rows.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
     rows.forEach((row, index) => {
-      let totalHours = 0;
-      // row.people;
-      toReturn.push([row.name, asignaciones[index].name]); // TODO: Calcular horas totales
+      let totalMonthHours = 0;
+      let totalWeekHours = 0;
+      // asignaciones.forEach((asignacion) => {
+      //   if (asignacion.projectId === row.id) {
+      //     asignacion.roles.forEach((role) => {
+      //       if (role.type === 'weekly') {
+      //         totalWeekHours += role.hours / 5;
+      //       } else {
+      //         totalMonthHours += role.hours / 30;
+      //       }
+      //     });
+      //   }
+      // });
+      toReturn.push([row.name, totalMonthHours + totalWeekHours]); // TODO: Calcular horas totales
     });
     setReportData(toReturn);
   };
@@ -176,56 +192,60 @@ export default function Proyecto({ rows, setRows }) {
   setEditRow.current = (projectData) => editRow(projectData);
 
   return (
-    <div
-      style={{
-        margin: "1vw",
-      }}
-    >
-      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <CustomButton variant="contained" onClick={handleNewOpen}>
-          {BUTTON_LABELS.AGREGAR_PROYECTO}
-        </CustomButton>
-        <Box m={1} />
-        <CSVLink
-          data={reportData}
-          filename={`reporte_proyectos-${new Date().toLocaleDateString()}.csv`}
-          onClick={createProjectReport}
+    <>
+      {asignacionesLoaded ? (
+        <div
+          style={{
+            margin: "1vw",
+          }}
         >
-          <CustomButton blackButton variant="contained">
-            <FileDownloadIcon style={{ height: 31.5 }} />
-          </CustomButton>
-        </CSVLink>
-      </Box>
-      <Modal
-        open={openNew}
-        onClose={handleNewClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <IconButton
-            aria-label="Close"
-            onClick={handleNewClose}
-            className={classes.closeButton}
+          <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+            <CustomButton variant="contained" onClick={handleNewOpen}>
+              {BUTTON_LABELS.AGREGAR_PROYECTO}
+            </CustomButton>
+            <Box m={1} />
+            <CSVLink
+              data={reportData}
+              filename={`reporte-proyectos-${today.getDate()}-${today.getMonth()}-${today.getFullYear()}.csv`}
+              onClick={createProjectReport}
+            >
+              <CustomButton blackButton variant="contained">
+                <FileDownloadIcon style={{ height: 31.5 }} />
+              </CustomButton>
+            </CSVLink>
+          </Box>
+          <Modal
+            open={openNew}
+            onClose={handleNewClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            <CloseIcon />
-          </IconButton>
-          <CreateProject addRow={addRow} onClose={handleNewClose} />
-        </Box>
-      </Modal>
-      {asignacionesLoaded && (
-        <DataGrid
-          rows={rows.map((row) => ({
-            ...row,
-            assignations: asignaciones,
-          }))}
-          columns={columns}
-          disableSelectionOnClick
-          sortModel={sortModel}
-          onSortModelChange={(model) => setSortModel(model)}
-          style={{ height: "70vh" }}
-        />
+            <Box className={classes.modal}>
+              <IconButton
+                aria-label="Close"
+                onClick={handleNewClose}
+                className={classes.closeButton}
+              >
+                <CloseIcon />
+              </IconButton>
+              <CreateProject addRow={addRow} onClose={handleNewClose} />
+            </Box>
+          </Modal>
+          <DataGrid
+            rows={rows.map((row) => ({
+              ...row,
+              assignations: asignaciones,
+            }))}
+            columns={columns}
+            disableSelectionOnClick
+            sortModel={sortModel}
+            onSortModelChange={(model) => setSortModel(model)}
+            style={{ height: "70vh" }}
+          />
+        </div>
+      ) : (
+        <Loading />
       )}
-    </div>
+    </>
   );
 }

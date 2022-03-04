@@ -13,6 +13,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
+
 import { useStyles } from "./styles";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
