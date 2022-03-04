@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
@@ -14,6 +14,7 @@ import Acciones from "./acciones";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
 import { rawDateToDateFormat, renderColor } from "../../utils/utils";
+import { axiosInstance } from "../../config/axios";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -98,6 +99,8 @@ function formatState(projectState) {
 export default function Proyecto({ rows, setRows }) {
   const classes = useStyles();
   const [reportData, setReportData] = React.useState([]);
+  const [asignaciones, setAsignaciones] = React.useState([]);
+  const [asignacionesLoaded, setAsignacionesLoaded] = React.useState(false);
   const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
   const [sortModel, setSortModel] = React.useState([
@@ -107,16 +110,36 @@ export default function Proyecto({ rows, setRows }) {
     },
   ]);
 
+  const fetchAsignaciones = () => {
+    axiosInstance.get("/person_project").then((response) => {
+      let asignaciones = [];
+      response.data.person_project.map((person) => {
+        person.person.projects.map((project) => {
+          asignaciones.push({
+            projectId: project.id,
+            id: person.person.id,
+            name: person.person.full_name,
+            roles: project.dates,
+          });
+        });
+      });
+      setAsignaciones(asignaciones);
+      setAsignacionesLoaded(true);
+    });
+  };
+
+  useEffect(() => {
+    fetchAsignaciones();
+  }, []);
+
   const createProjectReport = () => {
-    console.log(rows);
     let toReturn = [["Proyecto", "Horas Totales"]];
-    rows.forEach((row) => {
+    rows.forEach((row, index) => {
       let totalHours = 0;
       // row.people;
-      toReturn.push([row.name, totalHours]);
+      toReturn.push([row.name, asignaciones[index].name]); // TODO: Calcular horas totales
     });
-    console.log(toReturn);
-    setReportData([toReturn]);
+    setReportData(toReturn);
   };
 
   const handleNewOpen = () => setOpenNew(true);
@@ -190,14 +213,19 @@ export default function Proyecto({ rows, setRows }) {
           <CreateProject addRow={addRow} onClose={handleNewClose} />
         </Box>
       </Modal>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
+      {asignacionesLoaded && (
+        <DataGrid
+          rows={rows.map((row) => ({
+            ...row,
+            assignations: asignaciones,
+          }))}
+          columns={columns}
+          disableSelectionOnClick
+          sortModel={sortModel}
+          onSortModelChange={(model) => setSortModel(model)}
+          style={{ height: "70vh" }}
+        />
+      )}
     </div>
   );
 }
