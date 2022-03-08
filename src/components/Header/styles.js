@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
   selected: {
     borderBottom: `10px ${COLORS.primaryPurple} solid`,
     boxSizing: "border-box",
-    "& > div": { marginTop: "0.6vh" },
+    "& > div": { marginTop: "0.5vh" },
     "&:hover": {
       borderBottom: `10px ${COLORS.primaryPurple} solid`,
     },
@@ -38,7 +38,6 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     textTransform: "none",
     fontWeight: 700,
-    lineHeight: 20,
     height: "94%",
     display: "flex",
     justifyContent: "center",
