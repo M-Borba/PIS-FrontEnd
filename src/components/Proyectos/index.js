@@ -147,7 +147,8 @@ export default function Proyecto({ rows, setRows }) {
           if (asignacion.roles[0].working_hours_type === "weekly") {
             totalWeekHours += asignacion.roles[0].working_hours / 5;
           } else {
-            totalMonthHours += asignacion.roles[0].working_hours / 30;
+            totalMonthHours +=
+              Math.round((asignacion.roles[0].working_hours / 30) * 100) / 100;
           }
         }
       });
