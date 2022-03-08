@@ -151,7 +151,7 @@ export default function Proyecto({ rows, setRows }) {
           }
         }
       });
-      toReturn.push([row.name, totalMonthHours + totalWeekHours]); // TODO: Calcular horas totales
+      toReturn.push([row.name, totalMonthHours + totalWeekHours]);
     });
     setReportData(toReturn);
   };
