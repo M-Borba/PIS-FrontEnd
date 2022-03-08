@@ -3,17 +3,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import { ThemeProvider as ThemeProviderV4 } from "@material-ui/core/styles";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-
-import PersonView from "./containers/PersonView";
-import ProjectView from "./containers/ProjectView";
-import Project from "./containers/Project";
-import { NOT_LOGGED } from "./config/globalVariables";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch as SwitchRouter,
 } from "react-router-dom";
+
+import PersonView from "./containers/PersonView";
+import ProjectView from "./containers/ProjectView";
+import Project from "./containers/Project";
+import { NOT_LOGGED } from "./config/globalVariables";
 import LoginView from "./containers/Login";
 import Header from "./components/Header";
 import ListarAdministradores from "./containers/ListarAdministradores";
@@ -29,6 +29,11 @@ export default function App() {
     uid = NOT_LOGGED;
   }
   const [isProjectView, setIsProjectView] = useState(false);
+  const [filters, setFilters] = useState({
+    project_type: "",
+    project_state: "",
+  });
+  const [organization, setOrganization] = useState("");
   const onSwitch = () => {
     setIsProjectView(!isProjectView);
   };
@@ -57,10 +62,18 @@ export default function App() {
                 <>
                   <PersonView
                     onSwitch={onSwitch}
+                    filters={filters}
+                    setFilters={setFilters}
+                    organization={organization}
+                    setOrganization={setOrganization}
                     isProjectView={isProjectView}
                   />
                   <ProjectView
                     onSwitch={onSwitch}
+                    filters={filters}
+                    setFilters={setFilters}
+                    organization={organization}
+                    setOrganization={setOrganization}
                     isProjectView={isProjectView}
                   />
                 </>

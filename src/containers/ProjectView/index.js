@@ -6,7 +6,7 @@
  *
  */
 
-import React, { Component } from "react";
+import React from "react";
 import CustomTimeline from "./CustomTimeline";
 import "react-calendar-timeline/lib/Timeline.css";
 import PropTypes from "prop-types";
@@ -14,12 +14,30 @@ import PropTypes from "prop-types";
 ProjectView.propTypes = {
   isProjectView: PropTypes.bool,
   onSwitch: PropTypes.func,
+  filters: PropTypes.object,
+  setFilters: PropTypes.func,
+  organization: PropTypes.string,
+  setOrganization: PropTypes.func,
 };
 
-export default function ProjectView({ onSwitch, isProjectView }) {
+export default function ProjectView({
+  onSwitch,
+  isProjectView,
+  filters,
+  setFilters,
+  organization,
+  setOrganization,
+}) {
   return (
     <div>
-      <CustomTimeline onSwitch={onSwitch} isProjectView={isProjectView} />
+      <CustomTimeline
+        filters={filters}
+        setFilters={setFilters}
+        organization={organization}
+        setOrganization={setOrganization}
+        onSwitch={onSwitch}
+        isProjectView={isProjectView}
+      />
     </div>
   );
 }
