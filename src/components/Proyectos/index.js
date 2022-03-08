@@ -132,7 +132,7 @@ export default function Proyecto({ rows, setRows }) {
 
   useEffect(() => {
     fetchAsignaciones();
-  }, []);
+  }, [rows]);
 
   const createProjectReport = () => {
     let toReturn = [["Proyecto", "Horas Totales Diarias"]];
@@ -142,17 +142,15 @@ export default function Proyecto({ rows, setRows }) {
     rows.forEach((row, index) => {
       let totalMonthHours = 0;
       let totalWeekHours = 0;
-      // asignaciones.forEach((asignacion) => {
-      //   if (asignacion.projectId === row.id) {
-      //     asignacion.roles.forEach((role) => {
-      //       if (role.type === 'weekly') {
-      //         totalWeekHours += role.hours / 5;
-      //       } else {
-      //         totalMonthHours += role.hours / 30;
-      //       }
-      //     });
-      //   }
-      // });
+      asignaciones.forEach((asignacion) => {
+        if (asignacion.projectId === row.id) {
+          if (asignacion.roles[0].working_hours_type === "weekly") {
+            totalWeekHours += asignacion.roles[0].working_hours / 5;
+          } else {
+            totalMonthHours += asignacion.roles[0].working_hours / 30;
+          }
+        }
+      });
       toReturn.push([row.name, totalMonthHours + totalWeekHours]); // TODO: Calcular horas totales
     });
     setReportData(toReturn);
