@@ -44,7 +44,14 @@ export const endValue = (date) => {
   return moment(Date()).add(5, "years").add(9, "hours").valueOf();
 };
 
-const PersonTimeline = ({ onSwitch, isProjectView }) => {
+const PersonTimeline = ({
+  onSwitch,
+  isProjectView,
+  filters,
+  setFilters,
+  organization,
+  setOrganization,
+}) => {
   const classes = useStyles();
   const [openInfo, setOpenInfo] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -64,10 +71,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     personName: "",
     time: 0,
   });
-  const [filters, setFilters] = useState({
-    project_type: "",
-    project_state: "",
-  });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
     asignacionId: -1,
@@ -76,7 +79,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     mouseX: 0,
     mouseY: 0,
   });
-  const [organization, setOrganization] = useState("");
 
   const [idInfoPersona, setIdInfoPersona] = useState(0);
 
@@ -568,6 +570,10 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
   isProjectView: PropTypes.bool,
+  filters: PropTypes.object,
+  setFilters: PropTypes.func,
+  organization: PropTypes.string,
+  setOrganization: PropTypes.func,
 };
 
 export default PersonTimeline;
