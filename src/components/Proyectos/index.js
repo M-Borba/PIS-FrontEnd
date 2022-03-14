@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { CSVLink } from "react-csv";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, IconButton } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import propTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 import { useStyles } from "./styles";
 import CreateProject from "../../containers/CreateProject";
@@ -12,6 +14,8 @@ import Acciones from "./acciones";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
 import { rawDateToDateFormat, renderColor } from "../../utils/utils";
+import { axiosInstance } from "../../config/axios";
+import Loading from "../Loading";
 
 Proyecto.propTypes = {
   rows: propTypes.array,
@@ -94,15 +98,64 @@ function formatState(projectState) {
 }
 
 export default function Proyecto({ rows, setRows }) {
-  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const classes = useStyles();
+  const [reportData, setReportData] = React.useState([]);
+  const [asignaciones, setAsignaciones] = React.useState([]);
+  const [asignacionesLoaded, setAsignacionesLoaded] = React.useState(false);
+  const [setRemoveRow, setEditRow] = React.useContext(UpdateGridContext);
   const [openNew, setOpenNew] = React.useState(false);
+  const today = new Date();
   const [sortModel, setSortModel] = React.useState([
     {
       field: "name",
       sort: "asc",
     },
   ]);
+
+  const fetchAsignaciones = () => {
+    axiosInstance.get("/person_project").then((response) => {
+      let asignaciones = [];
+      response.data.person_project.map((person) => {
+        person.person.projects.map((project) => {
+          asignaciones.push({
+            projectId: project.id,
+            id: person.person.id,
+            name: person.person.full_name,
+            roles: project.dates,
+          });
+        });
+      });
+      setAsignaciones(asignaciones);
+      setAsignacionesLoaded(true);
+    });
+  };
+
+  useEffect(() => {
+    fetchAsignaciones();
+  }, [rows]);
+
+  const createProjectReport = () => {
+    let toReturn = [["Proyecto", "Horas Totales Diarias"]];
+    rows.sort((a, b) => {
+      return a.name.localeCompare(b.name);
+    });
+    rows.forEach((row, index) => {
+      let totalMonthHours = 0;
+      let totalWeekHours = 0;
+      asignaciones.forEach((asignacion) => {
+        if (asignacion.projectId === row.id) {
+          if (asignacion.roles[0].working_hours_type === "weekly") {
+            totalWeekHours += asignacion.roles[0].working_hours / 5;
+          } else {
+            totalMonthHours +=
+              Math.round((asignacion.roles[0].working_hours / 30) * 100) / 100;
+          }
+        }
+      });
+      toReturn.push([row.name, totalMonthHours + totalWeekHours]);
+    });
+    setReportData(toReturn);
+  };
 
   const handleNewOpen = () => setOpenNew(true);
   const handleNewClose = () => setOpenNew(false);
@@ -138,41 +191,60 @@ export default function Proyecto({ rows, setRows }) {
   setEditRow.current = (projectData) => editRow(projectData);
 
   return (
-    <div
-      style={{
-        margin: "1vw",
-      }}
-    >
-      <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
-        <CustomButton variant="contained" onClick={handleNewOpen}>
-          {BUTTON_LABELS.AGREGAR_PROYECTO}
-        </CustomButton>
-      </Box>
-      <Modal
-        open={openNew}
-        onClose={handleNewClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.modal}>
-          <IconButton
-            aria-label="Close"
-            onClick={handleNewClose}
-            className={classes.closeButton}
+    <>
+      {asignacionesLoaded ? (
+        <div
+          style={{
+            margin: "1vw",
+          }}
+        >
+          <Box m={1} mb={1} className={`${classes.rightBox} ${classes.box}`}>
+            <CustomButton variant="contained" onClick={handleNewOpen}>
+              {BUTTON_LABELS.AGREGAR_PROYECTO}
+            </CustomButton>
+            <Box m={1} />
+            <CSVLink
+              data={reportData}
+              filename={`reporte-proyectos-${today.getDate()}-${today.getMonth()}-${today.getFullYear()}.csv`}
+              onClick={createProjectReport}
+            >
+              <CustomButton blackButton variant="contained">
+                <FileDownloadIcon style={{ height: 31.5 }} />
+              </CustomButton>
+            </CSVLink>
+          </Box>
+          <Modal
+            open={openNew}
+            onClose={handleNewClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            <CloseIcon />
-          </IconButton>
-          <CreateProject addRow={addRow} onClose={handleNewClose} />
-        </Box>
-      </Modal>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        disableSelectionOnClick
-        sortModel={sortModel}
-        onSortModelChange={(model) => setSortModel(model)}
-        style={{ height: "70vh" }}
-      />
-    </div>
+            <Box className={classes.modal}>
+              <IconButton
+                aria-label="Close"
+                onClick={handleNewClose}
+                className={classes.closeButton}
+              >
+                <CloseIcon />
+              </IconButton>
+              <CreateProject addRow={addRow} onClose={handleNewClose} />
+            </Box>
+          </Modal>
+          <DataGrid
+            rows={rows.map((row) => ({
+              ...row,
+              assignations: asignaciones,
+            }))}
+            columns={columns}
+            disableSelectionOnClick
+            sortModel={sortModel}
+            onSortModelChange={(model) => setSortModel(model)}
+            style={{ height: "70vh" }}
+          />
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

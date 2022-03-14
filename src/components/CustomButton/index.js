@@ -14,6 +14,7 @@ const CustomButton = ({
   form,
   styles,
   redButton,
+  blackButton,
   fullWidth,
   className,
 }) => {
@@ -24,6 +25,12 @@ const CustomButton = ({
       ...styleObj.buttonRoot,
       backgroundColor: COLORS.buttonRed,
       "&:hover": { backgroundColor: COLORS.buttonRedHover },
+    });
+  blackButton &&
+    (styleObj.buttonRoot = {
+      ...styleObj,
+      backgroundColor: COLORS.backgroundDarkestGrey,
+      "&:hover": { backgroundColor: COLORS.black },
     });
   const style = makeStyles(styleObj);
   const customClass = style();
@@ -52,5 +59,6 @@ CustomButton.propTypes = {
   redButton: PropTypes.bool,
   fullWidth: PropTypes.bool,
   className: PropTypes.string,
+  blackButton: PropTypes.bool,
 };
 export default CustomButton;

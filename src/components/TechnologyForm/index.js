@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,7 +11,6 @@ import Grid from "@mui/material/Grid";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import randomColor from "randomcolor";
 
 import { useStyles } from "./styles";
 import { COLORS, PERSON_LABELS } from "../../config/globalVariables";
@@ -142,7 +141,6 @@ export default function TechnologyForm({
 }
 
 const Chip = ({ onDelete, tech }) => {
-  const color = useMemo(() => randomColor({ luminosity: "light" }), [tech]);
   const capitalizeSeniority = {
     senior: "Senior",
     "semi-senior": "Semi senior",
@@ -151,7 +149,11 @@ const Chip = ({ onDelete, tech }) => {
 
   return (
     <MuiChip
-      style={{ fontFamily: "Nunito Sans", backgroundColor: color }}
+      style={{
+        fontFamily: "Nunito Sans",
+        backgroundColor: COLORS.menuItemSelected,
+        border: 0,
+      }}
       label={`${tech[0]} - ${capitalizeSeniority[tech[1]]}`}
       variant="outlined"
       onDelete={() => onDelete(tech)}

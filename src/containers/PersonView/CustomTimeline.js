@@ -26,6 +26,7 @@ import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
+import { dateToHyphenFormat } from "../../utils/utils";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -249,12 +250,12 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       working_hours_type: undefined,
       start_date:
         edge === "left"
-          ? moment(time).format("yyyy-MM-DD")
-          : moment(items[itemIndex].start).format("yyyy-MM-DD"),
+          ? dateToHyphenFormat(time)
+          : dateToHyphenFormat(items[itemIndex].start),
       end_date:
         edge === "left"
-          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"),
+          ? dateToHyphenFormat(items[itemIndex].end - 86400000) // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
+          : dateToHyphenFormat(time - 86400000),
     };
 
     axiosInstance
@@ -287,7 +288,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       open: true,
       groupId: groupId,
       personName: personName,
-      time: moment(time + 86400000).format("yyyy-MM-DD"), // Le sumo un dia
+      time: dateToHyphenFormat(time + 86400000), // Le sumo un dia
     });
   };
 

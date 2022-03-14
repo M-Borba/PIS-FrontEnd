@@ -14,7 +14,6 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 
-import { axiosInstance } from "../../config/axios";
 import { useStyles } from "./styles";
 import EliminarProyecto from "../../containers/EliminarProyecto";
 import EditarProyecto from "../../containers/EditarProyecto";
@@ -93,26 +92,18 @@ export default function Acciones({ projectRow }) {
   const handleRemoveOpen = () => setOpenRemove(true);
   const handleRemoveClose = () => setOpenRemove(false);
 
-  const fetchAsignaciones = () => {
-    axiosInstance.get("/person_project").then((response) => {
-      let asignaciones = [];
-      response.data.person_project.map((person) => {
-        person.person.projects.map((project) => {
-          if (project.id === projectData.id) {
-            asignaciones.push({
-              id: person.person.id,
-              name: person.person.full_name,
-              roles: project.dates,
-            });
-          }
-        });
-      });
-      setAsignaciones(asignaciones);
-    });
-  };
-
   useEffect(() => {
-    fetchAsignaciones();
+    let asignaciones = [];
+    projectRow.assignations.map((person) => {
+      if (person.projectId === projectData.id) {
+        asignaciones.push({
+          id: person.id,
+          name: person.name,
+          roles: person.roles,
+        });
+      }
+    });
+    setAsignaciones(asignaciones);
   }, []);
 
   return (
