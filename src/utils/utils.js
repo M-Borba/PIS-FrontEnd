@@ -88,6 +88,8 @@ export const renderTipoMenuItems = (withAny = false) => {
 export const rawDateToDateFormat = (rawDate) =>
   moment(rawDate).format(DATE_FORMAT);
 
+export const dateToHyphenFormat = (date) => moment(date).format("yyyy-MM-DD");
+
 export const dateFormatToMoment = (date) =>
   moment(date.split(" ")[0].split("/").reverse().join("-"));
 

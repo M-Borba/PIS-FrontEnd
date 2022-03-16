@@ -43,7 +43,14 @@ var keys = {
   groupLabelKey: "title",
 };
 
-const ProjectTimeline = ({ onSwitch, isProjectView }) => {
+const ProjectTimeline = ({
+  onSwitch,
+  isProjectView,
+  filters,
+  setFilters,
+  organization,
+  setOrganization,
+}) => {
   const [groups, setGroups] = useState([]);
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
@@ -52,12 +59,7 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
   const [filteredData, setFilteredData] = useState([true]);
   const [displayToday, setDisplayToday] = useState(false);
   const [fetchingError, setFetchingError] = useState([false]);
-  const [filters, setFilters] = useState({
-    project_type: "",
-    project_state: "",
-  });
   const [isLoading, setIsLoading] = useState();
-  const [organization, setOrganization] = useState("");
 
   const getStateColor = (state) => {
     let color = "";
@@ -320,6 +322,10 @@ const ProjectTimeline = ({ onSwitch, isProjectView }) => {
 ProjectTimeline.propTypes = {
   onSwitch: PropTypes.func,
   isProjectView: PropTypes.bool,
+  filters: PropTypes.object,
+  setFilters: PropTypes.func,
+  organization: PropTypes.string,
+  setOrganization: PropTypes.func,
 };
 
 export default ProjectTimeline;

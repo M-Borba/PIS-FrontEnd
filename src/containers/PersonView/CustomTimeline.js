@@ -26,6 +26,7 @@ import { useStyles } from "../../components/Personas/styles";
 import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
+import { dateToHyphenFormat } from "../../utils/utils";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -43,7 +44,14 @@ export const endValue = (date) => {
   return moment(Date()).add(5, "years").add(9, "hours").valueOf();
 };
 
-const PersonTimeline = ({ onSwitch, isProjectView }) => {
+const PersonTimeline = ({
+  onSwitch,
+  isProjectView,
+  filters,
+  setFilters,
+  organization,
+  setOrganization,
+}) => {
   const classes = useStyles();
   const [openInfo, setOpenInfo] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -63,10 +71,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     personName: "",
     time: 0,
   });
-  const [filters, setFilters] = useState({
-    project_type: "",
-    project_state: "",
-  });
   const [infoAssignObject, setInfoAssignObject] = useState({
     open: false,
     asignacionId: -1,
@@ -75,7 +79,6 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
     mouseX: 0,
     mouseY: 0,
   });
-  const [organization, setOrganization] = useState("");
 
   const [idInfoPersona, setIdInfoPersona] = useState(0);
 
@@ -249,12 +252,12 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       working_hours_type: undefined,
       start_date:
         edge === "left"
-          ? moment(time).format("yyyy-MM-DD")
-          : moment(items[itemIndex].start).format("yyyy-MM-DD"),
+          ? dateToHyphenFormat(time)
+          : dateToHyphenFormat(items[itemIndex].start),
       end_date:
         edge === "left"
-          ? moment(items[itemIndex].end - 86400000).format("yyyy-MM-DD") // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
-          : moment(time - 86400000).format("yyyy-MM-DD"),
+          ? dateToHyphenFormat(items[itemIndex].end - 86400000) // Le resto 24 horas en milisegundos por el "+ 1" en endValue al traer de backend
+          : dateToHyphenFormat(time - 86400000),
     };
 
     axiosInstance
@@ -287,7 +290,7 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
       open: true,
       groupId: groupId,
       personName: personName,
-      time: moment(time + 86400000).format("yyyy-MM-DD"), // Le sumo un dia
+      time: dateToHyphenFormat(time + 86400000), // Le sumo un dia
     });
   };
 
@@ -567,6 +570,10 @@ const PersonTimeline = ({ onSwitch, isProjectView }) => {
 PersonTimeline.propTypes = {
   onSwitch: PropTypes.func,
   isProjectView: PropTypes.bool,
+  filters: PropTypes.object,
+  setFilters: PropTypes.func,
+  organization: PropTypes.string,
+  setOrganization: PropTypes.func,
 };
 
 export default PersonTimeline;
