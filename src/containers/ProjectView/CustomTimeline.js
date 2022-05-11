@@ -55,11 +55,12 @@ const ProjectTimeline = ({
   const [items, setItems] = useState([]);
   const [projectData, setProjectData] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
-  const [openInfo, setOpenInfo] = React.useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
   const [filteredData, setFilteredData] = useState([true]);
   const [displayToday, setDisplayToday] = useState(false);
   const [fetchingError, setFetchingError] = useState([false]);
   const [isLoading, setIsLoading] = useState();
+  const [timelineUpdater, setTimelineUpdater] = useState(false);
 
   const getStateColor = (state) => {
     let color = "";
@@ -168,6 +169,8 @@ const ProjectTimeline = ({
         if (item.id === projectData.id) {
           return {
             ...item,
+            start: startValue(projectData.start_date),
+            end: endValue(projectData.end_date),
             itemProps: {
               style: {
                 borderRadius: 5,
@@ -181,6 +184,7 @@ const ProjectTimeline = ({
         return item;
       })
     );
+    setTimelineUpdater((prev) => !prev);
   };
 
   const handleInfoClose = () => {
@@ -204,7 +208,7 @@ const ProjectTimeline = ({
 
   useEffect(() => {
     filters ? fetchData({ ...filters, organization }) : fetchData();
-  }, [filters]);
+  }, [filters, timelineUpdater]);
 
   return (
     <>

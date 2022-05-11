@@ -24,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "70%",
-    maxWidth: "800px",
+    maxWidth: "830px",
     background: "white",
     boxShadow: 24,
     borderRadius: "16px !important",
