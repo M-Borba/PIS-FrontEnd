@@ -4,6 +4,8 @@ import Divider from "@mui/material/Divider";
 import { Box, Typography } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/lab";
 import propTypes from "prop-types";
 
 import { renderColorMenuItems } from "../../utils/utils";
@@ -15,8 +17,6 @@ import {
   DATE_FORMAT,
   PROJECT_LABELS,
 } from "../../config/globalVariables";
-import TextField from "@mui/material/TextField";
-import { DatePicker } from "@mui/lab";
 
 const InfoProyectoForm = ({
   handleApplyChanges,
