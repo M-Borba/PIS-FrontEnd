@@ -26,7 +26,7 @@ const InfoProyectoForm = ({
   onClose,
   type,
 }) => {
-  const handleDatesChange = (type, value) => {
+  const handleValueChange = (type, value) => {
     setNewProjectData((prev) => ({
       ...prev,
       [type]: value,
@@ -65,10 +65,7 @@ const InfoProyectoForm = ({
                 style={{ width: "unset" }}
                 value={newProjectData.project_state}
                 onChange={(e) => {
-                  setNewProjectData((prev) => ({
-                    ...prev,
-                    project_state: e.target.value,
-                  }));
+                  handleValueChange("project_state", e.target.value);
                 }}
               >
                 {renderColorMenuItems()}
@@ -90,7 +87,7 @@ const InfoProyectoForm = ({
               required
               id="fechaInicio"
               value={newProjectData.start_date}
-              onChange={(e) => handleDatesChange("start_date", e)}
+              onChange={(e) => handleValueChange("start_date", e)}
               inputFormat={DATE_FORMAT}
               PaperProps={{
                 style: {
@@ -118,7 +115,7 @@ const InfoProyectoForm = ({
             <DatePicker
               id="fechaFin"
               value={newProjectData.end_date}
-              onChange={(e) => handleDatesChange("end_date", e)}
+              onChange={(e) => handleValueChange("end_date", e)}
               inputFormat={DATE_FORMAT}
               PaperProps={{
                 style: {
