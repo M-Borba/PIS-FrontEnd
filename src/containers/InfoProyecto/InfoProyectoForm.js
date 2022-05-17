@@ -4,22 +4,34 @@ import Divider from "@mui/material/Divider";
 import { Box, Typography } from "@material-ui/core";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import { DatePicker } from "@mui/lab";
 import propTypes from "prop-types";
 
-import { rawDateToDateFormat, renderColorMenuItems } from "../../utils/utils";
+import { renderColorMenuItems } from "../../utils/utils";
 import ListData from "./List";
 import CustomButton from "../../components/CustomButton";
 import TypographyStyled from "./TypographyStyled";
-import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
+import {
+  BUTTON_LABELS,
+  DATE_FORMAT,
+  PROJECT_LABELS,
+} from "../../config/globalVariables";
 
 const InfoProyectoForm = ({
   handleApplyChanges,
   projectData,
-  project_state,
-  setProjectState,
+  newProjectData,
+  setNewProjectData,
   onClose,
   type,
 }) => {
+  const handleValueChange = (type, value) => {
+    setNewProjectData((prev) => ({
+      ...prev,
+      [type]: value,
+    }));
+  };
   return (
     <form onSubmit={(event) => handleApplyChanges(event, projectData)}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -51,9 +63,9 @@ const InfoProyectoForm = ({
                 id="project_state"
                 name="project_state"
                 style={{ width: "unset" }}
-                value={project_state}
+                value={newProjectData.project_state}
                 onChange={(e) => {
-                  setProjectState(e.target.value);
+                  handleValueChange("project_state", e.target.value);
                 }}
               >
                 {renderColorMenuItems()}
@@ -61,19 +73,59 @@ const InfoProyectoForm = ({
             </FormControl>
           </Box>
 
-          <Box mt={2}>
+          <Box
+            mt={2}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingRight: 20,
+            }}
+          >
             <TypographyStyled>{PROJECT_LABELS.FECHA_INICIO}: </TypographyStyled>
-            <Typography display="inline" variant="body1">
-              {rawDateToDateFormat(projectData.start_date)}
-            </Typography>
+            <DatePicker
+              required
+              id="fechaInicio"
+              value={newProjectData.start_date}
+              onChange={(e) => handleValueChange("start_date", e)}
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              inputProps={{
+                disabled: true,
+              }}
+              renderInput={(params) => (
+                <TextField {...params} name="start_date" />
+              )}
+            />
           </Box>
-          <Box mt={2}>
+          <Box
+            mt={2}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              paddingRight: 20,
+            }}
+          >
             <TypographyStyled>{PROJECT_LABELS.FECHA_FIN}: </TypographyStyled>
-            <Typography display="inline" variant="body1">
-              {projectData.end_date
-                ? rawDateToDateFormat(projectData.end_date)
-                : PROJECT_LABELS.FECHA_INDEFINIDA}
-            </Typography>
+            <DatePicker
+              id="fechaFin"
+              value={newProjectData.end_date}
+              onChange={(e) => handleValueChange("end_date", e)}
+              inputFormat={DATE_FORMAT}
+              PaperProps={{
+                style: {
+                  borderRadius: "15px",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField {...params} name="end_date" />
+              )}
+            />
           </Box>
 
           <Box mt={2}>
@@ -161,8 +213,8 @@ InfoProyectoForm.propTypes = {
   projectData: propTypes.object.isRequired,
   onClose: propTypes.func.isRequired,
   handleApplyChanges: propTypes.func.isRequired,
-  project_state: propTypes.string.isRequired,
-  setProjectState: propTypes.func.isRequired,
+  newProjectData: propTypes.object.isRequired,
+  setNewProjectData: propTypes.func.isRequired,
   type: propTypes.string.isRequired,
 };
 

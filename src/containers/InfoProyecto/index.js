@@ -21,16 +21,15 @@ export default function InfoProyecto({
   onClose,
   updateProjectState,
 }) {
-  const [project_state, setProjectState] = useState(projectData.project_state);
-  const initialState = projectData.project_state;
+  const [newProjectData, setNewProjectData] = useState(projectData);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const handleApplyChanges = (e, projectData) => {
-    if (initialState !== project_state) {
-      projectData.project_state = project_state;
+    if (JSON.stringify(projectData) !== JSON.stringify(newProjectData)) {
       axiosInstance
         .put(`/projects/${projectData.id}`, {
-          project: projectData,
+          project: newProjectData,
         })
         .then((response) => {
           updateProjectState && updateProjectState(projectData);
@@ -82,8 +81,8 @@ export default function InfoProyecto({
       <InfoProyectoForm
         projectData={projectData}
         handleApplyChanges={handleApplyChanges}
-        project_state={project_state}
-        setProjectState={setProjectState}
+        newProjectData={newProjectData}
+        setNewProjectData={setNewProjectData}
         onClose={onClose}
         type={type}
       />
