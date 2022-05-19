@@ -1,32 +1,23 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { useSnackbar } from "notistack";
-import Timeline, {
-  DateHeader,
-  SidebarHeader,
-  TimelineHeaders,
-  TodayMarker,
-} from "react-calendar-timeline";
-import { Box, Grid } from "@material-ui/core";
-import { Popover } from "@mui/material";
+import {useSnackbar} from "notistack";
+import Timeline, {DateHeader, SidebarHeader, TimelineHeaders, TodayMarker,} from "react-calendar-timeline";
+import {Box, Grid} from "@material-ui/core";
+import {Popover} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-import { axiosInstance } from "../../config/axios";
+import {axiosInstance} from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import {
-  COLORS,
-  PERSON_LABELS,
-  rolesFormateados,
-} from "../../config/globalVariables";
+import {COLORS, PERSON_LABELS, rolesFormateados,} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import FilterForm from "../../components/FilterForm";
-import { useStyles } from "../../components/Personas/styles";
-import { FetchInfoPersona } from "./FetchInfoPersona";
+import {useStyles} from "../../components/Personas/styles";
+import {FetchInfoPersona} from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
-import { dateToHyphenFormat } from "../../utils/utils";
+import {dateToHyphenFormat} from "../../utils/utils";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
@@ -129,7 +120,7 @@ const PersonTimeline = ({
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value || e.target.checked,
     }));
   };
   const fetchData = async (filterParams = {}) => {
@@ -140,6 +131,9 @@ const PersonTimeline = ({
         delete filterParams[key];
       }
     }
+
+    const showFinished = filterParams.showFinished || false;
+    delete filterParams.showFinished;
 
     await axiosInstance
       .get("/person_project", { params: filterParams })
@@ -166,11 +160,18 @@ const PersonTimeline = ({
             id: person.id,
             title: person.full_name,
           });
+          let hoy = new Date().getTime();
+          person.projects = person.projects.filter((row) => {
+            if (showFinished) {
+              return true;
+            } else {
+              return endValue(row.dates[0].end_date) >= hoy;
+            }
+          });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
               let color = COLORS.primaryPurple;
               let finasignacion = endValue(dt.end_date);
-              let hoy = new Date().getTime();
               if (hoy < finasignacion) {
                 if (finasignacion - 864000000 < hoy) {
                   //10 dias = 864000000
@@ -446,6 +447,7 @@ const PersonTimeline = ({
               onInputChange={onFilterChange}
               project_state={filters.project_state}
               project_type={filters.project_type}
+              showFinished={filters.showFinished}
               organization={organization}
               onOrganizationChange={(e) => setOrganization(e.target.value)}
               onSearch={() => fetchData({ ...filters, organization })}

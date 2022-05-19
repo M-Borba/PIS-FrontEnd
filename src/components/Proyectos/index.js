@@ -13,7 +13,12 @@ import { UpdateGridContext } from "../../containers/UpdateGridProvider/index";
 import Acciones from "./acciones";
 import { BUTTON_LABELS, PROJECT_LABELS } from "../../config/globalVariables";
 import CustomButton from "../CustomButton";
-import { rawDateToDateFormat, renderColor } from "../../utils/utils";
+import {
+  dateSortComparator,
+  rawDateToDateFormat,
+  renderColor,
+  stateSortComparator,
+} from "../../utils/utils";
 import { axiosInstance } from "../../config/axios";
 import Loading from "../Loading";
 
@@ -53,6 +58,7 @@ const columns = [
     renderCell: (params) => {
       return renderColor(params.value.toLowerCase());
     },
+    sortComparator: stateSortComparator,
   },
 
   {
@@ -60,12 +66,14 @@ const columns = [
     headerName: PROJECT_LABELS.FECHA_INICIO,
     flex: 0.6,
     type: "date",
+    sortComparator: dateSortComparator,
   },
   {
     field: "end_date",
     headerName: PROJECT_LABELS.FECHA_FIN,
     flex: 0.6,
     type: "date",
+    sortComparator: dateSortComparator,
   },
   {
     field: "technologies",
@@ -180,7 +188,7 @@ export default function Proyecto({ rows, setRows }) {
               start_date: rawDateToDateFormat(projectData.start_date),
               end_date: projectData.end_date
                 ? rawDateToDateFormat(projectData.end_date)
-                : null,
+                : PROJECT_LABELS.FECHA_INDEFINIDA,
               people: projectData.people,
               organization: projectData.organization,
               technologies: projectData.technologies,

@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { InputAdornment, InputLabel } from "@mui/material";
+import { FormControlLabel, InputAdornment, InputLabel } from "@mui/material";
 
 import { useStyles } from "./styles";
 import {
@@ -12,6 +12,9 @@ import {
   PROJECT_LABELS,
 } from "../../config/globalVariables";
 import { renderColorMenuItems, renderTipoMenuItems } from "../../utils/utils";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Checkbox from "@mui/material/Checkbox";
 
 FilterForm.propTypes = {
   onClear: propTypes.func.isRequired,
@@ -19,6 +22,7 @@ FilterForm.propTypes = {
   project_type: propTypes.string,
   project_state: propTypes.string,
   organization: propTypes.string,
+  showFinished: propTypes.bool,
   onOrganizationChange: propTypes.func,
   onSearch: propTypes.func,
   setToday: propTypes.func,
@@ -35,6 +39,7 @@ export default function FilterForm({
   project_type,
   project_state,
   organization,
+  showFinished,
   onOrganizationChange,
   onSearch,
   setToday,
@@ -114,6 +119,26 @@ export default function FilterForm({
               </InputAdornment>
             ),
           }}
+        />
+        <FormControlLabel
+          style={{
+            width: "fit-content",
+            color: "rgba(0, 0, 0, 0.6)",
+            zIndex: 1,
+          }}
+          label={FILTER_FORM_LABELS.MOSTRAR_TERMINADOS}
+          control={
+            <Checkbox
+              style={{ color: "rgba(0, 0, 0, 0.6)" }}
+              id="showFinished"
+              checked={showFinished}
+              onChange={onInputChange}
+              name="showFinished"
+              disableRipple
+              icon={<RadioButtonUncheckedIcon />}
+              checkedIcon={<CheckCircleIcon />}
+            />
+          }
         />
       </form>
       {canResetFilters() && (

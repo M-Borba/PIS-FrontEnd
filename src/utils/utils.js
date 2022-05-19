@@ -98,3 +98,26 @@ export const typeRowDisplayFormat = (type) =>
 
 export const stateRowDisplayFormat = (state) =>
   state.replace(/^\w/, (m) => m.toUpperCase());
+
+export const dateSortComparator = (a, b) => {
+  if (!a || !dateFormatToMoment(a).isValid()) return 1;
+  if (!b || !dateFormatToMoment(b).isValid()) return -1;
+  return dateFormatToMoment(a) - dateFormatToMoment(b);
+};
+
+const getStateValue = (state) => {
+  switch (state) {
+    case PROJECT_STATE_VALUES.VERDE_MAYUS:
+      return 1;
+    case PROJECT_STATE_VALUES.AMARILLO_MAYUS:
+      return 2;
+    case PROJECT_STATE_VALUES.ROJO_MAYUS:
+      return 3;
+    case PROJECT_STATE_VALUES.UPCOMING_MAYUS:
+      return 4;
+  }
+};
+
+export const stateSortComparator = (a, b) => {
+  return getStateValue(a) - getStateValue(b);
+};
