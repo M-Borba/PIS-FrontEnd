@@ -110,7 +110,7 @@ export const FILTER_FORM_LABELS = {
   TERCERIZADO: "Tercerizado",
   HIBIRDO: "Híbrido",
   LIMPIAR_FILTROS: "Limpiar filtros",
-  MOSTRAR_TERMINADOS: "Mostrar proyectos finalizados",
+  OCULTAR_TERMINADOS: "Ocultar proyectos finalizados",
 };
 
 export const PERSON_LABELS = {

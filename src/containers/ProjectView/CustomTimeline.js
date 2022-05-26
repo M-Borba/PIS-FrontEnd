@@ -102,8 +102,8 @@ const ProjectTimeline = ({
       }
     }
 
-    const showFinished = filterParams.showFinished || false;
-    delete filterParams.showFinished;
+    // const active_project = filterParams.active_project || false;
+    // delete filterParams.active_project;
 
     await axiosInstance
       .get("/projects", { params: filterParams })
@@ -117,13 +117,13 @@ const ProjectTimeline = ({
             setFilteredData(false);
           }
         }
-        rows = rows.filter((row) => {
-          if (showFinished) {
-            return true;
-          } else {
-            return endValue(row.end_date) >= today;
-          }
-        });
+        // rows = rows.filter((row) => {
+        //   if (active_project) {
+        //     return true;
+        //   } else {
+        //     return endValue(row.end_date) >= today;
+        //   }
+        // });
         rows.sort((a, b) => {
           return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
@@ -233,7 +233,7 @@ const ProjectTimeline = ({
             onInputChange={onFilterChange}
             project_state={filters.project_state}
             project_type={filters.project_type}
-            showFinished={filters.showFinished}
+            active_project={filters.active_project}
             organization={organization}
             onOrganizationChange={(e) => setOrganization(e.target.value)}
             onSearch={() => fetchData({ ...filters, organization })}

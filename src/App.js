@@ -32,7 +32,7 @@ export default function App() {
   const [filters, setFilters] = useState({
     project_type: "",
     project_state: "",
-    showFinished: false,
+    active_project: true,
   });
   const [organization, setOrganization] = useState("");
   const onSwitch = () => {

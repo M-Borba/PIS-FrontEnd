@@ -132,9 +132,6 @@ const PersonTimeline = ({
       }
     }
 
-    const showFinished = filterParams.showFinished || false;
-    delete filterParams.showFinished;
-
     await axiosInstance
       .get("/person_project", { params: filterParams })
       .then((response) => {
@@ -160,18 +157,11 @@ const PersonTimeline = ({
             id: person.id,
             title: person.full_name,
           });
-          let hoy = new Date().getTime();
-          person.projects = person.projects.filter((row) => {
-            if (showFinished) {
-              return true;
-            } else {
-              return endValue(row.dates[0].end_date) >= hoy;
-            }
-          });
           person.projects.map((proj) => {
             proj.dates.map((dt) => {
               let color = COLORS.primaryPurple;
               let finasignacion = endValue(dt.end_date);
+              let hoy = new Date().getTime();
               if (hoy < finasignacion) {
                 if (finasignacion - 864000000 < hoy) {
                   //10 dias = 864000000
@@ -447,7 +437,7 @@ const PersonTimeline = ({
               onInputChange={onFilterChange}
               project_state={filters.project_state}
               project_type={filters.project_type}
-              showFinished={filters.showFinished}
+              active_project={filters.active_project}
               organization={organization}
               onOrganizationChange={(e) => setOrganization(e.target.value)}
               onSearch={() => fetchData({ ...filters, organization })}

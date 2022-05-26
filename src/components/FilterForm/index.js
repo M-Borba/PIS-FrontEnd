@@ -22,7 +22,7 @@ FilterForm.propTypes = {
   project_type: propTypes.string,
   project_state: propTypes.string,
   organization: propTypes.string,
-  showFinished: propTypes.bool,
+  active_project: propTypes.bool,
   onOrganizationChange: propTypes.func,
   onSearch: propTypes.func,
   setToday: propTypes.func,
@@ -31,6 +31,7 @@ FilterForm.defaultProps = {
   project_state: "",
   project_type: "",
   organization: "",
+  active_project: true,
 };
 
 export default function FilterForm({
@@ -39,7 +40,7 @@ export default function FilterForm({
   project_type,
   project_state,
   organization,
-  showFinished,
+  active_project,
   onOrganizationChange,
   onSearch,
   setToday,
@@ -126,14 +127,14 @@ export default function FilterForm({
             color: "rgba(0, 0, 0, 0.6)",
             zIndex: 1,
           }}
-          label={FILTER_FORM_LABELS.MOSTRAR_TERMINADOS}
+          label={FILTER_FORM_LABELS.OCULTAR_TERMINADOS}
           control={
             <Checkbox
               style={{ color: "rgba(0, 0, 0, 0.6)" }}
-              id="showFinished"
-              checked={showFinished}
+              id="active_project"
+              checked={active_project}
               onChange={onInputChange}
-              name="showFinished"
+              name="active_project"
               disableRipple
               icon={<RadioButtonUncheckedIcon />}
               checkedIcon={<CheckCircleIcon />}
