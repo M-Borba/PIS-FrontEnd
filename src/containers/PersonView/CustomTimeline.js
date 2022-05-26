@@ -1,23 +1,32 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import {useSnackbar} from "notistack";
-import Timeline, {DateHeader, SidebarHeader, TimelineHeaders, TodayMarker,} from "react-calendar-timeline";
-import {Box, Grid} from "@material-ui/core";
-import {Popover} from "@mui/material";
+import { useSnackbar } from "notistack";
+import Timeline, {
+  DateHeader,
+  SidebarHeader,
+  TimelineHeaders,
+  TodayMarker,
+} from "react-calendar-timeline";
+import { Box, Grid } from "@material-ui/core";
+import { Popover } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-import {axiosInstance} from "../../config/axios";
+import { axiosInstance } from "../../config/axios";
 import AsignarProyectoPersona from "../AsignarProyectoPersona";
 import InfoAsignacion from "../InfoAsignacion";
-import {COLORS, PERSON_LABELS, rolesFormateados,} from "../../config/globalVariables";
+import {
+  COLORS,
+  PERSON_LABELS,
+  rolesFormateados,
+} from "../../config/globalVariables";
 import Switcher from "../../components/Switcher/";
 import FilterForm from "../../components/FilterForm";
-import {useStyles} from "../../components/Personas/styles";
-import {FetchInfoPersona} from "./FetchInfoPersona";
+import { useStyles } from "../../components/Personas/styles";
+import { FetchInfoPersona } from "./FetchInfoPersona";
 import not_found from "../../resources/not_found.png";
 import Loading from "../../components/Loading";
-import {dateToHyphenFormat} from "../../utils/utils";
+import { dateToHyphenFormat } from "../../utils/utils";
 
 // Formato esperado de date : yyyy-MM-DD
 export const startValue = (date) => {
