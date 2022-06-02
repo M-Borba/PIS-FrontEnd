@@ -102,9 +102,6 @@ const ProjectTimeline = ({
       }
     }
 
-    // const active_project = filterParams.active_project || false;
-    // delete filterParams.active_project;
-
     await axiosInstance
       .get("/projects", { params: filterParams })
       .then((response) => {
@@ -117,13 +114,7 @@ const ProjectTimeline = ({
             setFilteredData(false);
           }
         }
-        // rows = rows.filter((row) => {
-        //   if (active_project) {
-        //     return true;
-        //   } else {
-        //     return endValue(row.end_date) >= today;
-        //   }
-        // });
+     
         rows.sort((a, b) => {
           return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
