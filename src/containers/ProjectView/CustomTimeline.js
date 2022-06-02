@@ -87,6 +87,8 @@ const ProjectTimeline = ({
     .toDate();
   const defaultTimeEnd = moment().startOf("day").add(7, "month").toDate();
 
+  const today = moment().startOf("day").toDate();
+
   const classes = useStyles();
 
   var groupsToAdd = [];
@@ -104,7 +106,7 @@ const ProjectTimeline = ({
     await axiosInstance
       .get("/projects", { params: filterParams })
       .then((response) => {
-        const rows = response.data.projects;
+        let rows = response.data.projects;
         if (rows.length === 0) {
           if (Object.keys(filterParams).length === 0) {
             setFetchingError(true);
@@ -113,6 +115,7 @@ const ProjectTimeline = ({
             setFilteredData(false);
           }
         }
+     
         rows.sort((a, b) => {
           return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
@@ -202,7 +205,7 @@ const ProjectTimeline = ({
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value || e.target.checked,
     }));
   };
 
@@ -225,6 +228,7 @@ const ProjectTimeline = ({
             onInputChange={onFilterChange}
             project_state={filters.project_state}
             project_type={filters.project_type}
+            active_project={filters.active_project}
             organization={organization}
             onOrganizationChange={(e) => setOrganization(e.target.value)}
             onSearch={() => fetchData({ ...filters, organization })}

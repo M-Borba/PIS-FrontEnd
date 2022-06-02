@@ -9,6 +9,7 @@ import {
   stateRowDisplayFormat,
   typeRowDisplayFormat,
 } from "../../utils/utils";
+import { PROJECT_LABELS } from "../../config/globalVariables";
 
 export default function ListarProyectos() {
   var rawRows;
@@ -28,7 +29,9 @@ export default function ListarProyectos() {
           description: row.description,
           budget: row.budget,
           start_date: rawDateToDateFormat(row.start_date),
-          end_date: row.end_date ? rawDateToDateFormat(row.end_date) : null,
+          end_date: row.end_date
+            ? rawDateToDateFormat(row.end_date)
+            : PROJECT_LABELS.FECHA_INDEFINIDA,
           people: row.people,
           organization: row.organization,
           technologies: row.technologies || [],

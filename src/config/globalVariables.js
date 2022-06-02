@@ -91,6 +91,10 @@ export const PROJECT_STATE_VALUES = {
   AMARILLO: "amarillo",
   ROJO: "rojo",
   UPCOMING: "upcoming",
+  VERDE_MAYUS: "Verde",
+  AMARILLO_MAYUS: "Amarillo",
+  ROJO_MAYUS: "Rojo",
+  UPCOMING_MAYUS: "Upcoming",
 };
 
 export const SWITCHER_LABELS = {
@@ -106,6 +110,7 @@ export const FILTER_FORM_LABELS = {
   TERCERIZADO: "Tercerizado",
   HIBIRDO: "Híbrido",
   LIMPIAR_FILTROS: "Limpiar filtros",
+  OCULTAR_TERMINADOS: "Ocultar proyectos finalizados",
 };
 
 export const PERSON_LABELS = {

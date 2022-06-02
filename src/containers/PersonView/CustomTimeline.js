@@ -129,7 +129,7 @@ const PersonTimeline = ({
   const onFilterChange = (e) => {
     setFilters((prevFilter) => ({
       ...prevFilter,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value || e.target.checked,
     }));
   };
   const fetchData = async (filterParams = {}) => {
@@ -446,6 +446,7 @@ const PersonTimeline = ({
               onInputChange={onFilterChange}
               project_state={filters.project_state}
               project_type={filters.project_type}
+              active_project={filters.active_project}
               organization={organization}
               onOrganizationChange={(e) => setOrganization(e.target.value)}
               onSearch={() => fetchData({ ...filters, organization })}
